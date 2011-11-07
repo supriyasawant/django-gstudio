@@ -4,11 +4,11 @@ include buildout.cfg
 include bootstrap.py
 recursive-include docs *
 recursive-include patches *
-recursive-include zinnia/fixtures *.json
-recursive-include zinnia/locale *
-recursive-include zinnia/static *
-recursive-include zinnia/templates *.txt *.html *.xml *.js
+recursive-include gstudio/fixtures *.json
+recursive-include gstudio/locale *
+recursive-include gstudio/static *
+recursive-include gstudio/templates *.txt *.html *.xml *.js
 prune docs/api
 prune docs/build
 prune docs/coverage
-prune zinnia/static/zinnia/css/.sass-cache
+prune gstudio/static/gstudio/css/.sass-cache

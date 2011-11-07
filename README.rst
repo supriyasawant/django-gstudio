@@ -1,20 +1,26 @@
 ==================
-Django Blog Zinnia
+gstudio: Gnowledge Studio
 ==================
 
-Simple yet powerful application for managing a blog within your Django Web site.
+A collaborative workspace for constructing and publishing semantic
+knowledge networks and ontologies is being constructed. 
 
-Zinnia has been made for publishing Weblog entries and designed to do it well.
-
-Basically any feature that can be provided by another reusable app has been
-left out.
-Why should we re-implement something that is already done and reviewed by
-others and tested ?
-
-Features
+Features taking shape
 ========
 
-More than a long speech, here the list of the main features :
+As and when a feature is tested and working it will be listed below.
+
+
+* The first release will have Category translated as MetaTypes and
+  Entry as ObjectType.
+* Then we will extend the app with RelationType, AttributeType,
+  Object, Relation, Attribute. This will be followed by 
+
+The following features are adopted from django-blog-zinnia code base
+with a lot of gratitude.  Thanks to an excellent codebase of
+django-blog-zinnia, which taught us best software development
+practices as well! After reviewing each feature for the purpose of
+semantic blogging, we will retain or extend the following features.
 
 * Comments
 * `Sitemaps`_
@@ -49,61 +55,9 @@ More than a long speech, here the list of the main features :
 Examples
 ========
 
-Take a look at the online demo at : http://django-blog-zinnia.com
-or you can visit these websites who use Zinnia.
+We will soon create a sandbox site for users to play and test the features.
 
-* `Fantomas' side`_  / `Mobile version`_.
-* `Professional Web Studio`_.
-* `mixedCase`_.
-* `MadCad's Page`_.
-* `SysVar`_.
-* `Tryolabs`_.
-
-If you are a proud user of Zinnia, send me the URL of your website and I
-will add it to the list.
-
-Online resources
+Project Page
 ================
 
-More information and help available at these URLs :
-
-* `Code repository`_.
-* `Documentation`_.
-* `API documentation`_.
-* `Code coverage`_.
-* Discussions and help at `Google Group`_.
-* For reporting a bug use `Github Issues`_.
-
-
-.. _`Sitemaps`: http://django-blog-zinnia.com/documentation/configuration/#sitemaps
-.. _`Advanced search engine`: http://django-blog-zinnia.com/documentation/search_engines/#advanced-search-engine
-.. _`MarkDown`: http://daringfireball.net/projects/markdown/
-.. _`Textile`: http://redcloth.org/hobix.com/textile/
-.. _`reStructuredText`: http://docutils.sourceforge.net/rst.html
-.. _`Akismet`: http://akismet.com
-.. _`TypePad`: http://antispam.typepad.com/
-.. _`MetaWeblog API`: http://www.xmlrpc.com/metaWeblogApi
-.. _`Bit.ly`: http://django-blog-zinnia.com/documentation/configuration/#bit-ly
-.. _`Twitter`: http://django-blog-zinnia.com/documentation/configuration/#twitter
-.. _`Gravatar`: http://gravatar.com/
-.. _`Django-CMS`: http://django-blog-zinnia.com/documentation/configuration/#django-cms
-.. _`Entry model extendable`: http://django-blog-zinnia.com/documentation/extending_entry_model/
-.. _`WYMeditor`: http://www.wymeditor.org/
-.. _`TinyMCE`: http://tinymce.moxiecode.com/
-.. _`MarkItUp`: http://markitup.jaysalvat.com/
-.. _`Blogger conversion utility`: http://django-blog-zinnia.com/documentation/import_export/#from-blogger-to-zinnia
-.. _`WordPress conversion utility`: http://django-blog-zinnia.com/documentation/import_export/#from-wordpress-to-zinnia
-.. _`Windows Live Writer`: http://explore.live.com/windows-live-writer
-.. _`Fantomas' side`: http://fantomas.willbreak.it/blog/
-.. _`Mobile version`: http://m.fantomas.willbreak.it/blog/
-.. _`Professional Web Studio`: http://www.professionalwebstudio.com/en/weblog/
-.. _`mixedCase`: http://www.mixedcase.nl/articles/
-.. _`MadCad's Page`: http://mad-cad.net/blog/
-.. _`SysVar`: http://sysvar.net/
-.. _`Tryolabs`: http://www.tryolabs.com/Blog/
-.. _`Code repository`: https://github.com/Fantomas42/django-blog-zinnia
-.. _`Documentation`: http://django-blog-zinnia.com/documentation/
-.. _`API documentation`: http://django-blog-zinnia.com/docs/api/
-.. _`Code coverage`: http://django-blog-zinnia.com/documentation/coverage/
-.. _`Google Group`: http://groups.google.com/group/django-blog-zinnia/
-.. _`Github Issues`: https://github.com/Fantomas42/django-blog-zinnia/issues/
+https://www.metastudio.org/groups/gstudio/overview

@@ -1,25 +1,25 @@
 import os
 from setuptools import setup, find_packages
 
-import zinnia
+import gstudio
 
-setup(name='django-blog-zinnia',
-      version=zinnia.__version__,
+setup(name='django-gstudio',
+      version=gstudio.__version__,
 
-      description='A clear and powerfull weblog application powered with Django',
+      description='A collaborative blogspace for constructing and publishing semantic knowledge networks and ontologies',
       long_description='\n'.join([open('README.rst').read(),
                                   open(os.path.join('docs', 'install.rst')).read(),
                                   open(os.path.join('docs', 'changelog.rst')).read(),]),
-      keywords='django, blog, weblog, zinnia, post, news',
+      keywords='django, blog, weblog, zinnia, post, news, gnowsys, gnowledge, semantic, networks, ontolgies',
 
-      author=zinnia.__author__,
-      author_email=zinnia.__email__,
-      url=zinnia.__url__,
+      author=gstudio.__author__,
+      author_email=gstudio.__email__,
+      url=gstudio.__url__,
 
       packages=find_packages(exclude=['demo']),
       classifiers=[
           'Framework :: Django',
-          'Development Status :: 5 - Production/Stable',
+          'Development Status :: 1 - Development/Planning',
           'Environment :: Web Environment',
           'Programming Language :: Python',
           'Intended Audience :: Developers',
@@ -27,7 +27,7 @@ setup(name='django-blog-zinnia',
           'License :: OSI Approved :: BSD License',
           'Topic :: Software Development :: Libraries :: Python Modules',],
 
-      license=zinnia.__license__,
+      license=gstudio.__license__,
       include_package_data=True,
       zip_safe=False,
       install_requires=['BeautifulSoup>=3.2.0',
