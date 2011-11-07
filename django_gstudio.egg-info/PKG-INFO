@@ -1,0 +1,296 @@
+Metadata-Version: 1.0
+Name: django-gstudio
+Version: 0.1.dev
+Summary: A collaborative blogspace for constructing and publishing semantic knowledge networks and ontologies
+Home-page: http://github.com/gnowgi/django-gstudio
+Author: gnowgi
+Author-email: nagarjun@gnowledge.org
+License: BSD License
+Description: ==================
+        gstudio: Gnowledge Studio
+        ==================
+        
+        A collaborative workspace for constructing and publishing semantic
+        knowledge networks and ontologies is being constructed. 
+        
+        Features taking shape
+        ========
+        
+        As and when a feature is tested and working it will be listed below.
+        
+        
+        * The first release will have Category translated as MetaTypes and
+          Entry as ObjectType.
+        * Then we will extend the app with RelationType, AttributeType,
+          Object, Relation, Attribute. This will be followed by 
+        
+        The following features are adopted from django-blog-zinnia code base
+        with a lot of gratitude.  Thanks to an excellent codebase of
+        django-blog-zinnia, which taught us best software development
+        practices as well! After reviewing each feature for the purpose of
+        semantic blogging, we will retain or extend the following features.
+        
+        * Comments
+        * `Sitemaps`_
+        * Archives views
+        * Related entries
+        * Private entries
+        * RSS or Atom Feeds
+        * Tags and categories views
+        * `Advanced search engine`_
+        * Prepublication and expiration
+        * Edition in `MarkDown`_, `Textile`_ or `reStructuredText`_
+        * Widgets (Popular entries, Similar entries, ...)
+        * Spam protection with `Akismet`_ or `TypePad`_
+        * Admin dashboard
+        * `MetaWeblog API`_
+        * Ping Directories
+        * Ping External links
+        * `Bit.ly`_ support
+        * `Twitter`_ support
+        * `Gravatar`_ support
+        * `Django-CMS`_ plugins
+        * Collaborative work
+        * Tags autocompletion
+        * `Entry model extendable`_
+        * Pingback/Trackback support
+        * `Blogger conversion utility`_
+        * `WordPress conversion utility`_
+        * `WYMeditor`_, `TinyMCE`_ and `MarkItUp`_ support
+        * Ready to use and extendables templates
+        * `Windows Live Writer`_ compatibility
+        
+        Examples
+        ========
+        
+        We will soon create a sandbox site for users to play and test the features.
+        
+        Project Page
+        ================
+        
+        https://www.metastudio.org/groups/gstudio/overview
+        
+        ============
+        Installation
+        ============
+        
+        .. module:: zinnia
+        
+        .. _dependencies:
+        
+        Dependencies
+        ============
+        
+        Make sure to install these packages prior to installation :
+        
+        * `Python 2.x`_ >= 2.5
+        * `Django`_ >= 1.3
+        * `django-mptt`_ >= 0.4.2
+        * `django-tagging`_ >= 0.3.1
+        * `BeautifulSoup`_ >= 3.2.0
+        
+        The packages below are optionnal but needed for run the full test suite.
+        
+        * `pyparsing`_ >= 1.5.5
+        * `django-xmlrpc`_ >= 0.1.3
+        
+        Note that all the dependencies will be resolved if you install
+        Zinnia with :program:`pip` or :program:`easy_install`, excepting Django.
+        
+        .. _getting-the-code:
+        
+        Getting the code
+        ================
+        
+        .. highlight:: console
+        
+        For the latest stable version of Zinnia use :program:`easy_install`: ::
+        
+          $ easy_install django-blog-zinnia
+        
+        or use :program:`pip`: ::
+        
+          $ pip install django-blog-zinnia
+        
+        You could also retrieve the last sources from
+        https://github.com/Fantomas42/django-blog-zinnia. Clone the repository
+        using :program:`git` and run the installation script: ::
+        
+          $ git clone git://github.com/Fantomas42/django-blog-zinnia.git
+          $ cd django-blog-zinnia
+          $ python setup.py install
+        
+        or more easily via :program:`pip`: ::
+        
+          $ pip install -e git://github.com/Fantomas42/django-blog-zinnia.git#egg=django-blog-zinnia
+        
+        .. _applications:
+        
+        Applications
+        ============
+        
+        .. highlight:: python
+        
+        Then register :mod:`zinnia`, and these following applications in the
+        :setting:`INSTALLED_APPS` section of your project's settings. ::
+        
+          INSTALLED_APPS = (
+            # Your favorite apps
+            'django.contrib.contenttypes',
+            'django.contrib.comments',
+            'django.contrib.sessions',
+            'django.contrib.sites',
+            'django.contrib.admin',
+            'tagging',
+            'mptt',
+            'zinnia',)
+        
+        .. _template-context-processors:
+        
+        Template Context Processors
+        ===========================
+        
+        Add these following
+        :setting:`template context processors<TEMPLATE_CONTEXT_PROCESSORS>` if not
+        already present. ::
+        
+          TEMPLATE_CONTEXT_PROCESSORS = (
+            'django.core.context_processors.auth',
+            'django.core.context_processors.i18n',
+            'django.core.context_processors.request',
+            'django.core.context_processors.media',
+            'django.core.context_processors.static',
+            'zinnia.context_processors.version',) # Optional
+        
+        .. _urls:
+        
+        URLs
+        ====
+        
+        Add the following lines to your project's urls.py in order to display the
+        blog. ::
+        
+          url(r'^weblog/', include('zinnia.urls')),
+          url(r'^comments/', include('django.contrib.comments.urls')),
+        
+        Note that the default zinnia URLset is provided for convenient usage, but
+        you can customize your URLs if you want. Here's how: ::
+        
+          url(r'^', include('zinnia.urls.capabilities')),
+          url(r'^search/', include('zinnia.urls.search')),
+          url(r'^sitemap/', include('zinnia.urls.sitemap')),
+          url(r'^trackback/', include('zinnia.urls.trackback')),
+          url(r'^weblog/tags/', include('zinnia.urls.tags')),
+          url(r'^weblog/feeds/', include('zinnia.urls.feeds')),
+          url(r'^weblog/authors/', include('zinnia.urls.authors')),
+          url(r'^weblog/categories/', include('zinnia.urls.categories')),
+          url(r'^weblog/discussions/', include('zinnia.urls.discussions')),
+          url(r'^weblog/', include('zinnia.urls.quick_entry')),
+          url(r'^weblog/', include('zinnia.urls.entries')),
+          url(r'^comments/', include('django.contrib.comments.urls')),
+        
+        .. _static-files:
+        
+        Static Files
+        ============
+        
+        Since the version 1.3 of Django, Zinnia uses the
+        :mod:`django.contrib.staticfiles` application to serve the static files
+        needed. Please refer to
+        https://docs.djangoproject.com/en/dev/howto/static-files/ for more
+        informations about serving static files.
+        
+        .. _`Python 2.x`: http://www.python.org/
+        .. _`Django`: https://www.djangoproject.com/
+        .. _`django-mptt`: https://github.com/django-mptt/django-mptt/
+        .. _`django-tagging`: https://code.google.com/p/django-tagging/
+        .. _`BeautifulSoup`: http://www.crummy.com/software/BeautifulSoup/
+        .. _`pyparsing`: http://pyparsing.wikispaces.com/
+        .. _`django-xmlrpc`: https://github.com/Fantomas42/django-xmlrpc
+        
+        CHANGELOG
+        =========
+        
+        0.10
+        ----
+        
+        * Better templates
+        * Django 1.2 is no longer supported
+        
+        0.9
+        ---
+        
+        * Improved URL shortening
+        * Improved moderation system
+        * Better support of django-tagging
+        * Blogger to Zinnia utility command
+        * OpenSearch capabilities
+        * Upgraded search engine
+        * Feed to Zinnia utility command
+        * And a lot of bug fixes
+        
+        0.8
+        ---
+        
+        * Admin dashboard
+        * Featured entries
+        * Using Microformats
+        * Mails for comment reply
+        * Entry model can be extended
+        * More plugins for django-cms
+        * Zinnia to Wordpress utility command
+        * Code cleaning and optimizations
+        * And a lot of bug fixes
+        
+        0.7
+        ---
+        
+        * Using signals
+        * Trackback support
+        * Ping external URLs
+        * Private posts
+        * Hierarchical categories
+        * TinyMCE integration
+        * Code optimizations
+        * And a lot of bug fixes
+        
+        0.6
+        ---
+        
+        * Handling PingBacks
+        * Support MetaWeblog API
+        * Passing to Django 1.2.x
+        * Breadcrumbs templatetag
+        * Bug correction in calendar widget
+        * Wordpress to Zinnia utility command
+        * Major bug correction on publication system
+        * And a lot of bug fixes
+        
+        0.5
+        ---
+        
+        * Packaging
+        * Tests added
+        * Translations
+        * Better templates
+        * New templatetags
+        * Plugins for django-cms
+        * Twitter and Bit.ly support
+        * Publishing sources on Github.com
+        
+        0.4 and before
+        --------------
+        
+        * The previous versions of Zinnia were not packaged, and were destinated for a
+          personnal use.
+        
+Keywords: django,blog,weblog,zinnia,post,news,gnowsys,gnowledge,semantic,networks,ontolgies
+Platform: UNKNOWN
+Classifier: Framework :: Django
+Classifier: Development Status :: 1 - Development/Planning
+Classifier: Environment :: Web Environment
+Classifier: Programming Language :: Python
+Classifier: Intended Audience :: Developers
+Classifier: Operating System :: OS Independent
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Topic :: Software Development :: Libraries :: Python Modules

@@ -1,0 +1,70 @@
+{% extends "gstudio/base.html" %}
+{% load i18n gstudio_tags mptt_tags %}
+
+{% block title %}{% trans "Sitemap" %}{% endblock %}
+
+{% block content %}
+<h2>{% trans "Sitemap" %}</h2>
+
+<div class="objecttypesbymetatypes">
+  <h3>{% trans "Objecttypes per metatypes" %}</h3>
+  {% for metatype in metatypes %}
+  <h4>{{ metatype }}</h4>
+  <ul>
+    {% for objecttype in metatype.objecttypes_published.all %}
+    <li>
+      <a href="{{ objecttype.get_absolute_url }}" title="{{ objecttype.title }}" rel="bookmark">{{ objecttype.title }}</a>
+      {% with objecttype.comments.count as comment_count %}
+      - {{ comment_count }} {% trans "comment" %}{{ comment_count|pluralize }}
+      {% endwith %}
+    </li>
+    {% empty %}
+    <li>
+      {% trans "No objecttypes yet." %}
+    </li>
+    {% endfor %}
+  </ul>
+  {% endfor %}
+</div>
+
+<div class="allobjecttypes">
+  <h3>{% trans "All the objecttypes" %}</h3>
+  <ul>
+    {% for objecttype in objecttypes %}
+    <li>
+      <a href="{{ objecttype.get_absolute_url }}" title="{{ objecttype.title }}" rel="bookmark">{{ objecttype.title }}</a>
+      - {{ objecttype.creation_date|date:"SHORT_DATE_FORMAT" }}
+      {% with objecttype.comments.count as comment_count %}
+      - {{ comment_count }} {% trans "comment" %}{{ comment_count|pluralize }}
+      {% endwith %}
+    </li>
+    {% empty %}
+    <li>
+      {% trans "No objecttypes yet." %}
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+
+<div class="metatypes">
+  <h3>{% trans "Metatypes" %}</h3>
+  {% for metatype, structure in metatypes|tree_info %}
+    {% if structure.new_level %}<ul><li>{% else %}</li><li>{% endif %}
+      <a href="{{ metatype.get_absolute_url }}" title="{{ metatype.title }}">{{ metatype.title }}</a>
+      -
+      {% blocktrans count metatype.objecttypes_published.count as objecttype_count %}{{ objecttype_count }} objecttype{% plural %}{{ objecttype_count }} objecttypes{% endblocktrans %}
+    {% for level in structure.closed_levels %}</li></ul>{% endfor %}
+    {% empty %}
+  <ul>
+    <li>
+      {% trans "No metatypes yet." %}
+    </li>
+  </ul>
+  {% endfor %}
+</div>
+
+<div class="montharchives">
+  <h3>{% trans "Monthly archives" %}</h3>
+  {% get_archives_objecttypes %}
+</div>
+{% endblock %}
