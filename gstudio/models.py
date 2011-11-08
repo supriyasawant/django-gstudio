@@ -103,10 +103,10 @@ class Objecttype(models.Model):
                       (PUBLISHED, _('published')))
 
     title = models.CharField(_('title'), max_length=255)
-
+    content = models.TextField(_('content'))
     image = models.ImageField(_('image'), upload_to=UPLOAD_TO,
                               blank=True, help_text=_('used for illustration'))
-    content = models.TextField(_('content'), blank=True), help_text=_('brief description of the node'),
+
     excerpt = models.TextField(_('excerpt'), blank=True,
                                 help_text=_('optional element'))
 
@@ -125,6 +125,7 @@ class Objecttype(models.Model):
                                      related_name='objecttypes',
                                      blank=True, null=False)
     status = models.IntegerField(choices=STATUS_CHOICES, default=PUBLISHED)
+
     featured = models.BooleanField(_('featured'), default=False)
     comment_enabled = models.BooleanField(_('comment enabled'), default=True)
     pingback_enabled = models.BooleanField(_('linkback enabled'), default=True)
