@@ -1,1 +1,1 @@
-"""Demo of Zinnia"""
+"""Demo of gstudio"""

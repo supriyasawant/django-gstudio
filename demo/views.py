@@ -1,4 +1,4 @@
-"""Views for the Zinnia Demo"""
+"""Views for the Gstudio Demo"""
 from django.conf import settings
 from django.template import loader
 from django.template import Context

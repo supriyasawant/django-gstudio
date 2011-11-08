@@ -1,14 +1,14 @@
-"""Urls for the demo of Zinnia"""
+"""Urls for the demo of Gstudio"""
 from django.conf import settings
 from django.contrib import admin
 from django.conf.urls.defaults import url
 from django.conf.urls.defaults import include
 from django.conf.urls.defaults import patterns
 
-from zinnia.sitemaps import TagSitemap
-from zinnia.sitemaps import EntrySitemap
-from zinnia.sitemaps import CategorySitemap
-from zinnia.sitemaps import AuthorSitemap
+from gstudio.sitemaps import TagSitemap
+from gstudio.sitemaps import ObjecttypeSitemap
+from gstudio.sitemaps import MetatypeSitemap
+from gstudio.sitemaps import AuthorSitemap
 
 admin.autodiscover()
 handler500 = 'demo.views.server_error'
@@ -17,8 +17,8 @@ handler404 = 'django.views.defaults.page_not_found'
 urlpatterns = patterns(
     '',
     (r'^$', 'django.views.generic.simple.redirect_to',
-     {'url': '/blog/'}),
-    url(r'^blog/', include('zinnia.urls')),
+     {'url': '/nodes/'}),
+    url(r'^nodes/', include('gstudio.urls')),
     url(r'^comments/', include('django.contrib.comments.urls')),
     url(r'^xmlrpc/$', 'django_xmlrpc.views.handle_xmlrpc'),
     url(r'^i18n/', include('django.conf.urls.i18n')),
@@ -27,9 +27,9 @@ urlpatterns = patterns(
     )
 
 sitemaps = {'tags': TagSitemap,
-            'blog': EntrySitemap,
+            'blog': ObjecttypeSitemap,
             'authors': AuthorSitemap,
-            'categories': CategorySitemap}
+            'objecttypes': MetatypeSitemap}
 
 urlpatterns += patterns(
     'django.contrib.sitemaps.views',

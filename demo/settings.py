@@ -1,4 +1,4 @@
-"""Settings for Zinnia Demo"""
+"""Settings for Gstudio Demo"""
 import os
 
 gettext = lambda s: s
@@ -64,7 +64,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.media',
     'django.core.context_processors.static',
     'django.contrib.messages.context_processors.messages',
-    'zinnia.context_processors.version',
+    'gstudio.context_processors.version',
     )
 
 INSTALLED_APPS = (
@@ -79,10 +79,11 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'django.contrib.staticfiles',
     'mptt',
-    'zinnia',
+    'gstudio',
     'tagging',
     'django_xmlrpc',
+    'demo',
     )
 
-from zinnia.xmlrpc import ZINNIA_XMLRPC_METHODS
-XMLRPC_METHODS = ZINNIA_XMLRPC_METHODS
+from gstudio.xmlrpc import GSTUDIO_XMLRPC_METHODS
+XMLRPC_METHODS = GSTUDIO_XMLRPC_METHODS
