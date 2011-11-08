@@ -96,8 +96,8 @@ class Metatype(models.Model):
         verbose_name_plural = _('metatypes')
 
 
-class ObjecttypeAbstractClass(models.Model):
-    """Base Model design for publishing objecttypes"""
+class Objecttype(models.Model):
+    """Model design publishing objecttypes"""
     STATUS_CHOICES = ((DRAFT, _('draft')),
                       (HIDDEN, _('hidden')),
                       (PUBLISHED, _('published')))
@@ -106,7 +106,7 @@ class ObjecttypeAbstractClass(models.Model):
 
     image = models.ImageField(_('image'), upload_to=UPLOAD_TO,
                               blank=True, help_text=_('used for illustration'))
-    content = models.TextField(_('content'))
+    content = models.TextField(_('content'), blank=True), help_text=_('brief description of the node'),
     excerpt = models.TextField(_('excerpt'), blank=True,
                                 help_text=_('optional element'))
 
@@ -256,36 +256,12 @@ class ObjecttypeAbstractClass(models.Model):
             'day': self.creation_date.strftime('%d'),
             'slug': self.slug})
 
-    class Meta:
-        abstract = True
-
-
-def get_base_model():
-    """Determine the base Model to inherit in the
-    Objecttype Model, this allow to overload it."""
-    if not OBJECTTYPE_BASE_MODEL:
-        return ObjecttypeAbstractClass
-
-    dot = OBJECTTYPE_BASE_MODEL.rindex('.')
-    module_name = OBJECTTYPE_BASE_MODEL[:dot]
-    class_name = OBJECTTYPE_BASE_MODEL[dot + 1:]
-    try:
-        _class = getattr(import_module(module_name), class_name)
-        return _class
-    except (ImportError, AttributeError):
-        warnings.warn('%s cannot be imported' % OBJECTTYPE_BASE_MODEL,
-                      RuntimeWarning)
-    return ObjecttypeAbstractClass
-
-
-class Objecttype(get_base_model()):
-    """Final Objecttype model"""
 
     class Meta:
         """Objecttype's Meta"""
         ordering = ['-creation_date']
-        verbose_name = _('objecttype')
-        verbose_name_plural = _('objecttypes')
+        verbose_name = _('object type')
+        verbose_name_plural = _('object types')
         permissions = (('can_view_all', 'Can view all'),
                        ('can_change_author', 'Can change author'), )
 

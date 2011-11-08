@@ -1,10 +1,10 @@
 """Placeholder model for Gstudio"""
 from cms.models.fields import PlaceholderField
 
-from gstudio.models import ObjecttypeAbstractClass
+from gstudio.models import Objecttype
 
 
-class ObjecttypePlaceholder(ObjecttypeAbstractClass):
+class ObjecttypePlaceholder(Objecttype):
     """Objecttype with a Placeholder to edit content"""
 
     content_placeholder = PlaceholderField('content')

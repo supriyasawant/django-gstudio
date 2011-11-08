@@ -16,7 +16,7 @@ from gstudio import models
 from gstudio.models import Objecttype
 from gstudio.managers import PUBLISHED
 from gstudio.models import get_base_model
-from gstudio.models import ObjecttypeAbstractClass
+from gstudio.models import Objecttype
 from gstudio import models as models_settings
 from gstudio import url_shortener as shortener_settings
 
@@ -258,7 +258,7 @@ class ObjecttypeHtmlContentTestCase(TestCase):
         except AssertionError:
             self.assertEquals(html_content, self.objecttype.content)
 
-
+# this class can be removed since the base abstract class is no longer present.
 class ObjecttypeGetBaseModelTestCase(TestCase):
 
     def setUp(self):
@@ -269,16 +269,16 @@ class ObjecttypeGetBaseModelTestCase(TestCase):
 
     def test_get_base_model(self):
         models_settings.OBJECTTYPE_BASE_MODEL = ''
-        self.assertEquals(get_base_model(), ObjecttypeAbstractClass)
+        self.assertEquals(get_base_model(), Objecttype)
 
         models_settings.OBJECTTYPE_BASE_MODEL = 'mymodule.myclass'
         try:
             with warnings.catch_warnings(record=True) as w:
-                self.assertEquals(get_base_model(), ObjecttypeAbstractClass)
+                self.assertEquals(get_base_model(), Objecttype)
                 self.assertTrue(issubclass(w[-1].metatype, RuntimeWarning))
         except AttributeError:
             # Fail under Python2.5, because of'warnings.catch_warnings'
             pass
 
-        models_settings.OBJECTTYPE_BASE_MODEL = 'gstudio.models.ObjecttypeAbstractClass'
-        self.assertEquals(get_base_model(), ObjecttypeAbstractClass)
+        models_settings.OBJECTTYPE_BASE_MODEL = 'gstudio.models.Objecttype'
+        self.assertEquals(get_base_model(), Objecttype)
