@@ -353,6 +353,7 @@ gstudio/templates/feeds/pingback_title.html
 gstudio/templates/feeds/trackback_description.html
 gstudio/templates/feeds/trackback_title.html
 gstudio/templates/gstudio/_objecttype_detail.html
+gstudio/templates/gstudio/_subtype_detail.html
 gstudio/templates/gstudio/author_list.html
 gstudio/templates/gstudio/base.html
 gstudio/templates/gstudio/login.html
@@ -388,6 +389,7 @@ gstudio/templates/gstudio/tags/calendar.html
 gstudio/templates/gstudio/tags/dummy.html
 gstudio/templates/gstudio/tags/featured_objecttypes.html
 gstudio/templates/gstudio/tags/metatypes.html
+gstudio/templates/gstudio/tags/objecttypes.html
 gstudio/templates/gstudio/tags/pagination.html
 gstudio/templates/gstudio/tags/popular_objecttypes.html
 gstudio/templates/gstudio/tags/random_objecttypes.html

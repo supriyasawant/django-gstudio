@@ -40,6 +40,12 @@ def get_metatypes(template='gstudio/tags/metatypes.html'):
     return {'template': template,
             'metatypes': Metatype.tree.all()}
 
+#@register.inclusion_tag('gstudio/tags/dummy.html')
+#def get_subtypes(template='gstudio/tags/objecttypes.html'):
+#    """Return the subtypes"""
+#    return {'template': template,
+#            'subtypes': Objecttype.tree.all()}
+
 
 @register.inclusion_tag('gstudio/tags/dummy.html')
 def get_authors(template='gstudio/tags/authors.html'):

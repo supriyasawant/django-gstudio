@@ -113,7 +113,7 @@ class CMSRandomObjecttypesPlugin(CMSPluginBase):
     """Django-cms plugin for random objecttypes"""
     module = _('objecttypes')
     model = RandomObjecttypesPlugin
-    name = _('Random objecttypes')
+    name = _('Random object types')
     render_template = 'gstudio/cms/random_objecttypes.html'
     fields = ('number_of_objecttypes', 'template_to_render')
     text_enabled = True

@@ -82,7 +82,15 @@ class Metatype(models.Model):
         return self.slug
 
     def __unicode__(self):
+        return self.composed_sentence
+
+    def _get_sentence(self):
+        "composes the relation as a sentence in triple format."
+        if self.parent:
+            return '%s, which is a kind of %s' % (self.title, self.parent.tree_path)
         return self.title
+    composed_sentence = property(_get_sentence)
+
 
     @models.permalink
     def get_absolute_url(self):
@@ -172,6 +180,12 @@ class Objecttype(models.Model):
         return self.slug
 
     @property
+    def supertype(self):
+        """Returns the parent of a node """
+        if self.is_child_node():
+            return self.get_root()
+
+    @property
     def html_content(self):
         """Return the content correctly formatted"""
         if MARKUP_LANGUAGE == 'markdown':
@@ -183,6 +197,7 @@ class Objecttype(models.Model):
         elif not '</p>' in self.content:
             return linebreaks(self.content)
         return self.content
+
 
     @property
     def previous_objecttype(self):
@@ -257,7 +272,15 @@ class Objecttype(models.Model):
         return get_url_shortener()(self)
 
     def __unicode__(self):
-        return '%s: %s' % (self.title, self.get_status_display())
+        return self.composed_sentence
+
+    def _get_sentence(self):
+        "composes the relation as a sentence in triple format."
+        if self.parent:
+            return '%s is a subtype of %s' % (self.title, self.parent.tree_path)
+        return self.title
+    composed_sentence = property(_get_sentence)
+
 
     @models.permalink
     def get_absolute_url(self):

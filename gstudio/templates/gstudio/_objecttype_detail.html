@@ -1,14 +1,18 @@
 {% load tagging_tags comments i18n %}
 <div id="objecttype-{{ object.pk }}" class="hobjecttype{% if object.featured %} featured{% endif %} span-16 last">
   <div class="objecttype-header span-16 last">
-    <h2 class="objecttype-title">
+    <h3 class="objecttype-title">
       <a href="{{ object.get_absolute_url }}" title="{{ object.title }}" rel="bookmark">
         {{ object.title }}
       </a>
-    </h2>
+      {% if object.metatypes.count %}
+      {% trans " a member of" %}
+      {% for metatype in object.metatypes.all %}
+      <b><a href="{{ metatype.get_absolute_url }}" title="{{ metatype }}" rel="tag metatype">{{ metatype }}</a>   {% if not forloop.last %}, {% endif %}{% endfor %}{% endif %}.</b> 
+    </h3>
     <p class="objecttype-info">
       {% if object.authors.count %}
-      {% trans "Written by" %}
+      {% trans "Contributed by" %}
       {% for author in object.authors.all %}
       <span class="vcard author">
         <a href="{% url gstudio_author_detail author %}" class="fn nickname url" rel="author"
@@ -17,13 +21,9 @@
       {% endfor %}
       {% trans "on" %}
       {% else %}
-      {% trans "Written on" %}
+      {% trans "Contributed by" %}
       {% endif %}
       <abbr class="published" title="{{ object.creation_date|date:"c" }}Z">{{ object.creation_date|date:"DATE_FORMAT" }}</abbr>
-      {% if object.metatypes.count %}
-      {% trans "in" %}
-      {% for metatype in object.metatypes.all %}
-      <a href="{{ metatype.get_absolute_url }}" title="{{ metatype }}" rel="tag metatype">{{ metatype }}</a>{% if not forloop.last %}, {% endif %}{% endfor %}{% endif %}.
     </p>
   </div>
 
@@ -40,6 +40,9 @@
     <div class="objecttype-content">
       {{ object_content }}
     </div>
+
+
+
   </div>
 
   <div class="objecttype-footer">
@@ -72,7 +75,7 @@
       {% if object.comments_are_open %}
       {% trans "No comments yet." %}
       <a href="{{ object.get_absolute_url }}#comments" title="{{ object.title }}">
-        {% trans "Be first to comment!" %}
+        {% trans "Discuss the relations or raise any issues!" %}
       </a>
       {% else %}
       {% trans "Comments are closed." %}

@@ -31,7 +31,7 @@ class MetatypeAdminForm(forms.ModelForm):
         data = self.cleaned_data['parent']
         if data == self.instance:
             raise forms.ValidationError(
-                _('A metatype cannot be parent of itself.'))
+                _('A metatype cannot be a parent of itself.'))
         return data
 
     class Meta:
@@ -61,11 +61,11 @@ class ObjecttypeAdminForm(forms.ModelForm):
         self.fields['sites'].initial = [Site.objects.get_current()]
 
     def clean_parent(self):
-        """Check if metatype parent is not selfish"""
+        """Check if an object does not become a parent of itself"""
         data = self.cleaned_data['parent']
         if data == self.instance:
             raise forms.ValidationError(
-                _('A metatype cannot be parent of itself.'))
+                _('An objectype cannot be parent of itself.'))
         return data
 
     class Meta:

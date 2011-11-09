@@ -7,6 +7,7 @@
 
 {% block meta-keywords %}{% if object.tags %}{{ object.tags }}{% else %}{{ block.super }}{% endif %}{% endblock %}
 
+
 {% block link %}
   {{ block.super }}
   {% with object.previous_objecttype as previous_objecttype %}{% if previous_objecttype %}
@@ -42,7 +43,7 @@
   {% with object.next_objecttype as next_objecttype %}
   {% if next_objecttype %}
   <div class="objecttype-next">
-    <h3>{% trans "Next objecttype" %}</h3>
+    <h3>{% trans "Next object type" %}</h3>
     <ul>
       <li>
 	<a href="{{ next_objecttype.get_absolute_url }}" title="{{ next_objecttype.title }}" rel="next">
@@ -56,7 +57,7 @@
   {% with object.previous_objecttype as previous_objecttype %}
   {% if previous_objecttype %}
   <div class="objecttype-previous">
-    <h3>{% trans "Previous objecttype" %}</h3>
+    <h3>{% trans "Previous object type" %}</h3>
     <ul>
       <li>
 	<a href="{{ previous_objecttype.get_absolute_url }}" title="{{ previous_objecttype.title }}" rel="prev">
@@ -69,7 +70,7 @@
   {% endwith %}
   {% if object.related_published %}
   <div class="objecttype-related">
-    <h3>{% trans "Related objecttypes" %}</h3>
+    <h3>{% trans "Related object types" %}</h3>
     <ul>
       {% for objecttype in object.related_published %}
       <li>
@@ -80,7 +81,7 @@
   </div>
   {% endif %}
   <div class="objecttype-similar">
-    <h3>{% trans "Similar objecttypes" %}</h3>
+    <h3>{% trans "Similar object types" %}</h3>
     {% get_similar_objecttypes 5 %}
   </div>
 </div>
@@ -208,7 +209,7 @@
 {% if perms.gstudio.change_objecttype %}
 <li>
   <a href="{% url admin:gstudio_objecttype_change object.pk %}" title="{% trans "Edit the objecttype" %}">
-    {% trans "Edit the objecttype" %}
+    {% trans "Edit the object type" %}
   </a>
 </li>
 {% endif %}
