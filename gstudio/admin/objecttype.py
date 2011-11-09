@@ -25,7 +25,7 @@ class ObjecttypeAdmin(admin.ModelAdmin):
     """Admin for Objecttype model"""
     form = ObjecttypeAdminForm
     date_hierarchy = 'creation_date'
-    fieldsets = ((_('Content'), {'fields': ('title', 'content',
+    fieldsets = ((_('Content'), {'fields': ('title', 'content', 'parent',
                                             'image', 'status')}),
                  (_('Options'), {'fields': ('featured', 'excerpt', 'template',
                                             'related', 'authors',
@@ -39,7 +39,7 @@ class ObjecttypeAdmin(admin.ModelAdmin):
                                                'pingback_enabled')}),
                  (_('Publication'), {'fields': ('metatypes', 'tags',
                                                 'sites', 'slug')}))
-    list_filter = ('metatypes', 'authors', 'status', 'featured',
+    list_filter = ('parent','metatypes', 'authors', 'status', 'featured',
                    'login_required', 'comment_enabled', 'pingback_enabled',
                    'creation_date', 'start_publication',
                    'end_publication', 'sites')

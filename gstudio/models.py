@@ -76,7 +76,7 @@ class Metatype(models.Model):
 
     @property
     def tree_path(self):
-        """Return metatype's tree path, by his ancestors"""
+        """Return metatype's tree path, by its ancestors"""
         if self.parent:
             return '%s/%s' % (self.parent.tree_path, self.slug)
         return self.slug
@@ -104,6 +104,10 @@ class Objecttype(models.Model):
 
     title = models.CharField(_('title'), max_length=255)
     content = models.TextField(_('content'))
+    parent = models.ForeignKey('self', null=True, blank=True,
+                               verbose_name=_('has parent objecttype'),
+                               related_name='subtypes')
+
     image = models.ImageField(_('image'), upload_to=UPLOAD_TO,
                               blank=True, help_text=_('used for illustration'))
 
@@ -159,6 +163,13 @@ class Objecttype(models.Model):
 
     objects = models.Manager()
     published = ObjecttypePublishedManager()
+
+    @property
+    def tree_path(self):
+        """Return objecttype's tree path, by its ancestors"""
+        if self.parent:
+            return '%s/%s' % (self.parent.tree_path, self.slug)
+        return self.slug
 
     @property
     def html_content(self):
@@ -269,6 +280,7 @@ class Objecttype(models.Model):
 
 moderator.register(Objecttype, ObjecttypeCommentModerator)
 mptt.register(Metatype, order_insertion_by=['title'])
+mptt.register(Objecttype, order_insertion_by=['title'])
 post_save.connect(ping_directories_handler, sender=Objecttype,
                   dispatch_uid='gstudio.objecttype.post_save.ping_directories')
 post_save.connect(ping_external_urls_handler, sender=Objecttype,

@@ -41,6 +41,12 @@ class MetatypeAdminForm(forms.ModelForm):
 
 class ObjecttypeAdminForm(forms.ModelForm):
     """Form for Objecttype's Admin"""
+
+    parent = TreeNodeChoiceField(
+        label=_('parent objecttype').capitalize(),
+        required=False, empty_label=_('No parent objecttype'),
+        queryset=Objecttype.tree.all())
+
     metatypes = MPTTModelMultipleChoiceField(
         label=_('Metatypes'), required=False,
         queryset=Metatype.objects.all(),
@@ -53,6 +59,14 @@ class ObjecttypeAdminForm(forms.ModelForm):
         self.fields['metatypes'].widget = RelatedFieldWidgetWrapper(
             self.fields['metatypes'].widget, rel, self.admin_site)
         self.fields['sites'].initial = [Site.objects.get_current()]
+
+    def clean_parent(self):
+        """Check if metatype parent is not selfish"""
+        data = self.cleaned_data['parent']
+        if data == self.instance:
+            raise forms.ValidationError(
+                _('A metatype cannot be parent of itself.'))
+        return data
 
     class Meta:
         """ObjecttypeAdminForm's Meta"""

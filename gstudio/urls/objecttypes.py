@@ -11,9 +11,12 @@ objecttype_conf_index = {'paginate_by': PAGINATION,
                     'template_name': 'gstudio/objecttype_archive.html'}
 
 objecttype_conf = {'date_field': 'creation_date',
-              'allow_empty': ALLOW_EMPTY,
-              'allow_future': ALLOW_FUTURE,
-              'month_format': '%m'}
+                   'allow_empty': ALLOW_EMPTY,
+                   'allow_future': ALLOW_FUTURE,
+                   'month_format': '%m',
+                   'queryset': Objecttype.tree.all()}
+
+metatype_conf = {}
 
 objecttype_conf_year = objecttype_conf.copy()
 objecttype_conf_year['make_object_list'] = True
