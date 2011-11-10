@@ -74,6 +74,7 @@ class Metatype(models.Model):
         """Return only the objecttypes published"""
         return objecttypes_published(self.objecttypes)
 
+            
     @property
     def tree_path(self):
         """Return metatype's tree path, by its ancestors"""
@@ -88,9 +89,8 @@ class Metatype(models.Model):
         "composes the relation as a sentence in triple format."
         if self.parent:
             return '%s, which is a kind of %s' % (self.title, self.parent.tree_path)
-        return self.title
+        return '%s is a root node'  % (self.slug)
     composed_sentence = property(_get_sentence)
-
 
     @models.permalink
     def get_absolute_url(self):
@@ -180,10 +180,11 @@ class Objecttype(models.Model):
         return self.slug
 
     @property
-    def supertype(self):
-        """Returns the parent of a node """
-        if self.is_child_node():
-            return self.get_root()
+    def tree_path_sentence(self):
+        """ Return the parent of the objecttype in a triple form """
+        if self.parent:
+            return '%s, which is a kind of %s' % (self.title, self.parent.tree_path)
+        return '%s is a root node' % (self.title)
 
     @property
     def html_content(self):
@@ -274,12 +275,12 @@ class Objecttype(models.Model):
     def __unicode__(self):
         return self.composed_sentence
 
-    def _get_sentence(self):
+    def sentence(self):
         "composes the relation as a sentence in triple format."
         if self.parent:
             return '%s is a subtype of %s' % (self.title, self.parent.tree_path)
-        return self.title
-    composed_sentence = property(_get_sentence)
+        return '%s is a root node' % (self.title)
+    composed_sentence = property(sentence)
 
 
     @models.permalink
