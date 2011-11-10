@@ -83,12 +83,12 @@ class Metatype(models.Model):
         return self.slug
 
     def __unicode__(self):
-        return self.composed_sentence
+        return self.title
 
     def _get_sentence(self):
         "composes the relation as a sentence in triple format."
         if self.parent:
-            return '%s, which is a kind of %s' % (self.title, self.parent.tree_path)
+            return '%s is a kind of %s' % (self.title, self.parent.tree_path)
         return '%s is a root node'  % (self.slug)
     composed_sentence = property(_get_sentence)
 
@@ -96,6 +96,7 @@ class Metatype(models.Model):
     def get_absolute_url(self):
         """Return metatype's URL"""
         return ('gstudio_metatype_detail', (self.tree_path,))
+
 
     class Meta:
         """Metatype's Meta"""
@@ -183,7 +184,7 @@ class Objecttype(models.Model):
     def tree_path_sentence(self):
         """ Return the parent of the objecttype in a triple form """
         if self.parent:
-            return '%s, which is a kind of %s' % (self.title, self.parent.tree_path)
+            return '%s is a kind of %s' % (self.title, self.parent.tree_path)
         return '%s is a root node' % (self.title)
 
     @property
@@ -275,6 +276,16 @@ class Objecttype(models.Model):
     def __unicode__(self):
         return self.composed_sentence
 
+    @property
+    def memberof_sentence(self):
+        """Return the metatype of which the objecttype is a member of"""
+        
+        if self.metatypes.count:
+            for each in self.metatypes.all():
+                return '%s is a member of %s' % (self.title, each)
+        return '%s not fully defined name, consider making it a member of a suitable metatype' % (self.title)
+
+    @property
     def sentence(self):
         "composes the relation as a sentence in triple format."
         if self.parent:
@@ -291,7 +302,6 @@ class Objecttype(models.Model):
             'month': self.creation_date.strftime('%m'),
             'day': self.creation_date.strftime('%d'),
             'slug': self.slug})
-
 
     class Meta:
         """Objecttype's Meta"""
