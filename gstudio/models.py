@@ -36,7 +36,7 @@ from gstudio.moderator import ObjecttypeCommentModerator
 from gstudio.url_shortener import get_url_shortener
 from gstudio.signals import ping_directories_handler
 from gstudio.signals import ping_external_urls_handler
-
+import reversion
 
 class Author(User):
     """Proxy Model around User"""
@@ -282,16 +282,23 @@ class Objecttype(models.Model):
         
         if self.metatypes.count:
             for each in self.metatypes.all():
-                return '%s is a member of %s' % (self.title, each)
-        return '%s not fully defined name, consider making it a member of a suitable metatype' % (self.title)
+                return '%s is a member of metatype %s' % (self.title, each)
+        return '%s is not a fully defined name, consider making it a member of a suitable metatype' % (self.title)
 
     @property
-    def sentence(self):
+    def subtypeof_sentence(self):
         "composes the relation as a sentence in triple format."
         if self.parent:
             return '%s is a subtype of %s' % (self.title, self.parent.tree_path)
         return '%s is a root node' % (self.title)
-    composed_sentence = property(sentence)
+    composed_sentence = property(subtypeof_sentence)
+
+    def subtypeof(self):
+        "retuns the parent objecttype."
+        if self.parent:
+            return '%s' % (self.parent.tree_path)
+        return None 
+
 
 
     @models.permalink
@@ -311,6 +318,14 @@ class Objecttype(models.Model):
         permissions = (('can_view_all', 'Can view all'),
                        ('can_change_author', 'Can change author'), )
 
+if not reversion.is_registered(Objecttype): 
+    reversion.register(Objecttype, follow=["parent"])
+if not reversion.is_registered(Objecttype):
+    reversion.register(Objecttype, follow=["metatypes"])
+
+if not reversion.is_registered(Metatype):
+    reversion.register(Metatype, follow=["parent"])
+
 
 moderator.register(Objecttype, ObjecttypeCommentModerator)
 mptt.register(Metatype, order_insertion_by=['title'])
@@ -319,3 +334,4 @@ post_save.connect(ping_directories_handler, sender=Objecttype,
                   dispatch_uid='gstudio.objecttype.post_save.ping_directories')
 post_save.connect(ping_external_urls_handler, sender=Objecttype,
                   dispatch_uid='gstudio.objecttype.post_save.ping_external_urls')
+
