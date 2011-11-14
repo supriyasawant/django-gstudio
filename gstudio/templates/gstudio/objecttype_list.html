@@ -21,6 +21,7 @@
 {% block content %}
 {% if metatype %}
 <h1>{{ metatype.title }}</h1>
+<h3>{{ metatype.composed_sentence }}</h3>
 {% if metatype.description %}
 <p>{{ metatype.description|striptags|safe }}</p>
 {% endif %}

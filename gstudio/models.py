@@ -74,6 +74,7 @@ class Metatype(models.Model):
         """Return only the objecttypes published"""
         return objecttypes_published(self.objecttypes)
 
+<<<<<<< HEAD
     def get_nbh(self):
         """ Returns the neighbourhood of the metatype """
         nbh = {}
@@ -82,6 +83,9 @@ class Metatype(models.Model):
         nbh['parent'] = self.parent
         return nbh
         
+=======
+            
+>>>>>>> upstream/master
     @property
     def tree_path(self):
         """Return metatype's tree path, by its ancestors"""
@@ -90,20 +94,20 @@ class Metatype(models.Model):
         return self.slug
 
     def __unicode__(self):
-        return self.composed_sentence
+        return self.title
 
     def _get_sentence(self):
         "composes the relation as a sentence in triple format."
         if self.parent:
-            return '%s, which is a kind of %s' % (self.title, self.parent.tree_path)
-        return self.title
+            return '%s is a kind of %s' % (self.title, self.parent.tree_path)
+        return '%s is a root node'  % (self.slug)
     composed_sentence = property(_get_sentence)
-
 
     @models.permalink
     def get_absolute_url(self):
         """Return metatype's URL"""
         return ('gstudio_metatype_detail', (self.tree_path,))
+
 
     class Meta:
         """Metatype's Meta"""
@@ -188,10 +192,11 @@ class Objecttype(models.Model):
         return self.slug
 
     @property
-    def supertype(self):
-        """Returns the parent of a node """
-        if self.is_child_node():
-            return self.get_root()
+    def tree_path_sentence(self):
+        """ Return the parent of the objecttype in a triple form """
+        if self.parent:
+            return '%s is a kind of %s' % (self.title, self.parent.tree_path)
+        return '%s is a root node' % (self.title)
 
     @property
     def html_content(self):
@@ -292,12 +297,22 @@ class Objecttype(models.Model):
     def __unicode__(self):
         return self.composed_sentence
 
-    def _get_sentence(self):
+    @property
+    def memberof_sentence(self):
+        """Return the metatype of which the objecttype is a member of"""
+        
+        if self.metatypes.count:
+            for each in self.metatypes.all():
+                return '%s is a member of %s' % (self.title, each)
+        return '%s not fully defined name, consider making it a member of a suitable metatype' % (self.title)
+
+    @property
+    def sentence(self):
         "composes the relation as a sentence in triple format."
         if self.parent:
             return '%s is a subtype of %s' % (self.title, self.parent.tree_path)
-        return self.title
-    composed_sentence = property(_get_sentence)
+        return '%s is a root node' % (self.title)
+    composed_sentence = property(sentence)
 
 
     @models.permalink
@@ -308,7 +323,6 @@ class Objecttype(models.Model):
             'month': self.creation_date.strftime('%m'),
             'day': self.creation_date.strftime('%d'),
             'slug': self.slug})
-
 
     class Meta:
         """Objecttype's Meta"""

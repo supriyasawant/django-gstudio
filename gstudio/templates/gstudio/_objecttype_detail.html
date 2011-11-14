@@ -5,11 +5,9 @@
       <a href="{{ object.get_absolute_url }}" title="{{ object.title }}" rel="bookmark">
         {{ object.title }}
       </a>
-      {% if object.metatypes.count %}
-      {% trans " a member of" %}
-      {% for metatype in object.metatypes.all %}
-      <b><a href="{{ metatype.get_absolute_url }}" title="{{ metatype }}" rel="tag metatype">{{ metatype }}</a>   {% if not forloop.last %}, {% endif %}{% endfor %}{% endif %}.</b> 
+
     </h3>
+
     <p class="objecttype-info">
       {% if object.authors.count %}
       {% trans "Contributed by" %}
@@ -24,8 +22,11 @@
       {% trans "Contributed by" %}
       {% endif %}
       <abbr class="published" title="{{ object.creation_date|date:"c" }}Z">{{ object.creation_date|date:"DATE_FORMAT" }}</abbr>
+
     </p>
   </div>
+             <h4> {{ object.tree_path_sentence }} </h4>  
+             <h4>  {{ object.memberof_sentence }}</h4>
 
   <div class="objecttype-body span-16 last">
     {% if object.image %}
