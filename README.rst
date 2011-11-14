@@ -14,35 +14,32 @@ Nodes implemented:
 ================
 * metaTypes
 * objectTypes
+* objects
+* relations
+* relationtypes
+* attributes
+* attributetypes
 
-Currently gnowledge studio provides support for Metatypes and
-Objecttypes. Using metatypes you can define different kinds of
-concepts, like "concept names", "action names", "scientific concept",
-"phylem" etc. Objecttypes are any regular classes, which can be
-defined as members of Metatypes. Both objecttypes and metatypes can
-have parent, siblings and children to create hierarchical structures.
-In our next release we will have objects as members of objecttypes.
-While we shape this project, if you are interested in joining, visit
-us at metastudio.org.
+All the nodes above are also registered with django-reversion for
+version control. 
+
+In our next release we will add dependency relation, and create
+appropriate fields for relations and atttributes.  While we shape this
+project, if you are interested in joining, visit us at metastudio.org.
 
 Nodes soon to come:
 ==================
-* objects
-* relationTypes
-* attributeTypes
-* relations
-* attributes
+* system (ontology)
+* systemtype (ontologytype)
 
 Features you will see soon:
 ===========================
 * dependency relation 
 * context graphs and concept graphs
-* optional version control 
 
 Other features to come:
 ======================
 
-* version control to track history
 * rdf feed to a triple store
 * export and import of standard knowledge representation languages: CL, OWL, XTM etc.
 
