@@ -1,0 +1,16 @@
+{% load i18n mptt_tags %}
+
+{% for relation, structure in relations|tree_info %}
+  {% if structure.new_level %}<ul><li>{% else %}</li><li>{% endif %}
+    <a href="{{ relation.get_absolute_url }}" title="{{ relation.title }}">{{ relation.title }}</a> 
+    {% blocktrans count relation.relationtypes_published.count as relationtype_count %}{{ relationtype_count }} relationtype{% plural %}{{ relationtype_count }} relationtypes{% endblocktrans %}
+  {% for level in structure.closed_levels %}</li></ul>{% endfor %}
+  {% empty %}
+<ul>
+  <li>
+    {% trans "No relations yet." %}
+  </li>
+</ul>
+{% endfor %}
+
+

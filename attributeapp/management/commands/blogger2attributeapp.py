@@ -1,0 +1,255 @@
+"""Blogger to Attributeapp command module
+Based on Elijah Rutschman's code"""
+import sys
+from getpass import getpass
+from datetime import datetime
+from optparse import make_option
+
+from django.utils.encoding import smart_str
+from django.contrib.sites.models import Site
+from django.contrib.auth.models import User
+from django.template.defaultfilters import slugify
+from django.core.management.base import CommandError
+from django.core.management.base import NoArgsCommand
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.comments import get_model as get_comment_model
+
+from attributeapp import __version__
+from attributeapp.models import Attributetype
+from attributeapp.models import Attribute
+from attributeapp.managers import DRAFT, PUBLISHED
+
+gdata_service = None
+Comment = get_comment_model()
+
+
+class Command(NoArgsCommand):
+    """Command object for importing a Blogger blog
+    into Attributeapp via Google's gdata API."""
+    help = 'Import a Blogger blog into Attributeapp.'
+
+    option_list = NoArgsCommand.option_list + (
+        make_option('--blogger-username', dest='blogger_username', default='',
+                    help='The username to login to Blogger with'),
+        make_option('--attribute-title', dest='attribute_title', default='',
+                    help='The Attributeapp attribute to import Blogger posts to'),
+        make_option('--blogger-blog-id', dest='blogger_blog_id', default='',
+                    help='The id of the Blogger blog to import'),
+        make_option('--author', dest='author', default='',
+                    help='All imported attributetypes belong to specified author')
+        )
+
+    SITE = Site.objects.get_current()
+
+    def __init__(self):
+        """Init the Command and add custom styles"""
+        super(Command, self).__init__()
+        self.style.TITLE = self.style.SQL_FIELD
+        self.style.STEP = self.style.SQL_COLTYPE
+        self.style.ITEM = self.style.HTTP_INFO
+
+    def write_out(self, message, verbosity_level=1):
+        """Convenient method for outputing"""
+        if self.verbosity and self.verbosity >= verbosity_level:
+            sys.stdout.write(smart_str(message))
+            sys.stdout.flush()
+
+    def handle_noargs(self, **options):
+        global gdata_service
+        try:
+            from gdata import service
+            gdata_service = service
+        except ImportError:
+            raise CommandError('You need to install the gdata ' \
+                               'module to run this command.')
+
+        self.verbosity = int(options.get('verbosity', 1))
+        self.blogger_username = options.get('blogger_username')
+        self.attribute_title = options.get('attribute_title')
+        self.blogger_blog_id = options.get('blogger_blog_id')
+
+        self.write_out(self.style.TITLE(
+            'Starting migration from Blogger to Attributeapp %s\n' % __version__))
+
+        if not self.blogger_username:
+            self.blogger_username = raw_input('Blogger username: ')
+            if not self.blogger_username:
+                raise CommandError('Invalid Blogger username')
+
+        self.blogger_password = getpass('Blogger password: ')
+        try:
+            self.blogger_manager = BloggerManager(self.blogger_username,
+                                                  self.blogger_password)
+        except gdata_service.BadAuthentication:
+            raise CommandError('Incorrect Blogger username or password')
+
+        default_author = options.get('author')
+        if default_author:
+            try:
+                self.default_author = User.objects.get(username=default_author)
+            except User.DoesNotExist:
+                raise CommandError(
+                    'Invalid Attributeapp username for default author "%s"' % \
+                    default_author)
+        else:
+            self.default_author = User.objects.all()[0]
+
+        if not self.blogger_blog_id:
+            self.select_blog_id()
+
+        if not self.attribute_title:
+            self.attribute_title = raw_input(
+                'Attribute title for imported attributetypes: ')
+            if not self.attribute_title:
+                raise CommandError('Invalid attribute title')
+
+        self.import_posts()
+
+    def select_blog_id(self):
+        self.write_out(self.style.STEP('- Requesting your weblogs\n'))
+        blogs_list = [blog for blog in self.blogger_manager.get_blogs()]
+        while True:
+            i = 0
+            blogs = {}
+            for blog in blogs_list:
+                i += 1
+                blogs[i] = blog
+                self.write_out('%s. %s (%s)' % (i, blog.title.text,
+                                                get_blog_id(blog)))
+            try:
+                blog_index = int(raw_input('\nSelect a blog to import: '))
+                blog = blogs[blog_index]
+                break
+            except (ValueError, KeyError):
+                self.write_out(self.style.ERROR(
+                    'Please enter a valid blog number\n'))
+
+        self.blogger_blog_id = get_blog_id(blog)
+
+    def get_attribute(self):
+        attribute, created = Attribute.objects.get_or_create(
+            title=self.attribute_title,
+            slug=slugify(self.attribute_title)[:255])
+
+        if created:
+            attribute.save()
+
+        return attribute
+
+    def import_posts(self):
+        attribute = self.get_attribute()
+        self.write_out(self.style.STEP('- Importing attributetypes\n'))
+        for post in self.blogger_manager.get_posts(self.blogger_blog_id):
+            creation_date = convert_blogger_timestamp(post.published.text)
+            status = DRAFT if is_draft(post) else PUBLISHED
+            title = post.title.text or ''
+            content = post.content.text or ''
+            slug = slugify(post.title.text or get_post_id(post))[:255]
+            try:
+                attributetype = Attributetype.objects.get(creation_date=creation_date,
+                                          slug=slug)
+                output = self.style.NOTICE('> Skipped %s (already migrated)\n'
+                    % attributetype)
+            except Attributetype.DoesNotExist:
+                attributetype = Attributetype(status=status, title=title, content=content,
+                              creation_date=creation_date, slug=slug)
+                if self.default_author:
+                    attributetype.author = self.default_author
+                attributetype.tags = ','.join([slugify(cat.term) for
+                                       cat in post.attribute])
+                attributetype.last_update = convert_blogger_timestamp(
+                    post.updated.text)
+                attributetype.save()
+                attributetype.sites.add(self.SITE)
+                attributetype.attributes.add(attribute)
+                attributetype.authors.add(self.default_author)
+                try:
+                    self.import_comments(attributetype, post)
+                except gdata_service.RequestError:
+                    # comments not available for this post
+                    pass
+                output = self.style.ITEM('> Migrated %s + %s comments\n'
+                    % (attributetype.title, len(Comment.objects.for_model(attributetype))))
+
+            self.write_out(output)
+
+    def import_comments(self, attributetype, post):
+        blog_id = self.blogger_blog_id
+        post_id = get_post_id(post)
+        comments = self.blogger_manager.get_comments(blog_id, post_id)
+        attributetype_content_type = ContentType.objects.get_for_model(Attributetype)
+
+        for comment in comments:
+            submit_date = convert_blogger_timestamp(comment.published.text)
+            content = comment.content.text
+
+            author = comment.author[0]
+            if author:
+                user_name = author.name.text if author.name else ''
+                user_email = author.email.text if author.email else ''
+                user_url = author.uri.text if author.uri else ''
+
+            else:
+                user_name = ''
+                user_email = ''
+                user_url = ''
+
+            com, created = Comment.objects.get_or_create(
+                content_type=attributetype_content_type,
+                object_pk=attributetype.pk,
+                comment=content,
+                submit_date=submit_date,
+                site=self.SITE,
+                user_name=user_name,
+                user_email=user_email,
+                user_url=user_url)
+
+            if created:
+                com.save()
+
+
+def convert_blogger_timestamp(timestamp):
+    # parse 2010-12-19T15:37:00.003
+    date_string = timestamp[:-6]
+    return datetime.strptime(date_string, '%Y-%m-%dT%H:%M:%S.%f')
+
+
+def is_draft(post):
+    if post.control:
+        if post.control.draft:
+            if post.control.draft.text == 'yes':
+                return True
+    return False
+
+
+def get_blog_id(blog):
+    return blog.GetSelfLink().href.split('/')[-1]
+
+
+def get_post_id(post):
+    return post.GetSelfLink().href.split('/')[-1]
+
+
+class BloggerManager(object):
+
+    def __init__(self, username, password):
+        self.service = gdata_service.GDataService(username, password)
+        self.service.server = 'www.blogger.com'
+        self.service.service = 'blogger'
+        self.service.ProgrammaticLogin()
+
+    def get_blogs(self):
+        feed = self.service.Get('/feeds/default/blogs')
+        for blog in feed.attributetype:
+            yield blog
+
+    def get_posts(self, blog_id):
+        feed = self.service.Get('/feeds/%s/posts/default' % blog_id)
+        for post in feed.attributetype:
+            yield post
+
+    def get_comments(self, blog_id, post_id):
+        feed = self.service.Get('/feeds/%s/%s/comments/default' % \
+                                (blog_id, post_id))
+        for comment in feed.attributetype:
+            yield comment

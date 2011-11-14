@@ -1,0 +1,7 @@
+{% extends "relationapp/base.html" %}
+
+{% block title %}{{ object.title }}{% endblock %}
+
+{% block content %}
+ {{ object.html_content|safe }}
+{% endblock %}

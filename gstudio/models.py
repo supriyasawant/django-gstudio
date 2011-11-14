@@ -274,7 +274,7 @@ class Objecttype(models.Model):
         return get_url_shortener()(self)
 
     def __unicode__(self):
-        return self.composed_sentence
+        return self.title
 
     @property
     def memberof_sentence(self):

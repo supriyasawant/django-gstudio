@@ -1,0 +1,8 @@
+{% load i18n %}
+{% for attributetype in attributetypes %}
+  {% with object=attributetype object_content=attributetype.html_content|truncatewords_html:100|safe %}
+  {% include "attributeapp/_attributetype_detail.html" %}
+  {% endwith %}
+{% empty %}
+  <p class="notice">{% trans "No object types yet." %}</p>
+{% endfor %}

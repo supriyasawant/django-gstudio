@@ -6,3 +6,5 @@ __author__ = 'gnowgi'
 __email__ = 'nagarjun@gnowledge.org'
 
 __url__ = 'http://github.com/gnowgi/django-gstudio'
+
+
