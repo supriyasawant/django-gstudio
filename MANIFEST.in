@@ -14,15 +14,15 @@ recursive-include objectapp/locale *
 recursive-include objectapp/static *
 recursive-include objectapp/templates *.txt *.html *.xml *.js
 
-recursive-include relationapp/fixtures *.json
-recursive-include relationapp/locale *
-recursive-include relationapp/static *
-recursive-include relationapp/templates *.txt *.html *.xml *.js
+# recursive-include relationapp/fixtures *.json
+# recursive-include relationapp/locale *
+# recursive-include relationapp/static *
+# recursive-include relationapp/templates *.txt *.html *.xml *.js
 
-recursive-include attributeapp/fixtures *.json
-recursive-include attributeapp/locale *
-recursive-include attributeapp/static *
-recursive-include attributeapp/templates *.txt *.html *.xml *.js
+# recursive-include attributeapp/fixtures *.json
+# recursive-include attributeapp/locale *
+# recursive-include attributeapp/static *
+# recursive-include attributeapp/templates *.txt *.html *.xml *.js
 
 #prune docs/api
 #prune docs/build

@@ -23,6 +23,7 @@ import mptt
 from tagging.fields import TagField
 
 from gstudio.models import Objecttype
+from gstudio.models import AbstractNode
 from objectapp.settings import UPLOAD_TO
 from objectapp.settings import MARKUP_LANGUAGE
 from objectapp.settings import GBOBJECT_TEMPLATES
@@ -58,16 +59,12 @@ class Author(User):
         """Author's Meta"""
         proxy = True
 
-
-
-
-class GBObject(models.Model):
+class GBObject(AbstractNode):
     """Model design publishing gbobjects"""
     STATUS_CHOICES = ((DRAFT, _('draft')),
                       (HIDDEN, _('hidden')),
                       (PUBLISHED, _('published')))
 
-    title = models.CharField(_('title'), max_length=255)
     content = models.TextField(_('content'))
 
     image = models.ImageField(_('image'), upload_to=UPLOAD_TO,

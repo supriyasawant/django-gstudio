@@ -1,4 +1,2 @@
 gstudio
-attributeapp
-relationapp
 objectapp

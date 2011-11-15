@@ -39,10 +39,10 @@ from gstudio.signals import ping_external_urls_handler
 import reversion
 
 NODETYPE_CHOICES = (
-    ('OT', 'Gbobjecttypes'),
-    ('RT', 'Gbrelationtypes'),
-    ('MT', 'Gbmetatypes'),
-    ('AT', 'Gbattributetypes'),
+    ('OT', 'Objecttypes'),
+    ('RT', 'Relationtypes'),
+    ('MT', 'Metatypes'),
+    ('AT', 'Attributetypes'),
    )
 
 DEPTYPE_CHOICES = (
@@ -79,9 +79,6 @@ FIELD_TYPE_CHOICES = (
     ('19', 'IPAddressField'),
     )
 
-
-
-
 class Author(User):
     """Proxy Model around User"""
 
@@ -102,10 +99,25 @@ class Author(User):
         proxy = True
 
 
-class Metatype(models.Model):
-    """Metatype object for Objecttype"""
+class AbstractNode(models.Model):
 
     title = models.CharField(_('title'), max_length=255)
+    class Meta:
+        abstract=False
+
+
+    
+class AbstractType(AbstractNode):
+
+    class Meta:
+        abstract=False
+
+
+
+class Metatype(AbstractType):
+    """Metatype object for Objecttype"""
+
+
     slug = models.SlugField(help_text=_('used for publication'),
                             unique=True, max_length=255)
     description = models.TextField(_('description'), blank=True)
@@ -149,13 +161,12 @@ class Metatype(models.Model):
         verbose_name_plural = _('metatypes')
 
 
-class Objecttype(models.Model):
+class Objecttype(AbstractType):
     """Model design publishing objecttypes"""
     STATUS_CHOICES = ((DRAFT, _('draft')),
                       (HIDDEN, _('hidden')),
                       (PUBLISHED, _('published')))
 
-    title = models.CharField(_('title'), max_length=255)
     content = models.TextField(_('content'))
     parent = models.ForeignKey('self', null=True, blank=True,
                                verbose_name=_('has parent objecttype'),
@@ -368,6 +379,137 @@ class Objecttype(models.Model):
         permissions = (('can_view_all', 'Can view all'),
                        ('can_change_author', 'Can change author'), )
 
+
+
+
+NODETYPE_CHOICES = (
+    ('OT', 'Objecttype'),
+    ('RT', 'Relationtype'),
+    ('MT', 'Metatype'),
+    ('AT', 'Attributetype'),
+   )
+
+DEPTYPE_CHOICES = (
+    ('0', 'Concept-Concept'),
+    ('1', 'Activity-Activity'),
+    ('2', 'Question-Question'),
+    ('3', 'Concept-Activity'),
+    ('4', 'Activity-Concept'),
+    ('5', 'Question-Concept'),
+    ('6', 'Concept-Question'),
+    ('7', 'Question-Activity'),
+    ('8', 'Activity-Question'),
+   )
+
+FIELD_TYPE_CHOICES = (
+    ('01', 'CharField'),    
+    ('02', 'TextField'),    
+    ('03', 'IntegerField'),    
+    ('04', 'CommaSeparatedIntegerField'),
+    ('05', 'BigIntegerField'),    
+    ('06', 'PositiveIntegerField'),    
+    ('07', 'DecimalField'),
+    ('08', 'FloatField'),
+    ('09', 'BooleanField'),
+    ('10', 'NullBooleanField'),
+    ('11', 'DateField'),
+    ('12', 'DateTimeField'),
+    ('13', 'TimeField'),    
+    ('14', 'EmailField'),
+    ('15', 'FileField'),
+    ('16', 'FilePathField'),
+    ('17', 'ImageField'),
+    ('18', 'URLField'),    
+    ('19', 'IPAddressField'),
+    )
+
+
+
+
+class Relationtype(AbstractType):
+    '''
+    Binary Relationtypes are defined in this table.
+    '''
+
+    subjecttypeLeft = models.ForeignKey(AbstractType,related_name="subjecttypeLeft_gbnodetype", verbose_name='left role')  
+    applicablenodetypes1 = models.CharField(max_length=2,choices=NODETYPE_CHOICES,default='OT', verbose_name='Node types for left role')
+    cardinalityLeft = models.IntegerField(null=True, blank=True, verbose_name='cardinality for the left role')
+    subjecttypeRight = models.ForeignKey(AbstractType,related_name="subjecttypeRight_gbnodetype", verbose_name='right role')  
+    applicablenodetypes2 = models.CharField(max_length=2,choices=NODETYPE_CHOICES,default='OT', verbose_name='Node types for right role')
+    cardinalityRight = models.IntegerField(null=True, blank=True, verbose_name='cardinality for the right role')
+    isSymmetrical = models.NullBooleanField(verbose_name='Is symmetrical?')
+    isReflexive = models.NullBooleanField(verbose_name='Is reflexive?')
+    isTransitive = models.NullBooleanField(verbose_name='Is transitive?')
+   
+
+    def __unicode__(self):
+        return self.title
+
+class Attributetype(AbstractType):
+    '''
+    datatype properties
+    '''
+    subjecttype = models.ForeignKey(AbstractType, related_name="subjecttype_GbnodeType") 
+    applicablenodetypes = models.CharField(max_length=2,choices=NODETYPE_CHOICES,default='OT')
+    dataType = models.CharField(max_length=2, choices=FIELD_TYPE_CHOICES,default='01')
+
+    def __unicode__(self):
+        return self.title
+
+    
+class Relation(models.Model):
+    '''
+    other defined relations. subject1 and subject2 can be any of the
+    nodetypes except relations for now.
+    '''
+
+    subject1Scope = models.CharField(max_length=50, verbose_name='subject scope', null=True, blank=True)
+    subject1 = models.ForeignKey(AbstractNode, related_name="subject1_gbnode", verbose_name='subject name') 
+    relationTypeScope = models.CharField(max_length=50, verbose_name='relation scope', null=True, blank=True)
+    relationtype = models.ForeignKey(Relationtype, verbose_name='relation name')
+    objectScope = models.CharField(max_length=50, verbose_name='object scope', null=True, blank=True)
+    subject2 = models.ForeignKey(AbstractNode, related_name="subject2_gbnode", verbose_name='object name') 
+    title = models.CharField(_('title'), max_length=255)
+
+    class Meta:
+        unique_together = (('subject1Scope', 'subject1', 'relationTypeScope', 'relationtype', 'objectScope', 'subject2'),)
+
+    def __unicode__(self):
+        return self.composed_sentence
+
+    def _get_sentence(self):
+        "composes the relation as a sentence in a triple format."
+        return '%s %s %s %s %s %s' % (self.subject1Scope, self.subject1, self.relationTypeScope, self.relationtype, self.objectScope, self.subject2)
+    composed_sentence = property(_get_sentence)
+
+class Attribute(models.Model):
+    '''
+    Attribute value store for default datatype varchar. Subject can be any of the
+    nodetypes. 
+    '''
+
+    subjectScope = models.CharField(max_length=50, verbose_name='subject scope', null=True, blank=True)
+    subject = models.ForeignKey(AbstractNode, related_name="subject_gbnode", verbose_name='subject name') 
+    attributeTypeScope = models.CharField(max_length=50, verbose_name='property scope', null=True, blank=True)
+    attributeType = models.ForeignKey(Attributetype, verbose_name='property name')
+    valueScope = models.CharField(max_length=50, verbose_name='value scope', null=True, blank=True)
+    value  = models.CharField(max_length=100, verbose_name='value') 
+    title = models.CharField(_('title'), max_length=255)
+    
+    class Meta:
+        unique_together = (('subjectScope', 'subject', 'attributeTypeScope', 'attributeType', 'valueScope', 'value'),)
+
+    def __unicode__(self):
+        return self.composed_sentence
+
+    def _get_sentence(self):
+        '''
+        composes the attribution as a sentence in a triple format.
+        '''
+        return '%s %s has %s %s %s %s' % (self.subjectScope, self.subject, self.attributeTypeScope, self.attributeType, self.valueScope, self.value)
+    composed_sentence = property(_get_sentence)
+
+
 if not reversion.is_registered(Objecttype): 
     reversion.register(Objecttype, follow=["parent"])
 if not reversion.is_registered(Objecttype):
@@ -381,6 +523,26 @@ if not reversion.is_registered(Objecttype):
 if not reversion.is_registered(Objecttype):
     reversion.register(Objecttype, follow=["posteriornode"])
 
+if not reversion.is_registered(Relationtype): 
+    reversion.register(Relationtype, follow=["subjecttypeLeft"])
+if not reversion.is_registered(Relationtype): 
+    reversion.register(Relationtype, follow=["subjecttypeRight"])
+
+if not reversion.is_registered(Attributetype): 
+    reversion.register(Attributetype, follow=["subjecttype"])
+
+
+if not reversion.is_registered(Attribute): 
+    reversion.register(Attribute, follow=["subject"])
+if not reversion.is_registered(Attribute): 
+    reversion.register(Attribute, follow=["attributetype"])
+
+if not reversion.is_registered(Relation): 
+    reversion.register(Relation, follow=["subject1"])
+if not reversion.is_registered(Relation): 
+    reversion.register(Relation, follow=["subject2"])
+if not reversion.is_registered(Relation): 
+    reversion.register(Relation, follow=["relationtype"])
 
 
 moderator.register(Objecttype, ObjecttypeCommentModerator)
