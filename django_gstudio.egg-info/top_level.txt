@@ -1,1 +1,4 @@
 gstudio
+attributeapp
+relationapp
+objectapp

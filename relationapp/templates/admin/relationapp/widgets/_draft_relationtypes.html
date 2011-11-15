@@ -1,0 +1,37 @@
+{% load i18n relationapp_tags %}
+
+{% for relationtype in relationtypes %}
+<tr>
+  <th>
+    <a href="{% url admin:relationapp_relationtype_change relationtype.pk %}"
+       title="{% trans "Edit the relationtype" %}">
+      {{ relationtype.title }}
+    </a>
+    {% trans "on" %}
+    <abbr>{{ relationtype.creation_date|date:"DATE_FORMAT" }}</abbr>
+    {{ relationtype.html_content|truncatewords_html:20|safe }}
+  </th>
+  <td>
+    <a href="{{ relationtype.get_absolute_url }}" class="previewlink">
+      {% trans "Preview" %}
+    </a>
+  </td>
+</tr>
+{% empty %}
+<tr>
+  <th colspan="2">
+    {% trans "No draft relationtypes." %}
+  </th>
+</tr>
+{% endfor %}
+
+{% if relationtypes %}
+<tr>
+  <th colspan="2">
+    <a href="{% url admin:relationapp_relationtype_changelist %}?status__exact=0"
+       title="{% trans "View all draft relationtypes" %}" class="managelink">
+      {% trans "View all draft relationtypes" %}
+    </a>
+  </th>
+</tr>
+{% endif %}

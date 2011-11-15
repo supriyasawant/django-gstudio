@@ -14,6 +14,7 @@ from django.core.urlresolvers import reverse, NoReverseMatch
 
 from tagging.models import Tag
 
+import reversion
 from gstudio import settings
 from gstudio.managers import HIDDEN
 from gstudio.managers import PUBLISHED
@@ -21,12 +22,16 @@ from gstudio.ping import DirectoryPinger
 from gstudio.admin.forms import ObjecttypeAdminForm
 
 
-class ObjecttypeAdmin(admin.ModelAdmin):
+
+
+class ObjecttypeAdmin(reversion.VersionAdmin):
     """Admin for Objecttype model"""
     form = ObjecttypeAdminForm
     date_hierarchy = 'creation_date'
     fieldsets = ((_('Content'), {'fields': ('title', 'content', 'parent',
                                             'image', 'status')}),
+                 (_('Dependency'), {'fields': ('priornode', 'posteriornode',), 
+                                 'classes': ('collapse', 'collapse-closed')}),
                  (_('Options'), {'fields': ('featured', 'excerpt', 'template',
                                             'related', 'authors',
                                             'creation_date',

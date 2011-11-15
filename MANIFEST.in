@@ -2,13 +2,31 @@ include README.rst
 include LICENSE.txt
 include buildout.cfg
 include bootstrap.py
-recursive-include docs *
+#recursive-include docs *
 recursive-include patches *
 recursive-include gstudio/fixtures *.json
 recursive-include gstudio/locale *
 recursive-include gstudio/static *
 recursive-include gstudio/templates *.txt *.html *.xml *.js
-prune docs/api
-prune docs/build
-prune docs/coverage
+
+recursive-include objectapp/fixtures *.json
+recursive-include objectapp/locale *
+recursive-include objectapp/static *
+recursive-include objectapp/templates *.txt *.html *.xml *.js
+
+recursive-include relationapp/fixtures *.json
+recursive-include relationapp/locale *
+recursive-include relationapp/static *
+recursive-include relationapp/templates *.txt *.html *.xml *.js
+
+recursive-include attributeapp/fixtures *.json
+recursive-include attributeapp/locale *
+recursive-include attributeapp/static *
+recursive-include attributeapp/templates *.txt *.html *.xml *.js
+
+#prune docs/api
+#prune docs/build
+#prune docs/coverage
 prune gstudio/static/gstudio/css/.sass-cache
+prune gstudio/static/attributeapp/css/.sass-cache
+prune gstudio/static/relationapp/css/.sass-cache

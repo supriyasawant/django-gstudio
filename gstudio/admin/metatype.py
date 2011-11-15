@@ -4,9 +4,9 @@ from django.core.urlresolvers import NoReverseMatch
 from django.utils.translation import ugettext_lazy as _
 
 from gstudio.admin.forms import MetatypeAdminForm
+import reversion
 
-
-class MetatypeAdmin(admin.ModelAdmin):
+class MetatypeAdmin(reversion.VersionAdmin):
     """Admin for Metatype model"""
     form = MetatypeAdminForm
     fields = ('title', 'parent', 'description', 'slug')

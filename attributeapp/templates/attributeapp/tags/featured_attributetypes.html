@@ -1,0 +1,12 @@
+{% load i18n %}
+<ul>
+  {% for attributetype in attributetypes %}
+  <li>
+    <a href="{{ attributetype.get_absolute_url }}" title="{{ attributetype.title }}" rel="bookmark">{{ attributetype.title }}</a>
+  </li>
+  {% empty %}
+  <li>
+    {% trans "No attributetypes yet." %}
+  </li>
+  {% endfor %}
+</ul>

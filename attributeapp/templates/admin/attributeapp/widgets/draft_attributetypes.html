@@ -1,0 +1,12 @@
+{% extends "admin/attributeapp/widgets/base.html" %}
+{% load i18n attributeapp_admin_tags %}
+
+{% block module_id %}drafts{% endblock %}
+
+{% block summary %}{% trans "Draft attributetypes" %}{% endblock %}
+{% block title %}{% trans "Draft attributetypes" %}{% endblock %}
+
+{% block content %}
+  {% get_draft_attributetypes %}
+{% endblock %}
+

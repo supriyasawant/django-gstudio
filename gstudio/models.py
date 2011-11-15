@@ -36,6 +36,50 @@ from gstudio.moderator import ObjecttypeCommentModerator
 from gstudio.url_shortener import get_url_shortener
 from gstudio.signals import ping_directories_handler
 from gstudio.signals import ping_external_urls_handler
+import reversion
+
+NODETYPE_CHOICES = (
+    ('OT', 'Gbobjecttypes'),
+    ('RT', 'Gbrelationtypes'),
+    ('MT', 'Gbmetatypes'),
+    ('AT', 'Gbattributetypes'),
+   )
+
+DEPTYPE_CHOICES = (
+    ('0', 'Concept-Concept'),
+    ('1', 'Activity-Activity'),
+    ('2', 'Question-Question'),
+    ('3', 'Concept-Activity'),
+    ('4', 'Activity-Concept'),
+    ('5', 'Question-Concept'),
+    ('6', 'Concept-Question'),
+    ('7', 'Question-Activity'),
+    ('8', 'Activity-Question'),
+   )
+
+FIELD_TYPE_CHOICES = (
+    ('01', 'CharField'),    
+    ('02', 'TextField'),    
+    ('03', 'IntegerField'),    
+    ('04', 'CommaSeparatedIntegerField'),
+    ('05', 'BigIntegerField'),    
+    ('06', 'PositiveIntegerField'),    
+    ('07', 'DecimalField'),
+    ('08', 'FloatField'),
+    ('09', 'BooleanField'),
+    ('10', 'NullBooleanField'),
+    ('11', 'DateField'),
+    ('12', 'DateTimeField'),
+    ('13', 'TimeField'),    
+    ('14', 'EmailField'),
+    ('15', 'FileField'),
+    ('16', 'FilePathField'),
+    ('17', 'ImageField'),
+    ('18', 'URLField'),    
+    ('19', 'IPAddressField'),
+    )
+
+
 
 
 class Author(User):
@@ -127,6 +171,12 @@ class Objecttype(models.Model):
     parent = models.ForeignKey('self', null=True, blank=True,
                                verbose_name=_('has parent objecttype'),
                                related_name='subtypes')
+    priornode = models.ManyToManyField('self', null=True, blank=True,
+                               verbose_name=_('has prior nodes'),
+                               related_name='posteriors')
+    posteriornode = models.ManyToManyField('self', null=True, blank=True,
+                               verbose_name=_('has posterior nodes'),
+                               related_name='priornodes')
 
     image = models.ImageField(_('image'), upload_to=UPLOAD_TO,
                               blank=True, help_text=_('used for illustration'))
@@ -295,7 +345,7 @@ class Objecttype(models.Model):
         return nbh
 
     def __unicode__(self):
-        return self.composed_sentence
+        return self.title
 
     @property
     def memberof_sentence(self):
@@ -303,16 +353,23 @@ class Objecttype(models.Model):
         
         if self.metatypes.count:
             for each in self.metatypes.all():
-                return '%s is a member of %s' % (self.title, each)
-        return '%s not fully defined name, consider making it a member of a suitable metatype' % (self.title)
+                return '%s is a member of metatype %s' % (self.title, each)
+        return '%s is not a fully defined name, consider making it a member of a suitable metatype' % (self.title)
 
     @property
-    def sentence(self):
+    def subtypeof_sentence(self):
         "composes the relation as a sentence in triple format."
         if self.parent:
             return '%s is a subtype of %s' % (self.title, self.parent.tree_path)
         return '%s is a root node' % (self.title)
-    composed_sentence = property(sentence)
+    composed_sentence = property(subtypeof_sentence)
+
+    def subtypeof(self):
+        "retuns the parent objecttype."
+        if self.parent:
+            return '%s' % (self.parent.tree_path)
+        return None 
+
 
 
     @models.permalink
@@ -332,6 +389,20 @@ class Objecttype(models.Model):
         permissions = (('can_view_all', 'Can view all'),
                        ('can_change_author', 'Can change author'), )
 
+if not reversion.is_registered(Objecttype): 
+    reversion.register(Objecttype, follow=["parent"])
+if not reversion.is_registered(Objecttype):
+    reversion.register(Objecttype, follow=["metatypes"])
+
+if not reversion.is_registered(Metatype):
+    reversion.register(Metatype, follow=["parent"])
+
+if not reversion.is_registered(Objecttype):
+    reversion.register(Objecttype, follow=["priornode"])
+if not reversion.is_registered(Objecttype):
+    reversion.register(Objecttype, follow=["posteriornode"])
+
+
 
 moderator.register(Objecttype, ObjecttypeCommentModerator)
 mptt.register(Metatype, order_insertion_by=['title'])
@@ -340,3 +411,4 @@ post_save.connect(ping_directories_handler, sender=Objecttype,
                   dispatch_uid='gstudio.objecttype.post_save.ping_directories')
 post_save.connect(ping_external_urls_handler, sender=Objecttype,
                   dispatch_uid='gstudio.objecttype.post_save.ping_external_urls')
+

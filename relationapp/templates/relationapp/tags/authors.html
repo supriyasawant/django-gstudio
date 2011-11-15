@@ -1,0 +1,15 @@
+{% load i18n %}
+
+<ul>
+  {% for author in authors %}
+  <li class="vcard">
+    <a href="{% url relationapp_author_detail author.username %}"
+       title="{{ author.username }}" class="fn nickname url">{{ author.username }}</a>
+    {% blocktrans count author.relationtypes_published.count as relationtype_count %}{{ relationtype_count }} relationtype{% plural %}{{ relationtype_count }} relationtypes{% endblocktrans %}
+  </li>
+  {% empty %}
+  <li>
+    {% trans "No authors yet." %}
+  </li>
+  {% endfor %}
+</ul>

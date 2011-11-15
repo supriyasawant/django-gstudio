@@ -1,0 +1,27 @@
+{% extends "relationapp/base.html" %}
+{% load i18n %}
+
+{% block meta-description %}{% trans "Author list" %}{% endblock %}
+
+{% block title %}{% trans "Authors" %}{% endblock %}
+
+{% block content %}
+<h2>{% trans "Author list" %}</h2>
+<div>
+  <ul>
+    {% for object in object_list %}
+    <li class="vcard">
+      <a href="{% url relationapp_author_detail object.username %}"
+         title="{{ object.username }}" class="fn nickname url">
+        {{ object.username }}
+      </a>
+      {% blocktrans count object.relationtypes_published.count as relationtype_count %}{{ relationtype_count }} relationtype{% plural %}{{ relationtype_count }} relationtypes{% endblocktrans %}
+    </li>
+    {% empty %}
+    <li>
+      {% trans "No authors yet." %}
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %}

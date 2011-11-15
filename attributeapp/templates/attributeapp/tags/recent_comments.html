@@ -1,0 +1,20 @@
+{% load i18n %}
+
+<ul>
+  {% for comment in comments %}
+  <li>
+    {% with comment.content_object as attributetype %}
+    {{ comment.user_name }} {% trans "on" %}
+    <a href="{{ attributetype.get_absolute_url }}#comment_{{ comment.pk }}" 
+       title="{% trans "Comment on" %} {{ attributetype.title }}">
+      {{ attributetype.title }}
+    </a>
+    {% endwith %}
+  </li>
+  {% empty %}
+  <li>
+    {% trans "No comments yet." %}
+  </li>  
+  {% endfor %}
+</ul>
+

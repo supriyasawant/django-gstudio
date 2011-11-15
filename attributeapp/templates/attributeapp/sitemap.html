@@ -1,0 +1,70 @@
+{% extends "attributeapp/base.html" %}
+{% load i18n attributeapp_tags mptt_tags %}
+
+{% block title %}{% trans "Sitemap" %}{% endblock %}
+
+{% block content %}
+<h2>{% trans "Sitemap" %}</h2>
+
+<div class="attributetypesbyattributes">
+  <h3>{% trans "Attributetypes per attributes" %}</h3>
+  {% for attribute in attributes %}
+  <h4>{{ attribute }}</h4>
+  <ul>
+    {% for attributetype in attribute.attributetypes_published.all %}
+    <li>
+      <a href="{{ attributetype.get_absolute_url }}" title="{{ attributetype.title }}" rel="bookmark">{{ attributetype.title }}</a>
+      {% with attributetype.comments.count as comment_count %}
+      - {{ comment_count }} {% trans "comment" %}{{ comment_count|pluralize }}
+      {% endwith %}
+    </li>
+    {% empty %}
+    <li>
+      {% trans "No attributetypes yet." %}
+    </li>
+    {% endfor %}
+  </ul>
+  {% endfor %}
+</div>
+
+<div class="allattributetypes">
+  <h3>{% trans "All the attributetypes" %}</h3>
+  <ul>
+    {% for attributetype in attributetypes %}
+    <li>
+      <a href="{{ attributetype.get_absolute_url }}" title="{{ attributetype.title }}" rel="bookmark">{{ attributetype.title }}</a>
+      - {{ attributetype.creation_date|date:"SHORT_DATE_FORMAT" }}
+      {% with attributetype.comments.count as comment_count %}
+      - {{ comment_count }} {% trans "comment" %}{{ comment_count|pluralize }}
+      {% endwith %}
+    </li>
+    {% empty %}
+    <li>
+      {% trans "No attributetypes yet." %}
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+
+<div class="attributes">
+  <h3>{% trans "Attributes" %}</h3>
+  {% for attribute, structure in attributes|tree_info %}
+    {% if structure.new_level %}<ul><li>{% else %}</li><li>{% endif %}
+      <a href="{{ attribute.get_absolute_url }}" title="{{ attribute.title }}">{{ attribute.title }}</a>
+      -
+      {% blocktrans count attribute.attributetypes_published.count as attributetype_count %}{{ attributetype_count }} attributetype{% plural %}{{ attributetype_count }} attributetypes{% endblocktrans %}
+    {% for level in structure.closed_levels %}</li></ul>{% endfor %}
+    {% empty %}
+  <ul>
+    <li>
+      {% trans "No attributes yet." %}
+    </li>
+  </ul>
+  {% endfor %}
+</div>
+
+<div class="montharchives">
+  <h3>{% trans "Monthly archives" %}</h3>
+  {% get_archives_attributetypes %}
+</div>
+{% endblock %}
