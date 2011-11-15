@@ -313,8 +313,8 @@ class Relationtype(models.Model):
     class Meta:
         """Relationtype's Meta"""
         ordering = ['-creation_date']
-        verbose_name = _('object type')
-        verbose_name_plural = _('object types')
+        verbose_name = _('relation type')
+        verbose_name_plural = _('relation types')
         permissions = (('can_view_all', 'Can view all'),
                        ('can_change_author', 'Can change author'), )
 

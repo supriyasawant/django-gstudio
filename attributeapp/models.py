@@ -313,8 +313,8 @@ class Attributetype(models.Model):
     class Meta:
         """Attributetype's Meta"""
         ordering = ['-creation_date']
-        verbose_name = _('object type')
-        verbose_name_plural = _('object types')
+        verbose_name = _('attribute type')
+        verbose_name_plural = _('attribute types')
         permissions = (('can_view_all', 'Can view all'),
                        ('can_change_author', 'Can change author'), )
 

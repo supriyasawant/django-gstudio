@@ -9,6 +9,6 @@ from gstudio.admin.metatype import MetatypeAdmin
 admin.site.register(Objecttype, ObjecttypeAdmin)
 admin.site.register(Metatype, MetatypeAdmin)
 
-# for reversion support in the  gstudio admin interface
+
 
 

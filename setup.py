@@ -35,5 +35,5 @@ setup(name='django-gstudio',
                         'django-tagging>=0.3.1',
                         'django-xmlrpc>=0.1.3',
                         'pyparsing>=1.5.5',
-                        'django-reversioin>=1.5.1',
+                        'django-reversion>=1.5.1',
                         ])

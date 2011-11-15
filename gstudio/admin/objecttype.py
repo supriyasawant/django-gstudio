@@ -30,6 +30,8 @@ class ObjecttypeAdmin(reversion.VersionAdmin):
     date_hierarchy = 'creation_date'
     fieldsets = ((_('Content'), {'fields': ('title', 'content', 'parent',
                                             'image', 'status')}),
+                 (_('Dependency'), {'fields': ('priornode', 'posteriornode',), 
+                                 'classes': ('collapse', 'collapse-closed')}),
                  (_('Options'), {'fields': ('featured', 'excerpt', 'template',
                                             'related', 'authors',
                                             'creation_date',

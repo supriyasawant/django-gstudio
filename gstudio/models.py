@@ -38,6 +38,50 @@ from gstudio.signals import ping_directories_handler
 from gstudio.signals import ping_external_urls_handler
 import reversion
 
+NODETYPE_CHOICES = (
+    ('OT', 'Gbobjecttypes'),
+    ('RT', 'Gbrelationtypes'),
+    ('MT', 'Gbmetatypes'),
+    ('AT', 'Gbattributetypes'),
+   )
+
+DEPTYPE_CHOICES = (
+    ('0', 'Concept-Concept'),
+    ('1', 'Activity-Activity'),
+    ('2', 'Question-Question'),
+    ('3', 'Concept-Activity'),
+    ('4', 'Activity-Concept'),
+    ('5', 'Question-Concept'),
+    ('6', 'Concept-Question'),
+    ('7', 'Question-Activity'),
+    ('8', 'Activity-Question'),
+   )
+
+FIELD_TYPE_CHOICES = (
+    ('01', 'CharField'),    
+    ('02', 'TextField'),    
+    ('03', 'IntegerField'),    
+    ('04', 'CommaSeparatedIntegerField'),
+    ('05', 'BigIntegerField'),    
+    ('06', 'PositiveIntegerField'),    
+    ('07', 'DecimalField'),
+    ('08', 'FloatField'),
+    ('09', 'BooleanField'),
+    ('10', 'NullBooleanField'),
+    ('11', 'DateField'),
+    ('12', 'DateTimeField'),
+    ('13', 'TimeField'),    
+    ('14', 'EmailField'),
+    ('15', 'FileField'),
+    ('16', 'FilePathField'),
+    ('17', 'ImageField'),
+    ('18', 'URLField'),    
+    ('19', 'IPAddressField'),
+    )
+
+
+
+
 class Author(User):
     """Proxy Model around User"""
 
@@ -116,6 +160,12 @@ class Objecttype(models.Model):
     parent = models.ForeignKey('self', null=True, blank=True,
                                verbose_name=_('has parent objecttype'),
                                related_name='subtypes')
+    priornode = models.ManyToManyField('self', null=True, blank=True,
+                               verbose_name=_('has prior nodes'),
+                               related_name='posteriors')
+    posteriornode = models.ManyToManyField('self', null=True, blank=True,
+                               verbose_name=_('has posterior nodes'),
+                               related_name='priornodes')
 
     image = models.ImageField(_('image'), upload_to=UPLOAD_TO,
                               blank=True, help_text=_('used for illustration'))
@@ -325,6 +375,12 @@ if not reversion.is_registered(Objecttype):
 
 if not reversion.is_registered(Metatype):
     reversion.register(Metatype, follow=["parent"])
+
+if not reversion.is_registered(Objecttype):
+    reversion.register(Objecttype, follow=["priornode"])
+if not reversion.is_registered(Objecttype):
+    reversion.register(Objecttype, follow=["posteriornode"])
+
 
 
 moderator.register(Objecttype, ObjecttypeCommentModerator)
