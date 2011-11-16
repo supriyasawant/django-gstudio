@@ -7,6 +7,7 @@ from gstudio.models import Relationtype
 from gstudio.models import Attribute
 from gstudio.models import Attributetype
 
+
 from gstudio.admin.objecttype import ObjecttypeAdmin
 from gstudio.admin.metatype import MetatypeAdmin
 from gstudio.admin.relationtype import RelationtypeAdmin

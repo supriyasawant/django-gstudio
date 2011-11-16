@@ -58,15 +58,15 @@ DEPTYPE_CHOICES = (
    )
 
 FIELD_TYPE_CHOICES = (
-    ('01', 'CharField'),    
-    ('02', 'TextField'),    
-    ('03', 'IntegerField'),    
-    ('04', 'CommaSeparatedIntegerField'),
-    ('05', 'BigIntegerField'),    
-    ('06', 'PositiveIntegerField'),    
-    ('07', 'DecimalField'),
-    ('08', 'FloatField'),
-    ('09', 'BooleanField'),
+    ('1', 'CharField'),    
+    ('2', 'TextField'),    
+    ('3', 'IntegerField'),    
+    ('4', 'CommaSeparatedIntegerField'),
+    ('5', 'BigIntegerField'),    
+    ('6', 'PositiveIntegerField'),    
+    ('7', 'DecimalField'),
+    ('8', 'FloatField'),
+    ('9', 'BooleanField'),
     ('10', 'NullBooleanField'),
     ('11', 'DateField'),
     ('12', 'DateTimeField'),
@@ -99,28 +99,35 @@ class Author(User):
         proxy = True
 
 
-class AbstractNode(models.Model):
+class Node(models.Model):
 
     title = models.CharField(_('title'), max_length=255)
+
+    def __unicode__(self):
+        return self.title
+
     class Meta:
         abstract=False
 
 
     
-class AbstractType(AbstractNode):
+class Nodetype(Node):
+
+    def __unicode__(self):
+        return self.title
 
     class Meta:
         abstract=False
 
 
 
-class Metatype(AbstractType):
+class Metatype(Nodetype):
     """Metatype object for Objecttype"""
 
 
     slug = models.SlugField(help_text=_('used for publication'),
                             unique=True, max_length=255)
-    description = models.TextField(_('description'), blank=True)
+    description = models.TextField(_('description'), blank=True, null=True)
 
     parent = models.ForeignKey('self', null=True, blank=True,
                                verbose_name=_('parent metatype'),
@@ -161,13 +168,13 @@ class Metatype(AbstractType):
         verbose_name_plural = _('metatypes')
 
 
-class Objecttype(AbstractType):
+class Objecttype(Nodetype):
     """Model design publishing objecttypes"""
     STATUS_CHOICES = ((DRAFT, _('draft')),
                       (HIDDEN, _('hidden')),
                       (PUBLISHED, _('published')))
 
-    content = models.TextField(_('content'))
+    content = models.TextField(_('content'), blank=True, null=True)
     parent = models.ForeignKey('self', null=True, blank=True,
                                verbose_name=_('has parent objecttype'),
                                related_name='subtypes')
@@ -381,60 +388,15 @@ class Objecttype(AbstractType):
 
 
 
-
-NODETYPE_CHOICES = (
-    ('OT', 'Objecttype'),
-    ('RT', 'Relationtype'),
-    ('MT', 'Metatype'),
-    ('AT', 'Attributetype'),
-   )
-
-DEPTYPE_CHOICES = (
-    ('0', 'Concept-Concept'),
-    ('1', 'Activity-Activity'),
-    ('2', 'Question-Question'),
-    ('3', 'Concept-Activity'),
-    ('4', 'Activity-Concept'),
-    ('5', 'Question-Concept'),
-    ('6', 'Concept-Question'),
-    ('7', 'Question-Activity'),
-    ('8', 'Activity-Question'),
-   )
-
-FIELD_TYPE_CHOICES = (
-    ('01', 'CharField'),    
-    ('02', 'TextField'),    
-    ('03', 'IntegerField'),    
-    ('04', 'CommaSeparatedIntegerField'),
-    ('05', 'BigIntegerField'),    
-    ('06', 'PositiveIntegerField'),    
-    ('07', 'DecimalField'),
-    ('08', 'FloatField'),
-    ('09', 'BooleanField'),
-    ('10', 'NullBooleanField'),
-    ('11', 'DateField'),
-    ('12', 'DateTimeField'),
-    ('13', 'TimeField'),    
-    ('14', 'EmailField'),
-    ('15', 'FileField'),
-    ('16', 'FilePathField'),
-    ('17', 'ImageField'),
-    ('18', 'URLField'),    
-    ('19', 'IPAddressField'),
-    )
-
-
-
-
-class Relationtype(AbstractType):
+class Relationtype(Nodetype):
     '''
     Binary Relationtypes are defined in this table.
     '''
 
-    subjecttypeLeft = models.ForeignKey(AbstractType,related_name="subjecttypeLeft_gbnodetype", verbose_name='left role')  
+    subjecttypeLeft = models.ForeignKey(Nodetype,related_name="subjecttypeLeft_gbnodetype", verbose_name='left role')  
     applicablenodetypes1 = models.CharField(max_length=2,choices=NODETYPE_CHOICES,default='OT', verbose_name='Node types for left role')
     cardinalityLeft = models.IntegerField(null=True, blank=True, verbose_name='cardinality for the left role')
-    subjecttypeRight = models.ForeignKey(AbstractType,related_name="subjecttypeRight_gbnodetype", verbose_name='right role')  
+    subjecttypeRight = models.ForeignKey(Nodetype,related_name="subjecttypeRight_gbnodetype", verbose_name='right role')  
     applicablenodetypes2 = models.CharField(max_length=2,choices=NODETYPE_CHOICES,default='OT', verbose_name='Node types for right role')
     cardinalityRight = models.IntegerField(null=True, blank=True, verbose_name='cardinality for the right role')
     isSymmetrical = models.NullBooleanField(verbose_name='Is symmetrical?')
@@ -445,11 +407,11 @@ class Relationtype(AbstractType):
     def __unicode__(self):
         return self.title
 
-class Attributetype(AbstractType):
+class Attributetype(Nodetype):
     '''
     datatype properties
     '''
-    subjecttype = models.ForeignKey(AbstractType, related_name="subjecttype_GbnodeType") 
+    subjecttype = models.ForeignKey(Nodetype, related_name="subjecttype_GbnodeType") 
     applicablenodetypes = models.CharField(max_length=2,choices=NODETYPE_CHOICES,default='OT')
     dataType = models.CharField(max_length=2, choices=FIELD_TYPE_CHOICES,default='01')
 
@@ -464,11 +426,11 @@ class Relation(models.Model):
     '''
 
     subject1Scope = models.CharField(max_length=50, verbose_name='subject scope', null=True, blank=True)
-    subject1 = models.ForeignKey(AbstractNode, related_name="subject1_gbnode", verbose_name='subject name') 
+    subject1 = models.ForeignKey(Node, related_name="subject1_gbnode", verbose_name='subject name') 
     relationTypeScope = models.CharField(max_length=50, verbose_name='relation scope', null=True, blank=True)
     relationtype = models.ForeignKey(Relationtype, verbose_name='relation name')
     objectScope = models.CharField(max_length=50, verbose_name='object scope', null=True, blank=True)
-    subject2 = models.ForeignKey(AbstractNode, related_name="subject2_gbnode", verbose_name='object name') 
+    subject2 = models.ForeignKey(Node, related_name="subject2_gbnode", verbose_name='object name') 
     title = models.CharField(_('title'), max_length=255)
 
     class Meta:
@@ -489,7 +451,7 @@ class Attribute(models.Model):
     '''
 
     subjectScope = models.CharField(max_length=50, verbose_name='subject scope', null=True, blank=True)
-    subject = models.ForeignKey(AbstractNode, related_name="subject_gbnode", verbose_name='subject name') 
+    subject = models.ForeignKey(Node, related_name="subject_gbnode", verbose_name='subject name') 
     attributeTypeScope = models.CharField(max_length=50, verbose_name='property scope', null=True, blank=True)
     attributeType = models.ForeignKey(Attributetype, verbose_name='property name')
     valueScope = models.CharField(max_length=50, verbose_name='value scope', null=True, blank=True)
@@ -509,7 +471,8 @@ class Attribute(models.Model):
         return '%s %s has %s %s %s %s' % (self.subjectScope, self.subject, self.attributeTypeScope, self.attributeType, self.valueScope, self.value)
     composed_sentence = property(_get_sentence)
 
-
+reversion.register(Node)
+reversion.register(Nodetype)
 if not reversion.is_registered(Objecttype): 
     reversion.register(Objecttype, follow=["parent"])
 if not reversion.is_registered(Objecttype):

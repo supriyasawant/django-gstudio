@@ -1,8 +1,0 @@
-{% load i18n %}
-{% for relationtype in relationtypes %}
-  {% with object=relationtype object_content=relationtype.html_content|truncatewords_html:100|safe %}
-  {% include "relationapp/_relationtype_detail.html" %}
-  {% endwith %}
-{% empty %}
-  <p class="notice">{% trans "No object types yet." %}</p>
-{% endfor %}

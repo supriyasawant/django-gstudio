@@ -9,6 +9,6 @@ from objectapp.admin.objecttype import ObjecttypeAdmin
 admin.site.register(GBObject, GBObjectAdmin)
 
 
-# for reversion support in the  objectapp admin interface
+
 
 
