@@ -118,18 +118,29 @@ class Metatype(models.Model):
         """Return only the objecttypes published"""
         return objecttypes_published(self.objecttypes)
 
-<<<<<<< HEAD
+
+
+    @property
     def get_nbh(self):
         """ Returns the neighbourhood of the metatype """
         nbh = {}
         nbh['title'] = self.title
-        nbh['description'] = self.description
+        nbh['content'] = self.content
         nbh['parent'] = self.parent
-        return nbh
+        nbh['related'] = self.related.values_list()
+        nbh['children'] = []
         
-=======
-            
->>>>>>> upstream/master
+        # generate ids and names of children/members
+        for obj in self.children.get_query_set():  
+            nbh['children'].append({str(obj.id):str(obj.title)})
+
+        nbh['members'] = []
+        for obj in self.objecttypes.all():
+            nbh['members'].append({str(obj.id):str(obj.title)})
+
+        return nbh
+
+                  
     @property
     def tree_path(self):
         """Return metatype's tree path, by its ancestors"""
@@ -333,16 +344,6 @@ class Objecttype(models.Model):
     def short_url(self):
         """Return the objecttype's short url"""
         return get_url_shortener()(self)
-
-    @property
-    def get_nbh(self):
-        """ Returns the neighbourhood of the metatype """
-        nbh = {}
-        nbh['title'] = self.title
-        nbh['content'] = self.content
-        nbh['parent'] = self.parent
-        nbh['related'] = self.related.values_list()
-        return nbh
 
     def __unicode__(self):
         return self.title
