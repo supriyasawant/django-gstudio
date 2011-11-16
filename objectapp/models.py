@@ -23,7 +23,7 @@ import mptt
 from tagging.fields import TagField
 
 from gstudio.models import Objecttype
-from gstudio.models import AbstractNode
+from gstudio.models import Node
 from objectapp.settings import UPLOAD_TO
 from objectapp.settings import MARKUP_LANGUAGE
 from objectapp.settings import GBOBJECT_TEMPLATES
@@ -59,13 +59,13 @@ class Author(User):
         """Author's Meta"""
         proxy = True
 
-class GBObject(AbstractNode):
+class GBObject(Node):
     """Model design publishing gbobjects"""
     STATUS_CHOICES = ((DRAFT, _('draft')),
                       (HIDDEN, _('hidden')),
                       (PUBLISHED, _('published')))
 
-    content = models.TextField(_('content'))
+    content = models.TextField(_('content'), blank=True, null=True)
 
     image = models.ImageField(_('image'), upload_to=UPLOAD_TO,
                               blank=True, help_text=_('used for illustration'))
@@ -77,8 +77,6 @@ class GBObject(AbstractNode):
     objecttypes = models.ManyToManyField(Objecttype, verbose_name=_('objecttypes'),
                                         related_name='gbobjects',
                                         blank=True, null=True)
-    related = models.ManyToManyField('self', verbose_name=_('related gbobjects'),
-                                     blank=True, null=True)
 
     slug = models.SlugField(help_text=_('used for publication'),
                             unique_for_date='creation_date',
@@ -247,7 +245,7 @@ if not reversion.is_registered(GBObject):
 
 moderator.register(GBObject, GBObjectCommentModerator)
 
-mptt.register(GBObject, order_insertion_by=['title'])
+
 post_save.connect(ping_directories_handler, sender=GBObject,
                   dispatch_uid='objectapp.gbobject.post_save.ping_directories')
 post_save.connect(ping_external_urls_handler, sender=GBObject,

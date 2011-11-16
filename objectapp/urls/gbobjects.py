@@ -13,8 +13,7 @@ gbobject_conf_index = {'paginate_by': PAGINATION,
 gbobject_conf = {'date_field': 'creation_date',
                    'allow_empty': ALLOW_EMPTY,
                    'allow_future': ALLOW_FUTURE,
-                   'month_format': '%m',
-                   'queryset': GBObject.tree.all()}
+                   'month_format': '%m'}
 
 objecttype_conf = {}
 

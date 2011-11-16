@@ -22,8 +22,6 @@ from objectapp.ping import DirectoryPinger
 from objectapp.admin.forms import GBObjectAdminForm
 
 
-
-
 class GBObjectAdmin(reversion.VersionAdmin):
     """Admin for GBObject model"""
     form = GBObjectAdminForm
@@ -31,7 +29,7 @@ class GBObjectAdmin(reversion.VersionAdmin):
     fieldsets = ((_('Content'), {'fields': ('title', 'content',
                                             'image', 'status')}),
                  (_('Options'), {'fields': ('featured', 'excerpt', 'template',
-                                            'related', 'authors',
+                                             'authors',
                                             'creation_date',
                                             'start_publication',
                                             'end_publication'),
@@ -52,7 +50,7 @@ class GBObjectAdmin(reversion.VersionAdmin):
                     'get_is_actual', 'get_is_visible', 'get_link',
                     'get_short_url', 'creation_date')
     radio_fields = {'template': admin.VERTICAL}
-    filter_horizontal = ('objecttypes', 'authors', 'related')
+    filter_horizontal = ('objecttypes', 'authors')
     prepopulated_fields = {'slug': ('title', )}
     search_fields = ('title', 'excerpt', 'content', 'tags')
     actions = ['make_mine', 'make_published', 'make_hidden',
