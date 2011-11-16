@@ -1,7 +1,6 @@
 """Models of Gstudio"""
 import warnings
 from datetime import datetime
-
 from django.db import models
 from django.db.models import Q
 from django.utils.html import strip_tags
@@ -58,15 +57,15 @@ DEPTYPE_CHOICES = (
    )
 
 FIELD_TYPE_CHOICES = (
-    ('01', 'CharField'),    
-    ('02', 'TextField'),    
-    ('03', 'IntegerField'),    
-    ('04', 'CommaSeparatedIntegerField'),
-    ('05', 'BigIntegerField'),    
-    ('06', 'PositiveIntegerField'),    
-    ('07', 'DecimalField'),
-    ('08', 'FloatField'),
-    ('09', 'BooleanField'),
+    ('1', 'CharField'),    
+    ('2', 'TextField'),    
+    ('3', 'IntegerField'),    
+    ('4', 'CommaSeparatedIntegerField'),
+    ('5', 'BigIntegerField'),    
+    ('6', 'PositiveIntegerField'),    
+    ('7', 'DecimalField'),
+    ('8', 'FloatField'),
+    ('9', 'BooleanField'),
     ('10', 'NullBooleanField'),
     ('11', 'DateField'),
     ('12', 'DateTimeField'),
@@ -400,52 +399,6 @@ class Objecttype(AbstractType):
         verbose_name_plural = _('object types')
         permissions = (('can_view_all', 'Can view all'),
                        ('can_change_author', 'Can change author'), )
-
-
-
-
-NODETYPE_CHOICES = (
-    ('OT', 'Objecttype'),
-    ('RT', 'Relationtype'),
-    ('MT', 'Metatype'),
-    ('AT', 'Attributetype'),
-   )
-
-DEPTYPE_CHOICES = (
-    ('0', 'Concept-Concept'),
-    ('1', 'Activity-Activity'),
-    ('2', 'Question-Question'),
-    ('3', 'Concept-Activity'),
-    ('4', 'Activity-Concept'),
-    ('5', 'Question-Concept'),
-    ('6', 'Concept-Question'),
-    ('7', 'Question-Activity'),
-    ('8', 'Activity-Question'),
-   )
-
-FIELD_TYPE_CHOICES = (
-    ('01', 'CharField'),    
-    ('02', 'TextField'),    
-    ('03', 'IntegerField'),    
-    ('04', 'CommaSeparatedIntegerField'),
-    ('05', 'BigIntegerField'),    
-    ('06', 'PositiveIntegerField'),    
-    ('07', 'DecimalField'),
-    ('08', 'FloatField'),
-    ('09', 'BooleanField'),
-    ('10', 'NullBooleanField'),
-    ('11', 'DateField'),
-    ('12', 'DateTimeField'),
-    ('13', 'TimeField'),    
-    ('14', 'EmailField'),
-    ('15', 'FileField'),
-    ('16', 'FilePathField'),
-    ('17', 'ImageField'),
-    ('18', 'URLField'),    
-    ('19', 'IPAddressField'),
-    )
-
-
 
 
 class Relationtype(AbstractType):
