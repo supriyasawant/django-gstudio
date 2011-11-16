@@ -8,9 +8,40 @@ from django.contrib.admin.widgets import RelatedFieldWidgetWrapper
 
 from gstudio.models import Objecttype
 from gstudio.models import Metatype
+from gstudio.models import Relationtype
+from gstudio.models import Relation
+from gstudio.models import Attributetype
+from gstudio.models import Attribute
 from gstudio.admin.widgets import TreeNodeChoiceField
 from gstudio.admin.widgets import MPTTFilteredSelectMultiple
 from gstudio.admin.widgets import MPTTModelMultipleChoiceField
+
+class RelationtypeAdminForm(forms.ModelForm):
+
+    class Meta:
+        """MetatypeAdminForm's Meta"""
+        model = Relationtype
+
+
+class RelationAdminForm(forms.ModelForm):
+
+    class Meta:
+        """MetatypeAdminForm's Meta"""
+        model = Relation
+
+
+class AttributetypeAdminForm(forms.ModelForm):
+
+    class Meta:
+        """MetatypeAdminForm's Meta"""
+        model = Attributetype
+
+
+class AttributeAdminForm(forms.ModelForm):
+
+    class Meta:
+        """MetatypeAdminForm's Meta"""
+        model = Attribute
 
 
 class MetatypeAdminForm(forms.ModelForm):
