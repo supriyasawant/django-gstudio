@@ -7,35 +7,35 @@ class Migration(SchemaMigration):
     def forwards(self, orm):
 
         # Changing field 'Objecttype.title'
-        db.alter_column('objectapp_objecttype', 'title', self.gf('django.db.models.fields.CharField')(max_length=255))
+        db.alter_column('objectapp_Objecttype', 'title', self.gf('django.db.models.fields.CharField')(max_length=255))
 
         # Changing field 'Objecttype.slug'
-        db.alter_column('objectapp_objecttype', 'slug', self.gf('django.db.models.fields.SlugField')(unique=True, max_length=255))
+        db.alter_column('objectapp_Objecttype', 'slug', self.gf('django.db.models.fields.SlugField')(unique=True, max_length=255))
 
         # Adding unique constraint on 'Objecttype', fields ['slug']
-        db.create_unique('objectapp_objecttype', ['slug'])
+        db.create_unique('objectapp_Objecttype', ['slug'])
 
-        # Changing field 'GBObject.title'
+        # Changing field 'Gbobject.title'
         db.alter_column('objectapp_gbobject', 'title', self.gf('django.db.models.fields.CharField')(max_length=255))
 
-        # Changing field 'GBObject.slug'
+        # Changing field 'Gbobject.slug'
         db.alter_column('objectapp_gbobject', 'slug', self.gf('django.db.models.fields.SlugField')(max_length=255))
 
     def backwards(self, orm):
 
         # Changing field 'Objecttype.title'
-        db.alter_column('objectapp_objecttype', 'title', self.gf('django.db.models.fields.CharField')(max_length=50))
+        db.alter_column('objectapp_Objecttype', 'title', self.gf('django.db.models.fields.CharField')(max_length=50))
 
         # Changing field 'Objecttype.slug'
-        db.alter_column('objectapp_objecttype', 'slug', self.gf('django.db.models.fields.SlugField')(max_length=50))
+        db.alter_column('objectapp_Objecttype', 'slug', self.gf('django.db.models.fields.SlugField')(max_length=50))
 
         # Removing unique constraint on 'Objecttype', fields ['slug']
-        db.delete_unique('objectapp_objecttype', ['slug'])
+        db.delete_unique('objectapp_Objecttype', ['slug'])
 
-        # Changing field 'GBObject.title'
+        # Changing field 'Gbobject.title'
         db.alter_column('objectapp_gbobject', 'title', self.gf('django.db.models.fields.CharField')(max_length=100))
 
-        # Changing field 'GBObject.slug'
+        # Changing field 'Gbobject.slug'
         db.alter_column('objectapp_gbobject', 'slug', self.gf('django.db.models.fields.SlugField')(max_length=50))
 
     models = {
@@ -81,7 +81,7 @@ class Migration(SchemaMigration):
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '50'})
         },
-        'objectapp.objecttype': {
+        'objectapp.Objecttype': {
             'Meta': {'object_name': 'Objecttype'},
             'description': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
@@ -89,7 +89,7 @@ class Migration(SchemaMigration):
             'title': ('django.db.models.fields.CharField', [], {'max_length': '255'})
         },
         'objectapp.gbobject': {
-            'Meta': {'object_name': 'GBObject'},
+            'Meta': {'object_name': 'Gbobject'},
             'authors': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['auth.User']", 'symmetrical': 'False', 'blank': 'True'}),
             'objecttypes': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['objectapp.Objecttype']", 'symmetrical': 'False'}),
             'comment_enabled': ('django.db.models.fields.BooleanField', [], {'default': 'True', 'blank': 'True'}),
@@ -101,7 +101,7 @@ class Migration(SchemaMigration):
             'image': ('django.db.models.fields.files.ImageField', [], {'max_length': '100', 'blank': 'True'}),
             'last_update': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
             'pingback_enabled': ('django.db.models.fields.BooleanField', [], {'default': 'True', 'blank': 'True'}),
-            'related': ('django.db.models.fields.related.ManyToManyField', [], {'blank': 'True', 'related_name': "'related_rel_+'", 'null': 'True', 'to': "orm['objectapp.GBObject']"}),
+            'related': ('django.db.models.fields.related.ManyToManyField', [], {'blank': 'True', 'related_name': "'related_rel_+'", 'null': 'True', 'to': "orm['objectapp.Gbobject']"}),
             'sites': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['sites.Site']", 'symmetrical': 'False'}),
             'slug': ('django.db.models.fields.SlugField', [], {'max_length': '255', 'db_index': 'True'}),
             'start_publication': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),

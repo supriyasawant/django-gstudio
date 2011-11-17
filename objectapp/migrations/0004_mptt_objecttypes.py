@@ -7,36 +7,36 @@ class Migration(SchemaMigration):
     def forwards(self, orm):
 
         # Adding field 'Objecttype.parent'
-        db.add_column('objectapp_objecttype', 'parent', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='children', null=True, to=orm['objectapp.Objecttype']), keep_default=False)
+        db.add_column('objectapp_Objecttype', 'parent', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='children', null=True, to=orm['objectapp.Objecttype']), keep_default=False)
 
         # Adding field 'Objecttype.lft'
-        db.add_column('objectapp_objecttype', 'lft', self.gf('django.db.models.fields.PositiveIntegerField')(default=0, db_index=True), keep_default=False)
+        db.add_column('objectapp_Objecttype', 'lft', self.gf('django.db.models.fields.PositiveIntegerField')(default=0, db_index=True), keep_default=False)
 
         # Adding field 'Objecttype.rght'
-        db.add_column('objectapp_objecttype', 'rght', self.gf('django.db.models.fields.PositiveIntegerField')(default=0, db_index=True), keep_default=False)
+        db.add_column('objectapp_Objecttype', 'rght', self.gf('django.db.models.fields.PositiveIntegerField')(default=0, db_index=True), keep_default=False)
 
         # Adding field 'Objecttype.tree_id'
-        db.add_column('objectapp_objecttype', 'tree_id', self.gf('django.db.models.fields.PositiveIntegerField')(default=0, db_index=True), keep_default=False)
+        db.add_column('objectapp_Objecttype', 'tree_id', self.gf('django.db.models.fields.PositiveIntegerField')(default=0, db_index=True), keep_default=False)
 
         # Adding field 'Objecttype.level'
-        db.add_column('objectapp_objecttype', 'level', self.gf('django.db.models.fields.PositiveIntegerField')(default=0, db_index=True), keep_default=False)
+        db.add_column('objectapp_Objecttype', 'level', self.gf('django.db.models.fields.PositiveIntegerField')(default=0, db_index=True), keep_default=False)
 
     def backwards(self, orm):
 
         # Deleting field 'Objecttype.parent'
-        db.delete_column('objectapp_objecttype', 'parent_id')
+        db.delete_column('objectapp_Objecttype', 'parent_id')
 
         # Deleting field 'Objecttype.lft'
-        db.delete_column('objectapp_objecttype', 'lft')
+        db.delete_column('objectapp_Objecttype', 'lft')
 
         # Deleting field 'Objecttype.rght'
-        db.delete_column('objectapp_objecttype', 'rght')
+        db.delete_column('objectapp_Objecttype', 'rght')
 
         # Deleting field 'Objecttype.tree_id'
-        db.delete_column('objectapp_objecttype', 'tree_id')
+        db.delete_column('objectapp_Objecttype', 'tree_id')
 
         # Deleting field 'Objecttype.level'
-        db.delete_column('objectapp_objecttype', 'level')
+        db.delete_column('objectapp_Objecttype', 'level')
 
     models = {
         'auth.group': {
@@ -81,7 +81,7 @@ class Migration(SchemaMigration):
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '50'})
         },
-        'objectapp.objecttype': {
+        'objectapp.Objecttype': {
             'Meta': {'object_name': 'Objecttype'},
             'description': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
@@ -94,7 +94,7 @@ class Migration(SchemaMigration):
             'tree_id': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'})
         },
         'objectapp.gbobject': {
-            'Meta': {'object_name': 'GBObject'},
+            'Meta': {'object_name': 'Gbobject'},
             'authors': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['auth.User']", 'symmetrical': 'False', 'blank': 'True'}),
             'objecttypes': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['objectapp.Objecttype']", 'symmetrical': 'False'}),
             'comment_enabled': ('django.db.models.fields.BooleanField', [], {'default': 'True', 'blank': 'True'}),
@@ -106,7 +106,7 @@ class Migration(SchemaMigration):
             'image': ('django.db.models.fields.files.ImageField', [], {'max_length': '100', 'blank': 'True'}),
             'last_update': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
             'pingback_enabled': ('django.db.models.fields.BooleanField', [], {'default': 'True', 'blank': 'True'}),
-            'related': ('django.db.models.fields.related.ManyToManyField', [], {'blank': 'True', 'related_name': "'related_rel_+'", 'null': 'True', 'to': "orm['objectapp.GBObject']"}),
+            'related': ('django.db.models.fields.related.ManyToManyField', [], {'blank': 'True', 'related_name': "'related_rel_+'", 'null': 'True', 'to': "orm['objectapp.Gbobject']"}),
             'sites': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['sites.Site']", 'symmetrical': 'False'}),
             'slug': ('django.db.models.fields.SlugField', [], {'max_length': '255', 'db_index': 'True'}),
             'start_publication': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),

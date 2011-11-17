@@ -3,21 +3,21 @@ from django.test import TestCase
 from django.contrib.auth.models import User
 
 from objectapp import settings
-from objectapp.models import GBObject
+from objectapp.models import Gbobject
 from objectapp.models import Objecttype
 
 
-class GBObjectAdminTestCase(TestCase):
-    """Test case for GBObject Admin"""
+class GbobjectAdminTestCase(TestCase):
+    """Test case for Gbobject Admin"""
     urls = 'objectapp.tests.urls'
 
     def setUp(self):
         self.original_wysiwyg = settings.WYSIWYG
         settings.WYSIWYG = None
         User.objects.create_superuser('admin', 'admin@example.com', 'password')
-        objecttype_1 = Objecttype.objects.create(title='Objecttype 1', slug='cat-1')
+        Objecttype_1 = Objecttype.objects.create(title='Objecttype 1', slug='cat-1')
         Objecttype.objects.create(title='Objecttype 2', slug='cat-2',
-                                parent=objecttype_1)
+                                parent=Objecttype_1)
 
         self.client.login(username='admin', password='password')
 
@@ -25,8 +25,8 @@ class GBObjectAdminTestCase(TestCase):
         settings.WYSIWYG = self.original_wysiwyg
 
     def test_gbobject_add_and_change(self):
-        """Test the insertion of an GBObject"""
-        self.assertEquals(GBObject.objects.count(), 0)
+        """Test the insertion of an Gbobject"""
+        self.assertEquals(Gbobject.objects.count(), 0)
         post_data = {'title': u'New gbobject',
                      'template': u'objectapp/gbobject_detail.html',
                      'creation_date_0': u'2011-01-01',
@@ -41,14 +41,14 @@ class GBObjectAdminTestCase(TestCase):
 
         response = self.client.post('/admin/objectapp/gbobject/add/', post_data)
         self.assertEquals(response.status_code, 200)
-        self.assertEquals(GBObject.objects.count(), 0)
+        self.assertEquals(Gbobject.objects.count(), 0)
 
         post_data.update({'slug': u'new-gbobject'})
         response = self.client.post('/admin/objectapp/gbobject/add/',
                                     post_data, follow=True)
         self.assertEquals(response.redirect_chain,
                           [('http://testserver/admin/objectapp/gbobject/', 302)])
-        self.assertEquals(GBObject.objects.count(), 1)
+        self.assertEquals(Gbobject.objects.count(), 1)
 
 
 class ObjecttypeAdminTestCase(TestCase):
@@ -59,28 +59,28 @@ class ObjecttypeAdminTestCase(TestCase):
         User.objects.create_superuser('admin', 'admin@example.com', 'password')
         self.client.login(username='admin', password='password')
 
-    def test_objecttype_add_and_change(self):
+    def test_Objecttype_add_and_change(self):
         """Test the insertion of a Objecttype, change error, and new insert"""
         self.assertEquals(Objecttype.objects.count(), 0)
-        post_data = {'title': u'New objecttype',
-                     'slug': u'new-objecttype'}
-        response = self.client.post('/admin/objectapp/objecttype/add/',
+        post_data = {'title': u'New Objecttype',
+                     'slug': u'new-Objecttype'}
+        response = self.client.post('/admin/objectapp/Objecttype/add/',
                                     post_data, follow=True)
         self.assertEquals(response.redirect_chain,
-                          [('http://testserver/admin/objectapp/objecttype/', 302)])
+                          [('http://testserver/admin/objectapp/Objecttype/', 302)])
         self.assertEquals(Objecttype.objects.count(), 1)
 
         post_data.update({'parent': u'1'})
-        response = self.client.post('/admin/objectapp/objecttype/1/', post_data)
+        response = self.client.post('/admin/objectapp/Objecttype/1/', post_data)
         self.assertEquals(response.status_code, 200)
 
-        response = self.client.post('/admin/objectapp/objecttype/add/', post_data)
+        response = self.client.post('/admin/objectapp/Objecttype/add/', post_data)
         self.assertEquals(response.status_code, 200)
         self.assertEquals(Objecttype.objects.count(), 1)
 
-        post_data.update({'slug': u'new-objecttype-2'})
-        response = self.client.post('/admin/objectapp/objecttype/add/',
+        post_data.update({'slug': u'new-Objecttype-2'})
+        response = self.client.post('/admin/objectapp/Objecttype/add/',
                                     post_data, follow=True)
         self.assertEquals(response.redirect_chain,
-                          [('http://testserver/admin/objectapp/objecttype/', 302)])
+                          [('http://testserver/admin/objectapp/Objecttype/', 302)])
         self.assertEquals(Objecttype.objects.count(), 2)

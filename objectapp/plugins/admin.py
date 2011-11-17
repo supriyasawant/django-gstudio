@@ -6,13 +6,13 @@ from django.utils.translation import ugettext_lazy as _
 from cms.plugin_rendering import render_placeholder
 from cms.admin.placeholderadmin import PlaceholderAdmin
 
-from objectapp.models import GBObject
-from objectapp.admin.gbobject import GBObjectAdmin
+from objectapp.models import Gbobject
+from objectapp.admin.gbobject import GbobjectAdmin
 from objectapp.settings import GBOBJECT_BASE_MODEL
 
 
-class GBObjectPlaceholderAdmin(PlaceholderAdmin, GBObjectAdmin):
-    """GBObjectPlaceholder Admin"""
+class GbobjectPlaceholderAdmin(PlaceholderAdmin, GbobjectAdmin):
+    """GbobjectPlaceholder Admin"""
     fieldsets = ((None, {'fields': ('title', 'image', 'status')}),
                  (_('Content'), {'fields': ('content_placeholder',),
                                  'classes': ('plugin-holder',
@@ -35,10 +35,10 @@ class GBObjectPlaceholderAdmin(PlaceholderAdmin, GBObjectAdmin):
         of the placeholder"""
         context = RequestContext(request)
         gbobject.content = render_placeholder(gbobject.content_placeholder, context)
-        super(GBObjectPlaceholderAdmin, self).save_model(
+        super(GbobjectPlaceholderAdmin, self).save_model(
             request, gbobject, form, change)
 
 
-if GBOBJECT_BASE_MODEL == 'objectapp.plugins.placeholder.GBObjectPlaceholder':
-    admin.site.unregister(GBObject)
-    admin.site.register(GBObject, GBObjectPlaceholderAdmin)
+if GBOBJECT_BASE_MODEL == 'objectapp.plugins.placeholder.GbobjectPlaceholder':
+    admin.site.unregister(Gbobject)
+    admin.site.register(Gbobject, GbobjectPlaceholderAdmin)

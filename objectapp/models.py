@@ -21,9 +21,10 @@ from django.contrib.markup.templatetags.markup import restructuredtext
 
 import mptt
 from tagging.fields import TagField
-
 from gstudio.models import Objecttype
 from gstudio.models import Node
+
+import reversion
 from objectapp.settings import UPLOAD_TO
 from objectapp.settings import MARKUP_LANGUAGE
 from objectapp.settings import GBOBJECT_TEMPLATES
@@ -31,14 +32,14 @@ from objectapp.settings import GBOBJECT_BASE_MODEL
 from objectapp.settings import MARKDOWN_EXTENSIONS
 from objectapp.settings import AUTO_CLOSE_COMMENTS_AFTER
 from objectapp.managers import gbobjects_published
-from objectapp.managers import GBObjectPublishedManager
+from objectapp.managers import GbobjectPublishedManager
 from objectapp.managers import AuthorPublishedManager
 from objectapp.managers import DRAFT, HIDDEN, PUBLISHED
-from objectapp.moderator import GBObjectCommentModerator
+from objectapp.moderator import GbobjectCommentModerator
 from objectapp.url_shortener import get_url_shortener
 from objectapp.signals import ping_directories_handler
 from objectapp.signals import ping_external_urls_handler
-import reversion
+
 
 class Author(User):
     """Proxy Model around User"""
@@ -59,17 +60,18 @@ class Author(User):
         """Author's Meta"""
         proxy = True
 
-class GBObject(Node):
-    """Model design publishing gbobjects"""
+
+
+
+class Gbobject(Node):
+    """Base Model design for publishing gbobjects"""
     STATUS_CHOICES = ((DRAFT, _('draft')),
                       (HIDDEN, _('hidden')),
                       (PUBLISHED, _('published')))
 
-    content = models.TextField(_('content'), blank=True, null=True)
-
     image = models.ImageField(_('image'), upload_to=UPLOAD_TO,
                               blank=True, help_text=_('used for illustration'))
-
+    content = models.TextField(_('content'))
     excerpt = models.TextField(_('excerpt'), blank=True,
                                 help_text=_('optional element'))
 
@@ -77,6 +79,8 @@ class GBObject(Node):
     objecttypes = models.ManyToManyField(Objecttype, verbose_name=_('objecttypes'),
                                         related_name='gbobjects',
                                         blank=True, null=True)
+    related = models.ManyToManyField('self', verbose_name=_('related gbobjects'),
+                                     blank=True, null=True)
 
     slug = models.SlugField(help_text=_('used for publication'),
                             unique_for_date='creation_date',
@@ -86,7 +90,6 @@ class GBObject(Node):
                                      related_name='gbobjects',
                                      blank=True, null=False)
     status = models.IntegerField(choices=STATUS_CHOICES, default=PUBLISHED)
-
     featured = models.BooleanField(_('featured'), default=False)
     comment_enabled = models.BooleanField(_('comment enabled'), default=True)
     pingback_enabled = models.BooleanField(_('linkback enabled'), default=True)
@@ -119,8 +122,7 @@ class GBObject(Node):
         help_text=_('template used to display the gbobject'))
 
     objects = models.Manager()
-    published = GBObjectPublishedManager()
-
+    published = GbobjectPublishedManager()
 
     @property
     def html_content(self):
@@ -135,11 +137,10 @@ class GBObject(Node):
             return linebreaks(self.content)
         return self.content
 
-
     @property
     def previous_gbobject(self):
         """Return the previous gbobject"""
-        gbobjects = GBObject.published.filter(
+        gbobjects = Gbobject.published.filter(
             creation_date__lt=self.creation_date)[:1]
         if gbobjects:
             return gbobjects[0]
@@ -147,7 +148,7 @@ class GBObject(Node):
     @property
     def next_gbobject(self):
         """Return the next gbobject"""
-        gbobjects = GBObject.published.filter(
+        gbobjects = Gbobject.published.filter(
             creation_date__gt=self.creation_date).order_by('creation_date')[:1]
         if gbobjects:
             return gbobjects[0]
@@ -209,17 +210,7 @@ class GBObject(Node):
         return get_url_shortener()(self)
 
     def __unicode__(self):
-        return self.title
-
-    @property
-    def memberof_sentence(self):
-        """Return the objecttype of which the gbobject is a member of"""
-        
-        if self.objecttypes.count:
-            for each in self.objecttypes.all():
-                return '%s is a member of objecttype %s' % (self.title, each)
-        return '%s is not a fully defined name, consider making it a member of a suitable objecttype' % (self.title)
-
+        return '%s: %s' % (self.title, self.get_status_display())
 
     @models.permalink
     def get_absolute_url(self):
@@ -231,7 +222,7 @@ class GBObject(Node):
             'slug': self.slug})
 
     class Meta:
-        """GBObject's Meta"""
+        """Gbobject's Meta"""
         ordering = ['-creation_date']
         verbose_name = _('object')
         verbose_name_plural = _('objects')
@@ -239,15 +230,15 @@ class GBObject(Node):
                        ('can_change_author', 'Can change author'), )
 
 
-if not reversion.is_registered(GBObject):
-    reversion.register(GBObject, follow=["objecttypes"])
 
-
-moderator.register(GBObject, GBObjectCommentModerator)
-
-
-post_save.connect(ping_directories_handler, sender=GBObject,
+moderator.register(Gbobject, GbobjectCommentModerator)
+mptt.register(Objecttype, order_insertion_by=['title'])
+post_save.connect(ping_directories_handler, sender=Gbobject,
                   dispatch_uid='objectapp.gbobject.post_save.ping_directories')
-post_save.connect(ping_external_urls_handler, sender=GBObject,
+post_save.connect(ping_external_urls_handler, sender=Gbobject,
                   dispatch_uid='objectapp.gbobject.post_save.ping_external_urls')
+
+
+if not reversion.is_registered(Gbobject): 
+    reversion.register(Gbobject, follow=["objecttypes"])
 

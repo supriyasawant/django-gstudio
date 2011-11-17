@@ -2,7 +2,7 @@
 from django.conf.urls.defaults import url
 from django.conf.urls.defaults import patterns
 
-from objectapp.models import GBObject
+from objectapp.models import Gbobject
 from objectapp.settings import PAGINATION
 from objectapp.settings import ALLOW_EMPTY
 from objectapp.settings import ALLOW_FUTURE
@@ -11,11 +11,9 @@ gbobject_conf_index = {'paginate_by': PAGINATION,
                     'template_name': 'objectapp/gbobject_archive.html'}
 
 gbobject_conf = {'date_field': 'creation_date',
-                   'allow_empty': ALLOW_EMPTY,
-                   'allow_future': ALLOW_FUTURE,
-                   'month_format': '%m'}
-
-objecttype_conf = {}
+              'allow_empty': ALLOW_EMPTY,
+              'allow_future': ALLOW_FUTURE,
+              'month_format': '%m'}
 
 gbobject_conf_year = gbobject_conf.copy()
 gbobject_conf_year['make_object_list'] = True
@@ -23,7 +21,7 @@ del gbobject_conf_year['month_format']
 
 gbobject_conf_detail = gbobject_conf.copy()
 del gbobject_conf_detail['allow_empty']
-gbobject_conf_detail['queryset'] = GBObject.published.on_site()
+gbobject_conf_detail['queryset'] = Gbobject.published.on_site()
 
 
 urlpatterns = patterns(

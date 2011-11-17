@@ -47,10 +47,10 @@ MODEL_BREADCRUMBS = {'Tag': lambda x: [Crumb(_('Tags'),
                                               reverse('objectapp_author_list')),
                                         Crumb(x.username)],
                      'Objecttype': lambda x: [Crumb(
-                         _('Objecttypes'), reverse('objectapp_objecttype_list'))] + \
+                         _('Objecttypes'), reverse('objectapp_Objecttype_list'))] + \
                      [Crumb(anc.title, anc.get_absolute_url())
                       for anc in x.get_ancestors()] + [Crumb(x.title)],
-                     'GBObject': lambda x: [year_crumb(x.creation_date),
+                     'Gbobject': lambda x: [year_crumb(x.creation_date),
                                          month_crumb(x.creation_date),
                                          day_crumb(x.creation_date),
                                          Crumb(x.title)]}

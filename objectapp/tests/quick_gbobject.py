@@ -3,11 +3,11 @@ from django.test import TestCase
 from django.contrib.auth.models import User
 
 from objectapp import settings
-from objectapp.models import GBObject
+from objectapp.models import Gbobject
 from objectapp.managers import DRAFT
 
 
-class QuickGBObjectTestCase(TestCase):
+class QuickGbobjectTestCase(TestCase):
     """Test cases for quick_gbobject view"""
     urls = 'objectapp.tests.urls'
 
@@ -46,7 +46,7 @@ class QuickGBObjectTestCase(TestCase):
                                     {'title': 'test', 'tags': 'test',
                                      'content': 'Test content',
                                      'save_draft': ''}, follow=True)
-        gbobject = GBObject.objects.get(title='test')
+        gbobject = Gbobject.objects.get(title='test')
         self.assertEquals(response.redirect_chain,
                           [('http://testserver%s' % gbobject.get_absolute_url(),
                             302)])

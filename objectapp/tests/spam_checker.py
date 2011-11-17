@@ -15,7 +15,7 @@ class SpamCheckerTestCase(TestCase):
         try:
             with warnings.catch_warnings(record=True) as w:
                 self.assertEquals(get_spam_checker('mymodule.myclass'), None)
-                self.assertTrue(issubclass(w[-1].objecttype, RuntimeWarning))
+                self.assertTrue(issubclass(w[-1].Objecttype, RuntimeWarning))
                 self.assertEquals(
                     str(w[-1].message),
                     'mymodule.myclass backend cannot be imported')
@@ -27,7 +27,7 @@ class SpamCheckerTestCase(TestCase):
             with warnings.catch_warnings(record=True) as w:
                 self.assertEquals(
                     get_spam_checker('objectapp.tests.custom_spam_checker'), None)
-                self.assertTrue(issubclass(w[-1].objecttype, RuntimeWarning))
+                self.assertTrue(issubclass(w[-1].Objecttype, RuntimeWarning))
                 self.assertEquals(
                     str(w[-1].message),
                     'This backend only exists for testing')

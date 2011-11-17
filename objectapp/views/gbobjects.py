@@ -7,26 +7,26 @@ from django.views.generic.date_based import archive_month
 from django.views.generic.date_based import archive_day
 from django.views.generic.date_based import object_detail
 
-from objectapp.models import GBObject
+from objectapp.models import Gbobject
 from objectapp.views.decorators import protect_gbobject
 from objectapp.views.decorators import update_queryset
 
 
-gbobject_index = update_queryset(object_list, GBObject.published.all)
+gbobject_index = update_queryset(object_list, Gbobject.published.all)
 
-gbobject_year = update_queryset(archive_year, GBObject.published.all)
+gbobject_year = update_queryset(archive_year, Gbobject.published.all)
 
-gbobject_month = update_queryset(archive_month, GBObject.published.all)
+gbobject_month = update_queryset(archive_month, Gbobject.published.all)
 
-gbobject_day = update_queryset(archive_day, GBObject.published.all)
+gbobject_day = update_queryset(archive_day, Gbobject.published.all)
 
 gbobject_detail = protect_gbobject(object_detail)
 
 
 def gbobject_shortlink(request, object_id):
     """
-    Redirect to the 'get_absolute_url' of an GBObject,
+    Redirect to the 'get_absolute_url' of an Gbobject,
     accordingly to 'object_id' argument
     """
-    gbobject = get_object_or_404(GBObject, pk=object_id)
+    gbobject = get_object_or_404(Gbobject, pk=object_id)
     return redirect(gbobject, permanent=True)

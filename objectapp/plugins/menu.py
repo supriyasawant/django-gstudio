@@ -7,23 +7,23 @@ from menus.base import NavigationNode
 from menus.menu_pool import menu_pool
 from cms.menu_bases import CMSAttachMenu
 
-from objectapp.models import GBObject
+from objectapp.models import Gbobject
 from objectapp.models import Author
 from objectapp.models import Objecttype
 from objectapp.managers import tags_published
 from objectapp.plugins.settings import HIDE_GBOBJECT_MENU
 
 
-class GBObjectMenu(CMSAttachMenu):
+class GbobjectMenu(CMSAttachMenu):
     """Menu for the gbobjects organized by archives dates"""
-    name = _('Objectapp GBObject Menu')
+    name = _('Objectapp Gbobject Menu')
 
     def get_nodes(self, request):
         """Return menu's node for gbobjects"""
         nodes = []
         archives = []
         attributes = {'hidden': HIDE_GBOBJECT_MENU}
-        for gbobject in GBObject.published.all():
+        for gbobject in Gbobject.published.all():
             year = gbobject.creation_date.strftime('%Y')
             month = gbobject.creation_date.strftime('%m')
             month_text = gbobject.creation_date.strftime('%b')
@@ -68,12 +68,12 @@ class ObjecttypeMenu(CMSAttachMenu):
         """Return menu's node for objecttypes"""
         nodes = []
         nodes.append(NavigationNode(_('Objecttypes'),
-                                    reverse('objectapp_objecttype_list'),
+                                    reverse('objectapp_Objecttype_list'),
                                     'objecttypes'))
-        for objecttype in Objecttype.objects.all():
-            nodes.append(NavigationNode(objecttype.title,
-                                        objecttype.get_absolute_url(),
-                                        objecttype.pk, 'objecttypes'))
+        for Objecttype in Objecttype.objects.all():
+            nodes.append(NavigationNode(Objecttype.title,
+                                        Objecttype.get_absolute_url(),
+                                        Objecttype.pk, 'objecttypes'))
         return nodes
 
 
@@ -112,9 +112,9 @@ class TagMenu(CMSAttachMenu):
         return nodes
 
 
-class GBObjectModifier(Modifier):
+class GbobjectModifier(Modifier):
     """Menu Modifier for gbobjects,
-    hide the MenuGBObject in navigation, not in breadcrumbs"""
+    hide the MenuGbobject in navigation, not in breadcrumbs"""
 
     def modify(self, request, nodes, namespace, root_id, post_cut, breadcrumb):
         """Modify nodes of a menu"""
@@ -126,8 +126,8 @@ class GBObjectModifier(Modifier):
         return nodes
 
 
-menu_pool.register_menu(GBObjectMenu)
+menu_pool.register_menu(GbobjectMenu)
 menu_pool.register_menu(ObjecttypeMenu)
 menu_pool.register_menu(AuthorMenu)
 menu_pool.register_menu(TagMenu)
-menu_pool.register_modifier(GBObjectModifier)
+menu_pool.register_modifier(GbobjectModifier)

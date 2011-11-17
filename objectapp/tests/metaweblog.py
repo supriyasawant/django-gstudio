@@ -10,7 +10,7 @@ from django.contrib.auth.models import User
 from django.contrib.sites.models import Site
 from django.core.files.storage import default_storage
 
-from objectapp.models import GBObject
+from objectapp.models import Gbobject
 from objectapp.models import Objecttype
 from objectapp.managers import DRAFT
 from objectapp.managers import PUBLISHED
@@ -37,14 +37,14 @@ class MetaWeblogTestCase(TestCase):
         self.site = Site.objects.get_current()
         self.objecttypes = [
             Objecttype.objects.create(title='Objecttype 1',
-                                    slug='objecttype-1'),
+                                    slug='Objecttype-1'),
             Objecttype.objects.create(title='Objecttype 2',
-                                    slug='objecttype-2')]
+                                    slug='Objecttype-2')]
         params = {'title': 'My gbobject 1', 'content': 'My content 1',
                   'tags': 'objectapp, test', 'slug': 'my-gbobject-1',
                   'creation_date': datetime(2010, 1, 1),
                   'status': PUBLISHED}
-        self.gbobject_1 = GBObject.objects.create(**params)
+        self.gbobject_1 = Gbobject.objects.create(**params)
         self.gbobject_1.authors.add(self.webmaster)
         self.gbobject_1.objecttypes.add(*self.objecttypes)
         self.gbobject_1.sites.add(self.site)
@@ -52,7 +52,7 @@ class MetaWeblogTestCase(TestCase):
         params = {'title': 'My gbobject 2', 'content': 'My content 2',
                   'creation_date': datetime(2010, 3, 15),
                   'tags': 'objectapp, test', 'slug': 'my-gbobject-2'}
-        self.gbobject_2 = GBObject.objects.create(**params)
+        self.gbobject_2 = Gbobject.objects.create(**params)
         self.gbobject_2.authors.add(self.webmaster)
         self.gbobject_2.objecttypes.add(self.objecttypes[0])
         self.gbobject_2.sites.add(self.site)
@@ -115,54 +115,54 @@ class MetaWeblogTestCase(TestCase):
         self.assertEquals(
             self.server.metaWeblog.getObjecttypes('apikey',
                                                  'webmaster', 'password'),
-            [{'rssUrl': 'http://example.com/feeds/objecttypes/objecttype-1/',
+            [{'rssUrl': 'http://example.com/feeds/objecttypes/Objecttype-1/',
               'description': 'Objecttype 1',
-              'htmlUrl': 'http://example.com/objecttypes/objecttype-1/',
-              'objecttypeId': 1, 'parentId': 0,
-              'objecttypeName': 'Objecttype 1',
-              'objecttypeDescription': ''},
-             {'rssUrl': 'http://example.com/feeds/objecttypes/objecttype-2/',
+              'htmlUrl': 'http://example.com/objecttypes/Objecttype-1/',
+              'ObjecttypeId': 1, 'parentId': 0,
+              'ObjecttypeName': 'Objecttype 1',
+              'ObjecttypeDescription': ''},
+             {'rssUrl': 'http://example.com/feeds/objecttypes/Objecttype-2/',
               'description': 'Objecttype 2',
-              'htmlUrl': 'http://example.com/objecttypes/objecttype-2/',
-              'objecttypeId': 2, 'parentId': 0,
-              'objecttypeName': 'Objecttype 2',
-              'objecttypeDescription': ''}])
+              'htmlUrl': 'http://example.com/objecttypes/Objecttype-2/',
+              'ObjecttypeId': 2, 'parentId': 0,
+              'ObjecttypeName': 'Objecttype 2',
+              'ObjecttypeDescription': ''}])
         self.objecttypes[1].parent = self.objecttypes[0]
-        self.objecttypes[1].description = 'objecttype 2 description'
+        self.objecttypes[1].description = 'Objecttype 2 description'
         self.objecttypes[1].save()
         self.assertEquals(
             self.server.metaWeblog.getObjecttypes('apikey',
                                                  'webmaster', 'password'),
-            [{'rssUrl': 'http://example.com/feeds/objecttypes/objecttype-1/',
+            [{'rssUrl': 'http://example.com/feeds/objecttypes/Objecttype-1/',
               'description': 'Objecttype 1',
-              'htmlUrl': 'http://example.com/objecttypes/objecttype-1/',
-              'objecttypeId': 1, 'parentId': 0,
-              'objecttypeName': 'Objecttype 1',
-              'objecttypeDescription': ''},
+              'htmlUrl': 'http://example.com/objecttypes/Objecttype-1/',
+              'ObjecttypeId': 1, 'parentId': 0,
+              'ObjecttypeName': 'Objecttype 1',
+              'ObjecttypeDescription': ''},
              {'rssUrl':
-              'http://example.com/feeds/objecttypes/objecttype-1/objecttype-2/',
+              'http://example.com/feeds/objecttypes/Objecttype-1/Objecttype-2/',
               'description': 'Objecttype 2',
               'htmlUrl':
-              'http://example.com/objecttypes/objecttype-1/objecttype-2/',
-              'objecttypeId': 2, 'parentId': 1,
-              'objecttypeName': 'Objecttype 2',
-              'objecttypeDescription': 'objecttype 2 description'}])
+              'http://example.com/objecttypes/Objecttype-1/Objecttype-2/',
+              'ObjecttypeId': 2, 'parentId': 1,
+              'ObjecttypeName': 'Objecttype 2',
+              'ObjecttypeDescription': 'Objecttype 2 description'}])
 
-    def test_new_objecttype(self):
-        objecttype_struct = {'name': 'Objecttype 3', 'slug': 'objecttype-3',
+    def test_new_Objecttype(self):
+        Objecttype_struct = {'name': 'Objecttype 3', 'slug': 'Objecttype-3',
                            'description': 'Objecttype 3 description',
                            'parent_id': self.objecttypes[0].pk}
         self.assertRaises(Fault, self.server.wp.newObjecttype,
-                          1, 'contributor', 'password', objecttype_struct)
+                          1, 'contributor', 'password', Objecttype_struct)
         self.assertEquals(Objecttype.objects.count(), 2)
-        new_objecttype_id = self.server.wp.newObjecttype(
-            1, 'webmaster', 'password', objecttype_struct)
+        new_Objecttype_id = self.server.wp.newObjecttype(
+            1, 'webmaster', 'password', Objecttype_struct)
         self.assertEquals(Objecttype.objects.count(), 3)
-        objecttype = Objecttype.objects.get(pk=new_objecttype_id)
-        self.assertEquals(objecttype.title, 'Objecttype 3')
-        self.assertEquals(objecttype.description, 'Objecttype 3 description')
-        self.assertEquals(objecttype.slug, 'objecttype-3')
-        self.assertEquals(objecttype.parent.pk, 1)
+        Objecttype = Objecttype.objects.get(pk=new_Objecttype_id)
+        self.assertEquals(Objecttype.title, 'Objecttype 3')
+        self.assertEquals(Objecttype.description, 'Objecttype 3 description')
+        self.assertEquals(Objecttype.slug, 'Objecttype-3')
+        self.assertEquals(Objecttype.parent.pk, 1)
 
     def test_get_recent_posts(self):
         self.assertRaises(Fault, self.server.metaWeblog.getRecentPosts,
@@ -173,11 +173,11 @@ class MetaWeblogTestCase(TestCase):
     def test_delete_post(self):
         self.assertRaises(Fault, self.server.blogger.deletePost,
                           'apikey', 1, 'contributor', 'password', 'publish')
-        self.assertEquals(GBObject.objects.count(), 2)
+        self.assertEquals(Gbobject.objects.count(), 2)
         self.assertTrue(
             self.server.blogger.deletePost(
             'apikey', self.gbobject_1.pk, 'webmaster', 'password', 'publish'))
-        self.assertEquals(GBObject.objects.count(), 1)
+        self.assertEquals(Gbobject.objects.count(), 1)
 
     def test_get_post(self):
         self.assertRaises(Fault, self.server.metaWeblog.getPost,
@@ -208,18 +208,18 @@ class MetaWeblogTestCase(TestCase):
         post = post_structure(self.gbobject_2, self.site)
         self.assertRaises(Fault, self.server.metaWeblog.newPost,
                           1, 'contributor', 'password', post, 1)
-        self.assertEquals(GBObject.objects.count(), 2)
-        self.assertEquals(GBObject.published.count(), 1)
+        self.assertEquals(Gbobject.objects.count(), 2)
+        self.assertEquals(Gbobject.published.count(), 1)
         self.server.metaWeblog.newPost(
             1, 'webmaster', 'password', post, 1)
-        self.assertEquals(GBObject.objects.count(), 3)
-        self.assertEquals(GBObject.published.count(), 2)
+        self.assertEquals(Gbobject.objects.count(), 3)
+        self.assertEquals(Gbobject.published.count(), 2)
         del post['dateCreated']
         post['wp_author_id'] = self.contributor.pk
         self.server.metaWeblog.newPost(
             1, 'webmaster', 'password', post, 0)
-        self.assertEquals(GBObject.objects.count(), 4)
-        self.assertEquals(GBObject.published.count(), 2)
+        self.assertEquals(Gbobject.objects.count(), 4)
+        self.assertEquals(Gbobject.published.count(), 2)
 
     def test_edit_post(self):
         post = post_structure(self.gbobject_2, self.site)
@@ -228,7 +228,7 @@ class MetaWeblogTestCase(TestCase):
         new_post_id = self.server.metaWeblog.newPost(
             1, 'webmaster', 'password', post, 0)
 
-        gbobject = GBObject.objects.get(pk=new_post_id)
+        gbobject = Gbobject.objects.get(pk=new_post_id)
         self.assertEquals(gbobject.title, self.gbobject_2.title)
         self.assertEquals(gbobject.content, self.gbobject_2.html_content)
         self.assertEquals(gbobject.excerpt, self.gbobject_2.excerpt)
@@ -256,7 +256,7 @@ class MetaWeblogTestCase(TestCase):
         response = self.server.metaWeblog.editPost(
             new_post_id, 'webmaster', 'password', post, 1)
         self.assertEquals(response, True)
-        gbobject = GBObject.objects.get(pk=new_post_id)
+        gbobject = Gbobject.objects.get(pk=new_post_id)
         self.assertEquals(gbobject.title, post['title'])
         self.assertEquals(gbobject.content, post['description'])
         self.assertEquals(gbobject.excerpt, post['mt_excerpt'])
@@ -273,7 +273,7 @@ class MetaWeblogTestCase(TestCase):
 
         response = self.server.metaWeblog.editPost(
             new_post_id, 'webmaster', 'password', post, 1)
-        gbobject = GBObject.objects.get(pk=new_post_id)
+        gbobject = Gbobject.objects.get(pk=new_post_id)
         self.assertEquals(gbobject.authors.count(), 1)
         self.assertEquals(gbobject.authors.all()[0], self.contributor)
         self.assertEquals(gbobject.creation_date, datetime(2000, 1, 1))

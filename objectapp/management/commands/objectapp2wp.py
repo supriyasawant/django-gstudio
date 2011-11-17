@@ -9,7 +9,7 @@ from tagging.models import Tag
 
 from objectapp import __version__
 from objectapp.settings import PROTOCOL
-from objectapp.models import GBObject
+from objectapp.models import Gbobject
 from objectapp.models import Objecttype
 
 
@@ -20,11 +20,11 @@ class Command(NoArgsCommand):
 
     def handle_noargs(self, **options):
         site = Site.objects.get_current()
-        blog_context = {'gbobjects': GBObject.objects.all(),
+        blog_context = {'gbobjects': Gbobject.objects.all(),
                         'objecttypes': Objecttype.objects.all(),
-                        'tags': Tag.objects.usage_for_model(GBObject),
+                        'tags': Tag.objects.usage_for_model(Gbobject),
                         'version': __version__,
-                        'description': 'Blog exported for django-objectapp',
+                        'description': 'Blog exported for django-blog-objectapp',
                         'language': settings.LANGUAGE_CODE,
                         'site': site,
                         'site_url': '%s://%s' % (PROTOCOL, site.domain)}

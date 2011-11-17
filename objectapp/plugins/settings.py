@@ -11,7 +11,7 @@ PLUGINS_TEMPLATES = getattr(settings, 'OBJECTAPP_PLUGINS_TEMPLATES', [])
 
 
 APP_MENUS = []
-DEFAULT_APP_MENUS = ['objectapp.plugins.menu.GBObjectMenu',
+DEFAULT_APP_MENUS = ['objectapp.plugins.menu.GbobjectMenu',
                      'objectapp.plugins.menu.ObjecttypeMenu',
                      'objectapp.plugins.menu.TagMenu',
                      'objectapp.plugins.menu.AuthorMenu']

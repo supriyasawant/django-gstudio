@@ -7,7 +7,7 @@
   {% if page.has_previous %}
   <span class="previous">
     <a href="?page={{ page.previous_page_number }}{{ GET_string }}"
-       title="{% trans "More recent object types" %}">&laquo;</a>
+       title="{% trans "More recent gbobjects" %}">&laquo;</a>
   </span>
   {% endif %}
 
@@ -17,7 +17,7 @@
     <strong>{{ page_number }}</strong>
     {% else %}
     <a href="?page={{ page_number }}{{ GET_string }}"
-       title="{% trans "GBObjects page" %} {{ page_number }}">{{ page_number }}</a>
+       title="{% trans "Gbobjects page" %} {{ page_number }}">{{ page_number }}</a>
     {% endifequal%}
   </span>
   {% endfor %}
@@ -30,7 +30,7 @@
     <strong>{{ page_number }}</strong>
     {% else %}
     <a href="?page={{ page_number }}{{ GET_string }}"
-       title="{% trans "GBObjects page" %} {{ page_number }}">{{ page_number }}</a>
+       title="{% trans "Gbobjects page" %} {{ page_number }}">{{ page_number }}</a>
     {% endifequal%}
   </span>
   {% endfor %}
@@ -44,7 +44,7 @@
     <strong>{{ page_number }}</strong>
     {% else %}
     <a href="?page={{ page_number }}{{ GET_string }}"
-       title="{% trans "GBObjects page" %} {{ page_number }}">{{ page_number }}</a>
+       title="{% trans "Gbobjects page" %} {{ page_number }}">{{ page_number }}</a>
     {% endifequal%}
   </span>
   {% endfor %}

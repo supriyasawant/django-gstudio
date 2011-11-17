@@ -4,20 +4,20 @@ from django.core.urlresolvers import reverse
 
 from tagging.models import TaggedItem
 
-from objectapp.models import GBObject
+from objectapp.models import Gbobject
 from objectapp.models import Author
 from objectapp.models import Objecttype
 from objectapp.managers import tags_published
 
 
-class GBObjectSitemap(Sitemap):
+class GbobjectSitemap(Sitemap):
     """Sitemap for gbobjects"""
     priority = 0.5
     changefreq = 'weekly'
 
     def items(self):
         """Return published gbobjects"""
-        return GBObject.published.all()
+        return Gbobject.published.all()
 
     def lastmod(self, obj):
         """Return last modification of an gbobject"""
@@ -30,7 +30,7 @@ class ObjecttypeSitemap(Sitemap):
 
     def cache(self, objecttypes):
         """Cache categorie's gbobjects percent on total gbobjects"""
-        len_gbobjects = float(GBObject.published.count())
+        len_gbobjects = float(Gbobject.published.count())
         self.cache_objecttypes = {}
         for cat in objecttypes:
             if len_gbobjects:
@@ -46,7 +46,7 @@ class ObjecttypeSitemap(Sitemap):
         return objecttypes
 
     def lastmod(self, obj):
-        """Return last modification of a objecttype"""
+        """Return last modification of a Objecttype"""
         gbobjects = obj.gbobjects_published()
         if not gbobjects:
             return None
@@ -87,11 +87,11 @@ class TagSitemap(Sitemap):
 
     def cache(self, tags):
         """Cache tag's gbobjects percent on total gbobjects"""
-        len_gbobjects = float(GBObject.published.count())
+        len_gbobjects = float(Gbobject.published.count())
         self.cache_tags = {}
         for tag in tags:
             gbobjects = TaggedItem.objects.get_by_model(
-                GBObject.published.all(), tag)
+                Gbobject.published.all(), tag)
             self.cache_tags[tag.pk] = (gbobjects, gbobjects.count() / len_gbobjects)
 
     def items(self):

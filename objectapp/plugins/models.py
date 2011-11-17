@@ -9,16 +9,16 @@ from tagging.models import Tag
 from cms.models import CMSPlugin
 from menus.menu_pool import menu_pool
 
-from objectapp.models import GBObject
+from objectapp.models import Gbobject
 from objectapp.models import Objecttype
 from objectapp.plugins.settings import PLUGINS_TEMPLATES
 
-TEMPLATES = [('objectapp/cms/gbobject_list.html', _('GBObject list (default)')),
-             ('objectapp/cms/gbobject_detail.html', _('GBObject detailed'))] + \
+TEMPLATES = [('objectapp/cms/gbobject_list.html', _('Gbobject list (default)')),
+             ('objectapp/cms/gbobject_detail.html', _('Gbobject detailed'))] + \
              PLUGINS_TEMPLATES
 
 
-class LatestGBObjectsPlugin(CMSPlugin):
+class LatestGbobjectsPlugin(CMSPlugin):
     """CMS Plugin for displaying latest gbobjects"""
 
     objecttypes = models.ManyToManyField(
@@ -54,11 +54,11 @@ class LatestGBObjectsPlugin(CMSPlugin):
         return _('%s gbobjects') % self.number_of_gbobjects
 
 
-class SelectedGBObjectsPlugin(CMSPlugin):
+class SelectedGbobjectsPlugin(CMSPlugin):
     """CMS Plugin for displaying custom gbobjects"""
 
     gbobjects = models.ManyToManyField(
-        GBObject, verbose_name=_('gbobjects'))
+        Gbobject, verbose_name=_('gbobjects'))
     template_to_render = models.CharField(
         _('template'), blank=True,
         max_length=250, choices=TEMPLATES,
@@ -78,7 +78,7 @@ class SelectedGBObjectsPlugin(CMSPlugin):
         return _('%s gbobjects') % self.gbobjects.count()
 
 
-class RandomGBObjectsPlugin(CMSPlugin):
+class RandomGbobjectsPlugin(CMSPlugin):
     """CMS Plugin for displaying random gbobjects"""
 
     number_of_gbobjects = models.IntegerField(
@@ -98,8 +98,8 @@ def invalidate_menu_cache(sender, **kwargs):
     menu_pool.clear()
 
 post_save.connect(
-    invalidate_menu_cache, sender=GBObject,
+    invalidate_menu_cache, sender=Gbobject,
     dispatch_uid='objectapp.gbobject.postsave.invalidate_menu_cache')
 post_delete.connect(
-    invalidate_menu_cache, sender=GBObject,
+    invalidate_menu_cache, sender=Gbobject,
     dispatch_uid='objectapp.gbobject.postdelete.invalidate_menu_cache')

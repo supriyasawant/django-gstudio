@@ -8,7 +8,7 @@ from django.contrib.sites.models import Site
 from django.template import TemplateDoesNotExist
 from django.utils.translation import ugettext_lazy as _
 
-from objectapp.models import GBObject
+from objectapp.models import Gbobject
 from objectapp.models import Objecttype
 from objectapp.managers import PUBLISHED
 from objectapp.settings import PAGINATION
@@ -36,16 +36,16 @@ class ViewsBaseCase(TestCase):
         self.site = Site.objects.get_current()
         self.author = User.objects.create_superuser(
             username='admin', email='admin@example.com', password='password')
-        self.objecttype = Objecttype.objects.create(title='Tests', slug='tests')
+        self.Objecttype = Objecttype.objects.create(title='Tests', slug='tests')
         params = {'title': 'Test 1',
                   'content': 'First test gbobject published',
                   'slug': 'test-1',
                   'tags': 'tests',
                   'creation_date': datetime(2010, 1, 1),
                   'status': PUBLISHED}
-        gbobject = GBObject.objects.create(**params)
+        gbobject = Gbobject.objects.create(**params)
         gbobject.sites.add(self.site)
-        gbobject.objecttypes.add(self.objecttype)
+        gbobject.objecttypes.add(self.Objecttype)
         gbobject.authors.add(self.author)
 
         params = {'title': 'Test 2',
@@ -54,9 +54,9 @@ class ViewsBaseCase(TestCase):
                   'tags': 'tests',
                   'creation_date': datetime(2010, 6, 1),
                   'status': PUBLISHED}
-        gbobject = GBObject.objects.create(**params)
+        gbobject = Gbobject.objects.create(**params)
         gbobject.sites.add(self.site)
-        gbobject.objecttypes.add(self.objecttype)
+        gbobject.objecttypes.add(self.Objecttype)
         gbobject.authors.add(self.author)
 
     def tearDown(self):
@@ -70,9 +70,9 @@ class ViewsBaseCase(TestCase):
                   'tags': 'tests',
                   'creation_date': datetime(2010, 1, 1),
                   'status': PUBLISHED}
-        gbobject = GBObject.objects.create(**params)
+        gbobject = Gbobject.objects.create(**params)
         gbobject.sites.add(self.site)
-        gbobject.objecttypes.add(self.objecttype)
+        gbobject.objecttypes.add(self.Objecttype)
         gbobject.authors.add(self.author)
         return gbobject
 
@@ -93,7 +93,7 @@ class ObjectappViewsTestCase(ViewsBaseCase):
     """
     Test cases for generic views used in the application,
     for reproducing and correcting issue :
-    http://github.com/gnowgi/django-objectapp/issues#issue/3
+    http://github.com/Fantomas42/django-blog-objectapp/issues#issue/3
     """
     urls = 'objectapp.tests.urls'
 
@@ -157,20 +157,20 @@ class ObjectappViewsTestCase(ViewsBaseCase):
     def test_objectapp_gbobject_channel(self):
         self.check_publishing_context('/channel-test/', 2, 3)
 
-    def test_objectapp_objecttype_list(self):
+    def test_objectapp_Objecttype_list(self):
         self.check_publishing_context('/objecttypes/', 1)
-        gbobject = GBObject.objects.all()[0]
-        gbobject.objecttypes.add(Objecttype.objects.create(title='New objecttype',
-                                                     slug='new-objecttype'))
+        gbobject = Gbobject.objects.all()[0]
+        gbobject.objecttypes.add(Objecttype.objects.create(title='New Objecttype',
+                                                     slug='new-Objecttype'))
         self.check_publishing_context('/objecttypes/', 2)
 
-    def test_objectapp_objecttype_detail(self):
+    def test_objectapp_Objecttype_detail(self):
         response = self.check_publishing_context('/objecttypes/tests/', 2, 3)
-        self.assertTemplateUsed(response, 'objectapp/objecttype/gbobject_list.html')
-        self.assertEquals(response.context['objecttype'].slug, 'tests')
+        self.assertTemplateUsed(response, 'objectapp/Objecttype/gbobject_list.html')
+        self.assertEquals(response.context['Objecttype'].slug, 'tests')
 
-    def test_objectapp_objecttype_detail_paginated(self):
-        """Test case reproducing issue #42 on objecttype
+    def test_objectapp_Objecttype_detail_paginated(self):
+        """Test case reproducing issue #42 on Objecttype
         detail view paginated"""
         for i in range(PAGINATION):
             params = {'title': 'My gbobject %i' % i,
@@ -178,9 +178,9 @@ class ObjectappViewsTestCase(ViewsBaseCase):
                       'slug': 'my-gbobject-%i' % i,
                       'creation_date': datetime(2010, 1, 1),
                       'status': PUBLISHED}
-            gbobject = GBObject.objects.create(**params)
+            gbobject = Gbobject.objects.create(**params)
             gbobject.sites.add(self.site)
-            gbobject.objecttypes.add(self.objecttype)
+            gbobject.objecttypes.add(self.Objecttype)
             gbobject.authors.add(self.author)
         response = self.client.get('/objecttypes/tests/')
         self.assertEquals(len(response.context['object_list']), PAGINATION)
@@ -188,11 +188,11 @@ class ObjectappViewsTestCase(ViewsBaseCase):
         self.assertEquals(len(response.context['object_list']), 2)
         response = self.client.get('/objecttypes/tests/page/2/')
         self.assertEquals(len(response.context['object_list']), 2)
-        self.assertEquals(response.context['objecttype'].slug, 'tests')
+        self.assertEquals(response.context['Objecttype'].slug, 'tests')
 
     def test_objectapp_author_list(self):
         self.check_publishing_context('/authors/', 1)
-        gbobject = GBObject.objects.all()[0]
+        gbobject = Gbobject.objects.all()[0]
         gbobject.authors.add(User.objects.create(username='new-user',
                                               email='new_user@example.com'))
         self.check_publishing_context('/authors/', 2)
@@ -204,7 +204,7 @@ class ObjectappViewsTestCase(ViewsBaseCase):
 
     def test_objectapp_tag_list(self):
         self.check_publishing_context('/tags/', 1)
-        gbobject = GBObject.objects.all()[0]
+        gbobject = Gbobject.objects.all()[0]
         gbobject.tags = 'tests, tag'
         gbobject.save()
         self.check_publishing_context('/tags/', 2)
@@ -230,8 +230,8 @@ class ObjectappViewsTestCase(ViewsBaseCase):
         self.assertEquals(len(response.context['gbobjects']), 2)
         self.assertEquals(len(response.context['objecttypes']), 1)
         gbobject = self.create_published_gbobject()
-        gbobject.objecttypes.add(Objecttype.objects.create(title='New objecttype',
-                                                     slug='new-objecttype'))
+        gbobject.objecttypes.add(Objecttype.objects.create(title='New Objecttype',
+                                                     slug='new-Objecttype'))
         response = self.client.get('/sitemap/')
         self.assertEquals(len(response.context['gbobjects']), 3)
         self.assertEquals(len(response.context['objecttypes']), 2)
@@ -248,7 +248,7 @@ class ObjectappViewsTestCase(ViewsBaseCase):
             self.client.post('/trackback/1/').status_code, 301)
         self.assertEquals(
             self.client.get('/trackback/1/').status_code, 301)
-        gbobject = GBObject.objects.get(slug='test-1')
+        gbobject = Gbobject.objects.get(slug='test-1')
         gbobject.pingback_enabled = False
         gbobject.save()
         self.assertEquals(
@@ -280,10 +280,10 @@ class ObjectappCustomDetailViews(ViewsBaseCase):
     """
     urls = 'objectapp.tests.custom_views_detail_urls'
 
-    def test_custom_objecttype_detail(self):
+    def test_custom_Objecttype_detail(self):
         response = self.check_publishing_context('/objecttypes/tests/', 2, 3)
         self.assertTemplateUsed(response, 'objectapp/gbobject_list.html')
-        self.assertEquals(response.context['objecttype'].slug, 'tests')
+        self.assertEquals(response.context['Objecttype'].slug, 'tests')
         self.assertEquals(response.context['extra'], 'context')
 
     def test_custom_author_detail(self):

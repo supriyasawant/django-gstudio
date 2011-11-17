@@ -14,7 +14,7 @@ from django.contrib.comments.models import CommentFlag
 
 from tagging.models import Tag
 
-from objectapp.models import GBObject
+from objectapp.models import Gbobject
 from objectapp.models import Author
 from objectapp.models import Objecttype
 from objectapp.managers import DRAFT
@@ -46,7 +46,7 @@ class TemplateTagsTestCase(TestCase):
                   'tags': 'objectapp, test',
                   'creation_date': datetime(2010, 1, 1),
                   'slug': 'my-gbobject'}
-        self.gbobject = GBObject.objects.create(**params)
+        self.gbobject = Gbobject.objects.create(**params)
 
     def publish_gbobject(self):
         self.gbobject.status = PUBLISHED
@@ -59,7 +59,7 @@ class TemplateTagsTestCase(TestCase):
         self.assertEquals(len(context['objecttypes']), 0)
         self.assertEquals(context['template'], 'objectapp/tags/objecttypes.html')
 
-        Objecttype.objects.create(title='Objecttype 1', slug='objecttype-1')
+        Objecttype.objects.create(title='Objecttype 1', slug='Objecttype-1')
         context = get_objecttypes('custom_template.html')
         self.assertEquals(len(context['objecttypes']), 1)
         self.assertEquals(context['template'], 'custom_template.html')
@@ -133,7 +133,7 @@ class TemplateTagsTestCase(TestCase):
                   'status': PUBLISHED,
                   'slug': 'my-second-gbobject'}
         site = Site.objects.get_current()
-        second_gbobject = GBObject.objects.create(**params)
+        second_gbobject = Gbobject.objects.create(**params)
         second_gbobject.sites.add(site)
 
         comments.get_model().objects.create(comment='My Comment 1', site=site,
@@ -163,7 +163,7 @@ class TemplateTagsTestCase(TestCase):
                   'status': PUBLISHED,
                   'slug': 'my-second-gbobject'}
         site = Site.objects.get_current()
-        second_gbobject = GBObject.objects.create(**params)
+        second_gbobject = Gbobject.objects.create(**params)
         second_gbobject.sites.add(site)
 
         source_context = Context({'object': second_gbobject})
@@ -187,7 +187,7 @@ class TemplateTagsTestCase(TestCase):
                   'creation_date': datetime(2009, 1, 1),
                   'slug': 'my-second-gbobject'}
         site = Site.objects.get_current()
-        second_gbobject = GBObject.objects.create(**params)
+        second_gbobject = Gbobject.objects.create(**params)
         second_gbobject.sites.add(site)
 
         context = get_archives_gbobjects('custom_template.html')
@@ -210,7 +210,7 @@ class TemplateTagsTestCase(TestCase):
                   'creation_date': datetime(2009, 1, 10),
                   'slug': 'my-second-gbobject'}
         site = Site.objects.get_current()
-        second_gbobject = GBObject.objects.create(**params)
+        second_gbobject = Gbobject.objects.create(**params)
         second_gbobject.sites.add(site)
 
         context = get_archives_gbobjects_tree('custom_template.html')
@@ -254,7 +254,7 @@ class TemplateTagsTestCase(TestCase):
                   'creation_date': datetime(2008, 1, 1),
                   'slug': 'my-second-gbobject'}
         site = Site.objects.get_current()
-        second_gbobject = GBObject.objects.create(**params)
+        second_gbobject = Gbobject.objects.create(**params)
         second_gbobject.sites.add(site)
 
         source_context = Context()
@@ -435,13 +435,13 @@ class TemplateTagsTestCase(TestCase):
         context = objectapp_breadcrumbs(source_context)
         self.assertEquals(len(context['breadcrumbs']), 5)
 
-        cat_1 = Objecttype.objects.create(title='Objecttype 1', slug='objecttype-1')
+        cat_1 = Objecttype.objects.create(title='Objecttype 1', slug='Objecttype-1')
         source_context = Context(
             {'request': FakeRequest(cat_1.get_absolute_url()),
              'object': cat_1})
         context = objectapp_breadcrumbs(source_context)
         self.assertEquals(len(context['breadcrumbs']), 3)
-        cat_2 = Objecttype.objects.create(title='Objecttype 2', slug='objecttype-2',
+        cat_2 = Objecttype.objects.create(title='Objecttype 2', slug='Objecttype-2',
                                         parent=cat_1)
         source_context = Context(
             {'request': FakeRequest(cat_2.get_absolute_url()),

@@ -1,16 +1,14 @@
 {% load tagging_tags comments i18n %}
 <div id="gbobject-{{ object.pk }}" class="hgbobject{% if object.featured %} featured{% endif %} span-16 last">
   <div class="gbobject-header span-16 last">
-    <h3 class="gbobject-title">
+    <h2 class="gbobject-title">
       <a href="{{ object.get_absolute_url }}" title="{{ object.title }}" rel="bookmark">
         {{ object.title }}
       </a>
-
-    </h3>
-
+    </h2>
     <p class="gbobject-info">
       {% if object.authors.count %}
-      {% trans "Contributed by" %}
+      {% trans "Written by" %}
       {% for author in object.authors.all %}
       <span class="vcard author">
         <a href="{% url objectapp_author_detail author %}" class="fn nickname url" rel="author"
@@ -19,13 +17,15 @@
       {% endfor %}
       {% trans "on" %}
       {% else %}
-      {% trans "Contributed by" %}
+      {% trans "Written on" %}
       {% endif %}
       <abbr class="published" title="{{ object.creation_date|date:"c" }}Z">{{ object.creation_date|date:"DATE_FORMAT" }}</abbr>
-
+      {% if object.objecttypes.count %}
+      {% trans "in" %}
+      {% for Objecttype in object.objecttypes.all %}
+      <a href="{{ Objecttype.get_absolute_url }}" title="{{ Objecttype }}" rel="tag Objecttype">{{ Objecttype }}</a>{% if not forloop.last %}, {% endif %}{% endfor %}{% endif %}.
     </p>
   </div>
-             <h4>  {{ object.memberof_sentence }}</h4>
 
   <div class="gbobject-body span-16 last">
     {% if object.image %}
@@ -40,9 +40,6 @@
     <div class="gbobject-content">
       {{ object_content }}
     </div>
-
-
-
   </div>
 
   <div class="gbobject-footer">
@@ -75,7 +72,7 @@
       {% if object.comments_are_open %}
       {% trans "No comments yet." %}
       <a href="{{ object.get_absolute_url }}#comments" title="{{ object.title }}">
-        {% trans "Discuss the relations or raise any issues!" %}
+        {% trans "Be first to comment!" %}
       </a>
       {% else %}
       {% trans "Comments are closed." %}

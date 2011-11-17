@@ -5,11 +5,11 @@ from django.contrib.sites.models import Site
 
 from tagging.models import Tag
 
-from objectapp.models import GBObject
+from objectapp.models import Gbobject
 from objectapp.models import Author
 from objectapp.models import Objecttype
 from objectapp.managers import PUBLISHED
-from objectapp.sitemaps import GBObjectSitemap
+from objectapp.sitemaps import GbobjectSitemap
 from objectapp.sitemaps import ObjecttypeSitemap
 from objectapp.sitemaps import AuthorSitemap
 from objectapp.sitemaps import TagSitemap
@@ -23,37 +23,37 @@ class ObjectappSitemapsTestCase(TestCase):
         self.site = Site.objects.get_current()
         self.author = User.objects.create(username='admin',
                                           email='admin@example.com')
-        self.objecttype = Objecttype.objects.create(title='Tests', slug='tests')
+        self.Objecttype = Objecttype.objects.create(title='Tests', slug='tests')
         params = {'title': 'My gbobject 1', 'content': 'My content 1',
                   'tags': 'objectapp, test', 'slug': 'my-gbobject-1',
                   'status': PUBLISHED}
-        self.gbobject_1 = GBObject.objects.create(**params)
+        self.gbobject_1 = Gbobject.objects.create(**params)
         self.gbobject_1.authors.add(self.author)
-        self.gbobject_1.objecttypes.add(self.objecttype)
+        self.gbobject_1.objecttypes.add(self.Objecttype)
         self.gbobject_1.sites.add(self.site)
 
         params = {'title': 'My gbobject 2', 'content': 'My content 2',
                   'tags': 'objectapp', 'slug': 'my-gbobject-2',
                   'status': PUBLISHED}
-        self.gbobject_2 = GBObject.objects.create(**params)
+        self.gbobject_2 = Gbobject.objects.create(**params)
         self.gbobject_2.authors.add(self.author)
-        self.gbobject_2.objecttypes.add(self.objecttype)
+        self.gbobject_2.objecttypes.add(self.Objecttype)
         self.gbobject_2.sites.add(self.site)
 
     def test_gbobject_sitemap(self):
-        sitemap = GBObjectSitemap()
+        sitemap = GbobjectSitemap()
         self.assertEquals(len(sitemap.items()), 2)
         self.assertEquals(sitemap.lastmod(self.gbobject_1),
                           self.gbobject_1.last_update)
 
-    def test_objecttype_sitemap(self):
+    def test_Objecttype_sitemap(self):
         sitemap = ObjecttypeSitemap()
         self.assertEquals(len(sitemap.items()), 1)
-        self.assertEquals(sitemap.lastmod(self.objecttype),
+        self.assertEquals(sitemap.lastmod(self.Objecttype),
                           self.gbobject_2.creation_date)
         self.assertEquals(sitemap.lastmod(Objecttype.objects.create(
             title='New', slug='new')), None)
-        self.assertEquals(sitemap.priority(self.objecttype), '1.0')
+        self.assertEquals(sitemap.priority(self.Objecttype), '1.0')
 
     def test_author_sitemap(self):
         sitemap = AuthorSitemap()
@@ -74,8 +74,8 @@ class ObjectappSitemapsTestCase(TestCase):
         self.assertEquals(sitemap.priority(objectapp_tag), '1.0')
         self.assertEquals(sitemap.location(objectapp_tag), '/tags/objectapp/')
 
-    def test_objecttype_sitemap_zero_division_error(self):
-        GBObject.objects.all().delete()
-        objecttype_sitemap = ObjecttypeSitemap()
-        objecttype_sitemap.items()
-        self.assertEquals(objecttype_sitemap.priority(self.objecttype), '0.5')
+    def test_Objecttype_sitemap_zero_division_error(self):
+        Gbobject.objects.all().delete()
+        Objecttype_sitemap = ObjecttypeSitemap()
+        Objecttype_sitemap.items()
+        self.assertEquals(Objecttype_sitemap.priority(self.Objecttype), '0.5')
