@@ -1,7 +1,6 @@
 """Models of Gstudio"""
 import warnings
 from datetime import datetime
-
 from django.db import models
 from django.db.models import Q
 from django.utils.html import strip_tags
@@ -137,7 +136,29 @@ class Metatype(Nodetype):
         """Return only the objecttypes published"""
         return objecttypes_published(self.objecttypes)
 
-            
+
+
+    @property
+    def get_nbh(self):
+        """ Returns the neighbourhood of the metatype """
+        nbh = {}
+        nbh['title'] = self.title
+        nbh['content'] = self.content
+        nbh['parent'] = self.parent
+        nbh['related'] = self.related.values_list()
+        nbh['children'] = []
+        
+        # generate ids and names of children/members
+        for obj in self.children.get_query_set():  
+            nbh['children'].append({str(obj.id):str(obj.title)})
+
+        nbh['members'] = []
+        for obj in self.objecttypes.all():
+            nbh['members'].append({str(obj.id):str(obj.title)})
+
+        return nbh
+
+                  
     @property
     def tree_path(self):
         """Return metatype's tree path, by its ancestors"""
@@ -385,6 +406,7 @@ class Objecttype(Nodetype):
         verbose_name_plural = _('object types')
         permissions = (('can_view_all', 'Can view all'),
                        ('can_change_author', 'Can change author'), )
+
 
 
 
