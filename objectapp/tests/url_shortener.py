@@ -23,7 +23,7 @@ class URLShortenerTestCase(TestCase):
         try:
             with warnings.catch_warnings(record=True) as w:
                 self.assertEquals(get_url_shortener(), default_backend)
-                self.assertTrue(issubclass(w[-1].objecttype, RuntimeWarning))
+                self.assertTrue(issubclass(w[-1].Objecttype, RuntimeWarning))
                 self.assertEquals(
                     str(w[-1].message),
                     'mymodule.myclass backend cannot be imported')
@@ -35,7 +35,7 @@ class URLShortenerTestCase(TestCase):
         try:
             with warnings.catch_warnings(record=True) as w:
                 self.assertEquals(get_url_shortener(), default_backend)
-                self.assertTrue(issubclass(w[-1].objecttype, RuntimeWarning))
+                self.assertTrue(issubclass(w[-1].Objecttype, RuntimeWarning))
                 self.assertEquals(
                     str(w[-1].message),
                     'This backend only exists for testing')

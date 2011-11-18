@@ -15,7 +15,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.comments import get_model as get_comment_model
 
 from objectapp import __version__
-from objectapp.models import GBObject
+from objectapp.models import Gbobject
 from objectapp.models import Objecttype
 from objectapp.managers import DRAFT, PUBLISHED
 
@@ -31,8 +31,8 @@ class Command(NoArgsCommand):
     option_list = NoArgsCommand.option_list + (
         make_option('--blogger-username', dest='blogger_username', default='',
                     help='The username to login to Blogger with'),
-        make_option('--objecttype-title', dest='objecttype_title', default='',
-                    help='The Objectapp objecttype to import Blogger posts to'),
+        make_option('--Objecttype-title', dest='Objecttype_title', default='',
+                    help='The Objectapp Objecttype to import Blogger posts to'),
         make_option('--blogger-blog-id', dest='blogger_blog_id', default='',
                     help='The id of the Blogger blog to import'),
         make_option('--author', dest='author', default='',
@@ -65,7 +65,7 @@ class Command(NoArgsCommand):
 
         self.verbosity = int(options.get('verbosity', 1))
         self.blogger_username = options.get('blogger_username')
-        self.objecttype_title = options.get('objecttype_title')
+        self.Objecttype_title = options.get('Objecttype_title')
         self.blogger_blog_id = options.get('blogger_blog_id')
 
         self.write_out(self.style.TITLE(
@@ -97,11 +97,11 @@ class Command(NoArgsCommand):
         if not self.blogger_blog_id:
             self.select_blog_id()
 
-        if not self.objecttype_title:
-            self.objecttype_title = raw_input(
+        if not self.Objecttype_title:
+            self.Objecttype_title = raw_input(
                 'Objecttype title for imported gbobjects: ')
-            if not self.objecttype_title:
-                raise CommandError('Invalid objecttype title')
+            if not self.Objecttype_title:
+                raise CommandError('Invalid Objecttype title')
 
         self.import_posts()
 
@@ -126,18 +126,18 @@ class Command(NoArgsCommand):
 
         self.blogger_blog_id = get_blog_id(blog)
 
-    def get_objecttype(self):
-        objecttype, created = Objecttype.objects.get_or_create(
-            title=self.objecttype_title,
-            slug=slugify(self.objecttype_title)[:255])
+    def get_Objecttype(self):
+        Objecttype, created = Objecttype.objects.get_or_create(
+            title=self.Objecttype_title,
+            slug=slugify(self.Objecttype_title)[:255])
 
         if created:
-            objecttype.save()
+            Objecttype.save()
 
-        return objecttype
+        return Objecttype
 
     def import_posts(self):
-        objecttype = self.get_objecttype()
+        Objecttype = self.get_Objecttype()
         self.write_out(self.style.STEP('- Importing gbobjects\n'))
         for post in self.blogger_manager.get_posts(self.blogger_blog_id):
             creation_date = convert_blogger_timestamp(post.published.text)
@@ -146,22 +146,22 @@ class Command(NoArgsCommand):
             content = post.content.text or ''
             slug = slugify(post.title.text or get_post_id(post))[:255]
             try:
-                gbobject = GBObject.objects.get(creation_date=creation_date,
+                gbobject = Gbobject.objects.get(creation_date=creation_date,
                                           slug=slug)
                 output = self.style.NOTICE('> Skipped %s (already migrated)\n'
                     % gbobject)
-            except GBObject.DoesNotExist:
-                gbobject = GBObject(status=status, title=title, content=content,
+            except Gbobject.DoesNotExist:
+                gbobject = Gbobject(status=status, title=title, content=content,
                               creation_date=creation_date, slug=slug)
                 if self.default_author:
                     gbobject.author = self.default_author
                 gbobject.tags = ','.join([slugify(cat.term) for
-                                       cat in post.objecttype])
+                                       cat in post.Objecttype])
                 gbobject.last_update = convert_blogger_timestamp(
                     post.updated.text)
                 gbobject.save()
                 gbobject.sites.add(self.SITE)
-                gbobject.objecttypes.add(objecttype)
+                gbobject.objecttypes.add(Objecttype)
                 gbobject.authors.add(self.default_author)
                 try:
                     self.import_comments(gbobject, post)
@@ -177,7 +177,7 @@ class Command(NoArgsCommand):
         blog_id = self.blogger_blog_id
         post_id = get_post_id(post)
         comments = self.blogger_manager.get_comments(blog_id, post_id)
-        gbobject_content_type = ContentType.objects.get_for_model(GBObject)
+        gbobject_content_type = ContentType.objects.get_for_model(Gbobject)
 
         for comment in comments:
             submit_date = convert_blogger_timestamp(comment.published.text)

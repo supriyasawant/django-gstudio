@@ -12,9 +12,9 @@ PUBLISHED = 2
 def tags_published():
     """Return the published tags"""
     from tagging.models import Tag
-    from objectapp.models import GBObject
+    from objectapp.models import Gbobject
     tags_gbobject_published = Tag.objects.usage_for_queryset(
-        GBObject.published.all())
+        Gbobject.published.all())
     # Need to do that until the issue #44 of django-tagging is fixed
     return Tag.objects.filter(name__in=[t.name for t in tags_gbobject_published])
 
@@ -42,17 +42,17 @@ def gbobjects_published(queryset):
                            sites=Site.objects.get_current())
 
 
-class GBObjectPublishedManager(models.Manager):
+class GbobjectPublishedManager(models.Manager):
     """Manager to retrieve published gbobjects"""
 
     def get_query_set(self):
         """Return published gbobjects"""
         return gbobjects_published(
-            super(GBObjectPublishedManager, self).get_query_set())
+            super(GbobjectPublishedManager, self).get_query_set())
 
     def on_site(self):
         """Return gbobjects published on current site"""
-        return super(GBObjectPublishedManager, self).get_query_set(
+        return super(GbobjectPublishedManager, self).get_query_set(
             ).filter(sites=Site.objects.get_current())
 
     def search(self, pattern):

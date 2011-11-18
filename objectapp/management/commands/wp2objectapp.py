@@ -18,7 +18,7 @@ from django.core.management.base import LabelCommand
 from tagging.models import Tag
 
 from objectapp import __version__
-from objectapp.models import GBObject
+from objectapp.models import Gbobject
 from objectapp.models import Objecttype
 from objectapp.signals import disconnect_objectapp_signals
 from objectapp.managers import DRAFT, HIDDEN, PUBLISHED
@@ -88,7 +88,7 @@ class Command(LabelCommand):
         self.authors = self.import_authors(tree)
 
         self.objecttypes = self.import_objecttypes(
-            tree.findall('channel/{%s}objecttype' % WP_NS))
+            tree.findall('channel/{%s}Objecttype' % WP_NS))
 
         self.import_tags(tree.findall('channel/{%s}tag' % WP_NS))
 
@@ -148,27 +148,27 @@ class Command(LabelCommand):
             except IntegrityError:
                 return User.objects.get(username=author_name)
 
-    def import_objecttypes(self, objecttype_nodes):
-        """Import all the objecttypes from 'wp:objecttype' nodes,
+    def import_objecttypes(self, Objecttype_nodes):
+        """Import all the objecttypes from 'wp:Objecttype' nodes,
         because objecttypes in 'item' nodes are not necessarily
         all the objecttypes and returning it in a dict for
         database optimizations."""
         self.write_out(self.style.STEP('- Importing objecttypes\n'))
 
         objecttypes = {}
-        for objecttype_node in objecttype_nodes:
-            title = objecttype_node.find('{%s}cat_name' % WP_NS).text[:255]
-            slug = objecttype_node.find(
-                '{%s}objecttype_nicename' % WP_NS).text[:255]
+        for Objecttype_node in Objecttype_nodes:
+            title = Objecttype_node.find('{%s}cat_name' % WP_NS).text[:255]
+            slug = Objecttype_node.find(
+                '{%s}Objecttype_nicename' % WP_NS).text[:255]
             try:
-                parent = objecttype_node.find(
-                    '{%s}objecttype_parent' % WP_NS).text[:255]
+                parent = Objecttype_node.find(
+                    '{%s}Objecttype_parent' % WP_NS).text[:255]
             except TypeError:
                 parent = None
             self.write_out('> %s... ' % title)
-            objecttype, created = Objecttype.objects.get_or_create(
+            Objecttype, created = Objecttype.objects.get_or_create(
                 title=title, slug=slug, parent=objecttypes.get(parent))
-            objecttypes[title] = objecttype
+            objecttypes[title] = Objecttype
             self.write_out(self.style.ITEM('OK\n'))
         return objecttypes
 
@@ -189,20 +189,20 @@ class Command(LabelCommand):
         """Return a list of gbobject's tags,
         by using the nicename for url compatibility"""
         tags = []
-        for objecttype in objecttypes:
-            domain = objecttype.attrib.get('domain', 'objecttype')
-            if domain == 'tag' and objecttype.attrib.get('nicename'):
-                tags.append(objecttype.attrib.get('nicename'))
+        for Objecttype in objecttypes:
+            domain = Objecttype.attrib.get('domain', 'Objecttype')
+            if domain == 'tag' and Objecttype.attrib.get('nicename'):
+                tags.append(Objecttype.attrib.get('nicename'))
         return tags
 
-    def get_gbobject_objecttypes(self, objecttype_nodes):
+    def get_gbobject_objecttypes(self, Objecttype_nodes):
         """Return a list of gbobject's objecttypes
         based of imported objecttypes"""
         objecttypes = []
-        for objecttype_node in objecttype_nodes:
-            domain = objecttype_node.attrib.get('domain')
-            if domain == 'objecttype':
-                objecttypes.append(self.objecttypes[objecttype_node.text])
+        for Objecttype_node in Objecttype_nodes:
+            domain = Objecttype_node.attrib.get('domain')
+            if domain == 'Objecttype':
+                objecttypes.append(self.objecttypes[Objecttype_node.text])
         return objecttypes
 
     def import_gbobject(self, title, content, item_node):
@@ -229,7 +229,7 @@ class Command(LabelCommand):
             'slug': slugify(title)[:255] or 'post-%s' % item_node.find(
                 '{%s}post_id' % WP_NS).text,
             'tags': ', '.join(self.get_gbobject_tags(item_node.findall(
-                'objecttype'))),
+                'Objecttype'))),
             'status': self.REVERSE_STATUS[item_node.find(
                 '{%s}status' % WP_NS).text],
             'comment_enabled': item_node.find(
@@ -244,11 +244,11 @@ class Command(LabelCommand):
             'last_update': datetime.now(),
             'start_publication': creation_date}
 
-        gbobject, created = GBObject.objects.get_or_create(title=title,
+        gbobject, created = Gbobject.objects.get_or_create(title=title,
                                                      defaults=gbobject_dict)
 
         gbobject.objecttypes.add(*self.get_gbobject_objecttypes(
-            item_node.findall('objecttype')))
+            item_node.findall('Objecttype')))
         gbobject.authors.add(self.authors[item_node.find(
             '{http://purl.org/dc/elements/1.1/}creator').text])
         gbobject.sites.add(self.SITE)

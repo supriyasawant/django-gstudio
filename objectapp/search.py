@@ -16,7 +16,7 @@ from pyparsing import operatorPrecedence
 
 from django.db.models import Q
 
-from objectapp.models import GBObject
+from objectapp.models import Gbobject
 from objectapp.settings import STOP_WORDS
 
 
@@ -52,7 +52,7 @@ def createQ(token):
                Q(excerpt__icontains=search) | \
                Q(title__icontains=search)
 
-    if meta == 'objecttype':
+    if meta == 'Objecttype':
         if wildcards == 'BOTH':
             return Q(objecttypes__title__icontains=search) | \
                     Q(objecttypes__slug__icontains=search)
@@ -130,4 +130,4 @@ def advanced_search(pattern):
     """Parse the grammar of a pattern
     and build a queryset with it"""
     query_parsed = QUERY.parseString(pattern)
-    return GBObject.published.filter(query_parsed[0]).distinct()
+    return Gbobject.published.filter(query_parsed[0]).distinct()

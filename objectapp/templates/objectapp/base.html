@@ -9,7 +9,7 @@
     <link rel="index" href="{% url objectapp_gbobject_archive_index %}" />
     <link rel="EditURI" type="application/rsd+xml" href="{% url objectapp_rsd %}" />
     <link rel="wlwmanifest" type="application/wlwmanifest+xml" href="{% url objectapp_wlwmanifest %}" />
-    <link rel="search" type="application/opensearchdescription+xml" title="Gnowledge Studio" href="{% url objectapp_opensearch %}" />
+    <link rel="search" type="application/opensearchdescription+xml" title="Objectapp's Blog" href="{% url objectapp_opensearch %}" />
     <link rel="alternate" type="application/rss+xml" title="{% trans "RSS Feed of latest gbobjects" %}" href="{% url objectapp_gbobject_latest_feed %}" />
     {% get_archives_gbobjects "objectapp/tags/archives_gbobjects_link.html" %}
 {% endblock %}
@@ -35,7 +35,6 @@
   <h3>{% trans "Objecttypes" %}</h3>
   {% get_objecttypes %}
 </div>
-
 <div class="authors">
   <h3>{% trans "Authors" %}</h3>
   {% get_authors %}
@@ -49,7 +48,7 @@
   {% get_tag_cloud %}
 </div>
 <div class="recents">
-  <h3>{% trans "Recent object types" %}</h3>
+  <h3>{% trans "Recent gbobjects" %}</h3>
   {% get_recent_gbobjects 5 %}
 </div>
 <div class="comments">
@@ -61,11 +60,11 @@
   {% get_recent_linkbacks 5 %}
 </div>
 <div class="randoms">
-  <h3>{% trans "Random object types" %}</h3>
+  <h3>{% trans "Random gbobjects" %}</h3>
   {% get_random_gbobjects 5 %}
 </div>
 <div class="populars">
-  <h3>{% trans "Popular object types" %}</h3>
+  <h3>{% trans "Popular gbobjects" %}</h3>
   {% get_popular_gbobjects 5 %}
 </div>
 <div class="archives">

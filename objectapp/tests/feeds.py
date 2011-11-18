@@ -14,20 +14,20 @@ from django.contrib.contenttypes.models import ContentType
 
 from tagging.models import Tag
 
-from objectapp.models import GBObject
+from objectapp.models import Gbobject
 from objectapp.models import Objecttype
 from objectapp.managers import PUBLISHED
 from objectapp import feeds
-from objectapp.feeds import GBObjectFeed
-from objectapp.feeds import LatestGBObjects
-from objectapp.feeds import ObjecttypeGBObjects
-from objectapp.feeds import AuthorGBObjects
-from objectapp.feeds import TagGBObjects
-from objectapp.feeds import SearchGBObjects
-from objectapp.feeds import GBObjectDiscussions
-from objectapp.feeds import GBObjectComments
-from objectapp.feeds import GBObjectPingbacks
-from objectapp.feeds import GBObjectTrackbacks
+from objectapp.feeds import GbobjectFeed
+from objectapp.feeds import LatestGbobjects
+from objectapp.feeds import ObjecttypeGbobjects
+from objectapp.feeds import AuthorGbobjects
+from objectapp.feeds import TagGbobjects
+from objectapp.feeds import SearchGbobjects
+from objectapp.feeds import GbobjectDiscussions
+from objectapp.feeds import GbobjectComments
+from objectapp.feeds import GbobjectPingbacks
+from objectapp.feeds import GbobjectTrackbacks
 
 
 class ObjectappFeedsTestCase(TestCase):
@@ -38,8 +38,8 @@ class ObjectappFeedsTestCase(TestCase):
         self.site = Site.objects.get_current()
         self.author = User.objects.create(username='admin',
                                           email='admin@example.com')
-        self.objecttype = Objecttype.objects.create(title='Tests', slug='tests')
-        self.gbobject_ct_id = ContentType.objects.get_for_model(GBObject).pk
+        self.Objecttype = Objecttype.objects.create(title='Tests', slug='tests')
+        self.gbobject_ct_id = ContentType.objects.get_for_model(Gbobject).pk
 
     def create_published_gbobject(self):
         params = {'title': 'My test gbobject',
@@ -49,9 +49,9 @@ class ObjectappFeedsTestCase(TestCase):
                   'tags': 'tests',
                   'creation_date': datetime(2010, 1, 1),
                   'status': PUBLISHED}
-        gbobject = GBObject.objects.create(**params)
+        gbobject = Gbobject.objects.create(**params)
         gbobject.sites.add(self.site)
-        gbobject.objecttypes.add(self.objecttype)
+        gbobject.objecttypes.add(self.Objecttype)
         gbobject.authors.add(self.author)
         return gbobject
 
@@ -76,9 +76,9 @@ class ObjectappFeedsTestCase(TestCase):
         original_feeds_format = feeds.FEEDS_FORMAT
         feeds.FEEDS_FORMAT = ''
         gbobject = self.create_published_gbobject()
-        feed = GBObjectFeed()
+        feed = GbobjectFeed()
         self.assertEquals(feed.item_pubdate(gbobject), gbobject.creation_date)
-        self.assertEquals(feed.item_objecttypes(gbobject), [self.objecttype.title])
+        self.assertEquals(feed.item_objecttypes(gbobject), [self.Objecttype.title])
         self.assertEquals(feed.item_author_name(gbobject), self.author.username)
         self.assertEquals(feed.item_author_email(gbobject), self.author.email)
         self.assertEquals(
@@ -95,7 +95,7 @@ class ObjectappFeedsTestCase(TestCase):
         original_feeds_format = feeds.FEEDS_FORMAT
         feeds.FEEDS_FORMAT = ''
         gbobject = self.create_published_gbobject()
-        feed = GBObjectFeed()
+        feed = GbobjectFeed()
         self.assertEquals(
             feed.item_enclosure_url(gbobject), 'http://example.com/image.jpg')
         gbobject.content = 'My test content with image <img src="image.jpg" />',
@@ -117,7 +117,7 @@ class ObjectappFeedsTestCase(TestCase):
 
     def test_latest_gbobjects(self):
         self.create_published_gbobject()
-        feed = LatestGBObjects()
+        feed = LatestGbobjects()
         self.assertEquals(feed.link(), '/')
         self.assertEquals(len(feed.items()), 1)
         self.assertEquals(feed.title(),
@@ -126,39 +126,39 @@ class ObjectappFeedsTestCase(TestCase):
             feed.description(),
             _('The latest gbobjects for the site %s') % 'example.com')
 
-    def test_objecttype_gbobjects(self):
+    def test_Objecttype_gbobjects(self):
         self.create_published_gbobject()
-        feed = ObjecttypeGBObjects()
-        self.assertEquals(feed.get_object('request', '/tests/'), self.objecttype)
-        self.assertEquals(len(feed.items(self.objecttype)), 1)
-        self.assertEquals(feed.link(self.objecttype), '/objecttypes/tests/')
+        feed = ObjecttypeGbobjects()
+        self.assertEquals(feed.get_object('request', '/tests/'), self.Objecttype)
+        self.assertEquals(len(feed.items(self.Objecttype)), 1)
+        self.assertEquals(feed.link(self.Objecttype), '/objecttypes/tests/')
         self.assertEquals(
-            feed.title(self.objecttype),
-            _('GBObjects for the objecttype %s') % self.objecttype.title)
+            feed.title(self.Objecttype),
+            _('Gbobjects for the Objecttype %s') % self.Objecttype.title)
         self.assertEquals(
-            feed.description(self.objecttype),
-            _('The latest gbobjects for the objecttype %s') % self.objecttype.title)
+            feed.description(self.Objecttype),
+            _('The latest gbobjects for the Objecttype %s') % self.Objecttype.title)
 
     def test_author_gbobjects(self):
         self.create_published_gbobject()
-        feed = AuthorGBObjects()
+        feed = AuthorGbobjects()
         self.assertEquals(feed.get_object('request', 'admin'), self.author)
         self.assertEquals(len(feed.items(self.author)), 1)
         self.assertEquals(feed.link(self.author), '/authors/admin/')
         self.assertEquals(feed.title(self.author),
-                          _('GBObjects for author %s') % self.author.username)
+                          _('Gbobjects for author %s') % self.author.username)
         self.assertEquals(feed.description(self.author),
                           _('The latest gbobjects by %s') % self.author.username)
 
     def test_tag_gbobjects(self):
         self.create_published_gbobject()
-        feed = TagGBObjects()
+        feed = TagGbobjects()
         tag = Tag(name='tests')
         self.assertEquals(feed.get_object('request', 'tests').name, 'tests')
         self.assertEquals(len(feed.items('tests')), 1)
         self.assertEquals(feed.link(tag), '/tags/tests/')
         self.assertEquals(feed.title(tag),
-                          _('GBObjects for the tag %s') % tag.name)
+                          _('Gbobjects for the tag %s') % tag.name)
         self.assertEquals(feed.description(tag),
                           _('The latest gbobjects for the tag %s') % tag.name)
 
@@ -167,7 +167,7 @@ class ObjectappFeedsTestCase(TestCase):
             def __init__(self, val):
                 self.GET = {'pattern': val}
         self.create_published_gbobject()
-        feed = SearchGBObjects()
+        feed = SearchGbobjects()
         self.assertRaises(ObjectDoesNotExist,
                           feed.get_object, FakeRequest('te'))
         self.assertEquals(feed.get_object(FakeRequest('test')), 'test')
@@ -182,7 +182,7 @@ class ObjectappFeedsTestCase(TestCase):
     def test_gbobject_discussions(self):
         gbobject = self.create_published_gbobject()
         comments = self.create_discussions(gbobject)
-        feed = GBObjectDiscussions()
+        feed = GbobjectDiscussions()
         self.assertEquals(feed.get_object(
             'request', 2010, 1, 1, gbobject.slug), gbobject)
         self.assertEquals(feed.link(gbobject), '/2010/01/01/my-test-gbobject/')
@@ -204,7 +204,7 @@ class ObjectappFeedsTestCase(TestCase):
     def test_gbobject_comments(self):
         gbobject = self.create_published_gbobject()
         comments = self.create_discussions(gbobject)
-        feed = GBObjectComments()
+        feed = GbobjectComments()
         self.assertEquals(list(feed.items(gbobject)), [comments[0]])
         self.assertEquals(feed.item_link(comments[0]),
                           '/comments/cr/%i/1/#comment_1' % self.gbobject_ct_id)
@@ -223,7 +223,7 @@ class ObjectappFeedsTestCase(TestCase):
     def test_gbobject_pingbacks(self):
         gbobject = self.create_published_gbobject()
         comments = self.create_discussions(gbobject)
-        feed = GBObjectPingbacks()
+        feed = GbobjectPingbacks()
         self.assertEquals(list(feed.items(gbobject)), [comments[1]])
         self.assertEquals(feed.item_link(comments[1]),
                           '/comments/cr/%i/1/#pingback_2' % self.gbobject_ct_id)
@@ -236,7 +236,7 @@ class ObjectappFeedsTestCase(TestCase):
     def test_gbobject_trackbacks(self):
         gbobject = self.create_published_gbobject()
         comments = self.create_discussions(gbobject)
-        feed = GBObjectTrackbacks()
+        feed = GbobjectTrackbacks()
         self.assertEquals(list(feed.items(gbobject)), [comments[2]])
         self.assertEquals(feed.item_link(comments[2]),
                           '/comments/cr/%i/1/#trackback_3' % self.gbobject_ct_id)
@@ -251,24 +251,24 @@ class ObjectappFeedsTestCase(TestCase):
         feeds.FEEDS_FORMAT = ''
         gbobject = self.create_published_gbobject()
         gbobject.authors.clear()
-        feed = GBObjectFeed()
+        feed = GbobjectFeed()
         self.assertEquals(feed.item_author_name(gbobject), None)
         feeds.FEEDS_FORMAT = original_feeds_format
 
     def test_gbobject_feed_rss_or_atom(self):
         original_feeds_format = feeds.FEEDS_FORMAT
         feeds.FEEDS_FORMAT = ''
-        feed = LatestGBObjects()
+        feed = LatestGbobjects()
         self.assertEquals(feed.feed_type, DefaultFeed)
         feeds.FEEDS_FORMAT = 'atom'
-        feed = LatestGBObjects()
+        feed = LatestGbobjects()
         self.assertEquals(feed.feed_type, Atom1Feed)
         self.assertEquals(feed.subtitle, feed.description)
         feeds.FEEDS_FORMAT = original_feeds_format
 
     def test_discussion_feed_with_same_slugs(self):
         """
-        https://github.com/gnowgi/django-objectapp/issues/104
+        https://github.com/Fantomas42/django-blog-objectapp/issues/104
 
         OK, Here I will reproduce the original case: getting a discussion
         type feed, with a same slug.
@@ -278,7 +278,7 @@ class ObjectappFeedsTestCase(TestCase):
         """
         gbobject = self.create_published_gbobject()
 
-        feed = GBObjectDiscussions()
+        feed = GbobjectDiscussions()
         self.assertEquals(feed.get_object(
             'request', 2010, 1, 1, gbobject.slug), gbobject)
 
@@ -288,7 +288,7 @@ class ObjectappFeedsTestCase(TestCase):
                   'tags': 'tests',
                   'creation_date': datetime(2010, 2, 1),
                   'status': PUBLISHED}
-        gbobject_same_slug = GBObject.objects.create(**params)
+        gbobject_same_slug = Gbobject.objects.create(**params)
         gbobject_same_slug.sites.add(self.site)
         gbobject_same_slug.authors.add(self.author)
 

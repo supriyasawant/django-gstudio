@@ -1,14 +1,11 @@
 """Admin of Objectapp"""
 from django.contrib import admin
-from objectapp.models import GBObject
-from objectapp.models import Objecttype
-from objectapp.admin.gbobject import GBObjectAdmin
-from objectapp.admin.objecttype import ObjecttypeAdmin
 
+from objectapp.models import Gbobject
 
-admin.site.register(GBObject, GBObjectAdmin)
+from objectapp.admin.gbobject import GbobjectAdmin
 
 
 
-
+admin.site.register(Gbobject, GbobjectAdmin)
 

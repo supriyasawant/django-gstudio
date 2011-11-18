@@ -47,9 +47,9 @@ def ping_external_urls_handler(sender, **kwargs):
 
 def disconnect_objectapp_signals():
     """Disconnect all the signals provided by Objectapp"""
-    from objectapp.models import GBObject
+    from objectapp.models import Gbobject
 
     post_save.disconnect(
-        sender=GBObject, dispatch_uid='objectapp.gbobject.post_save.ping_directories')
+        sender=Gbobject, dispatch_uid='objectapp.gbobject.post_save.ping_directories')
     post_save.disconnect(
-        sender=GBObject, dispatch_uid='objectapp.gbobject.post_save.ping_external_urls')
+        sender=Gbobject, dispatch_uid='objectapp.gbobject.post_save.ping_external_urls')

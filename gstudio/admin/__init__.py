@@ -15,7 +15,9 @@ from gstudio.admin.relation import RelationAdmin
 from gstudio.admin.attribute import AttributeAdmin
 from gstudio.admin.attributetype import AttributetypeAdmin
 
+
 admin.site.register(Objecttype, ObjecttypeAdmin)
+
 admin.site.register(Metatype, MetatypeAdmin)
 
 admin.site.register(Relationtype, RelationtypeAdmin)

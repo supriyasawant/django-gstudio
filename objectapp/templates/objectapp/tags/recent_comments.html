@@ -4,7 +4,7 @@
   {% for comment in comments %}
   <li>
     {% with comment.content_object as gbobject %}
-    {{ comment.user_name }} {% trans "on" %}
+    {{ comment.user_name }} {% trans "in" %}
     <a href="{{ gbobject.get_absolute_url }}#comment_{{ comment.pk }}" 
        title="{% trans "Comment on" %} {{ gbobject.title }}">
       {{ gbobject.title }}

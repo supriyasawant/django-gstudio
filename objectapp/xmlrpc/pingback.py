@@ -12,7 +12,7 @@ from django.core.urlresolvers import Resolver404
 from django.utils.translation import ugettext as _
 from django.contrib.contenttypes.models import ContentType
 
-from objectapp.models import GBObject
+from objectapp.models import Gbobject
 from objectapp.settings import PINGBACK_CONTENT_LENGTH
 from BeautifulSoup import BeautifulSoup
 from django_xmlrpc.decorators import xmlrpc_func
@@ -81,14 +81,14 @@ def pingback_ping(source, target):
             return TARGET_DOES_NOT_EXIST
 
         try:
-            gbobject = GBObject.published.get(
+            gbobject = Gbobject.published.get(
                 slug=kwargs['slug'],
                 creation_date__year=kwargs['year'],
                 creation_date__month=kwargs['month'],
                 creation_date__day=kwargs['day'])
             if not gbobject.pingback_enabled:
                 return TARGET_IS_NOT_PINGABLE
-        except (KeyError, GBObject.DoesNotExist):
+        except (KeyError, Gbobject.DoesNotExist):
             return TARGET_IS_NOT_PINGABLE
 
         soup = BeautifulSoup(document)
@@ -98,7 +98,7 @@ def pingback_ping(source, target):
                                                 PINGBACK_CONTENT_LENGTH)
 
         comment, created = comments.get_model().objects.get_or_create(
-            content_type=ContentType.objects.get_for_model(GBObject),
+            content_type=ContentType.objects.get_for_model(Gbobject),
             object_pk=gbobject.pk, user_url=source, site=site,
             defaults={'comment': description, 'user_name': title})
         if created:
@@ -129,12 +129,12 @@ def pingback_extensions_get_pingbacks(target):
         return TARGET_DOES_NOT_EXIST
 
     try:
-        gbobject = GBObject.published.get(
+        gbobject = Gbobject.published.get(
             slug=kwargs['slug'],
             creation_date__year=kwargs['year'],
             creation_date__month=kwargs['month'],
             creation_date__day=kwargs['day'])
-    except (KeyError, GBObject.DoesNotExist):
+    except (KeyError, Gbobject.DoesNotExist):
         return TARGET_IS_NOT_PINGABLE
 
     return [pingback.user_url for pingback in gbobject.pingbacks]

@@ -1,10 +1,10 @@
 [
   {
     "pk": 2, 
-    "model": "gstudio.metatype", 
+    "model": "objectapp.Objecttype", 
     "fields": {
       "rght": 2, 
-      "description": "All objecttypes containing tests.", 
+      "description": "All gbobjects containing tests.", 
       "parent": null, 
       "slug": "tests", 
       "title": "Tests", 
@@ -15,10 +15,10 @@
   }, 
   {
     "pk": 1, 
-    "model": "gstudio.metatype", 
+    "model": "objectapp.Objecttype", 
     "fields": {
       "rght": 2, 
-      "description": "All uncategorized objecttypes.", 
+      "description": "All uncategorized gbobjects.", 
       "parent": null, 
       "slug": "uncategorized", 
       "title": "Uncategorized", 
@@ -29,7 +29,7 @@
   }, 
   {
     "pk": 1, 
-    "model": "gstudio.objecttype", 
+    "model": "objectapp.gbobject", 
     "fields": {
       "status": 2, 
       "login_required": false, 
@@ -39,7 +39,7 @@
       "tags": "welcome, blog, test", 
       "image": "", 
       "title": "Hello World !", 
-      "excerpt": "Welcome to the Gstudio blogging application written in Django.This is your first objecttype, don't hesite to archive or remove it.Or you can simply add a new objecttype.", 
+      "excerpt": "Welcome to the Objectapp blogging application written in Django.This is your first gbobject, don't hesite to archive or remove it.Or you can simply add a new gbobject.", 
       "sites": [
         1
       ], 
@@ -47,21 +47,21 @@
         3
       ], 
       "creation_date": "2010-01-01 00:00:00", 
-      "content": "<p>Welcome to the Gstudio blogging application written in Django.</p><p>This is your first objecttype, don't hesite to <a title=\"Edit this objecttype.\" href=\"/admin/gstudio/objecttype/1/\">archive or remove it</a>.</p><p>Or you can simply <a title=\"Add a new objecttype.\" href=\"/admin/gstudio/objecttype/add/\">add a new objecttype</a>.</p>", 
+      "content": "<p>Welcome to the Objectapp blogging application written in Django.</p><p>This is your first gbobject, don't hesite to <a title=\"Edit this gbobject.\" href=\"/admin/objectapp/gbobject/1/\">archive or remove it</a>.</p><p>Or you can simply <a title=\"Add a new gbobject.\" href=\"/admin/objectapp/gbobject/add/\">add a new gbobject</a>.</p>", 
       "start_publication": "2010-01-01 00:00:00", 
       "authors": [
         1
       ], 
       "last_update": "2010-04-20 15:12:49", 
       "slug": "hello-world", 
-      "metatypes": [
+      "objecttypes": [
         1
       ]
     }
   }, 
   {
     "pk": 3, 
-    "model": "gstudio.objecttype", 
+    "model": "objectapp.gbobject", 
     "fields": {
       "status": 2, 
       "login_required": false, 
@@ -87,7 +87,7 @@
       ], 
       "last_update": "2010-04-20 15:26:02", 
       "slug": "lorem-ipsum", 
-      "metatypes": [
+      "objecttypes": [
         2, 
         1
       ]
@@ -95,7 +95,7 @@
   }, 
   {
     "pk": 2, 
-    "model": "gstudio.objecttype", 
+    "model": "objectapp.gbobject", 
     "fields": {
       "status": 2, 
       "login_required": false, 
@@ -120,7 +120,7 @@
       ], 
       "last_update": "2010-04-20 15:26:38", 
       "slug": "testing-html-elements", 
-      "metatypes": [
+      "objecttypes": [
         2, 
         1
       ]

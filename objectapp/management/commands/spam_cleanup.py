@@ -3,7 +3,7 @@ from django.contrib import comments
 from django.contrib.contenttypes.models import ContentType
 from django.core.management.base import NoArgsCommand
 
-from objectapp.models import GBObject
+from objectapp.models import Gbobject
 
 
 class Command(NoArgsCommand):
@@ -14,7 +14,7 @@ class Command(NoArgsCommand):
     def handle_noargs(self, **options):
         verbosity = int(options.get('verbosity', 1))
 
-        content_type = ContentType.objects.get_for_model(GBObject)
+        content_type = ContentType.objects.get_for_model(Gbobject)
         spams = comments.get_model().objects.filter(is_public=False,
                                                     content_type=content_type,
                                                     flags__flag='spam')

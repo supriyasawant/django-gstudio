@@ -8,18 +8,18 @@ from tagging.models import TaggedItem
 from cms.plugin_base import CMSPluginBase
 from cms.plugin_pool import plugin_pool
 
-from objectapp.models import GBObject
+from objectapp.models import Gbobject
 from objectapp.models import Author
 from objectapp.managers import tags_published
-from objectapp.plugins.models import RandomGBObjectsPlugin
-from objectapp.plugins.models import LatestGBObjectsPlugin
-from objectapp.plugins.models import SelectedGBObjectsPlugin
+from objectapp.plugins.models import RandomGbobjectsPlugin
+from objectapp.plugins.models import LatestGbobjectsPlugin
+from objectapp.plugins.models import SelectedGbobjectsPlugin
 
 
-class CMSLatestGBObjectsPlugin(CMSPluginBase):
+class CMSLatestGbobjectsPlugin(CMSPluginBase):
     """Django-cms plugin for the latest gbobjects filtered"""
     module = _('gbobjects')
-    model = LatestGBObjectsPlugin
+    model = LatestGbobjectsPlugin
     name = _('Latest gbobjects')
     render_template = 'objectapp/cms/gbobject_list.html'
     filter_horizontal = ['objecttypes', 'authors', 'tags']
@@ -55,12 +55,12 @@ class CMSLatestGBObjectsPlugin(CMSPluginBase):
             kwargs['queryset'] = Author.published.all()
         if db_field.name == 'tags':
             kwargs['queryset'] = tags_published()
-        return super(CMSLatestGBObjectsPlugin, self).formfield_for_manytomany(
+        return super(CMSLatestGbobjectsPlugin, self).formfield_for_manytomany(
             db_field, request, **kwargs)
 
     def render(self, context, instance, placeholder):
         """Update the context with plugin's data"""
-        gbobjects = GBObject.published.all()
+        gbobjects = Gbobject.published.all()
 
         if instance.objecttypes.count():
             cats = instance.objecttypes.all()
@@ -87,10 +87,10 @@ class CMSLatestGBObjectsPlugin(CMSPluginBase):
         return settings.STATIC_URL + u'objectapp/img/plugin.png'
 
 
-class CMSSelectedGBObjectsPlugin(CMSPluginBase):
+class CMSSelectedGbobjectsPlugin(CMSPluginBase):
     """Django-cms plugin for a selection of gbobjects"""
     module = _('gbobjects')
-    model = SelectedGBObjectsPlugin
+    model = SelectedGbobjectsPlugin
     name = _('Selected gbobjects')
     render_template = 'objectapp/cms/gbobject_list.html'
     fields = ('gbobjects', 'template_to_render')
@@ -109,11 +109,11 @@ class CMSSelectedGBObjectsPlugin(CMSPluginBase):
         return settings.STATIC_URL + u'objectapp/img/plugin.png'
 
 
-class CMSRandomGBObjectsPlugin(CMSPluginBase):
+class CMSRandomGbobjectsPlugin(CMSPluginBase):
     """Django-cms plugin for random gbobjects"""
     module = _('gbobjects')
-    model = RandomGBObjectsPlugin
-    name = _('Random object types')
+    model = RandomGbobjectsPlugin
+    name = _('Random gbobjects')
     render_template = 'objectapp/cms/random_gbobjects.html'
     fields = ('number_of_gbobjects', 'template_to_render')
     text_enabled = True
@@ -130,6 +130,6 @@ class CMSRandomGBObjectsPlugin(CMSPluginBase):
         """Icon source of the plugin"""
         return settings.STATIC_URL + u'objectapp/img/plugin.png'
 
-plugin_pool.register_plugin(CMSLatestGBObjectsPlugin)
-plugin_pool.register_plugin(CMSSelectedGBObjectsPlugin)
-plugin_pool.register_plugin(CMSRandomGBObjectsPlugin)
+plugin_pool.register_plugin(CMSLatestGbobjectsPlugin)
+plugin_pool.register_plugin(CMSSelectedGbobjectsPlugin)
+plugin_pool.register_plugin(CMSRandomGbobjectsPlugin)

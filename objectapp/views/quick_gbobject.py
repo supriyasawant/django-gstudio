@@ -10,12 +10,12 @@ from django.template.defaultfilters import slugify
 from django.utils.encoding import smart_str
 from django.contrib.auth.decorators import permission_required
 
-from objectapp.models import GBObject
+from objectapp.models import Gbobject
 from objectapp.managers import DRAFT
 from objectapp.managers import PUBLISHED
 
 
-class QuickGBObjectForm(forms.Form):
+class QuickGbobjectForm(forms.Form):
     """Form for posting an gbobject quickly"""
 
     title = forms.CharField(required=True, max_length=255)
@@ -25,9 +25,9 @@ class QuickGBObjectForm(forms.Form):
 
 @permission_required('objectapp.add_gbobject')
 def view_quick_gbobject(request):
-    """View for quickly post an GBObject"""
+    """View for quickly post an Gbobject"""
     if request.POST:
-        form = QuickGBObjectForm(request.POST)
+        form = QuickGbobjectForm(request.POST)
         if form.is_valid():
             gbobject_dict = form.cleaned_data
             status = PUBLISHED
@@ -36,7 +36,7 @@ def view_quick_gbobject(request):
             gbobject_dict['content'] = linebreaks(gbobject_dict['content'])
             gbobject_dict['slug'] = slugify(gbobject_dict['title'])
             gbobject_dict['status'] = status
-            gbobject = GBObject.objects.create(**gbobject_dict)
+            gbobject = Gbobject.objects.create(**gbobject_dict)
             gbobject.sites.add(Site.objects.get_current())
             gbobject.authors.add(request.user)
             return redirect(gbobject)

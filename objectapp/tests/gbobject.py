@@ -1,4 +1,4 @@
-"""Test cases for Objectapp's GBObject"""
+"""Test cases for Objectapp's Gbobject"""
 from __future__ import with_statement
 import warnings
 from datetime import datetime
@@ -13,21 +13,21 @@ from django.core.urlresolvers import reverse
 from django.contrib.comments.models import CommentFlag
 
 from objectapp import models
-from objectapp.models import GBObject
+from objectapp.models import Gbobject
 from objectapp.managers import PUBLISHED
 from objectapp.models import get_base_model
-from objectapp.models import GBObject
+from objectapp.models import GbobjectAbstractClass
 from objectapp import models as models_settings
 from objectapp import url_shortener as shortener_settings
 
 
-class GBObjectTestCase(TestCase):
+class GbobjectTestCase(TestCase):
 
     def setUp(self):
         params = {'title': 'My gbobject',
                   'content': 'My content',
                   'slug': 'my-gbobject'}
-        self.gbobject = GBObject.objects.create(**params)
+        self.gbobject = Gbobject.objects.create(**params)
 
     def test_discussions(self):
         site = Site.objects.get_current()
@@ -133,7 +133,7 @@ class GBObjectTestCase(TestCase):
                   'slug': 'my-second-gbobject',
                   'creation_date': datetime(2000, 1, 1),
                   'status': PUBLISHED}
-        self.second_gbobject = GBObject.objects.create(**params)
+        self.second_gbobject = Gbobject.objects.create(**params)
         self.second_gbobject.sites.add(site)
         self.assertEquals(self.gbobject.previous_gbobject, self.second_gbobject)
         params = {'title': 'My third gbobject',
@@ -141,7 +141,7 @@ class GBObjectTestCase(TestCase):
                   'slug': 'my-third-gbobject',
                   'creation_date': datetime(2001, 1, 1),
                   'status': PUBLISHED}
-        self.third_gbobject = GBObject.objects.create(**params)
+        self.third_gbobject = Gbobject.objects.create(**params)
         self.third_gbobject.sites.add(site)
         self.assertEquals(self.gbobject.previous_gbobject, self.third_gbobject)
         self.assertEquals(self.third_gbobject.previous_gbobject, self.second_gbobject)
@@ -154,7 +154,7 @@ class GBObjectTestCase(TestCase):
                   'slug': 'my-second-gbobject',
                   'creation_date': datetime(2100, 1, 1),
                   'status': PUBLISHED}
-        self.second_gbobject = GBObject.objects.create(**params)
+        self.second_gbobject = Gbobject.objects.create(**params)
         self.second_gbobject.sites.add(site)
         self.assertEquals(self.gbobject.next_gbobject, self.second_gbobject)
         params = {'title': 'My third gbobject',
@@ -162,7 +162,7 @@ class GBObjectTestCase(TestCase):
                   'slug': 'my-third-gbobject',
                   'creation_date': datetime(2050, 1, 1),
                   'status': PUBLISHED}
-        self.third_gbobject = GBObject.objects.create(**params)
+        self.third_gbobject = Gbobject.objects.create(**params)
         self.third_gbobject.sites.add(site)
         self.assertEquals(self.gbobject.next_gbobject, self.third_gbobject)
         self.assertEquals(self.third_gbobject.next_gbobject, self.second_gbobject)
@@ -174,7 +174,7 @@ class GBObjectTestCase(TestCase):
                   'content': 'My second content',
                   'slug': 'my-second-gbobject',
                   'status': PUBLISHED}
-        self.second_gbobject = GBObject.objects.create(**params)
+        self.second_gbobject = Gbobject.objects.create(**params)
         self.second_gbobject.related.add(self.gbobject)
         self.assertEquals(len(self.gbobject.related_published), 0)
 
@@ -189,13 +189,13 @@ class GBObjectTestCase(TestCase):
         self.assertEquals(len(self.second_gbobject.related_published), 1)
 
 
-class GBObjectHtmlContentTestCase(TestCase):
+class GbobjectHtmlContentTestCase(TestCase):
 
     def setUp(self):
         params = {'title': 'My gbobject',
                   'content': 'My content',
                   'slug': 'my-gbobject'}
-        self.gbobject = GBObject(**params)
+        self.gbobject = Gbobject(**params)
         self.original_debug = settings.DEBUG
         self.original_rendering = models_settings.MARKUP_LANGUAGE
         settings.DEBUG = False
@@ -258,8 +258,8 @@ class GBObjectHtmlContentTestCase(TestCase):
         except AssertionError:
             self.assertEquals(html_content, self.gbobject.content)
 
-# this class can be removed since the base abstract class is no longer present.
-class GBObjectGetBaseModelTestCase(TestCase):
+
+class GbobjectGetBaseModelTestCase(TestCase):
 
     def setUp(self):
         self.original_gbobject_base_model = models_settings.GBOBJECT_BASE_MODEL
@@ -269,16 +269,16 @@ class GBObjectGetBaseModelTestCase(TestCase):
 
     def test_get_base_model(self):
         models_settings.GBOBJECT_BASE_MODEL = ''
-        self.assertEquals(get_base_model(), GBObject)
+        self.assertEquals(get_base_model(), GbobjectAbstractClass)
 
         models_settings.GBOBJECT_BASE_MODEL = 'mymodule.myclass'
         try:
             with warnings.catch_warnings(record=True) as w:
-                self.assertEquals(get_base_model(), GBObject)
-                self.assertTrue(issubclass(w[-1].objecttype, RuntimeWarning))
+                self.assertEquals(get_base_model(), GbobjectAbstractClass)
+                self.assertTrue(issubclass(w[-1].Objecttype, RuntimeWarning))
         except AttributeError:
             # Fail under Python2.5, because of'warnings.catch_warnings'
             pass
 
-        models_settings.GBOBJECT_BASE_MODEL = 'objectapp.models.GBObject'
-        self.assertEquals(get_base_model(), GBObject)
+        models_settings.GBOBJECT_BASE_MODEL = 'objectapp.models.GbobjectAbstractClass'
+        self.assertEquals(get_base_model(), GbobjectAbstractClass)

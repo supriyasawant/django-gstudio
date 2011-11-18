@@ -20,8 +20,8 @@ from objectapp.settings import SPAM_CHECKER_BACKENDS
 from objectapp.spam_checker import check_is_spam
 
 
-class GBObjectCommentModerator(CommentModerator):
-    """Moderate the comment of GBObject"""
+class GbobjectCommentModerator(CommentModerator):
+    """Moderate the comment of Gbobject"""
     email_reply = MAIL_COMMENT_REPLY
     email_authors = MAIL_COMMENT_AUTHORS
     enable_field = 'comment_enabled'
