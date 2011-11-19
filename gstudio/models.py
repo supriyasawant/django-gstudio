@@ -124,8 +124,7 @@ class Metatype(Nodetype):
     """Metatype object for Objecttype"""
 
 
-    slug = models.SlugField(help_text=_('used for publication'),
-                            unique=True, max_length=255)
+    slug = models.SlugField(help_text=_('used for publication'), unique=True, max_length=255)
     description = models.TextField(_('description'), blank=True, null=True)
 
     parent = models.ForeignKey('self', null=True, blank=True,
@@ -142,10 +141,9 @@ class Metatype(Nodetype):
     def get_nbh(self):
         """ Returns the neighbourhood of the metatype """
         nbh = {}
-        nbh['title'] = self.title
-        nbh['content'] = self.content
-        nbh['parent'] = self.parent
-        nbh['related'] = self.related.values_list()
+        nbh['title'] = self.title        
+        nbh['parent'] = dict({str(self.parent.id) : str(self.parent.title)})
+        #nbh['related'] = self.related.values_list()
         nbh['children'] = []
         
         # generate ids and names of children/members
@@ -261,6 +259,29 @@ class Objecttype(Nodetype):
 
     objects = models.Manager()
     published = ObjecttypePublishedManager()
+
+
+    @property
+    def get_nbh(self):
+        """ Returns the neighbourhood of the metatype """
+        nbh = {}
+        nbh['title'] = self.title        
+        #nbh['content'] = self.content
+        nbh['parent'] = dict({str(self.parent.id) : str(self.parent.title)})
+        #nbh['related'] = self.related.values_list()
+        nbh['children'] = []
+        
+        # generate ids and names of children/members
+        for objecttype in self.get_children():
+            nbh['children'].append({str(objecttype.id):str(objecttype.title)})
+
+        nbh['subtypeof'] = []
+        for objecttype in self.metatypes.all():
+            nbh['subtypeof'].append({str(objecttype.id):str(objecttype.title)})
+
+        return nbh
+
+
 
     @property
     def tree_path(self):
