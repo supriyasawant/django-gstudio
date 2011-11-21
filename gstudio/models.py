@@ -142,7 +142,10 @@ class Metatype(Nodetype):
         """ Returns the neighbourhood of the metatype """
         nbh = {}
         nbh['title'] = self.title        
-        nbh['parent'] = dict({str(self.parent.id) : str(self.parent.title)})
+        
+        nbh['parent'] = {}
+        if self.parent:
+            nbh['parent'] = dict({str(self.parent.id) : str(self.parent.title)})
         #nbh['related'] = self.related.values_list()
         nbh['children'] = []
         
@@ -267,7 +270,9 @@ class Objecttype(Nodetype):
         nbh = {}
         nbh['title'] = self.title        
         #nbh['content'] = self.content
-        nbh['parent'] = dict({str(self.parent.id) : str(self.parent.title)})
+        nbh['parent'] = {}
+        if self.parent:
+            nbh['parent'] = dict({str(self.parent.id) : str(self.parent.title)})
         #nbh['related'] = self.related.values_list()
         nbh['children'] = []
         
