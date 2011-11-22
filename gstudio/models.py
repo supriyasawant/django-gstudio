@@ -273,7 +273,17 @@ class Objecttype(Nodetype):
         nbh['parent'] = {}
         if self.parent:
             nbh['parent'] = dict({str(self.parent.id) : str(self.parent.title)})
-        #nbh['related'] = self.related.values_list()
+        nbh['relations'] = []
+        left_relset = Relation.objects.filter(subject1=self.id) 
+        right_relset = Relation.objects.filter(subject2=self.id) 
+
+        for relation in left_relset:
+            nbh['relations'].append({str(relation.id):str(relation.composed_sentence)})
+
+        for relation in right_relset:
+            nbh['relations'].append({str(relation.id):str(relation.composed_sentence)})
+                                  
+
         nbh['children'] = []
         
         # generate ids and names of children/members
@@ -400,6 +410,7 @@ class Objecttype(Nodetype):
                 return '%s is a member of metatype %s' % (self.title, each)
         return '%s is not a fully defined name, consider making it a member of a suitable metatype' % (self.title)
 
+    
     @property
     def subtypeof_sentence(self):
         "composes the relation as a sentence in triple format."
@@ -455,6 +466,7 @@ class Relationtype(Nodetype):
     def __unicode__(self):
         return self.title
 
+    
 class Attributetype(Nodetype):
     '''
     datatype properties
@@ -491,6 +503,18 @@ class Relation(models.Model):
         "composes the relation as a sentence in a triple format."
         return '%s %s %s %s %s %s' % (self.subject1Scope, self.subject1, self.relationTypeScope, self.relationtype, self.objectScope, self.subject2)
     composed_sentence = property(_get_sentence)
+
+
+    @property
+    def relation_sentence(self):
+        """Return the relations of the objecttypes"""
+        
+        if self.relationtype:
+           # for relation in self.relationtype():
+                return '%s %s %s' % (self.subject1,self.relationtype,self.subject2 )
+
+
+
 
 class Attribute(models.Model):
     '''
