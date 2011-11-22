@@ -1,4 +1,4 @@
-"""Models of Gstudio"""
+"""Super models of Gstudio  """
 import warnings
 from datetime import datetime
 from django.db import models
