@@ -1,17 +1,11 @@
 ===================================
-Django-gstudio's documentation!
+Django-Blog-Zinnia's documentation!
 ===================================
 
 Welcome to the version |version| of the documentation.
 
-You may also find the differents editions of the
+You can also find the differents editions of the
 `documentation online at readthedocs.org`_.
-
-The current documentation text was from the doc base of
-django-blog-zinnia.  We haven't written django-gstudio specific
-documentation as yet.  We still keep the django-blog-zinnia
-documentation since it may be useful before we write gstudio specific
-documentation. 
 
 .. toctree::
 
@@ -60,7 +54,7 @@ References
 
    settings
    templatetags
-   api-ref/gstudio
+   api-ref/zinnia
 
 Notes
 -----
@@ -77,7 +71,7 @@ Notes
 Related
 -------
 
-* `Gstudio's API`_
+* `Zinnia's API`_
 * `Code coverage`_
 
 Indices and tables
@@ -89,7 +83,6 @@ index or try to find it using the search function:
 * :ref:`genindex`
 * :ref:`search`
 
-
-.. _`documentation online at readthedocs.org`: to be updated
-.. _`Gstudio's API`: to be updated
-.. _`Code coverage`: to be updated
+.. _`documentation online at readthedocs.org`: http://django-blog-zinnia.readthedocs.org/
+.. _`Zinnia's API`: http://django-blog-zinnia.com/docs/api/
+.. _`Code coverage`: http://django-blog-zinnia.com/documentation/coverage/

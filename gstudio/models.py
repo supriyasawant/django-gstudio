@@ -415,23 +415,6 @@ class Attributetype(Nodetype):
     applicablenodetypes = models.CharField(max_length=2,choices=NODETYPE_CHOICES,default='OT')
     dataType = models.CharField(max_length=2, choices=FIELD_TYPE_CHOICES,default='01')
 
-
-    def simpleform(self):
-        """ create the form elements """
-        simpleform = {}
-        simpleform['projectName'] = self.subjecttype
-        simpleform['ID'] = self.subjecttype
-        simpleform['formName'] = self.title
-        simpleform['formRef'] = self.title
-        return simpleform
-
-    def simpleform_xml(self):
-        dict = self.simpleform()
-        return '<xform>  <model>  <submission id="learning-epicollect" projectName="learning-epicollect" allowDownloadEdits="false" versionNumber="2.1"/>  <uploadToServer>http://test.mlst.net/epicollectplus/school2/upload</uploadToServer>  <downloadFromServer>http://test.mlst.net/epicollectplus/school2/download</downloadFromServer>  </model> <form num="1" name=" %s  " key=" %s " main="true"> ' % (dict['projectName'], dict['projectName'])  
-
-    def inputform_xml(self):
-        return '<input ref="%s" title="true">  <label>what is the %s? </label>  </input>' % (self.title, self.title) 
-
     def __unicode__(self):
         return self.title
 
@@ -487,10 +470,6 @@ class Attribute(models.Model):
         '''
         return '%s %s has %s %s %s %s' % (self.subjectScope, self.subject, self.attributeTypeScope, self.attributeType, self.valueScope, self.value)
     composed_sentence = property(_get_sentence)
-
-
-
-
 
 reversion.register(Node)
 reversion.register(Nodetype)

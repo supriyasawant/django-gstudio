@@ -1,5 +1,5 @@
-======================A
-dvanced Configuration
+======================
+Advanced Configuration
 ======================
 
 .. _zinnia-sitemaps:
