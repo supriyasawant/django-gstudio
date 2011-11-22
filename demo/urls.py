@@ -9,6 +9,8 @@ from gstudio.sitemaps import TagSitemap
 from gstudio.sitemaps import ObjecttypeSitemap
 from gstudio.sitemaps import MetatypeSitemap
 from gstudio.sitemaps import AuthorSitemap
+from objectapp.sitemaps import GbobjectSitemap
+
 
 admin.autodiscover()
 handler500 = 'demo.views.server_error'
@@ -19,6 +21,7 @@ urlpatterns = patterns(
     (r'^$', 'django.views.generic.simple.redirect_to',
      {'url': '/nodes/'}),
     url(r'^nodes/', include('gstudio.urls')),
+    url(r'^objects/', include('objectapp.urls')),
     url(r'^comments/', include('django.contrib.comments.urls')),
     url(r'^xmlrpc/$', 'django_xmlrpc.views.handle_xmlrpc'),
     url(r'^i18n/', include('django.conf.urls.i18n')),
@@ -29,7 +32,8 @@ urlpatterns = patterns(
 sitemaps = {'tags': TagSitemap,
             'blog': ObjecttypeSitemap,
             'authors': AuthorSitemap,
-            'objecttypes': MetatypeSitemap}
+            'objecttypes': MetatypeSitemap,
+            'gbobjects': ObjecttypeSitemap}
 
 urlpatterns += patterns(
     'django.contrib.sitemaps.views',

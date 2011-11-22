@@ -14,7 +14,7 @@ from django.core.management.base import CommandError
 from django.core.management.base import LabelCommand
 
 from objectapp import __version__
-from objectapp.models import GBObject
+from objectapp.models import Gbobject
 from objectapp.models import Objecttype
 from objectapp.managers import PUBLISHED
 from objectapp.signals import disconnect_objectapp_signals
@@ -33,8 +33,8 @@ class Command(LabelCommand):
                     help='Do NOT generate an excerpt if not present.'),
         make_option('--author', dest='author', default='',
                     help='All imported gbobjects belong to specified author'),
-        make_option('--objecttype-is-tag', action='store_true',
-                    dest='objecttype-tag', default=False,
+        make_option('--Objecttype-is-tag', action='store_true',
+                    dest='Objecttype-tag', default=False,
                     help='Store objecttypes as tags'),
         )
     SITE = Site.objects.get_current()
@@ -63,7 +63,7 @@ class Command(LabelCommand):
         self.verbosity = int(options.get('verbosity', 1))
         self.auto_excerpt = options.get('auto_excerpt', True)
         self.default_author = options.get('author')
-        self.objecttype_tag = options.get('objecttype-tag', False)
+        self.Objecttype_tag = options.get('Objecttype-tag', False)
         if self.default_author:
             try:
                 self.default_author = User.objects.get(
@@ -84,7 +84,7 @@ class Command(LabelCommand):
             creation_date = datetime(*feed_gbobject.date_parsed[:6])
             slug = slugify(feed_gbobject.title)[:255]
 
-            if GBObject.objects.filter(creation_date__year=creation_date.year,
+            if Gbobject.objects.filter(creation_date__year=creation_date.year,
                                     creation_date__month=creation_date.month,
                                     creation_date__day=creation_date.day,
                                     slug=slug):
@@ -105,10 +105,10 @@ class Command(LabelCommand):
             if not gbobject_dict['excerpt'] and self.auto_excerpt:
                 gbobject_dict['excerpt'] = truncate_words(
                     strip_tags(feed_gbobject.description), 50)
-            if self.objecttype_tag:
+            if self.Objecttype_tag:
                 gbobject_dict['tags'] = self.import_tags(objecttypes)
 
-            gbobject = GBObject(**gbobject_dict)
+            gbobject = Gbobject(**gbobject_dict)
             gbobject.save()
             gbobject.objecttypes.add(*objecttypes)
             gbobject.sites.add(self.SITE)
@@ -130,9 +130,9 @@ class Command(LabelCommand):
     def import_objecttypes(self, feed_gbobject):
         objecttypes = []
         for cat in feed_gbobject.get('tags', ''):
-            objecttype, created = Objecttype.objects.get_or_create(
+            Objecttype, created = Objecttype.objects.get_or_create(
                 slug=slugify(cat.term), defaults={'title': cat.term})
-            objecttypes.append(objecttype)
+            objecttypes.append(Objecttype)
         return objecttypes
 
     def import_tags(self, objecttypes):

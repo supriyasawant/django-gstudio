@@ -7,7 +7,6 @@
 
 {% block meta-keywords %}{% if object.tags %}{{ object.tags }}{% else %}{{ block.super }}{% endif %}{% endblock %}
 
-
 {% block link %}
   {{ block.super }}
   {% with object.previous_gbobject as previous_gbobject %}{% if previous_gbobject %}
@@ -43,7 +42,7 @@
   {% with object.next_gbobject as next_gbobject %}
   {% if next_gbobject %}
   <div class="gbobject-next">
-    <h3>{% trans "Next object type" %}</h3>
+    <h3>{% trans "Next gbobject" %}</h3>
     <ul>
       <li>
 	<a href="{{ next_gbobject.get_absolute_url }}" title="{{ next_gbobject.title }}" rel="next">
@@ -57,7 +56,7 @@
   {% with object.previous_gbobject as previous_gbobject %}
   {% if previous_gbobject %}
   <div class="gbobject-previous">
-    <h3>{% trans "Previous object type" %}</h3>
+    <h3>{% trans "Previous gbobject" %}</h3>
     <ul>
       <li>
 	<a href="{{ previous_gbobject.get_absolute_url }}" title="{{ previous_gbobject.title }}" rel="prev">
@@ -70,7 +69,7 @@
   {% endwith %}
   {% if object.related_published %}
   <div class="gbobject-related">
-    <h3>{% trans "Related object types" %}</h3>
+    <h3>{% trans "Related gbobjects" %}</h3>
     <ul>
       {% for gbobject in object.related_published %}
       <li>
@@ -81,7 +80,7 @@
   </div>
   {% endif %}
   <div class="gbobject-similar">
-    <h3>{% trans "Similar object types" %}</h3>
+    <h3>{% trans "Similar gbobjects" %}</h3>
     {% get_similar_gbobjects 5 %}
   </div>
 </div>
@@ -209,7 +208,7 @@
 {% if perms.objectapp.change_gbobject %}
 <li>
   <a href="{% url admin:objectapp_gbobject_change object.pk %}" title="{% trans "Edit the gbobject" %}">
-    {% trans "Edit the object type" %}
+    {% trans "Edit the gbobject" %}
   </a>
 </li>
 {% endif %}

@@ -7,7 +7,7 @@ from django.utils.dates import WEEKDAYS_ABBR
 from django.utils.formats import get_format
 from django.core.urlresolvers import reverse
 
-from objectapp.models import GBObject
+from objectapp.models import Gbobject
 
 AMERICAN_TO_EUROPEAN_WEEK_DAYS = [6, 0, 1, 2, 3, 4, 5]
 
@@ -42,7 +42,7 @@ class ObjectappCalendar(HTMLCalendar):
         self.current_year = theyear
         self.current_month = themonth
         self.day_gbobjects = [gbobjects.creation_date.day for gbobjects in
-                            GBObject.published.filter(
+                            Gbobject.published.filter(
                                 creation_date__year=theyear,
                                 creation_date__month=themonth)]
 

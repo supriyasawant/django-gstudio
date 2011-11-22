@@ -15,7 +15,7 @@ from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
 from django.template.defaultfilters import slugify
 
-from objectapp.models import GBObject
+from objectapp.models import Gbobject
 from objectapp.models import Objecttype
 from objectapp.settings import PROTOCOL
 from objectapp.settings import UPLOAD_TO
@@ -71,20 +71,20 @@ def author_structure(user):
             'user_email': user.email}
 
 
-def objecttype_structure(objecttype, site):
-    """A objecttype structure"""
-    return {'description': objecttype.title,
+def Objecttype_structure(Objecttype, site):
+    """A Objecttype structure"""
+    return {'description': Objecttype.title,
             'htmlUrl': '%s://%s%s' % (
                 PROTOCOL, site.domain,
-                objecttype.get_absolute_url()),
+                Objecttype.get_absolute_url()),
             'rssUrl': '%s://%s%s' % (
                 PROTOCOL, site.domain,
-                reverse('objectapp_objecttype_feed', args=[objecttype.tree_path])),
+                reverse('objectapp_Objecttype_feed', args=[Objecttype.tree_path])),
             # Useful Wordpress Extensions
-            'objecttypeId': objecttype.pk,
-            'parentId': objecttype.parent and objecttype.parent.pk or 0,
-            'objecttypeDescription': objecttype.description,
-            'objecttypeName': objecttype.title}
+            'ObjecttypeId': Objecttype.pk,
+            'parentId': Objecttype.parent and Objecttype.parent.pk or 0,
+            'ObjecttypeDescription': Objecttype.description,
+            'ObjecttypeName': Objecttype.title}
 
 
 def post_structure(gbobject, site):
@@ -148,7 +148,7 @@ def delete_post(apikey, post_id, username, password, publish):
     """blogger.deletePost(api_key, post_id, username, password, 'publish')
     => boolean"""
     user = authenticate(username, password, 'objectapp.delete_gbobject')
-    gbobject = GBObject.objects.get(id=post_id, authors=user)
+    gbobject = Gbobject.objects.get(id=post_id, authors=user)
     gbobject.delete()
     return True
 
@@ -159,7 +159,7 @@ def get_post(post_id, username, password):
     => post structure"""
     user = authenticate(username, password)
     site = Site.objects.get_current()
-    return post_structure(GBObject.objects.get(id=post_id, authors=user), site)
+    return post_structure(Gbobject.objects.get(id=post_id, authors=user), site)
 
 
 @xmlrpc_func(returns='struct[]',
@@ -170,33 +170,33 @@ def get_recent_posts(blog_id, username, password, number):
     user = authenticate(username, password)
     site = Site.objects.get_current()
     return [post_structure(gbobject, site) \
-            for gbobject in GBObject.objects.filter(authors=user)[:number]]
+            for gbobject in Gbobject.objects.filter(authors=user)[:number]]
 
 
 @xmlrpc_func(returns='struct[]', args=['string', 'string', 'string'])
 def get_objecttypes(blog_id, username, password):
     """metaWeblog.getObjecttypes(blog_id, username, password)
-    => objecttype structure[]"""
+    => Objecttype structure[]"""
     authenticate(username, password)
     site = Site.objects.get_current()
-    return [objecttype_structure(objecttype, site) \
-            for objecttype in Objecttype.objects.all()]
+    return [Objecttype_structure(Objecttype, site) \
+            for Objecttype in Objecttype.objects.all()]
 
 
 @xmlrpc_func(returns='string', args=['string', 'string', 'string', 'struct'])
-def new_objecttype(blog_id, username, password, objecttype_struct):
-    """wp.newObjecttype(blog_id, username, password, objecttype)
-    => objecttype_id"""
-    authenticate(username, password, 'objectapp.add_objecttype')
-    objecttype_dict = {'title': objecttype_struct['name'],
-                     'description': objecttype_struct['description'],
-                     'slug': objecttype_struct['slug']}
-    if int(objecttype_struct['parent_id']):
-        objecttype_dict['parent'] = Objecttype.objects.get(
-            pk=objecttype_struct['parent_id'])
-    objecttype = Objecttype.objects.create(**objecttype_dict)
+def new_Objecttype(blog_id, username, password, Objecttype_struct):
+    """wp.newObjecttype(blog_id, username, password, Objecttype)
+    => Objecttype_id"""
+    authenticate(username, password, 'objectapp.add_Objecttype')
+    Objecttype_dict = {'title': Objecttype_struct['name'],
+                     'description': Objecttype_struct['description'],
+                     'slug': Objecttype_struct['slug']}
+    if int(Objecttype_struct['parent_id']):
+        Objecttype_dict['parent'] = Objecttype.objects.get(
+            pk=Objecttype_struct['parent_id'])
+    Objecttype = Objecttype.objects.create(**Objecttype_dict)
 
-    return objecttype.pk
+    return Objecttype.pk
 
 
 @xmlrpc_func(returns='string', args=['string', 'string', 'string',
@@ -226,7 +226,7 @@ def new_post(blog_id, username, password, post, publish):
                       post['title']),
                   'password': post.get('wp_password', ''),
                   'status': publish and PUBLISHED or DRAFT}
-    gbobject = GBObject.objects.create(**gbobject_dict)
+    gbobject = Gbobject.objects.create(**gbobject_dict)
 
     author = user
     if 'wp_author_id' in post and user.has_perm('objectapp.can_change_author'):
@@ -249,7 +249,7 @@ def edit_post(post_id, username, password, post, publish):
     """metaWeblog.editPost(post_id, username, password, post, publish)
     => boolean"""
     user = authenticate(username, password, 'objectapp.change_gbobject')
-    gbobject = GBObject.objects.get(id=post_id, authors=user)
+    gbobject = Gbobject.objects.get(id=post_id, authors=user)
     if post.get('dateCreated'):
         creation_date = datetime.strptime(
             post['dateCreated'].value.replace('Z', '').replace('-', ''),

@@ -1,20 +1,12 @@
-
-{% load i18n mptt_tags %}
-
-{% for gbobject, structure in gbobjects|tree_info %}
-{% if structure.new_level %}
+{% load i18n %}
 <ul>
-  <li>{% else %}</li>
-  <li>{% endif %}
-    <a href="{{ gbobject.get_absolute_url }}" title="{{ gbobject.title }}">{{ gbobject.title }}</a> 
-    {% for level in structure.closed_levels %}
-  </li>
-</ul>{% endfor %}
-{% empty %}
-<ul>
+  {% for gbobject in gbobjects %}
   <li>
-    {% trans "No subtypes yet." %}
+    <a href="{{ gbobject.get_absolute_url }}" title="{{ gbobject.title }}" rel="bookmark">{{ gbobject.title }}</a>
   </li>
+  {% empty %}
+  <li>
+    {% trans "No gbobjects yet." %}
+  </li>
+  {% endfor %}
 </ul>
-{% endfor %}
-

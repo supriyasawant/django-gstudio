@@ -15,13 +15,13 @@ from django.core.exceptions import ObjectDoesNotExist
 from tagging.models import Tag
 from tagging.models import TaggedItem
 
-from objectapp.models import GBObject
+from objectapp.models import Gbobject
 from objectapp.settings import COPYRIGHT
 from objectapp.settings import PROTOCOL
 from objectapp.settings import FEEDS_FORMAT
 from objectapp.settings import FEEDS_MAX_ITEMS
 from objectapp.managers import gbobjects_published
-from objectapp.views.objecttypes import get_objecttype_or_404
+from objectapp.views.objecttypes import get_Objecttype_or_404
 from objectapp.templatetags.objectapp_tags import get_gravatar
 
 
@@ -37,8 +37,8 @@ class ObjectappFeed(Feed):
             self.subtitle = self.description
 
 
-class GBObjectFeed(ObjectappFeed):
-    """Base GBObject Feed"""
+class GbobjectFeed(ObjectappFeed):
+    """Base Gbobject Feed"""
     title_template = 'feeds/gbobject_title.html'
     description_template = 'feeds/gbobject_description.html'
 
@@ -47,8 +47,8 @@ class GBObjectFeed(ObjectappFeed):
         return item.creation_date
 
     def item_objecttypes(self, item):
-        """GBObject's objecttypes"""
-        return [objecttype.title for objecttype in item.objecttypes.all()]
+        """Gbobject's objecttypes"""
+        return [Objecttype.title for Objecttype in item.objecttypes.all()]
 
     def item_author_name(self, item):
         """Returns the first author of an gbobject"""
@@ -87,7 +87,7 @@ class GBObjectFeed(ObjectappFeed):
         return 'image/jpeg'
 
 
-class LatestGBObjects(GBObjectFeed):
+class LatestGbobjects(GbobjectFeed):
     """Feed for the latest gbobjects"""
 
     def link(self):
@@ -96,7 +96,7 @@ class LatestGBObjects(GBObjectFeed):
 
     def items(self):
         """Items are published gbobjects"""
-        return GBObject.published.all()[:FEEDS_MAX_ITEMS]
+        return Gbobject.published.all()[:FEEDS_MAX_ITEMS]
 
     def title(self):
         """Title of the feed"""
@@ -107,31 +107,31 @@ class LatestGBObjects(GBObjectFeed):
         return _('The latest gbobjects for the site %s') % self.site.name
 
 
-class ObjecttypeGBObjects(GBObjectFeed):
-    """Feed filtered by a objecttype"""
+class ObjecttypeGbobjects(GbobjectFeed):
+    """Feed filtered by a Objecttype"""
 
     def get_object(self, request, path):
-        """Retrieve the objecttype by his path"""
-        return get_objecttype_or_404(path)
+        """Retrieve the Objecttype by his path"""
+        return get_Objecttype_or_404(path)
 
     def items(self, obj):
-        """Items are the published gbobjects of the objecttype"""
+        """Items are the published gbobjects of the Objecttype"""
         return obj.gbobjects_published()[:FEEDS_MAX_ITEMS]
 
     def link(self, obj):
-        """URL of the objecttype"""
+        """URL of the Objecttype"""
         return obj.get_absolute_url()
 
     def title(self, obj):
         """Title of the feed"""
-        return _('GBObjects for the objecttype %s') % obj.title
+        return _('Gbobjects for the Objecttype %s') % obj.title
 
     def description(self, obj):
         """Description of the feed"""
-        return _('The latest gbobjects for the objecttype %s') % obj.title
+        return _('The latest gbobjects for the Objecttype %s') % obj.title
 
 
-class AuthorGBObjects(GBObjectFeed):
+class AuthorGbobjects(GbobjectFeed):
     """Feed filtered by an author"""
 
     def get_object(self, request, username):
@@ -148,14 +148,14 @@ class AuthorGBObjects(GBObjectFeed):
 
     def title(self, obj):
         """Title of the feed"""
-        return _('GBObjects for author %s') % obj.username
+        return _('Gbobjects for author %s') % obj.username
 
     def description(self, obj):
         """Description of the feed"""
         return _('The latest gbobjects by %s') % obj.username
 
 
-class TagGBObjects(GBObjectFeed):
+class TagGbobjects(GbobjectFeed):
     """Feed filtered by a tag"""
 
     def get_object(self, request, slug):
@@ -165,7 +165,7 @@ class TagGBObjects(GBObjectFeed):
     def items(self, obj):
         """Items are the published gbobjects of the tag"""
         return TaggedItem.objects.get_by_model(
-            GBObject.published.all(), obj)[:FEEDS_MAX_ITEMS]
+            Gbobject.published.all(), obj)[:FEEDS_MAX_ITEMS]
 
     def link(self, obj):
         """URL of the tag"""
@@ -173,14 +173,14 @@ class TagGBObjects(GBObjectFeed):
 
     def title(self, obj):
         """Title of the feed"""
-        return _('GBObjects for the tag %s') % obj.name
+        return _('Gbobjects for the tag %s') % obj.name
 
     def description(self, obj):
         """Description of the feed"""
         return _('The latest gbobjects for the tag %s') % obj.name
 
 
-class SearchGBObjects(GBObjectFeed):
+class SearchGbobjects(GbobjectFeed):
     """Feed filtered by a search pattern"""
 
     def get_object(self, request):
@@ -192,7 +192,7 @@ class SearchGBObjects(GBObjectFeed):
 
     def items(self, obj):
         """Items are the published gbobjects founds"""
-        return GBObject.published.search(obj)[:FEEDS_MAX_ITEMS]
+        return Gbobject.published.search(obj)[:FEEDS_MAX_ITEMS]
 
     def link(self, obj):
         """URL of the search request"""
@@ -207,14 +207,14 @@ class SearchGBObjects(GBObjectFeed):
         return _("The gbobjects containing the pattern '%s'") % obj
 
 
-class GBObjectDiscussions(ObjectappFeed):
+class GbobjectDiscussions(ObjectappFeed):
     """Feed for discussions in an gbobject"""
     title_template = 'feeds/discussion_title.html'
     description_template = 'feeds/discussion_description.html'
 
     def get_object(self, request, year, month, day, slug):
         """Retrieve the discussions by gbobject's slug"""
-        return get_object_or_404(GBObject.published, slug=slug,
+        return get_object_or_404(Gbobject.published, slug=slug,
                                  creation_date__year=year,
                                  creation_date__month=month,
                                  creation_date__day=day)
@@ -256,7 +256,7 @@ class GBObjectDiscussions(ObjectappFeed):
         return _('The latest discussions for the gbobject %s') % obj.title
 
 
-class GBObjectComments(GBObjectDiscussions):
+class GbobjectComments(GbobjectDiscussions):
     """Feed for comments in an gbobject"""
     title_template = 'feeds/comment_title.html'
     description_template = 'feeds/comment_description.html'
@@ -290,7 +290,7 @@ class GBObjectComments(GBObjectDiscussions):
         return 'image/jpeg'
 
 
-class GBObjectPingbacks(GBObjectDiscussions):
+class GbobjectPingbacks(GbobjectDiscussions):
     """Feed for pingbacks in an gbobject"""
     title_template = 'feeds/pingback_title.html'
     description_template = 'feeds/pingback_description.html'
@@ -312,7 +312,7 @@ class GBObjectPingbacks(GBObjectDiscussions):
         return _('The latest pingbacks for the gbobject %s') % obj.title
 
 
-class GBObjectTrackbacks(GBObjectDiscussions):
+class GbobjectTrackbacks(GbobjectDiscussions):
     """Feed for trackbacks in an gbobject"""
     title_template = 'feeds/trackback_title.html'
     description_template = 'feeds/trackback_description.html'

@@ -1,7 +1,7 @@
 """Test cases for Objectapp's signals"""
 from django.test import TestCase
 
-from objectapp.models import GBObject
+from objectapp.models import Gbobject
 from objectapp.managers import DRAFT
 from objectapp.managers import PUBLISHED
 from objectapp.signals import disable_for_loaddata
@@ -42,7 +42,7 @@ class SignalsTestCase(TestCase):
                   'content': 'My content',
                   'status': PUBLISHED,
                   'slug': 'my-gbobject'}
-        gbobject = GBObject.objects.create(**params)
+        gbobject = Gbobject.objects.create(**params)
         self.assertEquals(gbobject.is_visible, True)
         settings.PING_DIRECTORIES = ()
         ping_directories_handler('sender', **{'instance': gbobject})
@@ -74,7 +74,7 @@ class SignalsTestCase(TestCase):
                   'content': 'My content',
                   'status': PUBLISHED,
                   'slug': 'my-gbobject'}
-        gbobject = GBObject.objects.create(**params)
+        gbobject = Gbobject.objects.create(**params)
         self.assertEquals(gbobject.is_visible, True)
         settings.SAVE_PING_EXTERNAL_URLS = False
         ping_external_urls_handler('sender', **{'instance': gbobject})

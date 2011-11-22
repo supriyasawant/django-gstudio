@@ -7,11 +7,11 @@
 <h2>{% trans "Sitemap" %}</h2>
 
 <div class="gbobjectsbyobjecttypes">
-  <h3>{% trans "GBObjects per objecttypes" %}</h3>
-  {% for objecttype in objecttypes %}
-  <h4>{{ objecttype }}</h4>
+  <h3>{% trans "Gbobjects per objecttypes" %}</h3>
+  {% for Objecttype in objecttypes %}
+  <h4>{{ Objecttype }}</h4>
   <ul>
-    {% for gbobject in objecttype.gbobjects_published.all %}
+    {% for gbobject in Objecttype.gbobjects_published.all %}
     <li>
       <a href="{{ gbobject.get_absolute_url }}" title="{{ gbobject.title }}" rel="bookmark">{{ gbobject.title }}</a>
       {% with gbobject.comments.count as comment_count %}
@@ -48,11 +48,11 @@
 
 <div class="objecttypes">
   <h3>{% trans "Objecttypes" %}</h3>
-  {% for objecttype, structure in objecttypes|tree_info %}
+  {% for Objecttype, structure in objecttypes|tree_info %}
     {% if structure.new_level %}<ul><li>{% else %}</li><li>{% endif %}
-      <a href="{{ objecttype.get_absolute_url }}" title="{{ objecttype.title }}">{{ objecttype.title }}</a>
+      <a href="{{ Objecttype.get_absolute_url }}" title="{{ Objecttype.title }}">{{ Objecttype.title }}</a>
       -
-      {% blocktrans count objecttype.gbobjects_published.count as gbobject_count %}{{ gbobject_count }} gbobject{% plural %}{{ gbobject_count }} gbobjects{% endblocktrans %}
+      {% blocktrans count Objecttype.gbobjects_published.count as gbobject_count %}{{ gbobject_count }} gbobject{% plural %}{{ gbobject_count }} gbobjects{% endblocktrans %}
     {% for level in structure.closed_levels %}</li></ul>{% endfor %}
     {% empty %}
   <ul>

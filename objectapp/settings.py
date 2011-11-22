@@ -2,7 +2,7 @@
 from django.conf import settings
 
 PING_DIRECTORIES = getattr(settings, 'OBJECTAPP_PING_DIRECTORIES',
-                           ('http://django-objectapp.com/xmlrpc/',))
+                           ('http://django-blog-objectapp.com/xmlrpc/',))
 SAVE_PING_DIRECTORIES = getattr(settings, 'OBJECTAPP_SAVE_PING_DIRECTORIES',
                                 bool(PING_DIRECTORIES))
 SAVE_PING_EXTERNAL_URLS = getattr(settings, 'OBJECTAPP_PING_EXTERNAL_URLS', True)

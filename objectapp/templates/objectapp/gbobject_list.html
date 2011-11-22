@@ -1,12 +1,12 @@
 {% extends "objectapp/base.html" %}
 {% load i18n objectapp_tags %}
 
-{% block meta-description %}{% trans "Latest gbobjects for" %} {% if objecttype %}{% trans "the objecttype" %} {{ objecttype }}{% if objecttype.description %}: {{ objecttype.description|striptags|safe }}{% endif %}{% endif %}{% if tag %}{% trans "the tag" %} {{ tag }}{% endif %}{% if author %}{% trans "the author" %} {{ author }}{% endif %}{% if page_obj %}{% ifnotequal page_obj.number 1 %} {% trans "page" %} {{ page_obj.number }}{% endifnotequal %}{% endif %}{% endblock %}
+{% block meta-description %}{% trans "Latest gbobjects for" %} {% if Objecttype %}{% trans "the Objecttype" %} {{ Objecttype }}{% if Objecttype.description %}: {{ Objecttype.description|striptags|safe }}{% endif %}{% endif %}{% if tag %}{% trans "the tag" %} {{ tag }}{% endif %}{% if author %}{% trans "the author" %} {{ author }}{% endif %}{% if page_obj %}{% ifnotequal page_obj.number 1 %} {% trans "page" %} {{ page_obj.number }}{% endifnotequal %}{% endif %}{% endblock %}
 
 {% block link %}
   {{ block.super }}
-  {% if objecttype %}
-    <link rel="alternate" type="application/rss+xml" title="{% trans "RSS Feed" %} {{ objecttype.title }}" href="{% url objectapp_objecttype_feed objecttype.tree_path %}" />
+  {% if Objecttype %}
+    <link rel="alternate" type="application/rss+xml" title="{% trans "RSS Feed" %} {{ Objecttype.title }}" href="{% url objectapp_Objecttype_feed Objecttype.tree_path %}" />
   {% endif %}
   {% if tag %}
     <link rel="alternate" type="application/rss+xml" title="{% trans "RSS Feed" %} {{ tag.name }}" href="{% url objectapp_tag_feed tag.name %}" />
@@ -16,14 +16,13 @@
   {% endif %}
 {% endblock %}
 
-{% block title %}{% trans "Latest gbobjects" %} {% if objecttype %}| {% trans "Objecttype" %} {{ objecttype }}{% endif %}{% if tag %}| {% trans "Tag" %} {{ tag }}{% endif %}{% if author %}| {% trans "Author" %} {{ author }}{% endif %}{% if page_obj %}{% ifnotequal page_obj.number 1 %} | {% trans "Page" %} {{ page_obj.number }}{% endifnotequal %}{% endif %}{% endblock %}
+{% block title %}{% trans "Latest gbobjects" %} {% if Objecttype %}| {% trans "Objecttype" %} {{ Objecttype }}{% endif %}{% if tag %}| {% trans "Tag" %} {{ tag }}{% endif %}{% if author %}| {% trans "Author" %} {{ author }}{% endif %}{% if page_obj %}{% ifnotequal page_obj.number 1 %} | {% trans "Page" %} {{ page_obj.number }}{% endifnotequal %}{% endif %}{% endblock %}
 
 {% block content %}
-{% if objecttype %}
-<h1>{{ objecttype.title }}</h1>
-<h3>{{ objecttype.composed_sentence }}</h3>
-{% if objecttype.description %}
-<p>{{ objecttype.description|striptags|safe }}</p>
+{% if Objecttype %}
+<h1>{{ Objecttype.title }}</h1>
+{% if Objecttype.description %}
+<p>{{ Objecttype.description|striptags|safe }}</p>
 {% endif %}
 {% endif %}
 
@@ -32,7 +31,7 @@
 {% endif %}
 
 {% if author %}
-<h1>{% blocktrans with author.username as author %}GBObjects by {{ author }}{% endblocktrans %}</h1>
+<h1>{% blocktrans with author.username as author %}Gbobjects by {{ author }}{% endblocktrans %}</h1>
 {% endif %}
 
 {% for object in object_list %}
@@ -40,7 +39,7 @@
   {% include "objectapp/_gbobject_detail.html" %}
   {% endwith %}
 {% empty %}
-  <p class="notice">{% trans "No nodes in the network yet. Login and construct a network!" %}</p>
+  <p class="notice">{% trans "No gbobjects yet." %}</p>
 {% endfor %}
 
 {% if is_paginated %}
@@ -49,10 +48,10 @@
 {% endblock %}
 
 {% block admin_tools %}
-  {% if objecttype and perms.objectapp.change_objecttype %}
+  {% if Objecttype and perms.objectapp.change_Objecttype %}
   <li>
-    <a href="{% url admin:objectapp_objecttype_change objecttype.pk %}" title="{% trans "Edit the objecttype" %}">
-      {% trans "Edit the objecttype" %}
+    <a href="{% url admin:objectapp_Objecttype_change Objecttype.pk %}" title="{% trans "Edit the Objecttype" %}">
+      {% trans "Edit the Objecttype" %}
     </a>
   </li>
   {% endif %}

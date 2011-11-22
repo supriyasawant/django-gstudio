@@ -6,12 +6,12 @@ class Migration(SchemaMigration):
 
     def forwards(self, orm):
 
-        # Adding field 'LatestGBObjectsPlugin.subobjecttypes'
+        # Adding field 'LatestGbobjectsPlugin.subobjecttypes'
         db.add_column('cmsplugin_latestgbobjectsplugin', 'subobjecttypes', self.gf('django.db.models.fields.BooleanField')(default=True), keep_default=False)
 
     def backwards(self, orm):
 
-        # Deleting field 'LatestGBObjectsPlugin.subobjecttypes'
+        # Deleting field 'LatestGbobjectsPlugin.subobjecttypes'
         db.delete_column('cmsplugin_latestgbobjectsplugin', 'subobjecttypes')
 
     models = {
@@ -75,7 +75,7 @@ class Migration(SchemaMigration):
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
         },
         'plugins.latestgbobjectsplugin': {
-            'Meta': {'object_name': 'LatestGBObjectsPlugin', 'db_table': "'cmsplugin_latestgbobjectsplugin'", '_ormbases': ['cms.CMSPlugin']},
+            'Meta': {'object_name': 'LatestGbobjectsPlugin', 'db_table': "'cmsplugin_latestgbobjectsplugin'", '_ormbases': ['cms.CMSPlugin']},
             'authors': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'to': "orm['auth.User']", 'null': 'True', 'blank': 'True'}),
             'objecttypes': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'to': "orm['objectapp.Objecttype']", 'null': 'True', 'blank': 'True'}),
             'cmsplugin_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['cms.CMSPlugin']", 'unique': 'True', 'primary_key': 'True'}),
@@ -85,9 +85,9 @@ class Migration(SchemaMigration):
             'template_to_render': ('django.db.models.fields.CharField', [], {'max_length': '250', 'blank': 'True'})
         },
         'plugins.selectedgbobjectsplugin': {
-            'Meta': {'object_name': 'SelectedGBObjectsPlugin', 'db_table': "'cmsplugin_selectedgbobjectsplugin'", '_ormbases': ['cms.CMSPlugin']},
+            'Meta': {'object_name': 'SelectedGbobjectsPlugin', 'db_table': "'cmsplugin_selectedgbobjectsplugin'", '_ormbases': ['cms.CMSPlugin']},
             'cmsplugin_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['cms.CMSPlugin']", 'unique': 'True', 'primary_key': 'True'}),
-            'gbobjects': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['objectapp.GBObject']", 'symmetrical': 'False'}),
+            'gbobjects': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['objectapp.Gbobject']", 'symmetrical': 'False'}),
             'template_to_render': ('django.db.models.fields.CharField', [], {'max_length': '250', 'blank': 'True'})
         },
         'sites.site': {
@@ -101,7 +101,7 @@ class Migration(SchemaMigration):
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '50', 'db_index': 'True'})
         },
-        'objectapp.objecttype': {
+        'objectapp.Objecttype': {
             'Meta': {'ordering': "['title']", 'object_name': 'Objecttype'},
             'description': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
@@ -114,7 +114,7 @@ class Migration(SchemaMigration):
             'tree_id': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'})
         },
         'objectapp.gbobject': {
-            'Meta': {'ordering': "['-creation_date']", 'object_name': 'GBObject'},
+            'Meta': {'ordering': "['-creation_date']", 'object_name': 'Gbobject'},
             'authors': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['auth.User']", 'symmetrical': 'False', 'blank': 'True'}),
             'objecttypes': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['objectapp.Objecttype']", 'symmetrical': 'False'}),
             'comment_enabled': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
@@ -128,7 +128,7 @@ class Migration(SchemaMigration):
             'login_required': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'password': ('django.db.models.fields.CharField', [], {'max_length': '50', 'blank': 'True'}),
             'pingback_enabled': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
-            'related': ('django.db.models.fields.related.ManyToManyField', [], {'blank': 'True', 'related_name': "'related_rel_+'", 'null': 'True', 'to': "orm['objectapp.GBObject']"}),
+            'related': ('django.db.models.fields.related.ManyToManyField', [], {'blank': 'True', 'related_name': "'related_rel_+'", 'null': 'True', 'to': "orm['objectapp.Gbobject']"}),
             'sites': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['sites.Site']", 'symmetrical': 'False'}),
             'slug': ('django.db.models.fields.SlugField', [], {'max_length': '255', 'db_index': 'True'}),
             'start_publication': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),

@@ -9,7 +9,7 @@ class Migration(SchemaMigration):
     def forwards(self, orm):
 
         # Adding model 'Objecttype'
-        db.create_table('objectapp_objecttype', (
+        db.create_table('objectapp_Objecttype', (
             ('slug', self.gf('django.db.models.fields.SlugField')(max_length=50, db_index=True)),
             ('description', self.gf('django.db.models.fields.TextField')(blank=True)),
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
@@ -17,7 +17,7 @@ class Migration(SchemaMigration):
         ))
         db.send_create_signal('objectapp', ['Objecttype'])
 
-        # Adding model 'GBObject'
+        # Adding model 'Gbobject'
         db.create_table('objectapp_gbobject', (
             ('status', self.gf('django.db.models.fields.IntegerField')(default=0)),
             ('last_update', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime.now)),
@@ -33,9 +33,9 @@ class Migration(SchemaMigration):
             ('creation_date', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime.now)),
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
         ))
-        db.send_create_signal('objectapp', ['GBObject'])
+        db.send_create_signal('objectapp', ['Gbobject'])
 
-        # Adding M2M table for field sites on 'GBObject'
+        # Adding M2M table for field sites on 'Gbobject'
         db.create_table('objectapp_gbobject_sites', (
             ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
             ('gbobject', models.ForeignKey(orm['objectapp.gbobject'], null=False)),
@@ -43,7 +43,7 @@ class Migration(SchemaMigration):
         ))
         db.create_unique('objectapp_gbobject_sites', ['gbobject_id', 'site_id'])
 
-        # Adding M2M table for field related on 'GBObject'
+        # Adding M2M table for field related on 'Gbobject'
         db.create_table('objectapp_gbobject_related', (
             ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
             ('from_gbobject', models.ForeignKey(orm['objectapp.gbobject'], null=False)),
@@ -51,15 +51,15 @@ class Migration(SchemaMigration):
         ))
         db.create_unique('objectapp_gbobject_related', ['from_gbobject_id', 'to_gbobject_id'])
 
-        # Adding M2M table for field objecttypes on 'GBObject'
+        # Adding M2M table for field objecttypes on 'Gbobject'
         db.create_table('objectapp_gbobject_objecttypes', (
             ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
             ('gbobject', models.ForeignKey(orm['objectapp.gbobject'], null=False)),
-            ('objecttype', models.ForeignKey(orm['objectapp.objecttype'], null=False))
+            ('Objecttype', models.ForeignKey(orm['objectapp.Objecttype'], null=False))
         ))
-        db.create_unique('objectapp_gbobject_objecttypes', ['gbobject_id', 'objecttype_id'])
+        db.create_unique('objectapp_gbobject_objecttypes', ['gbobject_id', 'Objecttype_id'])
 
-        # Adding M2M table for field authors on 'GBObject'
+        # Adding M2M table for field authors on 'Gbobject'
         db.create_table('objectapp_gbobject_authors', (
             ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
             ('gbobject', models.ForeignKey(orm['objectapp.gbobject'], null=False)),
@@ -70,21 +70,21 @@ class Migration(SchemaMigration):
     def backwards(self, orm):
 
         # Deleting model 'Objecttype'
-        db.delete_table('objectapp_objecttype')
+        db.delete_table('objectapp_Objecttype')
 
-        # Deleting model 'GBObject'
+        # Deleting model 'Gbobject'
         db.delete_table('objectapp_gbobject')
 
-        # Removing M2M table for field sites on 'GBObject'
+        # Removing M2M table for field sites on 'Gbobject'
         db.delete_table('objectapp_gbobject_sites')
 
-        # Removing M2M table for field related on 'GBObject'
+        # Removing M2M table for field related on 'Gbobject'
         db.delete_table('objectapp_gbobject_related')
 
-        # Removing M2M table for field objecttypes on 'GBObject'
+        # Removing M2M table for field objecttypes on 'Gbobject'
         db.delete_table('objectapp_gbobject_objecttypes')
 
-        # Removing M2M table for field authors on 'GBObject'
+        # Removing M2M table for field authors on 'Gbobject'
         db.delete_table('objectapp_gbobject_authors')
 
     models = {
@@ -130,7 +130,7 @@ class Migration(SchemaMigration):
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '50'})
         },
-        'objectapp.objecttype': {
+        'objectapp.Objecttype': {
             'Meta': {'object_name': 'Objecttype'},
             'description': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
@@ -138,7 +138,7 @@ class Migration(SchemaMigration):
             'title': ('django.db.models.fields.CharField', [], {'max_length': '50'})
         },
         'objectapp.gbobject': {
-            'Meta': {'object_name': 'GBObject'},
+            'Meta': {'object_name': 'Gbobject'},
             'authors': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['auth.User']", 'blank': 'True'}),
             'objecttypes': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['objectapp.Objecttype']"}),
             'comment_enabled': ('django.db.models.fields.BooleanField', [], {'default': 'True', 'blank': 'True'}),
@@ -149,7 +149,7 @@ class Migration(SchemaMigration):
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'image': ('django.db.models.fields.files.ImageField', [], {'max_length': '100', 'blank': 'True'}),
             'last_update': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
-            'related': ('django.db.models.fields.related.ManyToManyField', [], {'blank': 'True', 'related_name': "'related_rel_+'", 'null': 'True', 'to': "orm['objectapp.GBObject']"}),
+            'related': ('django.db.models.fields.related.ManyToManyField', [], {'blank': 'True', 'related_name': "'related_rel_+'", 'null': 'True', 'to': "orm['objectapp.Gbobject']"}),
             'sites': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['sites.Site']"}),
             'slug': ('django.db.models.fields.SlugField', [], {'max_length': '50', 'db_index': 'True'}),
             'start_publication': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),

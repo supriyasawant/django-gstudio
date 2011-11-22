@@ -7,13 +7,13 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.contenttypes.models import ContentType
 from django.views.generic.simple import direct_to_template
 
-from objectapp.models import GBObject
+from objectapp.models import Gbobject
 
 
 @csrf_exempt
 def gbobject_trackback(request, object_id):
-    """Set a TrackBack for an GBObject"""
-    gbobject = get_object_or_404(GBObject.published, pk=object_id)
+    """Set a TrackBack for an Gbobject"""
+    gbobject = get_object_or_404(Gbobject.published, pk=object_id)
 
     if request.POST.get('url'):
         error = ''
@@ -29,7 +29,7 @@ def gbobject_trackback(request, object_id):
 
         if not error:
             comment, created = comments.get_model().objects.get_or_create(
-                content_type=ContentType.objects.get_for_model(GBObject),
+                content_type=ContentType.objects.get_for_model(Gbobject),
                 object_pk=gbobject.pk, site=site, user_url=url,
                 user_name=blog_name, defaults={'comment': excerpt})
             if created:

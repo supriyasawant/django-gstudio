@@ -6,18 +6,18 @@ class Migration(SchemaMigration):
 
     def forwards(self, orm):
 
-        # Adding field 'GBObject.login_required'
+        # Adding field 'Gbobject.login_required'
         db.add_column('objectapp_gbobject', 'login_required', self.gf('django.db.models.fields.BooleanField')(default=False, blank=True), keep_default=False)
 
-        # Adding field 'GBObject.password'
+        # Adding field 'Gbobject.password'
         db.add_column('objectapp_gbobject', 'password', self.gf('django.db.models.fields.CharField')(default='', max_length=50, blank=True), keep_default=False)
 
     def backwards(self, orm):
 
-        # Deleting field 'GBObject.login_required'
+        # Deleting field 'Gbobject.login_required'
         db.delete_column('objectapp_gbobject', 'login_required')
 
-        # Deleting field 'GBObject.password'
+        # Deleting field 'Gbobject.password'
         db.delete_column('objectapp_gbobject', 'password')
 
     models = {
@@ -63,7 +63,7 @@ class Migration(SchemaMigration):
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '50'})
         },
-        'objectapp.objecttype': {
+        'objectapp.Objecttype': {
             'Meta': {'object_name': 'Objecttype'},
             'description': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
@@ -76,7 +76,7 @@ class Migration(SchemaMigration):
             'tree_id': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'})
         },
         'objectapp.gbobject': {
-            'Meta': {'object_name': 'GBObject'},
+            'Meta': {'object_name': 'Gbobject'},
             'authors': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['auth.User']", 'symmetrical': 'False', 'blank': 'True'}),
             'objecttypes': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['objectapp.Objecttype']", 'symmetrical': 'False'}),
             'comment_enabled': ('django.db.models.fields.BooleanField', [], {'default': 'True', 'blank': 'True'}),
@@ -90,7 +90,7 @@ class Migration(SchemaMigration):
             'login_required': ('django.db.models.fields.BooleanField', [], {'default': 'False', 'blank': 'True'}),
             'password': ('django.db.models.fields.CharField', [], {'max_length': '50', 'blank': 'True'}),
             'pingback_enabled': ('django.db.models.fields.BooleanField', [], {'default': 'True', 'blank': 'True'}),
-            'related': ('django.db.models.fields.related.ManyToManyField', [], {'blank': 'True', 'related_name': "'related_rel_+'", 'null': 'True', 'to': "orm['objectapp.GBObject']"}),
+            'related': ('django.db.models.fields.related.ManyToManyField', [], {'blank': 'True', 'related_name': "'related_rel_+'", 'null': 'True', 'to': "orm['objectapp.Gbobject']"}),
             'sites': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['sites.Site']", 'symmetrical': 'False'}),
             'slug': ('django.db.models.fields.SlugField', [], {'max_length': '255', 'db_index': 'True'}),
             'start_publication': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),

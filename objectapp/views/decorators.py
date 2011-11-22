@@ -71,7 +71,7 @@ def protect_gbobject(view):
 
 def template_name_for_gbobject_queryset_filtered(model_type, model_name):
     """Return a custom template name for views
-    returning a queryset of GBObject filtered by another model."""
+    returning a queryset of Gbobject filtered by another model."""
     template_name_list = (
         'objectapp/%s/%s/gbobject_list.html' % (model_type, model_name),
         'objectapp/%s/%s_gbobject_list.html' % (model_type, model_name),

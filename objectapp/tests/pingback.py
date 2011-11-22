@@ -13,7 +13,7 @@ from django.contrib.contenttypes.models import ContentType
 
 from BeautifulSoup import BeautifulSoup
 
-from objectapp.models import GBObject
+from objectapp.models import Gbobject
 from objectapp.models import Objecttype
 from objectapp.managers import PUBLISHED
 from objectapp.tests.utils import TestTransport
@@ -52,15 +52,15 @@ class PingBackTestCase(TestCase):
         # Creating tests gbobjects
         self.author = User.objects.create_user(username='webmaster',
                                                email='webmaster@example.com')
-        self.objecttype = Objecttype.objects.create(title='test', slug='test')
+        self.Objecttype = Objecttype.objects.create(title='test', slug='test')
         params = {'title': 'My first gbobject',
                   'content': 'My first content',
                   'slug': 'my-first-gbobject',
                   'creation_date': datetime(2010, 1, 1),
                   'status': PUBLISHED}
-        self.first_gbobject = GBObject.objects.create(**params)
+        self.first_gbobject = Gbobject.objects.create(**params)
         self.first_gbobject.sites.add(self.site)
-        self.first_gbobject.objecttypes.add(self.objecttype)
+        self.first_gbobject.objecttypes.add(self.Objecttype)
         self.first_gbobject.authors.add(self.author)
 
         params = {'title': 'My second gbobject',
@@ -74,9 +74,9 @@ class PingBackTestCase(TestCase):
                   'slug': 'my-second-gbobject',
                   'creation_date': datetime(2010, 1, 1),
                   'status': PUBLISHED}
-        self.second_gbobject = GBObject.objects.create(**params)
+        self.second_gbobject = Gbobject.objects.create(**params)
         self.second_gbobject.sites.add(self.site)
-        self.second_gbobject.objecttypes.add(self.objecttype)
+        self.second_gbobject.objecttypes.add(self.Objecttype)
         self.second_gbobject.authors.add(self.author)
         # Instanciating the server proxy
         self.server = ServerProxy('http://localhost:8000/xmlrpc/',
@@ -193,7 +193,7 @@ class PingBackTestCase(TestCase):
             'http://localhost:8000/2010/01/01/my-second-gbobject/'])
 
         comment = comments.get_model().objects.create(
-            content_type=ContentType.objects.get_for_model(GBObject),
+            content_type=ContentType.objects.get_for_model(Gbobject),
             object_pk=self.first_gbobject.pk,
             site=self.site, comment='Test pingback',
             user_url='http://example.com/blog/1/',

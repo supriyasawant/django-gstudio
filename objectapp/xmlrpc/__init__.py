@@ -18,7 +18,7 @@ OBJECTAPP_XMLRPC_METAWEBLOG = [
      'wp.getAuthors'),
     ('objectapp.xmlrpc.metaweblog.get_objecttypes',
      'metaWeblog.getObjecttypes'),
-    ('objectapp.xmlrpc.metaweblog.new_objecttype',
+    ('objectapp.xmlrpc.metaweblog.new_Objecttype',
      'wp.newObjecttype'),
     ('objectapp.xmlrpc.metaweblog.get_recent_posts',
      'metaWeblog.getRecentPosts'),

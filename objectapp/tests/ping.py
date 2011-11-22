@@ -4,7 +4,7 @@ from urllib2 import URLError
 from urllib import addinfourl
 from django.test import TestCase
 
-from objectapp.models import GBObject
+from objectapp.models import Gbobject
 from objectapp.ping import URLRessources
 from objectapp.ping import DirectoryPinger
 from objectapp.ping import ExternalUrlsPinger
@@ -17,7 +17,7 @@ class DirectoryPingerTestCase(TestCase):
                   'content': 'My content',
                   'tags': 'objectapp, test',
                   'slug': 'my-gbobject'}
-        self.gbobject = GBObject.objects.create(**params)
+        self.gbobject = Gbobject.objects.create(**params)
         self.pinger = DirectoryPinger('http://localhost', [self.gbobject],
                                       start_now=False)
 
@@ -36,7 +36,7 @@ class ExternalUrlsPingerTestCase(TestCase):
                   'content': 'My content',
                   'tags': 'objectapp, test',
                   'slug': 'my-gbobject'}
-        self.gbobject = GBObject.objects.create(**params)
+        self.gbobject = Gbobject.objects.create(**params)
         self.pinger = ExternalUrlsPinger(self.gbobject, start_now=False)
 
     def test_is_external_url(self):

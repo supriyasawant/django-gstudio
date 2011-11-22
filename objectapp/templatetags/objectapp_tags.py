@@ -17,7 +17,7 @@ from django.contrib.comments import get_model as get_comment_model
 from tagging.models import Tag
 from tagging.utils import calculate_cloud
 
-from objectapp.models import GBObject
+from objectapp.models import Gbobject
 from objectapp.models import Author
 from objectapp.models import Objecttype
 from objectapp.managers import tags_published
@@ -29,7 +29,7 @@ from objectapp.templatetags.zbreadcrumbs import retrieve_breadcrumbs
 register = Library()
 
 VECTORS = None
-VECTORS_FACTORY = lambda: VectorBuilder(GBObject.published.all(),
+VECTORS_FACTORY = lambda: VectorBuilder(Gbobject.published.all(),
                                         ['title', 'excerpt', 'content'])
 CACHE_GBOBJECTS_RELATED = {}
 
@@ -39,12 +39,6 @@ def get_objecttypes(template='objectapp/tags/objecttypes.html'):
     """Return the objecttypes"""
     return {'template': template,
             'objecttypes': Objecttype.tree.all()}
-
-#@register.inclusion_tag('objectapp/tags/dummy.html')
-#def get_subtypes(template='objectapp/tags/gbobjects.html'):
-#    """Return the subtypes"""
-#    return {'template': template,
-#            'subtypes': GBObject.tree.all()}
 
 
 @register.inclusion_tag('objectapp/tags/dummy.html')
@@ -58,7 +52,7 @@ def get_authors(template='objectapp/tags/authors.html'):
 def get_recent_gbobjects(number=5, template='objectapp/tags/recent_gbobjects.html'):
     """Return the most recent gbobjects"""
     return {'template': template,
-            'gbobjects': GBObject.published.all()[:number]}
+            'gbobjects': Gbobject.published.all()[:number]}
 
 
 @register.inclusion_tag('objectapp/tags/dummy.html')
@@ -66,13 +60,13 @@ def get_featured_gbobjects(number=5,
                          template='objectapp/tags/featured_gbobjects.html'):
     """Return the featured gbobjects"""
     return {'template': template,
-            'gbobjects': GBObject.published.filter(featured=True)[:number]}
+            'gbobjects': Gbobject.published.filter(featured=True)[:number]}
 
 
 @register.inclusion_tag('objectapp/tags/dummy.html')
 def get_random_gbobjects(number=5, template='objectapp/tags/random_gbobjects.html'):
     """Return random gbobjects"""
-    gbobjects = GBObject.published.all()
+    gbobjects = Gbobject.published.all()
     if number > len(gbobjects):
         number = len(gbobjects)
     return {'template': template,
@@ -82,7 +76,7 @@ def get_random_gbobjects(number=5, template='objectapp/tags/random_gbobjects.htm
 @register.inclusion_tag('objectapp/tags/dummy.html')
 def get_popular_gbobjects(number=5, template='objectapp/tags/popular_gbobjects.html'):
     """Return popular  gbobjects"""
-    ctype = ContentType.objects.get_for_model(GBObject)
+    ctype = ContentType.objects.get_for_model(Gbobject)
     query = """SELECT object_pk, COUNT(*) AS score
     FROM %s
     WHERE content_type_id = %%s
@@ -96,7 +90,7 @@ def get_popular_gbobjects(number=5, template='objectapp/tags/popular_gbobjects.h
 
     # Use ``in_bulk`` here instead of an ``id__in`` filter, because ``id__in``
     # would clobber the ordering.
-    object_dict = GBObject.published.in_bulk(object_ids)
+    object_dict = Gbobject.published.in_bulk(object_ids)
 
     return {'template': template,
             'gbobjects': [object_dict[object_id]
@@ -151,7 +145,7 @@ def get_similar_gbobjects(context, number=5,
 def get_archives_gbobjects(template='objectapp/tags/archives_gbobjects.html'):
     """Return archives gbobjects"""
     return {'template': template,
-            'archives': GBObject.published.dates('creation_date', 'month',
+            'archives': Gbobject.published.dates('creation_date', 'month',
                                               order='DESC')}
 
 
@@ -160,7 +154,7 @@ def get_archives_gbobjects_tree(
     template='objectapp/tags/archives_gbobjects_tree.html'):
     """Return archives gbobjects as a Tree"""
     return {'template': template,
-            'archives': GBObject.published.dates('creation_date', 'day',
+            'archives': Gbobject.published.dates('creation_date', 'day',
                                               order='ASC')}
 
 
@@ -177,7 +171,7 @@ def get_calendar_gbobjects(context, year=None, month=None,
     calendar = ObjectappCalendar()
     current_month = datetime(year, month, 1)
 
-    dates = list(GBObject.published.dates('creation_date', 'month'))
+    dates = list(Gbobject.published.dates('creation_date', 'month'))
 
     if not current_month in dates:
         dates.append(current_month)
@@ -198,8 +192,8 @@ def get_recent_comments(number=5, template='objectapp/tags/recent_comments.html'
     """Return the most recent comments"""
     # Using map(smart_unicode... fix bug related to issue #8554
     gbobject_published_pks = map(smart_unicode,
-                              GBObject.published.values_list('id', flat=True))
-    content_type = ContentType.objects.get_for_model(GBObject)
+                              Gbobject.published.values_list('id', flat=True))
+    content_type = ContentType.objects.get_for_model(Gbobject)
 
     comments = get_comment_model().objects.filter(
         Q(flags=None) | Q(flags__flag=CommentFlag.MODERATOR_APPROVAL),
@@ -215,8 +209,8 @@ def get_recent_linkbacks(number=5,
                          template='objectapp/tags/recent_linkbacks.html'):
     """Return the most recent linkbacks"""
     gbobject_published_pks = map(smart_unicode,
-                              GBObject.published.values_list('id', flat=True))
-    content_type = ContentType.objects.get_for_model(GBObject)
+                              Gbobject.published.values_list('id', flat=True))
+    content_type = ContentType.objects.get_for_model(Gbobject)
 
     linkbacks = get_comment_model().objects.filter(
         content_type=content_type,
@@ -273,7 +267,7 @@ def objectapp_breadcrumbs(context, separator='/', root_name='Objects',
                        template='objectapp/tags/breadcrumbs.html',):
     """Return a breadcrumb for the application"""
     path = context['request'].path
-    page_object = context.get('object') or context.get('objecttype') or \
+    page_object = context.get('object') or context.get('Objecttype') or \
                   context.get('tag') or context.get('author')
     breadcrumbs = retrieve_breadcrumbs(path, page_object, root_name)
 
@@ -322,6 +316,6 @@ def get_tags(parser, token):
 def get_tag_cloud(steps=6, template='objectapp/tags/tag_cloud.html'):
     """Return a cloud of published tags"""
     tags = Tag.objects.usage_for_queryset(
-        GBObject.published.all(), counts=True)
+        Gbobject.published.all(), counts=True)
     return {'template': template,
             'tags': calculate_cloud(tags, steps)}

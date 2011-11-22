@@ -4,16 +4,16 @@
 # 
 # Translators:
 # Jannis Leidel <jannis@leidel.info>, 2011.
-# Julien Fache <fastomas42@gmail.com>, 2011.
+# Julien Fache <fantomas42@gmail.com>, 2011.
 # madcad <mail@mad-cad.net>, 2011.
 msgid ""
 msgstr ""
-"Project-Id-Version: django-gstudio\n"
-"Report-Msgid-Bugs-To: https://github.com/gnowgi/django-gstudio/issues\n"
+"Project-Id-Version: django-blog-objectapp\n"
+"Report-Msgid-Bugs-To: https://github.com/Fantomas42/django-blog-objectapp/issues\n"
 "POT-Creation-Date: 2011-04-12 13:21-0500\n"
 "PO-Revision-Date: 2011-04-12 18:21+0000\n"
-"Last-Translator: Fantomas42 <fastomas42@gmail.com>\n"
-"Language-Team: German (http://www.transifex.net/projects/p/django-gstudio/team/de/)\n"
+"Last-Translator: Fantomas42 <fantomas42@gmail.com>\n"
+"Language-Team: German (http://www.transifex.net/projects/p/django-blog-objectapp/team/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -21,45 +21,45 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
 #: feeds.py:102 plugins/cms_plugins.py:23
-#: templates/gstudio/objecttype_archive.html:4
-#: templates/gstudio/objecttype_archive.html:25 templates/gstudio/objecttype_list.html:19
+#: templates/objectapp/gbobject_archive.html:4
+#: templates/objectapp/gbobject_archive.html:25 templates/objectapp/gbobject_list.html:19
 #: tests/feeds.py:115
-msgid "Latest objecttypes"
+msgid "Latest gbobjects"
 msgstr "Neuste Einträge"
 
 #: feeds.py:106 tests/feeds.py:117
 #, python-format
-msgid "The latest objecttypes for the site %s"
+msgid "The latest gbobjects for the site %s"
 msgstr "Die neusten Einträge der Seite %s"
 
 #: feeds.py:126 tests/feeds.py:126
 #, python-format
-msgid "Objecttypes for the metatype %s"
+msgid "Gbobjects for the Objecttype %s"
 msgstr "Einträge der Kategorie %s"
 
 #: feeds.py:130 tests/feeds.py:128
 #, python-format
-msgid "The latest objecttypes for the metatype %s"
+msgid "The latest gbobjects for the Objecttype %s"
 msgstr "Die neusten Einträge in Kategorie %s"
 
 #: feeds.py:150 tests/feeds.py:137
 #, python-format
-msgid "Objecttypes for author %s"
+msgid "Gbobjects for author %s"
 msgstr "Einträge für Autor %s"
 
 #: feeds.py:154 tests/feeds.py:139
 #, python-format
-msgid "The latest objecttypes by %s"
+msgid "The latest gbobjects by %s"
 msgstr "Die neuesten Einträge von %s"
 
 #: feeds.py:175 tests/feeds.py:149
 #, python-format
-msgid "Objecttypes for the tag %s"
+msgid "Gbobjects for the tag %s"
 msgstr "Einträge für den Tag %s"
 
 #: feeds.py:179 tests/feeds.py:151
 #, python-format
-msgid "The latest objecttypes for the tag %s"
+msgid "The latest gbobjects for the tag %s"
 msgstr "Die neuen Einträge für den Tag %s"
 
 #: feeds.py:199 tests/feeds.py:160
@@ -69,7 +69,7 @@ msgstr ""
 
 #: feeds.py:203 tests/feeds.py:162
 #, python-format
-msgid "The objecttypes containing the pattern '%s'"
+msgid "The gbobjects containing the pattern '%s'"
 msgstr ""
 
 #: feeds.py:245 tests/feeds.py:178
@@ -79,7 +79,7 @@ msgstr "Kommentare auf %s"
 
 #: feeds.py:249 tests/feeds.py:180
 #, python-format
-msgid "The latest discussions for the objecttype %s"
+msgid "The latest discussions for the gbobject %s"
 msgstr "Die neusten Kommentare für die Einträge %s"
 
 #: feeds.py:267 tests/feeds.py:190
@@ -89,7 +89,7 @@ msgstr "Kommentar für %s"
 
 #: feeds.py:271 tests/feeds.py:192
 #, python-format
-msgid "The latest comments for the objecttype %s"
+msgid "The latest comments for the gbobject %s"
 msgstr "Die neusten Kommentare für die Einträge %s"
 
 #: feeds.py:301 tests/feeds.py:206
@@ -99,7 +99,7 @@ msgstr "Pingbacks für %s"
 
 #: feeds.py:305 tests/feeds.py:208
 #, python-format
-msgid "The latest pingbacks for the objecttype %s"
+msgid "The latest pingbacks for the gbobject %s"
 msgstr "Die neusten Pingbacks für Eintrag %s"
 
 #: feeds.py:323 tests/feeds.py:218
@@ -109,10 +109,10 @@ msgstr "Trackbacks für %s"
 
 #: feeds.py:327 tests/feeds.py:220
 #, python-format
-msgid "The latest trackbacks for the objecttype %s"
+msgid "The latest trackbacks for the gbobject %s"
 msgstr "Die neusten Trackbacks für Eintrag %s"
 
-#: models.py:64 models.py:105 admin/objecttype.py:73
+#: models.py:64 models.py:105 admin/gbobject.py:73
 msgid "title"
 msgstr "Titel"
 
@@ -125,15 +125,15 @@ msgid "description"
 msgstr "Beschreibung"
 
 #: models.py:70 admin/forms.py:18
-msgid "parent metatype"
+msgid "parent Objecttype"
 msgstr "Übergeordnete Kategorie"
 
 #: models.py:95
-msgid "metatype"
+msgid "Objecttype"
 msgstr "Kategorie"
 
 #: models.py:96 models.py:114 admin/forms.py:47 plugins/models.py:24
-msgid "metatypes"
+msgid "objecttypes"
 msgstr "Kategorien"
 
 #: models.py:101
@@ -173,7 +173,7 @@ msgid "tags"
 msgstr "Tags"
 
 #: models.py:116
-msgid "related objecttypes"
+msgid "related gbobjects"
 msgstr "Verwandte Einträge"
 
 #: models.py:123 plugins/models.py:28
@@ -184,7 +184,7 @@ msgstr "Autoren"
 msgid "featured"
 msgstr "empfohlenen"
 
-#: models.py:127 admin/objecttype.py:124
+#: models.py:127 admin/gbobject.py:124
 msgid "comment enabled"
 msgstr "Kommentare aktiviert"
 
@@ -225,7 +225,7 @@ msgid "login required"
 msgstr "Anmeldung erfolderlich"
 
 #: models.py:142
-msgid "only authenticated users can view the objecttype"
+msgid "only authenticated users can view the gbobject"
 msgstr "Nur authentifizierte Benutzer können den Eintrag lesen "
 
 #: models.py:143
@@ -233,7 +233,7 @@ msgid "password"
 msgstr "Passwort"
 
 #: models.py:144
-msgid "protect the objecttype with a password"
+msgid "protect the gbobject with a password"
 msgstr "Eintrag mit Passwort schützen"
 
 #: models.py:146 plugins/models.py:34 plugins/models.py:58
@@ -246,17 +246,17 @@ msgid "Default template"
 msgstr "Standard-Template"
 
 #: models.py:151
-msgid "template used to display the objecttype"
+msgid "template used to display the gbobject"
 msgstr "Template, mit dem dieser Eintrag dargestellt wird"
 
 #: models.py:285
-msgid "objecttype"
+msgid "gbobject"
 msgstr "Eintrag"
 
 #: models.py:286 plugins/cms_plugins.py:21 plugins/cms_plugins.py:92
 #: plugins/cms_plugins.py:114 plugins/models.py:57
-#: templates/gstudio/base.html:40
-msgid "objecttypes"
+#: templates/objectapp/base.html:40
+msgid "gbobjects"
 msgstr "Einträge"
 
 #: moderator.py:45 moderator.py:72
@@ -264,164 +264,164 @@ msgstr "Einträge"
 msgid "[%(site)s] New comment posted on \"%(title)s\""
 msgstr "[%(site)s] Neuer Kommentar zu \"%(title)s\""
 
-#: admin/metatype.py:30
+#: admin/Objecttype.py:30
 msgid "tree path"
 msgstr "Pfad"
 
-#: admin/objecttype.py:27 plugins/admin.py:17
-#: templates/admin/gstudio/widgets/quickpost.html:17
+#: admin/gbobject.py:27 plugins/admin.py:17
+#: templates/admin/objectapp/widgets/quickpost.html:17
 msgid "Content"
 msgstr "Inhalt"
 
-#: admin/objecttype.py:29 plugins/admin.py:19
+#: admin/gbobject.py:29 plugins/admin.py:19
 msgid "Options"
 msgstr "Optionen"
 
-#: admin/objecttype.py:34 plugins/admin.py:24
+#: admin/gbobject.py:34 plugins/admin.py:24
 msgid "Privacy"
 msgstr "Privatsphäre"
 
-#: admin/objecttype.py:36 plugins/admin.py:26
+#: admin/gbobject.py:36 plugins/admin.py:26
 msgid "Discussion"
 msgstr "Diskussion"
 
-#: admin/objecttype.py:38 plugins/admin.py:28
+#: admin/gbobject.py:38 plugins/admin.py:28
 msgid "Publication"
 msgstr "Veröffentlichung"
 
-#: admin/objecttype.py:66
+#: admin/gbobject.py:66
 #, python-format
 msgid "%(title)s (%(word_count)i words)"
 msgstr "%(title)s  (%(word_count)i Wörter)"
 
-#: admin/objecttype.py:70
+#: admin/gbobject.py:70
 #, python-format
 msgid "%(title)s (%(comments)i comments)"
 msgstr "%(title)s  (%(comments)i Kommentare)"
 
-#: admin/objecttype.py:86
+#: admin/gbobject.py:86
 msgid "author(s)"
 msgstr "Autor(en)"
 
-#: admin/objecttype.py:99
-msgid "metatype(s)"
+#: admin/gbobject.py:99
+msgid "Objecttype(s)"
 msgstr "Kategorie(n)"
 
-#: admin/objecttype.py:111
+#: admin/gbobject.py:111
 msgid "tag(s)"
 msgstr "Tag(s)"
 
-#: admin/objecttype.py:118
+#: admin/gbobject.py:118
 msgid "site(s)"
 msgstr "Seite(n)"
 
-#: admin/objecttype.py:130
+#: admin/gbobject.py:130
 msgid "is actual"
 msgstr "Ist aktuell"
 
-#: admin/objecttype.py:136
+#: admin/gbobject.py:136
 msgid "is visible"
 msgstr "Ist sichtbar"
 
-#: admin/objecttype.py:141
+#: admin/gbobject.py:141
 msgid "View"
 msgstr ""
 
-#: admin/objecttype.py:143
+#: admin/gbobject.py:143
 msgid "View on site"
 msgstr "Im Browser öffnen"
 
-#: admin/objecttype.py:149 templates/gstudio/_objecttype_detail.html:64
+#: admin/gbobject.py:149 templates/objectapp/_gbobject_detail.html:64
 msgid "Unavailable"
 msgstr "Nicht verfügbar"
 
-#: admin/objecttype.py:153
+#: admin/gbobject.py:153
 msgid "short url"
 msgstr "Kurze URL"
 
-#: admin/objecttype.py:207
-msgid "The selected objecttypes now belong to you."
+#: admin/gbobject.py:207
+msgid "The selected gbobjects now belong to you."
 msgstr ""
 
-#: admin/objecttype.py:208
-msgid "Set the objecttypes to the user"
+#: admin/gbobject.py:208
+msgid "Set the gbobjects to the user"
 msgstr "Ausgewählte Einträge dem aktuellem Benutzer zuordnen"
 
-#: admin/objecttype.py:214
-msgid "The selected objecttypes are now marked as published."
+#: admin/gbobject.py:214
+msgid "The selected gbobjects are now marked as published."
 msgstr ""
 
-#: admin/objecttype.py:215
-msgid "Set objecttypes selected as published"
+#: admin/gbobject.py:215
+msgid "Set gbobjects selected as published"
 msgstr "Ausgewählte Einträge als öffentlich markieren"
 
-#: admin/objecttype.py:220
-msgid "The selected objecttypes are now marked as hidden."
+#: admin/gbobject.py:220
+msgid "The selected gbobjects are now marked as hidden."
 msgstr ""
 
-#: admin/objecttype.py:221
-msgid "Set objecttypes selected as hidden"
+#: admin/gbobject.py:221
+msgid "Set gbobjects selected as hidden"
 msgstr "Ausgewählte Einträge als unsichtbar markieren"
 
-#: admin/objecttype.py:234
-msgid "The selected objecttypes have been tweeted."
+#: admin/gbobject.py:234
+msgid "The selected gbobjects have been tweeted."
 msgstr ""
 
-#: admin/objecttype.py:235
-msgid "Tweet objecttypes selected"
+#: admin/gbobject.py:235
+msgid "Tweet gbobjects selected"
 msgstr "Ausgewählte Einträge twittern"
 
-#: admin/objecttype.py:240
-msgid "Comments are now closed for selected objecttypes."
+#: admin/gbobject.py:240
+msgid "Comments are now closed for selected gbobjects."
 msgstr ""
 
-#: admin/objecttype.py:241
-msgid "Close the comments for selected objecttypes"
+#: admin/gbobject.py:241
+msgid "Close the comments for selected gbobjects"
 msgstr "Kommentare für ausgewählte Einträge deaktivieren"
 
-#: admin/objecttype.py:247
-msgid "Linkbacks are now closed for selected objecttypes."
+#: admin/gbobject.py:247
+msgid "Linkbacks are now closed for selected gbobjects."
 msgstr ""
 
-#: admin/objecttype.py:248
-msgid "Close the linkbacks for selected objecttypes"
+#: admin/gbobject.py:248
+msgid "Close the linkbacks for selected gbobjects"
 msgstr "Schließen der Linkbacks für die ausgewählte Einträge"
 
-#: admin/objecttype.py:254
-msgid "The selected objecttypes are now set at the current date."
+#: admin/gbobject.py:254
+msgid "The selected gbobjects are now set at the current date."
 msgstr ""
 
-#: admin/objecttype.py:255
-msgid "Put the selected objecttypes on top at the current date"
+#: admin/gbobject.py:255
+msgid "Put the selected gbobjects on top at the current date"
 msgstr "Setzen Sie die ausgewählten Einträge auf das aktuelle Datum"
 
-#: admin/objecttype.py:272
+#: admin/gbobject.py:272
 #, python-format
-msgid "%(directory)s directory succesfully pinged %(success)d objecttypes."
+msgid "%(directory)s directory succesfully pinged %(success)d gbobjects."
 msgstr ""
 "%(directory)s  Verzeichnis erfolgreich angepingt %(success)d Einträge."
 
-#: admin/objecttype.py:275
-msgid "Ping Directories for selected objecttypes"
+#: admin/gbobject.py:275
+msgid "Ping Directories for selected gbobjects"
 msgstr "Verzeichnisdienste mit ausgewählten Einträgen anpingen"
 
 #: admin/forms.py:20
-msgid "No parent metatype"
+msgid "No parent Objecttype"
 msgstr "Keine Hauptkategorie"
 
 #: admin/forms.py:35
-msgid "A metatype cannot be parent of itself."
+msgid "A Objecttype cannot be parent of itself."
 msgstr "Eine Kategorie kann auf selbst sein referenzieren."
 
-#: admin/forms.py:46 plugins/menu.py:70 templates/gstudio/base.html:22
-#: templates/gstudio/metatype_list.html:6 templates/gstudio/sitemap.html:50
+#: admin/forms.py:46 plugins/menu.py:70 templates/objectapp/base.html:22
+#: templates/objectapp/Objecttype_list.html:6 templates/objectapp/sitemap.html:50
 #: templatetags/zbreadcrumbs.py:49
-msgid "Metatypes"
+msgid "Objecttypes"
 msgstr "Kategorien"
 
 #: plugins/cms_app.py:12
-msgid "Gstudio App Hook"
-msgstr "Gstudio App Hook"
+msgid "Objectapp App Hook"
+msgstr "Objectapp App Hook"
 
 #: plugins/cms_plugins.py:33
 msgid "Sorting"
@@ -432,54 +432,54 @@ msgid "Advanced"
 msgstr "Fortgeschritten"
 
 #: plugins/cms_plugins.py:94
-msgid "Selected objecttypes"
+msgid "Selected gbobjects"
 msgstr "Ausgewählte Einträge"
 
-#: plugins/cms_plugins.py:116 templates/gstudio/base.html:59
-msgid "Random objecttypes"
+#: plugins/cms_plugins.py:116 templates/objectapp/base.html:59
+msgid "Random gbobjects"
 msgstr "Zufällige Einträge"
 
 #: plugins/menu.py:19
-msgid "Gstudio Objecttype Menu"
-msgstr "Gstudio Eintragsmenü"
+msgid "Objectapp Gbobject Menu"
+msgstr "Objectapp Eintragsmenü"
 
 #: plugins/menu.py:65
-msgid "Gstudio Metatype Menu"
-msgstr "Gstudio Kategorie Menü"
+msgid "Objectapp Objecttype Menu"
+msgstr "Objectapp Kategorie Menü"
 
 #: plugins/menu.py:82
-msgid "Gstudio Author Menu"
-msgstr "Gstudio Autor Menü"
+msgid "Objectapp Author Menu"
+msgstr "Objectapp Autor Menü"
 
-#: plugins/menu.py:87 templates/gstudio/author_list.html:6
-#: templates/gstudio/base.html:26 templatetags/zbreadcrumbs.py:46
+#: plugins/menu.py:87 templates/objectapp/author_list.html:6
+#: templates/objectapp/base.html:26 templatetags/zbreadcrumbs.py:46
 msgid "Authors"
 msgstr "Autoren"
 
 #: plugins/menu.py:100
-msgid "Gstudio Tag Menu"
-msgstr "Gstudio Tag Menu"
+msgid "Objectapp Tag Menu"
+msgstr "Objectapp Tag Menu"
 
-#: plugins/menu.py:105 templates/admin/gstudio/widgets/quickpost.html:25
-#: templates/gstudio/_objecttype_detail.html:47 templates/gstudio/base.html:34
-#: templates/gstudio/tag_list.html:6 templatetags/zbreadcrumbs.py:43
+#: plugins/menu.py:105 templates/admin/objectapp/widgets/quickpost.html:25
+#: templates/objectapp/_gbobject_detail.html:47 templates/objectapp/base.html:34
+#: templates/objectapp/tag_list.html:6 templatetags/zbreadcrumbs.py:43
 msgid "Tags"
 msgstr "Tags"
 
 #: plugins/models.py:16
-msgid "Objecttype list (default)"
+msgid "Gbobject list (default)"
 msgstr "Liste der Einträge (Standard)"
 
 #: plugins/models.py:17
-msgid "Objecttype detailed"
+msgid "Gbobject detailed"
 msgstr "Eintragsdetail"
 
 #: plugins/models.py:27
-msgid "include submetatypes"
+msgid "include subobjecttypes"
 msgstr "Unterkategorien mit einbeziehen"
 
 #: plugins/models.py:33 plugins/models.py:79
-msgid "number of objecttypes"
+msgid "number of gbobjects"
 msgstr "Anzahl der Einträge"
 
 #: plugins/models.py:36 plugins/models.py:60 plugins/models.py:82
@@ -488,7 +488,7 @@ msgstr "Template zur Anzeige des Plugins"
 
 #: plugins/models.py:51 plugins/models.py:73 plugins/models.py:85
 #, python-format
-msgid "%s objecttypes"
+msgid "%s gbobjects"
 msgstr "%s Einträge"
 
 #: templates/404.html:5
@@ -514,21 +514,21 @@ msgid "Blog index"
 msgstr "Blog Index"
 
 #: templates/404.html:24 templates/404.html.py:25 templates/500.html:29
-#: templates/500.html.py:30 templates/gstudio/sitemap.html:4
-#: templates/gstudio/sitemap.html.py:7 templates/gstudio/skeleton.html:36
-#: templates/gstudio/skeleton.html.py:37
+#: templates/500.html.py:30 templates/objectapp/sitemap.html:4
+#: templates/objectapp/sitemap.html.py:7 templates/objectapp/skeleton.html:36
+#: templates/objectapp/skeleton.html.py:37
 msgid "Sitemap"
 msgstr "Sitemap"
 
-#: templates/404.html:31 templates/500.html:36 templates/gstudio/base.html:47
-msgid "Recent objecttypes"
+#: templates/404.html:31 templates/500.html:36 templates/objectapp/base.html:47
+msgid "Recent gbobjects"
 msgstr "Neuste Einträge"
 
-#: templates/404.html:36 templates/500.html:41 templates/gstudio/base.html:10
+#: templates/404.html:36 templates/500.html:41 templates/objectapp/base.html:10
 msgid "Search"
 msgstr "Suche"
 
-#: templates/404.html:40 templates/500.html:45 templates/gstudio/base.html:13
+#: templates/404.html:40 templates/500.html:45 templates/objectapp/base.html:13
 msgid "Keywords..."
 msgstr "Schlüsselwörter..."
 
@@ -549,180 +549,180 @@ msgstr ""
 " und wird sich in Kürze um den Fehler kümmern. Wir danken für Ihr "
 "Verständnis."
 
-#: templates/admin/gstudio/widgets/_content_stats.html:4
+#: templates/admin/objectapp/widgets/_content_stats.html:4
 msgid "Contents"
 msgstr "Inhalt"
 
-#: templates/admin/gstudio/widgets/_content_stats.html:5
-#: templates/gstudio/_objecttype_detail.html:69
+#: templates/admin/objectapp/widgets/_content_stats.html:5
+#: templates/objectapp/_gbobject_detail.html:69
 msgid "Discussions"
 msgstr "Diskussionen"
 
-#: templates/admin/gstudio/widgets/_content_stats.html:10
+#: templates/admin/objectapp/widgets/_content_stats.html:10
 #, python-format
-msgid "%(objecttypes)s objecttypes"
-msgstr " %(objecttypes)s Einträge"
+msgid "%(gbobjects)s gbobjects"
+msgstr " %(gbobjects)s Einträge"
 
-#: templates/admin/gstudio/widgets/_content_stats.html:15
+#: templates/admin/objectapp/widgets/_content_stats.html:15
 #, python-format
 msgid "%(comments)s comments"
 msgstr "%(comments)s Kommentare"
 
-#: templates/admin/gstudio/widgets/_content_stats.html:22
+#: templates/admin/objectapp/widgets/_content_stats.html:22
 #, python-format
-msgid "%(metatypes)s metatypes"
-msgstr " %(metatypes)s Kategorien"
+msgid "%(objecttypes)s objecttypes"
+msgstr " %(objecttypes)s Kategorien"
 
-#: templates/admin/gstudio/widgets/_content_stats.html:25
+#: templates/admin/objectapp/widgets/_content_stats.html:25
 #, python-format
 msgid "%(pingbacks)s pingbacks"
 msgstr " %(pingbacks)s Pingbacks"
 
-#: templates/admin/gstudio/widgets/_content_stats.html:30
+#: templates/admin/objectapp/widgets/_content_stats.html:30
 #, python-format
 msgid "%(tags)s tags"
 msgstr " %(tags)s Tags"
 
-#: templates/admin/gstudio/widgets/_content_stats.html:33
+#: templates/admin/objectapp/widgets/_content_stats.html:33
 #, python-format
 msgid "%(trackbacks)s trackbacks"
 msgstr " %(trackbacks)s Trackbacks"
 
-#: templates/admin/gstudio/widgets/_content_stats.html:38
+#: templates/admin/objectapp/widgets/_content_stats.html:38
 #, python-format
 msgid "%(authors)s authors"
 msgstr " %(authors)s Autoren"
 
-#: templates/admin/gstudio/widgets/_content_stats.html:43
+#: templates/admin/objectapp/widgets/_content_stats.html:43
 #, python-format
 msgid "%(rejects)s rejected"
 msgstr " %(rejects)s abgelehnt"
 
-#: templates/admin/gstudio/widgets/_draft_objecttypes.html:7
-#: templates/gstudio/objecttype_detail.html:186
-#: templates/gstudio/objecttype_detail.html:187
-msgid "Edit the objecttype"
+#: templates/admin/objectapp/widgets/_draft_gbobjects.html:7
+#: templates/objectapp/gbobject_detail.html:186
+#: templates/objectapp/gbobject_detail.html:187
+msgid "Edit the gbobject"
 msgstr "Eintrag bearbeiten"
 
-#: templates/admin/gstudio/widgets/_draft_objecttypes.html:10
-#: templates/comments/gstudio_objecttype_preview.html:25
+#: templates/admin/objectapp/widgets/_draft_gbobjects.html:10
+#: templates/comments/objectapp_gbobject_preview.html:25
 #: templates/feeds/comment_title.html:2
 #: templates/feeds/discussion_title.html:2
 #: templates/feeds/pingback_title.html:2
 #: templates/feeds/trackback_title.html:2
-#: templates/gstudio/_objecttype_detail.html:18
-#: templates/gstudio/objecttype_detail.html:91
-#: templates/gstudio/objecttype_detail.html:126
-#: templates/gstudio/objecttype_detail.html:157
+#: templates/objectapp/_gbobject_detail.html:18
+#: templates/objectapp/gbobject_detail.html:91
+#: templates/objectapp/gbobject_detail.html:126
+#: templates/objectapp/gbobject_detail.html:157
 msgid "on"
 msgstr "am"
 
-#: templates/admin/gstudio/widgets/_draft_objecttypes.html:16
-#: templates/comments/gstudio/objecttype/form.html:19
+#: templates/admin/objectapp/widgets/_draft_gbobjects.html:16
+#: templates/comments/objectapp/gbobject/form.html:19
 msgid "Preview"
 msgstr "Vorschau"
 
-#: templates/admin/gstudio/widgets/_draft_objecttypes.html:23
-msgid "No draft objecttypes."
+#: templates/admin/objectapp/widgets/_draft_gbobjects.html:23
+msgid "No draft gbobjects."
 msgstr "Kein Entwurfs Einträge."
 
-#: templates/admin/gstudio/widgets/_draft_objecttypes.html:32
-#: templates/admin/gstudio/widgets/_draft_objecttypes.html:33
-msgid "View all draft objecttypes"
+#: templates/admin/objectapp/widgets/_draft_gbobjects.html:32
+#: templates/admin/objectapp/widgets/_draft_gbobjects.html:33
+msgid "View all draft gbobjects"
 msgstr "Alle Eintragsentwürfe anziegen"
 
-#: templates/admin/gstudio/widgets/_recent_comments.html:11
-#: templates/gstudio/_objecttype_detail.html:24
-#: templates/gstudio/tags/recent_comments.html:7
-#: templates/gstudio/tags/recent_linkbacks.html:8
+#: templates/admin/objectapp/widgets/_recent_comments.html:11
+#: templates/objectapp/_gbobject_detail.html:24
+#: templates/objectapp/tags/recent_comments.html:7
+#: templates/objectapp/tags/recent_linkbacks.html:8
 msgid "in"
 msgstr "in"
 
-#: templates/admin/gstudio/widgets/_recent_comments.html:14
-#: templates/gstudio/tags/recent_comments.html:9
+#: templates/admin/objectapp/widgets/_recent_comments.html:14
+#: templates/objectapp/tags/recent_comments.html:9
 msgid "Comment on"
 msgstr "Ihre Meinung zu"
 
-#: templates/admin/gstudio/widgets/_recent_comments.html:23
+#: templates/admin/objectapp/widgets/_recent_comments.html:23
 msgid "Edit the comment"
 msgstr "Kommentar bearbeiten"
 
-#: templates/admin/gstudio/widgets/_recent_comments.html:24
-#: templates/admin/gstudio/widgets/_recent_linkbacks.html:19
+#: templates/admin/objectapp/widgets/_recent_comments.html:24
+#: templates/admin/objectapp/widgets/_recent_linkbacks.html:19
 msgid "Edit"
 msgstr "Bearbeiten"
 
-#: templates/admin/gstudio/widgets/_recent_comments.html:31
-#: templates/gstudio/_objecttype_detail.html:77
-#: templates/gstudio/objecttype_detail.html:107
-#: templates/gstudio/tags/recent_comments.html:16
+#: templates/admin/objectapp/widgets/_recent_comments.html:31
+#: templates/objectapp/_gbobject_detail.html:77
+#: templates/objectapp/gbobject_detail.html:107
+#: templates/objectapp/tags/recent_comments.html:16
 msgid "No comments yet."
 msgstr "Keine Kommentare vorhanden."
 
-#: templates/admin/gstudio/widgets/_recent_comments.html:40
-#: templates/admin/gstudio/widgets/_recent_comments.html:41
+#: templates/admin/objectapp/widgets/_recent_comments.html:40
+#: templates/admin/objectapp/widgets/_recent_comments.html:41
 msgid "Manage the comments"
 msgstr "Verwalten Sie die Kommentare"
 
-#: templates/admin/gstudio/widgets/_recent_linkbacks.html:8
+#: templates/admin/objectapp/widgets/_recent_linkbacks.html:8
 msgid "made a linkback on"
 msgstr "mache eine LinkBack auf"
 
-#: templates/admin/gstudio/widgets/_recent_linkbacks.html:18
+#: templates/admin/objectapp/widgets/_recent_linkbacks.html:18
 msgid "Edit the linkback"
 msgstr "Bearbeiten Sie den LinkBack"
 
-#: templates/admin/gstudio/widgets/_recent_linkbacks.html:26
-#: templates/gstudio/tags/recent_linkbacks.html:17
+#: templates/admin/objectapp/widgets/_recent_linkbacks.html:26
+#: templates/objectapp/tags/recent_linkbacks.html:17
 msgid "No linkbacks yet."
 msgstr "Keine Linkbacks."
 
-#: templates/admin/gstudio/widgets/content_stats.html:6
-#: templates/admin/gstudio/widgets/content_stats.html:7
+#: templates/admin/objectapp/widgets/content_stats.html:6
+#: templates/admin/objectapp/widgets/content_stats.html:7
 msgid "Today"
 msgstr "Heute"
 
-#: templates/admin/gstudio/widgets/draft_objecttypes.html:6
-#: templates/admin/gstudio/widgets/draft_objecttypes.html:7
-msgid "Draft objecttypes"
+#: templates/admin/objectapp/widgets/draft_gbobjects.html:6
+#: templates/admin/objectapp/widgets/draft_gbobjects.html:7
+msgid "Draft gbobjects"
 msgstr "Eintragsentwürfe"
 
-#: templates/admin/gstudio/widgets/quickpost.html:5
-#: templates/admin/gstudio/widgets/quickpost.html:6
+#: templates/admin/objectapp/widgets/quickpost.html:5
+#: templates/admin/objectapp/widgets/quickpost.html:6
 msgid "Quick publishing"
 msgstr "Schnelles Veröffentlichen"
 
-#: templates/admin/gstudio/widgets/quickpost.html:9
+#: templates/admin/objectapp/widgets/quickpost.html:9
 msgid "Title"
 msgstr "Titel"
 
-#: templates/admin/gstudio/widgets/quickpost.html:33
+#: templates/admin/objectapp/widgets/quickpost.html:33
 msgid "Save as draft"
 msgstr "Als Entwurf speichern"
 
-#: templates/admin/gstudio/widgets/quickpost.html:34
+#: templates/admin/objectapp/widgets/quickpost.html:34
 msgid "Reset"
 msgstr "Zurücksetzen"
 
-#: templates/admin/gstudio/widgets/quickpost.html:35
+#: templates/admin/objectapp/widgets/quickpost.html:35
 msgid "Publish"
 msgstr "Veröffentlichen"
 
-#: templates/admin/gstudio/widgets/recent_comments.html:6
-#: templates/admin/gstudio/widgets/recent_comments.html:7
-#: templates/gstudio/base.html:51
+#: templates/admin/objectapp/widgets/recent_comments.html:6
+#: templates/admin/objectapp/widgets/recent_comments.html:7
+#: templates/objectapp/base.html:51
 msgid "Recent comments"
 msgstr "Neueste Kommentare"
 
-#: templates/admin/gstudio/widgets/recent_linkbacks.html:6
-#: templates/admin/gstudio/widgets/recent_linkbacks.html:7
-#: templates/gstudio/base.html:55
+#: templates/admin/objectapp/widgets/recent_linkbacks.html:6
+#: templates/admin/objectapp/widgets/recent_linkbacks.html:7
+#: templates/objectapp/base.html:55
 msgid "Recent linkbacks"
 msgstr "Aktuelle Linkbacks"
 
 #: templates/comments/comment_notification_email.txt:1
 #: templates/comments/comment_reply_email.txt:1
-#: templates/gstudio/objecttype_list.html:19
+#: templates/objectapp/gbobject_list.html:19
 msgid "Author"
 msgstr "Autor"
 
@@ -756,105 +756,105 @@ msgstr ""
 msgid "Approve this comment"
 msgstr ""
 
-#: templates/comments/gstudio_objecttype_preview.html:4
+#: templates/comments/objectapp_gbobject_preview.html:4
 msgid "Comment preview"
 msgstr "Kommentarvorschau"
 
-#: templates/comments/gstudio_objecttype_preview.html:9
+#: templates/comments/objectapp_gbobject_preview.html:9
 msgid "Please correct following error."
 msgid_plural "Please correct following errors."
 msgstr[0] "Bitte korrigieren Sie folgenden Fehler."
 msgstr[1] "Bitte korrigieren Sie folgende Fehler."
 
-#: templates/comments/gstudio_objecttype_preview.html:12
+#: templates/comments/objectapp_gbobject_preview.html:12
 msgid "Preview of the comment"
 msgstr "Kommentarvorschau einblenden"
 
-#: templates/comments/gstudio/objecttype/form.html:7
+#: templates/comments/objectapp/gbobject/form.html:7
 msgid "Post your comment"
 msgstr "Kommentar schreiben"
 
-#: templates/comments/gstudio/objecttype/form.html:18
+#: templates/comments/objectapp/gbobject/form.html:18
 msgid "Post"
 msgstr "Abschicken"
 
-#: templates/comments/gstudio/objecttype/posted.html:4
-#: templates/comments/gstudio/objecttype/posted.html:7
+#: templates/comments/objectapp/gbobject/posted.html:4
+#: templates/comments/objectapp/gbobject/posted.html:7
 msgid "Thanks for your comment"
 msgstr "Danke für Ihren Kommentar"
 
-#: templates/comments/gstudio/objecttype/posted.html:9
-#: templates/comments/gstudio/objecttype/posted.html:10
-msgid "Return to objecttype list"
+#: templates/comments/objectapp/gbobject/posted.html:9
+#: templates/comments/objectapp/gbobject/posted.html:10
+msgid "Return to gbobject list"
 msgstr "Zur Liste der Einträge zurückkehren"
 
-#: templates/gstudio/_objecttype_detail.html:11
+#: templates/objectapp/_gbobject_detail.html:11
 msgid "Written by"
 msgstr "Geschrieben von"
 
-#: templates/gstudio/_objecttype_detail.html:15
+#: templates/objectapp/_gbobject_detail.html:15
 #, python-format
-msgid "Show %(author)s objecttypes"
+msgid "Show %(author)s gbobjects"
 msgstr "Zeige Einträge von %(author)s"
 
-#: templates/gstudio/_objecttype_detail.html:20
+#: templates/objectapp/_gbobject_detail.html:20
 msgid "Written on"
 msgstr ""
 
-#: templates/gstudio/_objecttype_detail.html:53
+#: templates/objectapp/_gbobject_detail.html:53
 msgid "No tags"
 msgstr "Keine Tags"
 
-#: templates/gstudio/_objecttype_detail.html:58
+#: templates/objectapp/_gbobject_detail.html:58
 msgid "Short url"
 msgstr "Kurze URL"
 
-#: templates/gstudio/_objecttype_detail.html:73
+#: templates/objectapp/_gbobject_detail.html:73
 #, python-format
 msgid "%(comment_count)s comment"
 msgid_plural "%(comment_count)s comments"
 msgstr[0] " %(comment_count)s Kommentar"
 msgstr[1] " %(comment_count)s Kommentare"
 
-#: templates/gstudio/_objecttype_detail.html:79
+#: templates/objectapp/_gbobject_detail.html:79
 msgid "Be first to comment!"
 msgstr "Schreiben den ersten Kommentar!"
 
-#: templates/gstudio/_objecttype_detail.html:82
-#: templates/gstudio/objecttype_detail.html:103
-#: templates/gstudio/objecttype_detail.html:109
+#: templates/objectapp/_gbobject_detail.html:82
+#: templates/objectapp/gbobject_detail.html:103
+#: templates/objectapp/gbobject_detail.html:109
 msgid "Comments are closed."
 msgstr "Kommentare deaktiviert."
 
-#: templates/gstudio/_objecttype_detail.html:89
+#: templates/objectapp/_gbobject_detail.html:89
 #, python-format
 msgid "%(pingback_count)s pingback"
 msgid_plural "%(pingback_count)s pingbacks"
 msgstr[0] " %(pingback_count)s  Pingback"
 msgstr[1] " %(pingback_count)s  Pingbacks"
 
-#: templates/gstudio/_objecttype_detail.html:96
+#: templates/objectapp/_gbobject_detail.html:96
 #, python-format
 msgid "%(trackback_count)s trackback"
 msgid_plural "%(trackback_count)s trackbacks"
 msgstr[0] " %(trackback_count)s  Trackback"
 msgstr[1] " %(trackback_count)s  Trackbacks"
 
-#: templates/gstudio/author_list.html:4 templates/gstudio/author_list.html:9
+#: templates/objectapp/author_list.html:4 templates/objectapp/author_list.html:9
 msgid "Author list"
 msgstr "Autorenliste"
 
-#: templates/gstudio/author_list.html:18 templates/gstudio/metatype_list.html:14
-#: templates/gstudio/sitemap.html:55 templates/gstudio/tag_list.html:16
-#: templates/gstudio/tags/authors.html:8
-#: templates/gstudio/tags/metatypes.html:6
+#: templates/objectapp/author_list.html:18 templates/objectapp/Objecttype_list.html:14
+#: templates/objectapp/sitemap.html:55 templates/objectapp/tag_list.html:16
+#: templates/objectapp/tags/authors.html:8
+#: templates/objectapp/tags/objecttypes.html:6
 #, python-format
-msgid "%(objecttype_count)s objecttype"
-msgid_plural "%(objecttype_count)s objecttypes"
-msgstr[0] " %(objecttype_count)s  Eintrag"
-msgstr[1] " %(objecttype_count)s  Einträge"
+msgid "%(gbobject_count)s gbobject"
+msgid_plural "%(gbobject_count)s gbobjects"
+msgstr[0] " %(gbobject_count)s  Eintrag"
+msgstr[1] " %(gbobject_count)s  Einträge"
 
-#: templates/gstudio/base.html:15
+#: templates/objectapp/base.html:15
 msgid ""
 "You can use - to exclude words or phrases, &quot;double quotes&quot; for "
 "exact phrases and the AND/OR boolean operators combined with parenthesis for"
@@ -864,308 +864,308 @@ msgstr ""
 "und/oder die UND / ODER boolschen Operatoren mit Klammern für komplexe Suche"
 " kombiniert verwenden."
 
-#: templates/gstudio/base.html:30
+#: templates/objectapp/base.html:30
 msgid "Calendar"
 msgstr "Kalender"
 
-#: templates/gstudio/base.html:63
-msgid "Popular objecttypes"
+#: templates/objectapp/base.html:63
+msgid "Popular gbobjects"
 msgstr "Beliebte Einträge"
 
-#: templates/gstudio/base.html:67 templates/gstudio/objecttype_archive_day.html:4
-#: templates/gstudio/objecttype_archive_day.html:6
-#: templates/gstudio/objecttype_archive_day.html:9
-#: templates/gstudio/objecttype_archive_month.html:4
-#: templates/gstudio/objecttype_archive_month.html:6
-#: templates/gstudio/objecttype_archive_month.html:9
-#: templates/gstudio/objecttype_archive_year.html:4
-#: templates/gstudio/objecttype_archive_year.html:6
-#: templates/gstudio/objecttype_archive_year.html:9
-#: templates/gstudio/tags/archives_objecttypes.html:5
-#: templates/gstudio/tags/archives_objecttypes_link.html:2
-#: templates/gstudio/tags/archives_objecttypes_tree.html:7
-#: templates/gstudio/tags/archives_objecttypes_tree.html:14
-#: templates/gstudio/tags/archives_objecttypes_tree.html:24
+#: templates/objectapp/base.html:67 templates/objectapp/gbobject_archive_day.html:4
+#: templates/objectapp/gbobject_archive_day.html:6
+#: templates/objectapp/gbobject_archive_day.html:9
+#: templates/objectapp/gbobject_archive_month.html:4
+#: templates/objectapp/gbobject_archive_month.html:6
+#: templates/objectapp/gbobject_archive_month.html:9
+#: templates/objectapp/gbobject_archive_year.html:4
+#: templates/objectapp/gbobject_archive_year.html:6
+#: templates/objectapp/gbobject_archive_year.html:9
+#: templates/objectapp/tags/archives_gbobjects.html:5
+#: templates/objectapp/tags/archives_gbobjects_link.html:2
+#: templates/objectapp/tags/archives_gbobjects_tree.html:7
+#: templates/objectapp/tags/archives_gbobjects_tree.html:14
+#: templates/objectapp/tags/archives_gbobjects_tree.html:24
 msgid "Archives"
 msgstr "Archiv"
 
-#: templates/gstudio/base.html:72
+#: templates/objectapp/base.html:72
 msgid "Tools"
 msgstr "Werkzeuge"
 
-#: templates/gstudio/base.html:76 templates/gstudio/base.html.py:77
+#: templates/objectapp/base.html:76 templates/objectapp/base.html.py:77
 msgid "Dashboard"
 msgstr "Dashboard"
 
-#: templates/gstudio/base.html:83 templates/gstudio/base.html.py:84
-msgid "Post an objecttype"
+#: templates/objectapp/base.html:83 templates/objectapp/base.html.py:84
+msgid "Post an gbobject"
 msgstr "Schreibe einen Eintrag"
 
-#: templates/gstudio/base.html:91 templates/gstudio/base.html.py:92
+#: templates/objectapp/base.html:91 templates/objectapp/base.html.py:92
 msgid "Log out"
 msgstr "Abmelden"
 
-#: templates/gstudio/metatype_list.html:4 templates/gstudio/metatype_list.html:9
-msgid "Metatype list"
+#: templates/objectapp/Objecttype_list.html:4 templates/objectapp/Objecttype_list.html:9
+msgid "Objecttype list"
 msgstr "Kategorieliste"
 
-#: templates/gstudio/objecttype_archive_month.html:13
+#: templates/objectapp/gbobject_archive_month.html:13
 msgid "Daily archives"
 msgstr "Tagesarchiv"
 
-#: templates/gstudio/objecttype_archive_year.html:13
-#: templates/gstudio/sitemap.html:67
+#: templates/objectapp/gbobject_archive_year.html:13
+#: templates/objectapp/sitemap.html:67
 msgid "Monthly archives"
 msgstr "Monatliche Archive"
 
-#: templates/gstudio/objecttype_detail.html:10
+#: templates/objectapp/gbobject_detail.html:10
 msgid "RSS Feed of discussions on"
 msgstr "RSS-Feed der Diskussionen auf"
 
-#: templates/gstudio/objecttype_detail.html:11
+#: templates/objectapp/gbobject_detail.html:11
 msgid "RSS Feed of comments on"
 msgstr "RSS-Feed mit Kommentaren zu"
 
-#: templates/gstudio/objecttype_detail.html:12
+#: templates/objectapp/gbobject_detail.html:12
 msgid "RSS Feed of pingbacks on"
 msgstr "RSS-Feed auf den Pingbacks"
 
-#: templates/gstudio/objecttype_detail.html:13
+#: templates/objectapp/gbobject_detail.html:13
 msgid "RSS Feed of trackbacks on"
 msgstr "RSS-Feed auf Trackbacks ist an."
 
-#: templates/gstudio/objecttype_detail.html:29
-msgid "Next objecttype"
+#: templates/objectapp/gbobject_detail.html:29
+msgid "Next gbobject"
 msgstr "Nächster Eintrag"
 
-#: templates/gstudio/objecttype_detail.html:43
-msgid "Previous objecttype"
+#: templates/objectapp/gbobject_detail.html:43
+msgid "Previous gbobject"
 msgstr "Vorheriger Eintrag"
 
-#: templates/gstudio/objecttype_detail.html:56
-msgid "Related objecttypes"
+#: templates/objectapp/gbobject_detail.html:56
+msgid "Related gbobjects"
 msgstr "Verwandte Einträge"
 
-#: templates/gstudio/objecttype_detail.html:67
-msgid "Similar objecttypes"
+#: templates/objectapp/gbobject_detail.html:67
+msgid "Similar gbobjects"
 msgstr "Ähnliche Einträge"
 
-#: templates/gstudio/objecttype_detail.html:75
+#: templates/objectapp/gbobject_detail.html:75
 msgid "Comments"
 msgstr "Kommentare"
 
-#: templates/gstudio/objecttype_detail.html:117
+#: templates/objectapp/gbobject_detail.html:117
 msgid "Pingbacks"
 msgstr "Pingbacks"
 
-#: templates/gstudio/objecttype_detail.html:139
+#: templates/objectapp/gbobject_detail.html:139
 msgid "Pingbacks are open."
 msgstr "Pingbacks sind aktiviert."
 
-#: templates/gstudio/objecttype_detail.html:141
+#: templates/objectapp/gbobject_detail.html:141
 msgid "Pingbacks are closed."
 msgstr "Pingbacks sind deaktiviert."
 
-#: templates/gstudio/objecttype_detail.html:148
+#: templates/objectapp/gbobject_detail.html:148
 msgid "Trackbacks"
 msgstr "Trackbacks"
 
-#: templates/gstudio/objecttype_detail.html:170
+#: templates/objectapp/gbobject_detail.html:170
 msgid "Trackback URL"
 msgstr "Trackback-URL"
 
-#: templates/gstudio/objecttype_list.html:4
-msgid "Latest objecttypes for"
+#: templates/objectapp/gbobject_list.html:4
+msgid "Latest gbobjects for"
 msgstr ""
 
-#: templates/gstudio/objecttype_list.html:4
-msgid "the metatype"
+#: templates/objectapp/gbobject_list.html:4
+msgid "the Objecttype"
 msgstr ""
 
-#: templates/gstudio/objecttype_list.html:4
+#: templates/objectapp/gbobject_list.html:4
 msgid "the tag"
 msgstr ""
 
-#: templates/gstudio/objecttype_list.html:4
+#: templates/objectapp/gbobject_list.html:4
 msgid "the author"
 msgstr ""
 
-#: templates/gstudio/objecttype_list.html:4 templates/gstudio/objecttype_search.html:6
+#: templates/objectapp/gbobject_list.html:4 templates/objectapp/gbobject_search.html:6
 msgid "page"
 msgstr ""
 
-#: templates/gstudio/objecttype_list.html:9 templates/gstudio/objecttype_list.html:12
-#: templates/gstudio/objecttype_list.html:15 templates/gstudio/skeleton.html:40
+#: templates/objectapp/gbobject_list.html:9 templates/objectapp/gbobject_list.html:12
+#: templates/objectapp/gbobject_list.html:15 templates/objectapp/skeleton.html:40
 msgid "RSS Feed"
 msgstr "RSS-Feed"
 
-#: templates/gstudio/objecttype_list.html:19
-msgid "Metatype"
+#: templates/objectapp/gbobject_list.html:19
+msgid "Objecttype"
 msgstr "Kategorie"
 
-#: templates/gstudio/objecttype_list.html:19 templates/gstudio/objecttype_list.html:30
+#: templates/objectapp/gbobject_list.html:19 templates/objectapp/gbobject_list.html:30
 msgid "Tag"
 msgstr "Tag"
 
-#: templates/gstudio/objecttype_list.html:19 templates/gstudio/objecttype_search.html:4
+#: templates/objectapp/gbobject_list.html:19 templates/objectapp/gbobject_search.html:4
 msgid "Page"
 msgstr "Seite"
 
-#: templates/gstudio/objecttype_list.html:34
+#: templates/objectapp/gbobject_list.html:34
 #, python-format
-msgid "Objecttypes by %(author)s"
+msgid "Gbobjects by %(author)s"
 msgstr "Einträge von %(author)s"
 
-#: templates/gstudio/objecttype_list.html:45 templates/gstudio/sitemap.html:23
-#: templates/gstudio/sitemap.html.py:43
-#: templates/gstudio/cms/objecttype_detail.html:12
-#: templates/gstudio/cms/objecttype_list.html:9
-#: templates/gstudio/tags/featured_objecttypes.html:9
-#: templates/gstudio/tags/popular_objecttypes.html:13
-#: templates/gstudio/tags/random_objecttypes.html:9
-#: templates/gstudio/tags/recent_objecttypes.html:9
-msgid "No objecttypes yet."
+#: templates/objectapp/gbobject_list.html:45 templates/objectapp/sitemap.html:23
+#: templates/objectapp/sitemap.html.py:43
+#: templates/objectapp/cms/gbobject_detail.html:12
+#: templates/objectapp/cms/gbobject_list.html:9
+#: templates/objectapp/tags/featured_gbobjects.html:9
+#: templates/objectapp/tags/popular_gbobjects.html:13
+#: templates/objectapp/tags/random_gbobjects.html:9
+#: templates/objectapp/tags/recent_gbobjects.html:9
+msgid "No gbobjects yet."
 msgstr "Keine Einträge vorhanden."
 
-#: templates/gstudio/objecttype_list.html:51 templates/gstudio/objecttype_search.html:40
+#: templates/objectapp/gbobject_list.html:51 templates/objectapp/gbobject_search.html:40
 #, python-format
 msgid "Page %(current_page)s of %(total_page)s"
 msgstr "Seite %(current_page)s von %(total_page)s "
 
-#: templates/gstudio/objecttype_list.html:56 templates/gstudio/objecttype_search.html:45
-msgid "More recent objecttypes"
+#: templates/objectapp/gbobject_list.html:56 templates/objectapp/gbobject_search.html:45
+msgid "More recent gbobjects"
 msgstr "Mehr neuste Einträge"
 
-#: templates/gstudio/objecttype_list.html:65 templates/gstudio/objecttype_search.html:54
-msgid "Objecttypes page"
+#: templates/objectapp/gbobject_list.html:65 templates/objectapp/gbobject_search.html:54
+msgid "Gbobjects page"
 msgstr "Einträge der Seite"
 
-#: templates/gstudio/objecttype_list.html:72 templates/gstudio/objecttype_search.html:61
-msgid "More old objecttypes"
+#: templates/objectapp/gbobject_list.html:72 templates/objectapp/gbobject_search.html:61
+msgid "More old gbobjects"
 msgstr "Mehr alte Einträge"
 
-#: templates/gstudio/objecttype_list.html:82 templates/gstudio/objecttype_list.html:83
-msgid "Edit the metatype"
+#: templates/objectapp/gbobject_list.html:82 templates/objectapp/gbobject_list.html:83
+msgid "Edit the Objecttype"
 msgstr "Kategorie bearbeiten"
 
-#: templates/gstudio/objecttype_list.html:89 templates/gstudio/objecttype_list.html:90
+#: templates/objectapp/gbobject_list.html:89 templates/objectapp/gbobject_list.html:90
 msgid "Edit the tag"
 msgstr "Tag bearbeiten"
 
-#: templates/gstudio/objecttype_list.html:96 templates/gstudio/objecttype_list.html:97
+#: templates/objectapp/gbobject_list.html:96 templates/objectapp/gbobject_list.html:97
 msgid "Edit the author"
 msgstr "Autor bearbeiten"
 
-#: templates/gstudio/objecttype_search.html:4 templates/gstudio/objecttype_search.html:6
-#: templates/gstudio/objecttype_search.html:14
+#: templates/objectapp/gbobject_search.html:4 templates/objectapp/gbobject_search.html:6
+#: templates/objectapp/gbobject_search.html:14
 msgid "Search results for"
 msgstr ""
 
-#: templates/gstudio/objecttype_search.html:10
+#: templates/objectapp/gbobject_search.html:10
 msgid "RSS Feed of search result of"
 msgstr "RSS-Feed mit Suchergebnissen zu"
 
-#: templates/gstudio/objecttype_search.html:22
+#: templates/objectapp/gbobject_search.html:22
 #, python-format
-msgid "%(objecttype_count)s objecttype found"
-msgid_plural "%(objecttype_count)s objecttypes found"
-msgstr[0] "%(objecttype_count)s Eintrag gefunden"
-msgstr[1] "%(objecttype_count)s Einträge gefunden"
+msgid "%(gbobject_count)s gbobject found"
+msgid_plural "%(gbobject_count)s gbobjects found"
+msgstr[0] "%(gbobject_count)s Eintrag gefunden"
+msgstr[1] "%(gbobject_count)s Einträge gefunden"
 
-#: templates/gstudio/objecttype_search.html:34
+#: templates/objectapp/gbobject_search.html:34
 msgid "Nothing found."
 msgstr "Nichts gefunden."
 
-#: templates/gstudio/login.html:4 templates/gstudio/login.html.py:7
+#: templates/objectapp/login.html:4 templates/objectapp/login.html.py:7
 msgid "Login required"
 msgstr "Anmeldung erforderlich"
 
-#: templates/gstudio/login.html:12
+#: templates/objectapp/login.html:12
 msgid "Your username and password didn't match. Please try again."
 msgstr ""
 "Ihr Benutzername und Passwort stimmen nicht überein. Bitte versuchen Sie es "
 "erneut."
 
-#: templates/gstudio/login.html:16
-msgid "You need to be connected to view this objecttype."
+#: templates/objectapp/login.html:16
+msgid "You need to be connected to view this gbobject."
 msgstr "Sie müssen eingeloggt sein um diesen Eintrag zu sehen."
 
-#: templates/gstudio/login.html:33
+#: templates/objectapp/login.html:33
 msgid "Login"
 msgstr "Login"
 
-#: templates/gstudio/password.html:4 templates/gstudio/password.html.py:7
+#: templates/objectapp/password.html:4 templates/objectapp/password.html.py:7
 msgid "Password required"
 msgstr "Passwort erforderlich"
 
-#: templates/gstudio/password.html:12
+#: templates/objectapp/password.html:12
 msgid "The password provided is not valid. Please try again."
 msgstr "Das Kennwort ist ungültig. Bitte versuchen Sie es erneut."
 
-#: templates/gstudio/password.html:16
-msgid "You need to provide a password to view this objecttype."
+#: templates/objectapp/password.html:16
+msgid "You need to provide a password to view this gbobject."
 msgstr "Sie benötigen ein Passwort um diesen Eintrag lesen zu können."
 
-#: templates/gstudio/password.html:23
+#: templates/objectapp/password.html:23
 msgid "Password"
 msgstr "Passwort"
 
-#: templates/gstudio/password.html:28
+#: templates/objectapp/password.html:28
 msgid "Valid"
 msgstr "Gültig"
 
-#: templates/gstudio/sitemap.html:10
-msgid "Objecttypes per metatypes"
+#: templates/objectapp/sitemap.html:10
+msgid "Gbobjects per objecttypes"
 msgstr "Einträge pro Kategorien"
 
-#: templates/gstudio/sitemap.html:18 templates/gstudio/sitemap.html.py:38
-#: templates/gstudio/tags/popular_objecttypes.html:8
+#: templates/objectapp/sitemap.html:18 templates/objectapp/sitemap.html.py:38
+#: templates/objectapp/tags/popular_gbobjects.html:8
 msgid "comment"
 msgstr "Kommentar"
 
-#: templates/gstudio/sitemap.html:31
-msgid "All the objecttypes"
+#: templates/objectapp/sitemap.html:31
+msgid "All the gbobjects"
 msgstr "Alle Einträge"
 
-#: templates/gstudio/sitemap.html:60 templates/gstudio/tags/metatypes.html:11
-msgid "No metatypes yet."
+#: templates/objectapp/sitemap.html:60 templates/objectapp/tags/objecttypes.html:11
+msgid "No objecttypes yet."
 msgstr "Keine Kategorien vorhanden."
 
-#: templates/gstudio/skeleton.html:27 templates/gstudio/skeleton.html.py:39
-msgid "RSS Feed of latest objecttypes"
+#: templates/objectapp/skeleton.html:27 templates/objectapp/skeleton.html.py:39
+msgid "RSS Feed of latest gbobjects"
 msgstr "RSS-Feed der neuesten Einträge"
 
-#: templates/gstudio/tag_list.html:4 templates/gstudio/tag_list.html.py:9
+#: templates/objectapp/tag_list.html:4 templates/objectapp/tag_list.html.py:9
 msgid "Tag list"
 msgstr "Tag-Liste"
 
-#: templates/gstudio/wlwmanifest.xml:40
+#: templates/objectapp/wlwmanifest.xml:40
 msgid "View site"
 msgstr ""
 
-#: templates/gstudio/wlwmanifest.xml:41
+#: templates/objectapp/wlwmanifest.xml:41
 msgid "Admin. site"
 msgstr ""
 
-#: templates/gstudio/wlwmanifest.xml:53
+#: templates/objectapp/wlwmanifest.xml:53
 msgid "Manage comments"
 msgstr ""
 
-#: templates/gstudio/tags/archives_objecttypes.html:12
-#: templates/gstudio/tags/archives_objecttypes_tree.html:38
+#: templates/objectapp/tags/archives_gbobjects.html:12
+#: templates/objectapp/tags/archives_gbobjects_tree.html:38
 msgid "No archives yet."
 msgstr "Kein Archiv vorhanden."
 
-#: templates/gstudio/tags/authors.html:12
+#: templates/objectapp/tags/authors.html:12
 msgid "No authors yet."
 msgstr "Keine Autoren vorhanden."
 
-#: templates/gstudio/tags/recent_linkbacks.html:10
+#: templates/objectapp/tags/recent_linkbacks.html:10
 msgid "Linkback on"
 msgstr "Linkback auf"
 
-#: templates/gstudio/tags/similar_objecttypes.html:9
-msgid "No similar objecttypes."
+#: templates/objectapp/tags/similar_gbobjects.html:9
+msgid "No similar gbobjects."
 msgstr "Keine ähnlichen Einträge."
 
 #: tests/views.py:165 views/search.py:18

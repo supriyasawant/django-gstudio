@@ -1,4 +1,4 @@
-"""GBObjectAdmin for Objectapp"""
+"""GbobjectAdmin for Objectapp"""
 from datetime import datetime
 
 from django.forms import Media
@@ -11,25 +11,55 @@ from django.conf.urls.defaults import patterns
 from django.conf import settings as project_settings
 from django.utils.translation import ugettext_lazy as _
 from django.core.urlresolvers import reverse, NoReverseMatch
-
+import reversion
 from tagging.models import Tag
 
-import reversion
+"""ObjecttypeAdmin for Objectapp"""
+from django.contrib import admin
+from django.core.urlresolvers import NoReverseMatch
+from django.utils.translation import ugettext_lazy as _
+
+from objectapp.admin.forms import ObjecttypeAdminForm
+
+
+class ObjecttypeAdmin(reversion.VersionAdmin):
+    """Admin for Objecttype model"""
+    form = ObjecttypeAdminForm
+    fields = ('title', 'parent', 'description', 'slug')
+    list_display = ('title', 'slug', 'get_tree_path', 'description')
+    prepopulated_fields = {'slug': ('title', )}
+    search_fields = ('title', 'description')
+    list_filter = ('parent',)
+
+    def __init__(self, model, admin_site):
+        self.form.admin_site = admin_site
+        super(ObjecttypeAdmin, self).__init__(model, admin_site)
+
+    def get_tree_path(self, Objecttype):
+        """Return the Objecttype's tree path in HTML"""
+        try:
+            return '<a href="%s" target="blank">/%s/</a>' % \
+                   (Objecttype.get_absolute_url(), Objecttype.tree_path)
+        except NoReverseMatch:
+            return '/%s/' % Objecttype.tree_path
+    get_tree_path.allow_tags = True
+    get_tree_path.short_description = _('tree path')
+
 from objectapp import settings
 from objectapp.managers import HIDDEN
 from objectapp.managers import PUBLISHED
 from objectapp.ping import DirectoryPinger
-from objectapp.admin.forms import GBObjectAdminForm
+from objectapp.admin.forms import GbobjectAdminForm
 
 
-class GBObjectAdmin(reversion.VersionAdmin):
-    """Admin for GBObject model"""
-    form = GBObjectAdminForm
+class GbobjectAdmin(reversion.VersionAdmin):
+    """Admin for Gbobject model"""
+    form = GbobjectAdminForm
     date_hierarchy = 'creation_date'
     fieldsets = ((_('Content'), {'fields': ('title', 'content',
                                             'image', 'status')}),
                  (_('Options'), {'fields': ('featured', 'excerpt', 'template',
-                                             'authors',
+                                            'related', 'authors',
                                             'creation_date',
                                             'start_publication',
                                             'end_publication'),
@@ -50,7 +80,7 @@ class GBObjectAdmin(reversion.VersionAdmin):
                     'get_is_actual', 'get_is_visible', 'get_link',
                     'get_short_url', 'creation_date')
     radio_fields = {'template': admin.VERTICAL}
-    filter_horizontal = ('objecttypes', 'authors')
+    filter_horizontal = ('objecttypes', 'authors', 'related')
     prepopulated_fields = {'slug': ('title', )}
     search_fields = ('title', 'excerpt', 'content', 'tags')
     actions = ['make_mine', 'make_published', 'make_hidden',
@@ -61,7 +91,7 @@ class GBObjectAdmin(reversion.VersionAdmin):
 
     def __init__(self, model, admin_site):
         self.form.admin_site = admin_site
-        super(GBObjectAdmin, self).__init__(model, admin_site)
+        super(GbobjectAdmin, self).__init__(model, admin_site)
 
     # Custom Display
     def get_title(self, gbobject):
@@ -92,14 +122,14 @@ class GBObjectAdmin(reversion.VersionAdmin):
         """Return the objecttypes linked in HTML"""
         try:
             objecttypes = ['<a href="%s" target="blank">%s</a>' %
-                          (objecttype.get_absolute_url(), objecttype.title)
-                          for objecttype in gbobject.objecttypes.all()]
+                          (Objecttype.get_absolute_url(), Objecttype.title)
+                          for Objecttype in gbobject.objecttypes.all()]
         except NoReverseMatch:
-            objecttypes = [objecttype.title for objecttype in
+            objecttypes = [Objecttype.title for Objecttype in
                           gbobject.objecttypes.all()]
         return ', '.join(objecttypes)
     get_objecttypes.allow_tags = True
-    get_objecttypes.short_description = _('objecttype(s)')
+    get_objecttypes.short_description = _('Objecttype(s)')
 
     def get_tags(self, gbobject):
         """Return the tags linked in HTML"""
@@ -173,7 +203,7 @@ class GBObjectAdmin(reversion.VersionAdmin):
 
     def queryset(self, request):
         """Make special filtering by user permissions"""
-        queryset = super(GBObjectAdmin, self).queryset(request)
+        queryset = super(GbobjectAdmin, self).queryset(request)
         if request.user.has_perm('objectapp.can_view_all'):
             return queryset
         return request.user.gbobjects.all()
@@ -186,12 +216,12 @@ class GBObjectAdmin(reversion.VersionAdmin):
             else:
                 kwargs['queryset'] = User.objects.filter(pk=request.user.pk)
 
-        return super(GBObjectAdmin, self).formfield_for_manytomany(
+        return super(GbobjectAdmin, self).formfield_for_manytomany(
             db_field, request, **kwargs)
 
     def get_actions(self, request):
         """Define user actions by permissions"""
-        actions = super(GBObjectAdmin, self).get_actions(request)
+        actions = super(GbobjectAdmin, self).get_actions(request)
         if not request.user.has_perm('objectapp.can_change_author') \
            or not request.user.has_perm('objectapp.can_view_all'):
             del actions['make_mine']
@@ -292,7 +322,7 @@ class GBObjectAdmin(reversion.VersionAdmin):
         'Ping Directories for selected gbobjects')
 
     def get_urls(self):
-        gbobject_admin_urls = super(GBObjectAdmin, self).get_urls()
+        gbobject_admin_urls = super(GbobjectAdmin, self).get_urls()
         urls = patterns(
             'django.views.generic.simple',
             url(r'^autocomplete_tags/$', 'direct_to_template',
@@ -311,7 +341,7 @@ class GBObjectAdmin(reversion.VersionAdmin):
 
     def _media(self):
         STATIC_URL = '%sobjectapp/' % project_settings.STATIC_URL
-        media = super(GBObjectAdmin, self).media + Media(
+        media = super(GbobjectAdmin, self).media + Media(
             css={'all': ('%scss/jquery.autocomplete.css' % STATIC_URL,)},
             js=('%sjs/jquery.js' % STATIC_URL,
                 '%sjs/jquery.bgiframe.js' % STATIC_URL,

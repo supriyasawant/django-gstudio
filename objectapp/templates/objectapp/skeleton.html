@@ -1,5 +1,5 @@
-{% load objectapp_tags i18n %}
-{% get_tags as gbobject_tags %}
+{% load gstudio_tags i18n %}
+{% get_tags as objecttype_tags %}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xml:lang="{{ LANGUAGE_CODE }}" lang="{{ LANGUAGE_CODE }}" version="-//W3C//DTD XHTML 1.1//EN" xmlns="http://www.w3.org/1999/xhtml">
   <head>
@@ -7,35 +7,35 @@
     <meta http-equiv="cache-control" content="public" />
     <meta name="robots" content="follow, all" />
     <meta name="language" content="{{ LANGUAGE_CODE }}" />
-    <meta name="description" content="{% block meta-description %}Demonstration of the Objectapp Blog application.{% endblock %}" />
-    <meta name="keywords" content="{% block meta-keywords %}django, blog, objectapp, {{ gbobject_tags|join:", "}}{% endblock %}" />
+    <meta name="description" content="{% block meta-description %}Demonstration of the Gstudio Blog application.{% endblock %}" />
+    <meta name="keywords" content="{% block meta-keywords %}django, blog, gstudio, {{ objecttype_tags|join:", "}}{% endblock %}" />
     <meta name="author" content="gnowgi" />
     {% block meta %}{% endblock %}
     <link rel="pingback" href="/xmlrpc/" />
-    <link rel="shortcut icon" href="{{ STATIC_URL }}objectapp/img/favicon.ico" />
-    <link rel="home" href="{% url objectapp_gbobject_archive_index %}" />
-    <link rel="stylesheet" type="text/css" media="screen, projection" href="{{ STATIC_URL }}objectapp/css/screen.css" />
-    <link rel="stylesheet" type="text/css" media="print" href="{{ STATIC_URL }}objectapp/css/print.css" />
+    <link rel="shortcut icon" href="{{ STATIC_URL }}gstudio/img/favicon.ico" />
+    <link rel="home" href="{% url gstudio_objecttype_archive_index %}" />
+    <link rel="stylesheet" type="text/css" media="screen, projection" href="{{ STATIC_URL }}gstudio/css/screen.css" />
+    <link rel="stylesheet" type="text/css" media="print" href="{{ STATIC_URL }}gstudio/css/print.css" />
     <!--[if lt IE 8]>
-	<link rel="stylesheet" type="text/css" media="screen, projection" href="{{ STATIC_URL }}objectapp/css/ie.css" />
+	<link rel="stylesheet" type="text/css" media="screen, projection" href="{{ STATIC_URL }}gstudio/css/ie.css" />
     <![endif]-->
     {% block link %}{% endblock %}
     {% block script %}{% endblock %}
     <title>Gnowledge Studio - {% block title %}{% endblock %}</title>
   </head>
-  <body id="objectapp">
+  <body id="gstudio">
     <div class="container">
       <div id="header" class="span-24 last">
 	<div class="top-navigation">
-	  <a href="{% url objectapp_sitemap %}" title="{% trans "Sitemap" %}" class="link sitemap">
+	  <a href="{% url gstudio_sitemap %}" title="{% trans "Sitemap" %}" class="link sitemap">
 	    {% trans "Sitemap" %}
 	  </a> |
-	  <a href="{% url objectapp_gbobject_latest_feed %}" title="{% trans "RSS Feed of latest gbobjects" %}" class="link feeds">
+	  <a href="{% url gstudio_objecttype_latest_feed %}" title="{% trans "RSS Feed of latest objecttypes" %}" class="link feeds">
 	    {% trans "RSS Feed" %}
 	  </a>
 	</div>
 	<h1>
-	  <a href="{% url objectapp_gbobject_archive_index %}" title="Gnowledge Studio" rel="home">
+	  <a href="{% url gstudio_objecttype_archive_index %}" title="Gnowledge Studio" rel="home">
 	    Gnowledge Studio
 	  </a>
 	</h1>
@@ -62,17 +62,17 @@
             </p>
             <p>
 	      Currently gnowledge studio provides support for
-	      Objecttypes and GBObjects. Using objecttypes you can
+	      Metatypes and Objecttypes. Using metatypes you can
 	      define different kinds of concepts, like "concept
 	      names", "action names", "scientific concept", "phylem"
-	      etc. GBObjects are any regular classes, which can be
-	      defined as members of Objecttypes. Both gbobjects and
-	      objecttypes can have parent, siblings and children to
+	      etc. Objecttypes are any regular classes, which can be
+	      defined as members of Metatypes. Both objecttypes and
+	      metatypes can have parent, siblings and children to
 	      create hierarchical structures. In our next release we
-	      will have objects as members of gbobjects. While we
+	      will have objects as members of objecttypes. While we
 	      shape this project, if you are interested in joining,
 	      visit us
-	      at <a href="https://www.metastudio.org/groups/objectapp/">metastudio.org</a>.
+	      at <a href="https://www.metastudio.org/groups/gstudio/">metastudio.org</a>.
 	    </p>
 	  </div>
 	  {% block sidebar %}
@@ -80,7 +80,7 @@
 	</div>
       </div>
       <div id="footer" class="span-24 last">
-	<p>Powered by <a href="http://www.djangoproject.com">Django</a> and <a href="http://github.com/gnowgi/django-objectapp">Objectapp {{ OBJECTAPP_VERSION }}</a>.</p>
+	<p>Powered by <a href="http://www.djangoproject.com">Django</a> and <a href="http://github.com/gnowgi/django-gstudio">Gstudio {{ GSTUDIO_VERSION }}</a>.</p>
       </div>
     </div>
   </body>
