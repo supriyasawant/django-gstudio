@@ -136,27 +136,33 @@ class Metatype(Nodetype):
         """Return only the objecttypes published"""
         return objecttypes_published(self.objecttypes)
 
-
+    @property
+    def test_property(self):
+        return "hahahahahaha !!"
+    
 
     @property
     def get_nbh(self):
         """ Returns the neighbourhood of the metatype """
-        nbh = {}
-        nbh['title'] = self.title
-        nbh['content'] = self.content
-        nbh['parent'] = self.parent
-        nbh['related'] = self.related.values_list()
-        nbh['children'] = []
+        # nbh = {}
+        # nbh['title'] = self.title
+        # nbh['content'] = self.content
+        # nbh['parent'] = self.parent
+        # nbh['related'] = self.related.values_list()
+        # nbh['children'] = []
         
-        # generate ids and names of children/members
-        for obj in self.children.get_query_set():  
-            nbh['children'].append({str(obj.id):str(obj.title)})
+        # # generate ids and names of children/members
+        # for obj in self.children.get_query_set():  
+        #     nbh['children'].append({str(obj.id):str(obj.title)})
 
-        nbh['members'] = []
-        for obj in self.objecttypes.all():
-            nbh['members'].append({str(obj.id):str(obj.title)})
+        # nbh['members'] = []
+        # for obj in self.objecttypes.all():
+        #     nbh['members'].append({str(obj.id):str(obj.title)})
+        nbh = "test"
+
 
         return nbh
+
 
                   
     @property
