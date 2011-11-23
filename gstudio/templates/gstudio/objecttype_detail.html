@@ -38,6 +38,10 @@
   {% endwith %}
 {% endblock %}
 
+{% block neighbourhood %}
+  {{objecttype.nbh}}
+{% endblock %}
+
 {% block objecttype-widgets %}
 <div class="objecttype-widgets span-16 last">
   {% with object.next_objecttype as next_objecttype %}

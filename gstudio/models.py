@@ -143,14 +143,6 @@ class Metatype(Nodetype):
     @property
     def get_nbh(self):
         """ Returns the neighbourhood of the metatype """
-<<<<<<< HEAD
-        # nbh = {}
-        # nbh['title'] = self.title
-        # nbh['content'] = self.content
-        # nbh['parent'] = self.parent
-        # nbh['related'] = self.related.values_list()
-        # nbh['children'] = []
-=======
         nbh = {}
         nbh['title'] = self.title        
         
@@ -159,16 +151,6 @@ class Metatype(Nodetype):
             nbh['parent'] = dict({str(self.parent.id) : str(self.parent.title)})
         #nbh['related'] = self.related.values_list()
         nbh['children'] = []
->>>>>>> johnnyb/master
-        
-        # # generate ids and names of children/members
-        # for obj in self.children.get_query_set():  
-        #     nbh['children'].append({str(obj.id):str(obj.title)})
-
-        # nbh['members'] = []
-        # for obj in self.objecttypes.all():
-        #     nbh['members'].append({str(obj.id):str(obj.title)})
-        nbh = "test"
 
 
         return nbh
@@ -289,15 +271,15 @@ class Objecttype(Nodetype):
         if self.parent:
             nbh['parent'] = dict({str(self.parent.id) : str(self.parent.title)})
         #nbh['related'] = self.related.values_list()
-        nbh['children'] = []
+        
         
         # generate ids and names of children/members
         for objecttype in self.get_children():
-            nbh['children'].append({str(objecttype.id):str(objecttype.title)})
+            nbh['children']  = dict({str(objecttype.id):str(objecttype.title)})
 
         nbh['subtypeof'] = []
         for objecttype in self.metatypes.all():
-            nbh['subtypeof'].append({str(objecttype.id):str(objecttype.title)})
+            nbh['subtypeof'] = dict({str(objecttype.id):str(objecttype.title)})
 
         return nbh
 

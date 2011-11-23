@@ -53,27 +53,31 @@
 	  {% endblock %}
 	</div>
 	<div id="sidebar" class="span-8 last">
-	  <div class="welcome">
-	    <h3>Welcome!</h3>
-	    <p>
-	      This application is an attempt to collaborative
-	      framework for online construction and publication of
-	      knowledge networks and ontologies. 
-            </p>
-            <p>
-	      Currently gnowledge studio provides support for
-	      Metatypes and Objecttypes. Using metatypes you can
-	      define different kinds of concepts, like "concept
-	      names", "action names", "scientific concept", "phylem"
-	      etc. Objecttypes are any regular classes, which can be
-	      defined as members of Metatypes. Both objecttypes and
-	      metatypes can have parent, siblings and children to
-	      create hierarchical structures. In our next release we
-	      will have objects as members of objecttypes. While we
-	      shape this project, if you are interested in joining,
-	      visit us
-	      at <a href="https://www.metastudio.org/groups/gstudio/">metastudio.org</a>.
-	    </p>
+	  <div class="neighbourhood">
+	    <h3>Neighbourhood</h3>
+	    {% block neighbourhood  %}
+	    <h4>Neighbourhood comes here</h4>
+	    {% endblock %}
+	    
+	    <!-- <p> -->
+	    <!--   This application is an attempt to collaborative -->
+	    <!--   framework for online construction and publication of -->
+	    <!--   knowledge networks and ontologies. -->
+            <!-- </p> -->
+            <!-- <p> -->
+	    <!--   Currently gnowledge studio provides support for -->
+	    <!--   Metatypes and Objecttypes. Using metatypes you can -->
+	    <!--   define different kinds of concepts, like "concept -->
+	    <!--   names", "action names", "scientific concept", "phylem" -->
+	    <!--   etc. Objecttypes are any regular classes, which can be -->
+	    <!--   defined as members of Metatypes. Both objecttypes and -->
+	    <!--   metatypes can have parent, siblings and children to -->
+	    <!--   create hierarchical structures. In our next release we -->
+	    <!--   will have objects as members of objecttypes. While we -->
+	    <!--   shape this project, if you are interested in joining, -->
+	    <!--   visit us -->
+	    <!--   at <a href="https://www.metastudio.org/groups/gstudio/">metastudio.org</a>. -->
+	    <!-- </p> -->
 	  </div>
 	  {% block sidebar %}
 	  {% endblock %}
