@@ -28,11 +28,11 @@ from gstudio.settings import OBJECTTYPE_TEMPLATES
 from gstudio.settings import OBJECTTYPE_BASE_MODEL
 from gstudio.settings import MARKDOWN_EXTENSIONS
 from gstudio.settings import AUTO_CLOSE_COMMENTS_AFTER
-from gstudio.managers import objecttypes_published
-from gstudio.managers import ObjecttypePublishedManager
+from gstudio.managers import nodes_published
+from gstudio.managers import NodePublishedManager
 from gstudio.managers import AuthorPublishedManager
 from gstudio.managers import DRAFT, HIDDEN, PUBLISHED
-from gstudio.moderator import ObjecttypeCommentModerator
+from gstudio.moderator import NodeCommentModerator
 from gstudio.url_shortener import get_url_shortener
 from gstudio.signals import ping_directories_handler
 from gstudio.signals import ping_external_urls_handler
@@ -79,15 +79,22 @@ FIELD_TYPE_CHOICES = (
     ('19', 'IPAddressField'),
     )
 
+
+STATUS_CHOICES = ((DRAFT, _('draft')),
+                  (HIDDEN, _('hidden')),
+                  (PUBLISHED, _('published')))
+
+
+
 class Author(User):
     """Proxy Model around User"""
 
     objects = models.Manager()
     published = AuthorPublishedManager()
 
-    def objecttypes_published(self):
+    def nodes_published(self):
         """Return only the objecttypes published"""
-        return objecttypes_published(self.objecttypes)
+        return nodes_published(self.objecttypes)
 
     @models.permalink
     def get_absolute_url(self):
@@ -101,7 +108,40 @@ class Author(User):
 
 class Node(models.Model):
 
-    title = models.CharField(_('title'), max_length=255)
+    title = models.CharField(_('title'), help_text=_('give a name to the node'), max_length=255)
+    altname = models.CharField(_('title'), help_text=_('give an alternate name if any'), max_length=255)
+    slug = models.SlugField(help_text=_('used for publication'),
+                            unique=True, max_length=255)
+    status = models.IntegerField(choices=STATUS_CHOICES, default=PUBLISHED)
+    featured = models.BooleanField(_('featured'), default=False)
+    comment_enabled = models.BooleanField(_('comment enabled'), default=True)
+    creation_date = models.DateTimeField(_('creation date'),
+                                         default=datetime.now)
+    last_update = models.DateTimeField(_('last update'), default=datetime.now)
+    start_publication = models.DateTimeField(_('start publication'),
+                                             help_text=_('date start publish'),
+                                             default=datetime.now)
+    end_publication = models.DateTimeField(_('end publication'),
+                                           help_text=_('date end publish'),
+                                           default=datetime(2042, 3, 15))
+
+    sites = models.ManyToManyField(Site, verbose_name=_('sites publication'),
+                                   related_name='nodetypes')
+    login_required = models.BooleanField(
+        _('login required'), default=False,
+        help_text=_('only authenticated users can view the node'))
+    password = models.CharField(
+        _('password'), max_length=50, blank=True,
+        help_text=_('protect the node with a password'))
+    objects = models.Manager()
+    published = NodePublishedManager()
+    slug = models.SlugField(help_text=_('used for publication'),
+                            unique_for_date='creation_date',
+                            max_length=255)
+    authors = models.ManyToManyField(User, verbose_name=_('authors'),
+                                     related_name='nodes',
+                                     blank=True, null=False)
+    tags = TagField(_('tags'))
 
     def __unicode__(self):
         return self.title
@@ -113,6 +153,19 @@ class Node(models.Model):
     
 class Nodetype(Node):
 
+    pluralform = models.CharField(_('title'), help_text=_('name it gets when used in plural'), max_length=255)
+    description = models.TextField(_('description'), blank=True, null=True)
+
+    def __unicode__(self):
+        return self.title
+
+    class Meta:
+        abstract=False
+
+class Edge(models.Model):
+
+    title = models.CharField(_('title'), max_length=255)
+
     def __unicode__(self):
         return self.title
 
@@ -120,23 +173,17 @@ class Nodetype(Node):
         abstract=False
 
 
-
 class Metatype(Nodetype):
     """Metatype object for Objecttype"""
 
-
-    slug = models.SlugField(help_text=_('used for publication'),
-                            unique=True, max_length=255)
-    description = models.TextField(_('description'), blank=True, null=True)
 
     parent = models.ForeignKey('self', null=True, blank=True,
                                verbose_name=_('parent metatype'),
                                related_name='children')
 
-    def objecttypes_published(self):
+    def nodes_published(self):
         """Return only the objecttypes published"""
-        return objecttypes_published(self.objecttypes)
-
+        return nodes_published(self.objecttypes)
             
     @property
     def tree_path(self):
@@ -170,9 +217,6 @@ class Metatype(Nodetype):
 
 class Objecttype(Nodetype):
     """Model design publishing objecttypes"""
-    STATUS_CHOICES = ((DRAFT, _('draft')),
-                      (HIDDEN, _('hidden')),
-                      (PUBLISHED, _('published')))
 
     content = models.TextField(_('content'), blank=True, null=True)
     parent = models.ForeignKey('self', null=True, blank=True,
@@ -191,45 +235,15 @@ class Objecttype(Nodetype):
     excerpt = models.TextField(_('excerpt'), blank=True,
                                 help_text=_('optional element'))
 
-    tags = TagField(_('tags'))
+
     metatypes = models.ManyToManyField(Metatype, verbose_name=_('metatypes'),
                                         related_name='objecttypes',
                                         blank=True, null=True)
     related = models.ManyToManyField('self', verbose_name=_('related objecttypes'),
                                      blank=True, null=True)
 
-    slug = models.SlugField(help_text=_('used for publication'),
-                            unique_for_date='creation_date',
-                            max_length=255)
-
-    authors = models.ManyToManyField(User, verbose_name=_('authors'),
-                                     related_name='objecttypes',
-                                     blank=True, null=False)
-    status = models.IntegerField(choices=STATUS_CHOICES, default=PUBLISHED)
-
-    featured = models.BooleanField(_('featured'), default=False)
-    comment_enabled = models.BooleanField(_('comment enabled'), default=True)
     pingback_enabled = models.BooleanField(_('linkback enabled'), default=True)
 
-    creation_date = models.DateTimeField(_('creation date'),
-                                         default=datetime.now)
-    last_update = models.DateTimeField(_('last update'), default=datetime.now)
-    start_publication = models.DateTimeField(_('start publication'),
-                                             help_text=_('date start publish'),
-                                             default=datetime.now)
-    end_publication = models.DateTimeField(_('end publication'),
-                                           help_text=_('date end publish'),
-                                           default=datetime(2042, 3, 15))
-
-    sites = models.ManyToManyField(Site, verbose_name=_('sites publication'),
-                                   related_name='objecttypes')
-
-    login_required = models.BooleanField(
-        _('login required'), default=False,
-        help_text=_('only authenticated users can view the objecttype'))
-    password = models.CharField(
-        _('password'), max_length=50, blank=True,
-        help_text=_('protect the objecttype with a password'))
 
     template = models.CharField(
         _('template'), max_length=250,
@@ -238,8 +252,6 @@ class Objecttype(Nodetype):
         OBJECTTYPE_TEMPLATES,
         help_text=_('template used to display the objecttype'))
 
-    objects = models.Manager()
-    published = ObjecttypePublishedManager()
 
     @property
     def tree_path(self):
@@ -304,7 +316,7 @@ class Objecttype(Nodetype):
     @property
     def related_published(self):
         """Return only related objecttypes published"""
-        return objecttypes_published(self.related)
+        return nodes_published(self.related)
 
     @property
     def discussions(self):
@@ -415,11 +427,32 @@ class Attributetype(Nodetype):
     applicablenodetypes = models.CharField(max_length=2,choices=NODETYPE_CHOICES,default='OT')
     dataType = models.CharField(max_length=2, choices=FIELD_TYPE_CHOICES,default='01')
 
+
+    def simpleform(self):
+        """ create the form elements """
+        simpleform = {}
+        simpleform['projectName'] = self.subjecttype
+        simpleform['ID'] = self.subjecttype
+        simpleform['formName'] = self.title
+        simpleform['formRef'] = self.title
+        return simpleform
+
+    def simpleform_xml(self):
+        dict = self.simpleform()
+        return '<xform>  <model>  <submission id="learning-epicollect" projectName="learning-epicollect" allowDownloadEdits="false" versionNumber="2.1"/>  <uploadToServer>http://test.mlst.net/epicollectplus/school2/upload</uploadToServer>  <downloadFromServer>http://test.mlst.net/epicollectplus/school2/download</downloadFromServer>  </model> <form num="1" name=" %s  " key=" %s " main="true"> ' % (dict['projectName'], dict['projectName'])  
+
+    def inputform_xml(self):
+        return '<input ref="%s" title="true">  <label>what is the %s? </label>  </input>' % (self.title, self.title) 
+
+    def fullform_xml(self):
+        form = self.simpleform_xml() + self.inputform_xml()
+        return form
+
     def __unicode__(self):
         return self.title
 
     
-class Relation(models.Model):
+class Relation(Edge):
     '''
     other defined relations. subject1 and subject2 can be any of the
     nodetypes except relations for now.
@@ -431,7 +464,7 @@ class Relation(models.Model):
     relationtype = models.ForeignKey(Relationtype, verbose_name='relation name')
     objectScope = models.CharField(max_length=50, verbose_name='object scope', null=True, blank=True)
     subject2 = models.ForeignKey(Node, related_name="subject2_gbnode", verbose_name='object name') 
-    title = models.CharField(_('title'), max_length=255)
+
 
     class Meta:
         unique_together = (('subject1Scope', 'subject1', 'relationTypeScope', 'relationtype', 'objectScope', 'subject2'),)
@@ -444,7 +477,7 @@ class Relation(models.Model):
         return '%s %s %s %s %s %s' % (self.subject1Scope, self.subject1, self.relationTypeScope, self.relationtype, self.objectScope, self.subject2)
     composed_sentence = property(_get_sentence)
 
-class Attribute(models.Model):
+class Attribute(Edge):
     '''
     Attribute value store for default datatype varchar. Subject can be any of the
     nodetypes. 
@@ -456,7 +489,7 @@ class Attribute(models.Model):
     attributeType = models.ForeignKey(Attributetype, verbose_name='property name')
     valueScope = models.CharField(max_length=50, verbose_name='value scope', null=True, blank=True)
     value  = models.CharField(max_length=100, verbose_name='value') 
-    title = models.CharField(_('title'), max_length=255)
+
     
     class Meta:
         unique_together = (('subjectScope', 'subject', 'attributeTypeScope', 'attributeType', 'valueScope', 'value'),)
@@ -471,8 +504,13 @@ class Attribute(models.Model):
         return '%s %s has %s %s %s %s' % (self.subjectScope, self.subject, self.attributeTypeScope, self.attributeType, self.valueScope, self.value)
     composed_sentence = property(_get_sentence)
 
+
+
+
+
 reversion.register(Node)
 reversion.register(Nodetype)
+reversion.register(Edge)
 if not reversion.is_registered(Objecttype): 
     reversion.register(Objecttype, follow=["parent"])
 if not reversion.is_registered(Objecttype):
@@ -508,7 +546,7 @@ if not reversion.is_registered(Relation):
     reversion.register(Relation, follow=["relationtype"])
 
 
-moderator.register(Objecttype, ObjecttypeCommentModerator)
+moderator.register(Node, NodeCommentModerator)
 mptt.register(Metatype, order_insertion_by=['title'])
 mptt.register(Objecttype, order_insertion_by=['title'])
 post_save.connect(ping_directories_handler, sender=Objecttype,

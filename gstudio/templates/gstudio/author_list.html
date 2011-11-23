@@ -15,7 +15,7 @@
          title="{{ object.username }}" class="fn nickname url">
         {{ object.username }}
       </a>
-      {% blocktrans count object.objecttypes_published.count as objecttype_count %}{{ objecttype_count }} objecttype{% plural %}{{ objecttype_count }} objecttypes{% endblocktrans %}
+      {% blocktrans count object.nodes_published.count as objecttype_count %}{{ objecttype_count }} objecttype{% plural %}{{ objecttype_count }} objecttypes{% endblocktrans %}
     </li>
     {% empty %}
     <li>
