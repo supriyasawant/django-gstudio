@@ -52,6 +52,7 @@ gstudio/__init__.py
 gstudio/comparison.py
 gstudio/context_processors.py
 gstudio/feeds.py
+gstudio/genform.py
 gstudio/managers.py
 gstudio/models.py
 gstudio/moderator.py
@@ -477,6 +478,7 @@ objectapp/testsettings.py
 objectapp/admin/__init__.py
 objectapp/admin/forms.py
 objectapp/admin/gbobject.py
+objectapp/admin/objecttype.py
 objectapp/admin/widgets.py
 objectapp/fixtures/helloworld.json
 objectapp/locale/de/LC_MESSAGES/django.mo
@@ -765,6 +767,7 @@ objectapp/templates/feeds/pingback_title.html
 objectapp/templates/feeds/trackback_description.html
 objectapp/templates/feeds/trackback_title.html
 objectapp/templates/objectapp/_gbobject_detail.html
+objectapp/templates/objectapp/_subtype_detail.html
 objectapp/templates/objectapp/author_list.html
 objectapp/templates/objectapp/base.html
 objectapp/templates/objectapp/gbobject_archive.html
@@ -799,6 +802,7 @@ objectapp/templates/objectapp/tags/breadcrumbs.html
 objectapp/templates/objectapp/tags/calendar.html
 objectapp/templates/objectapp/tags/dummy.html
 objectapp/templates/objectapp/tags/featured_gbobjects.html
+objectapp/templates/objectapp/tags/gbobjects.html
 objectapp/templates/objectapp/tags/objecttypes.html
 objectapp/templates/objectapp/tags/pagination.html
 objectapp/templates/objectapp/tags/popular_gbobjects.html
