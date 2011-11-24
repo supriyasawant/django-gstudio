@@ -67,8 +67,7 @@ class Gbobject(Node):
                       (HIDDEN, _('hidden')),
                       (PUBLISHED, _('published')))
 
-    content = models.TextField(_('content'))
-
+    content = models.TextField(_('content'), null=True, blank=True)
     image = models.ImageField(_('image'), upload_to=UPLOAD_TO,
                               blank=True, help_text=_('used for illustration'))
 
@@ -249,7 +248,6 @@ if not reversion.is_registered(Gbobject):
 
 moderator.register(Gbobject, GbobjectCommentModerator)
 
-mptt.register(Gbobject, order_insertion_by=['title'])
 post_save.connect(ping_directories_handler, sender=Gbobject,
                   dispatch_uid='objectapp.gbobject.post_save.ping_directories')
 post_save.connect(ping_external_urls_handler, sender=Gbobject,

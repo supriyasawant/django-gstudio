@@ -222,7 +222,7 @@ class Objecttype(Nodetype):
                       (HIDDEN, _('hidden')),
                       (PUBLISHED, _('published')))
 
-    content = models.TextField(_('content'))
+    content = models.TextField(_('content'), null=True, blank=True)
     parent = models.ForeignKey('self', null=True, blank=True,
                                verbose_name=_('has parent objecttype'),
                                related_name='subtypes')
