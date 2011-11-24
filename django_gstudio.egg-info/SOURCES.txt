@@ -54,7 +54,6 @@ gstudio/context_processors.py
 gstudio/feeds.py
 gstudio/genform.py
 gstudio/managers.py
-gstudio/models.py
 gstudio/moderator.py
 gstudio/ping.py
 gstudio/search.py
