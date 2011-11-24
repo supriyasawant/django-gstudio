@@ -139,7 +139,7 @@ class Node(NID):
     
 class Nodetype(Node):
 
-    plural = models.CharField(_('title'), help_text=_('name it gets when used in plural'), max_length=255)
+    plural = models.CharField(_('plural name'), help_text=_('plural form of the node name if any'), max_length=255, blank=True, null=True)
 
 
     def __unicode__(self):
@@ -150,7 +150,7 @@ class Nodetype(Node):
 
 class Edgetype(Node):
 
-    plural = models.CharField(_('title'), help_text=_('name it gets when used in plural'), max_length=255)
+    plural = models.CharField(_('plural name'), help_text=_('plural form of the edge name if any'), max_length=255,  blank=True, null=True)
     description = models.TextField(_('description'), blank=True, null=True)
 
     def __unicode__(self):
@@ -439,7 +439,7 @@ class Relationtype(Edgetype):
     '''
     Binary Relationtypes are defined in this table.
     '''
-
+    inverse = models.CharField(_('inverse name'), help_text=_('when subjecttypes are interchanged, what should be the name of the relation type? This is mandatory field. If the relation is symmetric, same name will do.'), max_length=255)
     subjecttypeLeft = models.ForeignKey(NID,related_name="subjecttypeLeft_gbnodetype", verbose_name='left role')  
     applicablenodetypes1 = models.CharField(max_length=2,choices=NODETYPE_CHOICES,default='OT', verbose_name='Node types for left role')
     cardinalityLeft = models.IntegerField(null=True, blank=True, verbose_name='cardinality for the left role')
@@ -563,7 +563,7 @@ class System(Node):
     def __unicode__(self):
         return self.title
 
-
+reversion.register(NID)
 reversion.register(Node)
 reversion.register(Nodetype)
 reversion.register(Edge)
@@ -591,7 +591,7 @@ if not reversion.is_registered(Attributetype):
     reversion.register(Attributetype, follow=["subjecttype"])
 
 if not reversion.is_registered(Attribute): 
-    reversion.register(Attribute, follow=["subject", "attributetype"])
+    reversion.register(Attribute, follow=["subject", "attributeType"])
 
 if not reversion.is_registered(Relation): 
     reversion.register(Relation, follow=["subject1", "subject2", "relationtype"])
