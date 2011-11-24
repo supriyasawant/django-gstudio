@@ -73,6 +73,7 @@ gstudio/admin/relationtype.py
 gstudio/admin/system.py
 gstudio/admin/systemtype.py
 gstudio/admin/widgets.py
+gstudio/fixtures/examples.json
 gstudio/fixtures/helloworld.json
 gstudio/locale/de/LC_MESSAGES/django.mo
 gstudio/locale/de/LC_MESSAGES/django.po
