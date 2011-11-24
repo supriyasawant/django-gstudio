@@ -34,7 +34,7 @@ class MetatypeSitemap(Sitemap):
         self.cache_metatypes = {}
         for cat in metatypes:
             if len_objecttypes:
-                self.cache_metatypes[cat.pk] = cat.objecttypes_published(
+                self.cache_metatypes[cat.pk] = cat.nodes_published(
                     ).count() / len_objecttypes
             else:
                 self.cache_metatypes[cat.pk] = 0.0
@@ -47,7 +47,7 @@ class MetatypeSitemap(Sitemap):
 
     def lastmod(self, obj):
         """Return last modification of a metatype"""
-        objecttypes = obj.objecttypes_published()
+        objecttypes = obj.nodes_published()
         if not objecttypes:
             return None
         return objecttypes[0].creation_date
@@ -71,7 +71,7 @@ class AuthorSitemap(Sitemap):
 
     def lastmod(self, obj):
         """Return last modification of an author"""
-        objecttypes = obj.objecttypes_published()
+        objecttypes = obj.nodes_published()
         if not objecttypes:
             return None
         return objecttypes[0].creation_date

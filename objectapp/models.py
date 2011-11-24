@@ -75,44 +75,13 @@ class Gbobject(Node):
     excerpt = models.TextField(_('excerpt'), blank=True,
                                 help_text=_('optional element'))
 
-    tags = TagField(_('tags'))
     objecttypes = models.ManyToManyField(Objecttype, verbose_name=_('objecttypes'),
                                         related_name='gbobjects',
                                         blank=True, null=True)
     related = models.ManyToManyField('self', verbose_name=_('related gbobjects'),
                                      blank=True, null=True)
 
-    slug = models.SlugField(help_text=_('used for publication'),
-                            unique_for_date='creation_date',
-                            max_length=255)
-
-    authors = models.ManyToManyField(User, verbose_name=_('authors'),
-                                     related_name='gbobjects',
-                                     blank=True, null=False)
-    status = models.IntegerField(choices=STATUS_CHOICES, default=PUBLISHED)
-    featured = models.BooleanField(_('featured'), default=False)
-    comment_enabled = models.BooleanField(_('comment enabled'), default=True)
     pingback_enabled = models.BooleanField(_('linkback enabled'), default=True)
-
-    creation_date = models.DateTimeField(_('creation date'),
-                                         default=datetime.now)
-    last_update = models.DateTimeField(_('last update'), default=datetime.now)
-    start_publication = models.DateTimeField(_('start publication'),
-                                             help_text=_('date start publish'),
-                                             default=datetime.now)
-    end_publication = models.DateTimeField(_('end publication'),
-                                           help_text=_('date end publish'),
-                                           default=datetime(2042, 3, 15))
-
-    sites = models.ManyToManyField(Site, verbose_name=_('sites publication'),
-                                   related_name='gbobjects')
-
-    login_required = models.BooleanField(
-        _('login required'), default=False,
-        help_text=_('only authenticated users can view the gbobject'))
-    password = models.CharField(
-        _('password'), max_length=50, blank=True,
-        help_text=_('protect the gbobject with a password'))
 
     template = models.CharField(
         _('template'), max_length=250,

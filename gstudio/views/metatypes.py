@@ -25,6 +25,6 @@ def metatype_detail(request, path, page=None, **kwargs):
     extra_context.update({'metatype': metatype})
     kwargs['extra_context'] = extra_context
 
-    return object_list(request, queryset=metatype.objecttypes_published(),
+    return object_list(request, queryset=metatype.nodes_published(),
                        paginate_by=PAGINATION, page=page,
                        **kwargs)
