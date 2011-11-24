@@ -564,6 +564,12 @@ reversion.register(Nodetype)
 reversion.register(Edge)
 reversion.register(Edgetype)
 
+if not reversion.is_registered(Systemtype):
+    reversion.register(Systemtype)
+
+if not reversion.is_registered(System): 
+    reversion.register(System, follow=["systemtypes", "edgeset", "nodeset", "systemset"])
+
 if not reversion.is_registered(Objecttype): 
     reversion.register(Objecttype, follow=["parent"])
 if not reversion.is_registered(Objecttype):

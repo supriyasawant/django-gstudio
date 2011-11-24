@@ -70,6 +70,8 @@ gstudio/admin/metatype.py
 gstudio/admin/objecttype.py
 gstudio/admin/relation.py
 gstudio/admin/relationtype.py
+gstudio/admin/system.py
+gstudio/admin/systemtype.py
 gstudio/admin/widgets.py
 gstudio/fixtures/helloworld.json
 gstudio/locale/de/LC_MESSAGES/django.mo
