@@ -30,7 +30,19 @@
   {% endwith %}
 {% endblock %}
 
+{% block neighbourhood %}
+<div class = "neighbourhood">
+<h3>Neighbourhood</h3>
+  {% with object.html_content|safe as object_content %}
+  {% include "gstudio/_objecttype_neighbourhood.html" %}
+  {% endwith %}
+
+</div>
+{% endblock %}
+
 {% block content %}
+
+
 
 {% block objecttype-content %}
   {% with object.html_content|safe as object_content %}
@@ -38,9 +50,7 @@
   {% endwith %}
 {% endblock %}
 
-{% block neighbourhood %}
-  {{objecttype.nbh}}
-{% endblock %}
+
 
 {% block objecttype-widgets %}
 <div class="objecttype-widgets span-16 last">

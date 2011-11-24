@@ -357,6 +357,7 @@ gstudio/templates/feeds/pingback_title.html
 gstudio/templates/feeds/trackback_description.html
 gstudio/templates/feeds/trackback_title.html
 gstudio/templates/gstudio/_objecttype_detail.html
+gstudio/templates/gstudio/_objecttype_neighbourhood.html
 gstudio/templates/gstudio/_subtype_detail.html
 gstudio/templates/gstudio/author_list.html
 gstudio/templates/gstudio/base.html

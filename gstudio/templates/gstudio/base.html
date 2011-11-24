@@ -18,8 +18,13 @@
   {% gstudio_breadcrumbs %}
 {% endblock %}
 
+
 {% block sidebar %}
+{% block neighbourhood %}
+{% endblock %}
+
 <div class="search">
+
   <h3>{% trans "Search" %}</h3>
   <form method="get" id="searchform" action="{% url gstudio_objecttype_search %}">
     <p>
