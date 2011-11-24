@@ -16,7 +16,8 @@ setup(name='django-gstudio',
       author_email=gstudio.__email__,
       url=gstudio.__url__,
 
-      packages=find_packages(exclude=['demo']),
+      packages=find_packages(exclude=['demo','demo.graphviz','demo.graphviz.management','demo.graphviz.management.commands']),
+      
       classifiers=[
           'Framework :: Django',
           'Development Status :: 2 - Development/Pre-Alpha',

@@ -1,4 +1,4 @@
-"""Models of Gstudio"""
+"""Super models of Gstudio  """
 import warnings
 from datetime import datetime
 from django.db import models
@@ -172,20 +172,39 @@ class Edge(NID):
 class Metatype(Nodetype):
     """Metatype object for Objecttype"""
 
-
-    slug = models.SlugField(help_text=_('used for publication'),
-                            unique=True, max_length=255)
-    description = models.TextField(_('description'), blank=True)
-
-    parent = models.ForeignKey('self', null=True, blank=True,
-                               verbose_name=_('parent metatype'),
-                               related_name='children')
+    slug = models.SlugField(help_text=_('used for publication'), unique=True, max_length=255)
+    description = models.TextField(_('description'), blank=True, null=True)
+    parent = models.ForeignKey('self', null=True, blank=True, verbose_name=_('parent metatype'), related_name='children')
 
     def objecttypes_published(self):
         """Return only the objecttypes published"""
         return objecttypes_published(self.objecttypes)
 
-            
+
+
+    @property
+    def get_nbh(self):
+        """ Returns the neighbourhood of the metatype """
+        nbh = {}
+        nbh['title'] = self.title        
+        
+        nbh['parent'] = {}
+        if self.parent:
+            nbh['parent'] = dict({str(self.parent.id) : str(self.parent.title)})
+        #nbh['related'] = self.related.values_list()
+        nbh['children'] = []
+        
+        # generate ids and names of children/members
+        for obj in self.children.get_query_set():  
+            nbh['children'].append({str(obj.id):str(obj.title)})
+
+        nbh['members'] = []
+        for obj in self.objecttypes.all():
+            nbh['members'].append({str(obj.id):str(obj.title)})
+
+        return nbh
+
+                  
     @property
     def tree_path(self):
         """Return metatype's tree path, by its ancestors"""
@@ -288,6 +307,31 @@ class Objecttype(Nodetype):
 
     objects = models.Manager()
     published = ObjecttypePublishedManager()
+
+
+    @property
+    def get_nbh(self):
+        """ Returns the neighbourhood of the metatype """
+        nbh = {}
+        nbh['title'] = self.title        
+        #nbh['content'] = self.content
+        nbh['parent'] = {}
+        if self.parent:
+            nbh['parent'] = dict({str(self.parent.id) : str(self.parent.title)})
+        #nbh['related'] = self.related.values_list()
+        nbh['children'] = []
+        
+        # generate ids and names of children/members
+        for objecttype in self.get_children():
+            nbh['children'].append({str(objecttype.id):str(objecttype.title)})
+
+        nbh['subtypeof'] = []
+        for objecttype in self.metatypes.all():
+            nbh['subtypeof'].append({str(objecttype.id):str(objecttype.title)})
+
+        return nbh
+
+
 
     @property
     def tree_path(self):
@@ -433,6 +477,7 @@ class Objecttype(Nodetype):
         verbose_name_plural = _('object types')
         permissions = (('can_view_all', 'Can view all'),
                        ('can_change_author', 'Can change author'), )
+
 
 
 class Relationtype(Edgetype):
