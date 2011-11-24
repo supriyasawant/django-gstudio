@@ -19,9 +19,8 @@ from gstudio.settings import MAIL_COMMENT_NOTIFICATION_RECIPIENTS
 from gstudio.settings import SPAM_CHECKER_BACKENDS
 from gstudio.spam_checker import check_is_spam
 
-
 class ObjecttypeCommentModerator(CommentModerator):
-    """Moderate the comment of Objecttype"""
+    """Moderate the comment of Nodes"""
     email_reply = MAIL_COMMENT_REPLY
     email_authors = MAIL_COMMENT_AUTHORS
     enable_field = 'comment_enabled'

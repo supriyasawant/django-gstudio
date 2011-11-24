@@ -1,4 +1,4 @@
-"""Managers of Gstudio"""
+"""Managers of gstudio"""
 from datetime import datetime
 
 from django.db import models
@@ -34,6 +34,7 @@ class AuthorPublishedManager(models.Manager):
 
 
 def objecttypes_published(queryset):
+
     """Return only the objecttypes published"""
     now = datetime.now()
     return queryset.filter(status=PUBLISHED,

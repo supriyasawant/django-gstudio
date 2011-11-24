@@ -61,17 +61,16 @@ class Author(User):
         proxy = True
 
 
-
-
 class Gbobject(Node):
-    """Base Model design for publishing gbobjects"""
+    """Class for publishing gbobjects"""
     STATUS_CHOICES = ((DRAFT, _('draft')),
                       (HIDDEN, _('hidden')),
                       (PUBLISHED, _('published')))
 
+    content = models.TextField(_('content'), null=True, blank=True)
     image = models.ImageField(_('image'), upload_to=UPLOAD_TO,
                               blank=True, help_text=_('used for illustration'))
-    content = models.TextField(_('content'))
+
     excerpt = models.TextField(_('excerpt'), blank=True,
                                 help_text=_('optional element'))
 
@@ -90,6 +89,7 @@ class Gbobject(Node):
                                      related_name='gbobjects',
                                      blank=True, null=False)
     status = models.IntegerField(choices=STATUS_CHOICES, default=PUBLISHED)
+
     featured = models.BooleanField(_('featured'), default=False)
     comment_enabled = models.BooleanField(_('comment enabled'), default=True)
     pingback_enabled = models.BooleanField(_('linkback enabled'), default=True)
@@ -124,6 +124,7 @@ class Gbobject(Node):
     objects = models.Manager()
     published = GbobjectPublishedManager()
 
+
     @property
     def html_content(self):
         """Return the content correctly formatted"""
@@ -136,6 +137,7 @@ class Gbobject(Node):
         elif not '</p>' in self.content:
             return linebreaks(self.content)
         return self.content
+
 
     @property
     def previous_gbobject(self):
@@ -210,7 +212,17 @@ class Gbobject(Node):
         return get_url_shortener()(self)
 
     def __unicode__(self):
-        return '%s: %s' % (self.title, self.get_status_display())
+        return self.title
+
+    @property
+    def memberof_sentence(self):
+        """Return the objecttype of which the gbobject is a member of"""
+        
+        if self.objecttypes.count:
+            for each in self.objecttypes.all():
+                return '%s is a member of objecttype %s' % (self.title, each)
+        return '%s is not a fully defined name, consider making it a member of a suitable objecttype' % (self.title)
+
 
     @models.permalink
     def get_absolute_url(self):
@@ -230,15 +242,15 @@ class Gbobject(Node):
                        ('can_change_author', 'Can change author'), )
 
 
+if not reversion.is_registered(Gbobject):
+    reversion.register(Gbobject, follow=["objecttypes"])
+
 
 moderator.register(Gbobject, GbobjectCommentModerator)
-mptt.register(Objecttype, order_insertion_by=['title'])
+
 post_save.connect(ping_directories_handler, sender=Gbobject,
                   dispatch_uid='objectapp.gbobject.post_save.ping_directories')
 post_save.connect(ping_external_urls_handler, sender=Gbobject,
                   dispatch_uid='objectapp.gbobject.post_save.ping_external_urls')
 
-
-if not reversion.is_registered(Gbobject): 
-    reversion.register(Gbobject, follow=["objecttypes"])
 

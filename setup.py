@@ -37,4 +37,5 @@ setup(name='django-gstudio',
                         'django-xmlrpc>=0.1.3',
                         'pyparsing>=1.5.5',
                         'django-reversion>=1.5.1',
+                        'django-grappelli>=2.3.4',
                         ])

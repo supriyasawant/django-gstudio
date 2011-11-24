@@ -7,5 +7,7 @@ from gstudio.admin.forms import RelationAdminForm
 import reversion
 
 class RelationAdmin(reversion.VersionAdmin):
+    def save_model(self, request, relation, form, change):
+        relation.title = relation.composed_sentence
+        relation.save()
 
-    pass

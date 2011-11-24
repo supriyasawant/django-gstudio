@@ -7,7 +7,9 @@ from gstudio.admin.forms import AttributeAdminForm
 import reversion
 
 class AttributeAdmin(reversion.VersionAdmin):
+    def save_model(self, request, attribute, form, change):
+        attribute.title = attribute.composed_sentence
+        attribute.save()
 
-    pass
 
 
