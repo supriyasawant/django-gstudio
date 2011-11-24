@@ -1,7 +1,6 @@
 """Models of Gstudio"""
 import warnings
 from datetime import datetime
-
 from django.db import models
 from django.db.models import Q
 from django.utils.html import strip_tags
@@ -14,35 +13,41 @@ from django.contrib import comments
 from django.contrib.comments.models import CommentFlag
 from django.contrib.comments.moderation import moderator
 from django.utils.translation import ugettext_lazy as _
-
 from django.contrib.markup.templatetags.markup import markdown
 from django.contrib.markup.templatetags.markup import textile
 from django.contrib.markup.templatetags.markup import restructuredtext
 
 import mptt
 from tagging.fields import TagField
-
 from gstudio.settings import UPLOAD_TO
 from gstudio.settings import MARKUP_LANGUAGE
 from gstudio.settings import OBJECTTYPE_TEMPLATES
 from gstudio.settings import OBJECTTYPE_BASE_MODEL
 from gstudio.settings import MARKDOWN_EXTENSIONS
 from gstudio.settings import AUTO_CLOSE_COMMENTS_AFTER
-from gstudio.managers import nodes_published
-from gstudio.managers import NodePublishedManager
+from gstudio.managers import objecttypes_published
+from gstudio.managers import ObjecttypePublishedManager
 from gstudio.managers import AuthorPublishedManager
 from gstudio.managers import DRAFT, HIDDEN, PUBLISHED
-from gstudio.moderator import NodeCommentModerator
+from gstudio.moderator import ObjecttypeCommentModerator
 from gstudio.url_shortener import get_url_shortener
 from gstudio.signals import ping_directories_handler
 from gstudio.signals import ping_external_urls_handler
 import reversion
 
 NODETYPE_CHOICES = (
-    ('OT', 'Objecttypes'),
-    ('RT', 'Relationtypes'),
+    ('ED', 'Edges'),
+    ('ND', 'Nodes'),
+    ('NT', 'Node types'),
+    ('ET', 'Edge types'),
+    ('OT', 'Object types'),
+    ('RT', 'Relation types'),
     ('MT', 'Metatypes'),
-    ('AT', 'Attributetypes'),
+    ('AT', 'Attribute types'),
+    ('RN', 'Relations'),
+    ('AS', 'Attributes'),
+    ('ST', 'System type'),
+    ('SY', 'System'),
    )
 
 DEPTYPE_CHOICES = (
@@ -92,9 +97,9 @@ class Author(User):
     objects = models.Manager()
     published = AuthorPublishedManager()
 
-    def nodes_published(self):
+    def objecttypes_published(self):
         """Return only the objecttypes published"""
-        return nodes_published(self.objecttypes)
+        return objecttypes_published(self.objecttypes)
 
     @models.permalink
     def get_absolute_url(self):
@@ -105,10 +110,24 @@ class Author(User):
         """Author's Meta"""
         proxy = True
 
-
-class Node(models.Model):
+class NID(models.Model):
+    """the set of all nodes.  provides node ID (NID) to all nodes in
+    the network, including edges.  Edges are also first class citizens
+    in the gnowledge base. """
 
     title = models.CharField(_('title'), help_text=_('give a name to the node'), max_length=255)
+
+    def __unicode__(self):
+        return self.title
+
+
+    class Meta:
+        """NID's Meta"""
+
+
+
+class Node(NID):
+
     altname = models.CharField(_('title'), help_text=_('give an alternate name if any'), max_length=255)
     slug = models.SlugField(help_text=_('used for publication'),
                             unique=True, max_length=255)
@@ -133,8 +152,7 @@ class Node(models.Model):
     password = models.CharField(
         _('password'), max_length=50, blank=True,
         help_text=_('protect the node with a password'))
-    objects = models.Manager()
-    published = NodePublishedManager()
+
     slug = models.SlugField(help_text=_('used for publication'),
                             unique_for_date='creation_date',
                             max_length=255)
@@ -142,6 +160,8 @@ class Node(models.Model):
                                      related_name='nodes',
                                      blank=True, null=False)
     tags = TagField(_('tags'))
+    objects = models.Manager()
+    published = ObjecttypePublishedManager()
 
     def __unicode__(self):
         return self.title
@@ -153,7 +173,7 @@ class Node(models.Model):
     
 class Nodetype(Node):
 
-    pluralform = models.CharField(_('title'), help_text=_('name it gets when used in plural'), max_length=255)
+    plural = models.CharField(_('title'), help_text=_('name it gets when used in plural'), max_length=255)
     description = models.TextField(_('description'), blank=True, null=True)
 
     def __unicode__(self):
@@ -162,9 +182,19 @@ class Nodetype(Node):
     class Meta:
         abstract=False
 
-class Edge(models.Model):
+class Edgetype(Node):
 
-    title = models.CharField(_('title'), max_length=255)
+    plural = models.CharField(_('title'), help_text=_('name it gets when used in plural'), max_length=255)
+    description = models.TextField(_('description'), blank=True, null=True)
+
+    def __unicode__(self):
+        return self.title
+
+    class Meta:
+        abstract=False
+
+class Edge(NID):
+
 
     def __unicode__(self):
         return self.title
@@ -181,9 +211,9 @@ class Metatype(Nodetype):
                                verbose_name=_('parent metatype'),
                                related_name='children')
 
-    def nodes_published(self):
+    def objecttypes_published(self):
         """Return only the objecttypes published"""
-        return nodes_published(self.objecttypes)
+        return objecttypes_published(self.objecttypes)
             
     @property
     def tree_path(self):
@@ -316,7 +346,7 @@ class Objecttype(Nodetype):
     @property
     def related_published(self):
         """Return only related objecttypes published"""
-        return nodes_published(self.related)
+        return objecttypes_published(self.related)
 
     @property
     def discussions(self):
@@ -400,15 +430,15 @@ class Objecttype(Nodetype):
 
 
 
-class Relationtype(Nodetype):
+class Relationtype(Edgetype):
     '''
     Binary Relationtypes are defined in this table.
     '''
 
-    subjecttypeLeft = models.ForeignKey(Nodetype,related_name="subjecttypeLeft_gbnodetype", verbose_name='left role')  
+    subjecttypeLeft = models.ForeignKey(NID,related_name="subjecttypeLeft_gbnodetype", verbose_name='left role')  
     applicablenodetypes1 = models.CharField(max_length=2,choices=NODETYPE_CHOICES,default='OT', verbose_name='Node types for left role')
     cardinalityLeft = models.IntegerField(null=True, blank=True, verbose_name='cardinality for the left role')
-    subjecttypeRight = models.ForeignKey(Nodetype,related_name="subjecttypeRight_gbnodetype", verbose_name='right role')  
+    subjecttypeRight = models.ForeignKey(NID,related_name="subjecttypeRight_gbnodetype", verbose_name='right role')  
     applicablenodetypes2 = models.CharField(max_length=2,choices=NODETYPE_CHOICES,default='OT', verbose_name='Node types for right role')
     cardinalityRight = models.IntegerField(null=True, blank=True, verbose_name='cardinality for the right role')
     isSymmetrical = models.NullBooleanField(verbose_name='Is symmetrical?')
@@ -419,11 +449,11 @@ class Relationtype(Nodetype):
     def __unicode__(self):
         return self.title
 
-class Attributetype(Nodetype):
+class Attributetype(Edgetype):
     '''
     datatype properties
     '''
-    subjecttype = models.ForeignKey(Nodetype, related_name="subjecttype_GbnodeType") 
+    subjecttype = models.ForeignKey(NID, related_name="subjecttype_GbnodeType") 
     applicablenodetypes = models.CharField(max_length=2,choices=NODETYPE_CHOICES,default='OT')
     dataType = models.CharField(max_length=2, choices=FIELD_TYPE_CHOICES,default='01')
 
@@ -438,15 +468,11 @@ class Attributetype(Nodetype):
         return simpleform
 
     def simpleform_xml(self):
-        dict = self.simpleform()
-        return '<xform>  <model>  <submission id="learning-epicollect" projectName="learning-epicollect" allowDownloadEdits="false" versionNumber="2.1"/>  <uploadToServer>http://test.mlst.net/epicollectplus/school2/upload</uploadToServer>  <downloadFromServer>http://test.mlst.net/epicollectplus/school2/download</downloadFromServer>  </model> <form num="1" name=" %s  " key=" %s " main="true"> ' % (dict['projectName'], dict['projectName'])  
+        dictionary = self.simpleform()
+        return '<xform>  <model>  <submission id="learning-epicollect" projectName="learning-epicollect" allowDownloadEdits="false" versionNumber="2.1"/>  <uploadToServer>http://test.mlst.net/epicollectplus/school2/upload</uploadToServer>  <downloadFromServer>http://test.mlst.net/epicollectplus/school2/download</downloadFromServer>  </model> <form num="1" name=" %s  " key=" %s " main="true"> ' % (dictionary['projectName'], dictionary['projectName'])  
 
     def inputform_xml(self):
         return '<input ref="%s" title="true">  <label>what is the %s? </label>  </input>' % (self.title, self.title) 
-
-    def fullform_xml(self):
-        form = self.simpleform_xml() + self.inputform_xml()
-        return form
 
     def __unicode__(self):
         return self.title
@@ -459,11 +485,11 @@ class Relation(Edge):
     '''
 
     subject1Scope = models.CharField(max_length=50, verbose_name='subject scope', null=True, blank=True)
-    subject1 = models.ForeignKey(Node, related_name="subject1_gbnode", verbose_name='subject name') 
+    subject1 = models.ForeignKey(NID, related_name="subject1_gbnode", verbose_name='subject name') 
     relationTypeScope = models.CharField(max_length=50, verbose_name='relation scope', null=True, blank=True)
     relationtype = models.ForeignKey(Relationtype, verbose_name='relation name')
     objectScope = models.CharField(max_length=50, verbose_name='object scope', null=True, blank=True)
-    subject2 = models.ForeignKey(Node, related_name="subject2_gbnode", verbose_name='object name') 
+    subject2 = models.ForeignKey(NID, related_name="subject2_gbnode", verbose_name='object name') 
 
 
     class Meta:
@@ -484,7 +510,7 @@ class Attribute(Edge):
     '''
 
     subjectScope = models.CharField(max_length=50, verbose_name='subject scope', null=True, blank=True)
-    subject = models.ForeignKey(Node, related_name="subject_gbnode", verbose_name='subject name') 
+    subject = models.ForeignKey(NID, related_name="subject_gbnode", verbose_name='subject name') 
     attributeTypeScope = models.CharField(max_length=50, verbose_name='property scope', null=True, blank=True)
     attributeType = models.ForeignKey(Attributetype, verbose_name='property name')
     valueScope = models.CharField(max_length=50, verbose_name='value scope', null=True, blank=True)
@@ -504,13 +530,40 @@ class Attribute(Edge):
         return '%s %s has %s %s %s %s' % (self.subjectScope, self.subject, self.attributeTypeScope, self.attributeType, self.valueScope, self.value)
     composed_sentence = property(_get_sentence)
 
+class Systemtype(Nodetype):    
 
+    """
+    class to organize Systems
+    """
 
+    def __unicode__(self):
+        return self.title
+
+class System(Node):    
+
+    """
+    class to represent complex compositions containing other nodes such as an ontology, a complex organization
+    """
+
+    systemtypes = models.ManyToManyField(Systemtype, verbose_name=_('system type'),
+                                        related_name='systemtypes',
+                                        blank=True, null=True)
+    edgeset = models.ManyToManyField(Edge, related_name="system_edge", verbose_name='Edges in the system',    
+                                   blank=True, null=False) 
+    nodeset = models.ManyToManyField(Node, related_name="system_node", verbose_name='Nodes in the system',    
+                                   blank=True, null=False) 
+    systemset = models.ManyToManyField('self', related_name="system_system", verbose_name='Nested systems',
+                                       blank=True, null=False)
+    
+    def __unicode__(self):
+        return self.title
 
 
 reversion.register(Node)
 reversion.register(Nodetype)
 reversion.register(Edge)
+reversion.register(Edgetype)
+
 if not reversion.is_registered(Objecttype): 
     reversion.register(Objecttype, follow=["parent"])
 if not reversion.is_registered(Objecttype):
@@ -546,7 +599,7 @@ if not reversion.is_registered(Relation):
     reversion.register(Relation, follow=["relationtype"])
 
 
-moderator.register(Node, NodeCommentModerator)
+moderator.register(Objecttype, ObjecttypeCommentModerator)
 mptt.register(Metatype, order_insertion_by=['title'])
 mptt.register(Objecttype, order_insertion_by=['title'])
 post_save.connect(ping_directories_handler, sender=Objecttype,

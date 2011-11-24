@@ -5,7 +5,7 @@
   <li class="vcard">
     <a href="{% url gstudio_author_detail author.username %}"
        title="{{ author.username }}" class="fn nickname url">{{ author.username }}</a>
-    {% blocktrans count author.nodes_published.count as objecttype_count %}{{ objecttype_count }} objecttype{% plural %}{{ objecttype_count }} objecttypes{% endblocktrans %}
+    {% blocktrans count author.objecttypes_published.count as objecttype_count %}{{ objecttype_count }} objecttype{% plural %}{{ objecttype_count }} objecttypes{% endblocktrans %}
   </li>
   {% empty %}
   <li>

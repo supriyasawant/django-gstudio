@@ -24,12 +24,12 @@ class MetatypeTestCase(TestCase):
         self.objecttype.metatypes.add(*self.metatypes)
         self.objecttype.sites.add(self.site)
 
-    def test_nodes_published(self):
+    def test_objecttypes_published(self):
         metatype = self.metatypes[0]
-        self.assertEqual(metatype.nodes_published().count(), 0)
+        self.assertEqual(metatype.objecttypes_published().count(), 0)
         self.objecttype.status = PUBLISHED
         self.objecttype.save()
-        self.assertEqual(metatype.nodes_published().count(), 1)
+        self.assertEqual(metatype.objecttypes_published().count(), 1)
 
         params = {'title': 'My second objecttype',
                   'content': 'My second content',
@@ -41,8 +41,8 @@ class MetatypeTestCase(TestCase):
         new_objecttype.sites.add(self.site)
         new_objecttype.metatypes.add(self.metatypes[0])
 
-        self.assertEqual(self.metatypes[0].nodes_published().count(), 2)
-        self.assertEqual(self.metatypes[1].nodes_published().count(), 1)
+        self.assertEqual(self.metatypes[0].objecttypes_published().count(), 2)
+        self.assertEqual(self.metatypes[1].objecttypes_published().count(), 1)
 
     def test_objecttypes_tree_path(self):
         self.assertEqual(self.metatypes[0].tree_path, 'metatype-1')
