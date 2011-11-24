@@ -128,40 +128,6 @@ class NID(models.Model):
 
 class Node(NID):
 
-    altname = models.CharField(_('title'), help_text=_('give an alternate name if any'), max_length=255)
-    slug = models.SlugField(help_text=_('used for publication'),
-                            unique=True, max_length=255)
-    status = models.IntegerField(choices=STATUS_CHOICES, default=PUBLISHED)
-    featured = models.BooleanField(_('featured'), default=False)
-    comment_enabled = models.BooleanField(_('comment enabled'), default=True)
-    creation_date = models.DateTimeField(_('creation date'),
-                                         default=datetime.now)
-    last_update = models.DateTimeField(_('last update'), default=datetime.now)
-    start_publication = models.DateTimeField(_('start publication'),
-                                             help_text=_('date start publish'),
-                                             default=datetime.now)
-    end_publication = models.DateTimeField(_('end publication'),
-                                           help_text=_('date end publish'),
-                                           default=datetime(2042, 3, 15))
-
-    sites = models.ManyToManyField(Site, verbose_name=_('sites publication'),
-                                   related_name='nodetypes')
-    login_required = models.BooleanField(
-        _('login required'), default=False,
-        help_text=_('only authenticated users can view the node'))
-    password = models.CharField(
-        _('password'), max_length=50, blank=True,
-        help_text=_('protect the node with a password'))
-
-    slug = models.SlugField(help_text=_('used for publication'),
-                            unique_for_date='creation_date',
-                            max_length=255)
-    authors = models.ManyToManyField(User, verbose_name=_('authors'),
-                                     related_name='nodes',
-                                     blank=True, null=False)
-    tags = TagField(_('tags'))
-    objects = models.Manager()
-    published = ObjecttypePublishedManager()
 
     def __unicode__(self):
         return self.title
@@ -174,7 +140,7 @@ class Node(NID):
 class Nodetype(Node):
 
     plural = models.CharField(_('title'), help_text=_('name it gets when used in plural'), max_length=255)
-    description = models.TextField(_('description'), blank=True, null=True)
+
 
     def __unicode__(self):
         return self.title
@@ -207,6 +173,10 @@ class Metatype(Nodetype):
     """Metatype object for Objecttype"""
 
 
+    slug = models.SlugField(help_text=_('used for publication'),
+                            unique=True, max_length=255)
+    description = models.TextField(_('description'), blank=True)
+
     parent = models.ForeignKey('self', null=True, blank=True,
                                verbose_name=_('parent metatype'),
                                related_name='children')
@@ -214,6 +184,7 @@ class Metatype(Nodetype):
     def objecttypes_published(self):
         """Return only the objecttypes published"""
         return objecttypes_published(self.objecttypes)
+
             
     @property
     def tree_path(self):
@@ -247,8 +218,11 @@ class Metatype(Nodetype):
 
 class Objecttype(Nodetype):
     """Model design publishing objecttypes"""
+    STATUS_CHOICES = ((DRAFT, _('draft')),
+                      (HIDDEN, _('hidden')),
+                      (PUBLISHED, _('published')))
 
-    content = models.TextField(_('content'), blank=True, null=True)
+    content = models.TextField(_('content'))
     parent = models.ForeignKey('self', null=True, blank=True,
                                verbose_name=_('has parent objecttype'),
                                related_name='subtypes')
@@ -265,15 +239,45 @@ class Objecttype(Nodetype):
     excerpt = models.TextField(_('excerpt'), blank=True,
                                 help_text=_('optional element'))
 
-
+    tags = TagField(_('tags'))
     metatypes = models.ManyToManyField(Metatype, verbose_name=_('metatypes'),
                                         related_name='objecttypes',
                                         blank=True, null=True)
     related = models.ManyToManyField('self', verbose_name=_('related objecttypes'),
                                      blank=True, null=True)
 
+    slug = models.SlugField(help_text=_('used for publication'),
+                            unique_for_date='creation_date',
+                            max_length=255)
+
+    authors = models.ManyToManyField(User, verbose_name=_('authors'),
+                                     related_name='objecttypes',
+                                     blank=True, null=False)
+    status = models.IntegerField(choices=STATUS_CHOICES, default=PUBLISHED)
+
+    featured = models.BooleanField(_('featured'), default=False)
+    comment_enabled = models.BooleanField(_('comment enabled'), default=True)
     pingback_enabled = models.BooleanField(_('linkback enabled'), default=True)
 
+    creation_date = models.DateTimeField(_('creation date'),
+                                         default=datetime.now)
+    last_update = models.DateTimeField(_('last update'), default=datetime.now)
+    start_publication = models.DateTimeField(_('start publication'),
+                                             help_text=_('date start publish'),
+                                             default=datetime.now)
+    end_publication = models.DateTimeField(_('end publication'),
+                                           help_text=_('date end publish'),
+                                           default=datetime(2042, 3, 15))
+
+    sites = models.ManyToManyField(Site, verbose_name=_('sites publication'),
+                                   related_name='objecttypes')
+
+    login_required = models.BooleanField(
+        _('login required'), default=False,
+        help_text=_('only authenticated users can view the objecttype'))
+    password = models.CharField(
+        _('password'), max_length=50, blank=True,
+        help_text=_('protect the objecttype with a password'))
 
     template = models.CharField(
         _('template'), max_length=250,
@@ -282,6 +286,8 @@ class Objecttype(Nodetype):
         OBJECTTYPE_TEMPLATES,
         help_text=_('template used to display the objecttype'))
 
+    objects = models.Manager()
+    published = ObjecttypePublishedManager()
 
     @property
     def tree_path(self):
@@ -429,7 +435,6 @@ class Objecttype(Nodetype):
                        ('can_change_author', 'Can change author'), )
 
 
-
 class Relationtype(Edgetype):
     '''
     Binary Relationtypes are defined in this table.
@@ -571,39 +576,25 @@ if not reversion.is_registered(System):
     reversion.register(System, follow=["systemtypes", "edgeset", "nodeset", "systemset"])
 
 if not reversion.is_registered(Objecttype): 
-    reversion.register(Objecttype, follow=["parent"])
-if not reversion.is_registered(Objecttype):
-    reversion.register(Objecttype, follow=["metatypes"])
+    reversion.register(Objecttype, follow=["parent", "metatypes"])
 
 if not reversion.is_registered(Metatype):
     reversion.register(Metatype, follow=["parent"])
 
 if not reversion.is_registered(Objecttype):
-    reversion.register(Objecttype, follow=["priornode"])
-if not reversion.is_registered(Objecttype):
-    reversion.register(Objecttype, follow=["posteriornode"])
+    reversion.register(Objecttype, follow=["priornode", "posteriornode"])
 
 if not reversion.is_registered(Relationtype): 
-    reversion.register(Relationtype, follow=["subjecttypeLeft"])
-if not reversion.is_registered(Relationtype): 
-    reversion.register(Relationtype, follow=["subjecttypeRight"])
+    reversion.register(Relationtype, follow=["subjecttypeLeft", "subjecttypeRight"])
 
 if not reversion.is_registered(Attributetype): 
     reversion.register(Attributetype, follow=["subjecttype"])
 
-
 if not reversion.is_registered(Attribute): 
-    reversion.register(Attribute, follow=["subject"])
-if not reversion.is_registered(Attribute): 
-    reversion.register(Attribute, follow=["attributetype"])
+    reversion.register(Attribute, follow=["subject", "attributetype"])
 
 if not reversion.is_registered(Relation): 
-    reversion.register(Relation, follow=["subject1"])
-if not reversion.is_registered(Relation): 
-    reversion.register(Relation, follow=["subject2"])
-if not reversion.is_registered(Relation): 
-    reversion.register(Relation, follow=["relationtype"])
-
+    reversion.register(Relation, follow=["subject1", "subject2", "relationtype"])
 
 moderator.register(Objecttype, ObjecttypeCommentModerator)
 mptt.register(Metatype, order_insertion_by=['title'])
