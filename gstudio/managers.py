@@ -12,7 +12,7 @@ PUBLISHED = 2
 def tags_published():
     """Return the published tags"""
     from tagging.models import Tag
-    from objectapp.models import Objecttype
+    from gstudio.models import Objecttype
     tags_objecttype_published = Tag.objects.usage_for_queryset(
         Objecttype.published.all())
     # Need to do that until the issue #44 of django-tagging is fixed
@@ -34,6 +34,7 @@ class AuthorPublishedManager(models.Manager):
 
 
 def objecttypes_published(queryset):
+
     """Return only the objecttypes published"""
     now = datetime.now()
     return queryset.filter(status=PUBLISHED,
@@ -64,7 +65,7 @@ class ObjecttypePublishedManager(models.Manager):
 
     def advanced_search(self, pattern):
         """Advanced search on objecttypes"""
-        from objectapp.search import advanced_search
+        from gstudio.search import advanced_search
         return advanced_search(pattern)
 
     def basic_search(self, pattern):

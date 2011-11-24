@@ -61,27 +61,59 @@ class Author(User):
         proxy = True
 
 
-
-
 class Gbobject(Node):
-    """Base Model design for publishing gbobjects"""
+    """Class for publishing gbobjects"""
     STATUS_CHOICES = ((DRAFT, _('draft')),
                       (HIDDEN, _('hidden')),
                       (PUBLISHED, _('published')))
 
+    content = models.TextField(_('content'))
+
     image = models.ImageField(_('image'), upload_to=UPLOAD_TO,
                               blank=True, help_text=_('used for illustration'))
-    content = models.TextField(_('content'))
+
     excerpt = models.TextField(_('excerpt'), blank=True,
                                 help_text=_('optional element'))
 
+    tags = TagField(_('tags'))
     objecttypes = models.ManyToManyField(Objecttype, verbose_name=_('objecttypes'),
                                         related_name='gbobjects',
                                         blank=True, null=True)
     related = models.ManyToManyField('self', verbose_name=_('related gbobjects'),
                                      blank=True, null=True)
 
+    slug = models.SlugField(help_text=_('used for publication'),
+                            unique_for_date='creation_date',
+                            max_length=255)
+
+    authors = models.ManyToManyField(User, verbose_name=_('authors'),
+                                     related_name='gbobjects',
+                                     blank=True, null=False)
+    status = models.IntegerField(choices=STATUS_CHOICES, default=PUBLISHED)
+
+    featured = models.BooleanField(_('featured'), default=False)
+    comment_enabled = models.BooleanField(_('comment enabled'), default=True)
     pingback_enabled = models.BooleanField(_('linkback enabled'), default=True)
+
+    creation_date = models.DateTimeField(_('creation date'),
+                                         default=datetime.now)
+    last_update = models.DateTimeField(_('last update'), default=datetime.now)
+    start_publication = models.DateTimeField(_('start publication'),
+                                             help_text=_('date start publish'),
+                                             default=datetime.now)
+    end_publication = models.DateTimeField(_('end publication'),
+                                           help_text=_('date end publish'),
+                                           default=datetime(2042, 3, 15))
+
+    sites = models.ManyToManyField(Site, verbose_name=_('sites publication'),
+                                   related_name='gbobjects')
+
+    login_required = models.BooleanField(
+        _('login required'), default=False,
+        help_text=_('only authenticated users can view the gbobject'))
+    password = models.CharField(
+        _('password'), max_length=50, blank=True,
+        help_text=_('protect the gbobject with a password'))
 
     template = models.CharField(
         _('template'), max_length=250,
@@ -92,6 +124,7 @@ class Gbobject(Node):
 
     objects = models.Manager()
     published = GbobjectPublishedManager()
+
 
     @property
     def html_content(self):
@@ -105,6 +138,7 @@ class Gbobject(Node):
         elif not '</p>' in self.content:
             return linebreaks(self.content)
         return self.content
+
 
     @property
     def previous_gbobject(self):
@@ -179,7 +213,17 @@ class Gbobject(Node):
         return get_url_shortener()(self)
 
     def __unicode__(self):
-        return '%s: %s' % (self.title, self.get_status_display())
+        return self.title
+
+    @property
+    def memberof_sentence(self):
+        """Return the objecttype of which the gbobject is a member of"""
+        
+        if self.objecttypes.count:
+            for each in self.objecttypes.all():
+                return '%s is a member of objecttype %s' % (self.title, each)
+        return '%s is not a fully defined name, consider making it a member of a suitable objecttype' % (self.title)
+
 
     @models.permalink
     def get_absolute_url(self):
@@ -199,15 +243,16 @@ class Gbobject(Node):
                        ('can_change_author', 'Can change author'), )
 
 
+if not reversion.is_registered(Gbobject):
+    reversion.register(Gbobject, follow=["objecttypes"])
+
 
 moderator.register(Gbobject, GbobjectCommentModerator)
-mptt.register(Objecttype, order_insertion_by=['title'])
+
+mptt.register(Gbobject, order_insertion_by=['title'])
 post_save.connect(ping_directories_handler, sender=Gbobject,
                   dispatch_uid='objectapp.gbobject.post_save.ping_directories')
 post_save.connect(ping_external_urls_handler, sender=Gbobject,
                   dispatch_uid='objectapp.gbobject.post_save.ping_external_urls')
 
-
-if not reversion.is_registered(Gbobject): 
-    reversion.register(Gbobject, follow=["objecttypes"])
 
