@@ -1,8 +1,8 @@
 """Objectapp"""
-__version__ = '0.10.dev'
+__version__ = '0.2.dev'
 __license__ = 'BSD License'
 
-__author__ = 'Fantomas42'
-__email__ = 'fantomas42@gmail.com'
+__author__ = 'Nagarjuna G.'
+__email__ = 'nagarjun@gnowledge.org'
 
-__url__ = 'http://github.com/Fantomas42/django-blog-objectapp'
+__url__ = 'http://github.com/gnowgi/django-gstudio'

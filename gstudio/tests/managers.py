@@ -12,7 +12,7 @@ from gstudio.models import Author
 from gstudio.models import Metatype
 from gstudio.managers import PUBLISHED
 from gstudio.managers import tags_published
-from gstudio.managers import nodes_published
+from gstudio.managers import objecttypes_published
 
 
 class ManagersTestCase(TestCase):
@@ -62,26 +62,26 @@ class ManagersTestCase(TestCase):
         self.objecttype_2.sites.add(self.sites[1])
         self.assertEquals(Author.published.count(), 1)
 
-    def test_nodes_published(self):
-        self.assertEquals(nodes_published(Objecttype.objects.all()).count(), 1)
+    def test_objecttypes_published(self):
+        self.assertEquals(objecttypes_published(Objecttype.objects.all()).count(), 1)
         self.objecttype_2.status = PUBLISHED
         self.objecttype_2.save()
-        self.assertEquals(nodes_published(Objecttype.objects.all()).count(), 2)
+        self.assertEquals(objecttypes_published(Objecttype.objects.all()).count(), 2)
         self.objecttype_1.sites.clear()
-        self.assertEquals(nodes_published(Objecttype.objects.all()).count(), 1)
+        self.assertEquals(objecttypes_published(Objecttype.objects.all()).count(), 1)
         self.objecttype_1.sites.add(*self.sites)
         self.objecttype_1.start_publication = datetime(2020, 1, 1)
         self.objecttype_1.save()
-        self.assertEquals(nodes_published(Objecttype.objects.all()).count(), 1)
+        self.assertEquals(objecttypes_published(Objecttype.objects.all()).count(), 1)
         self.objecttype_1.start_publication = datetime(2000, 1, 1)
         self.objecttype_1.save()
-        self.assertEquals(nodes_published(Objecttype.objects.all()).count(), 2)
+        self.assertEquals(objecttypes_published(Objecttype.objects.all()).count(), 2)
         self.objecttype_1.end_publication = datetime(2000, 1, 1)
         self.objecttype_1.save()
-        self.assertEquals(nodes_published(Objecttype.objects.all()).count(), 1)
+        self.assertEquals(objecttypes_published(Objecttype.objects.all()).count(), 1)
         self.objecttype_1.end_publication = datetime(2020, 1, 1)
         self.objecttype_1.save()
-        self.assertEquals(nodes_published(Objecttype.objects.all()).count(), 2)
+        self.assertEquals(objecttypes_published(Objecttype.objects.all()).count(), 2)
 
     def test_objecttype_published_manager_get_query_set(self):
         self.assertEquals(Objecttype.published.count(), 1)

@@ -20,7 +20,7 @@ from gstudio.settings import COPYRIGHT
 from gstudio.settings import PROTOCOL
 from gstudio.settings import FEEDS_FORMAT
 from gstudio.settings import FEEDS_MAX_ITEMS
-from gstudio.managers import nodes_published
+from gstudio.managers import objecttypes_published
 from gstudio.views.metatypes import get_metatype_or_404
 from gstudio.templatetags.gstudio_tags import get_gravatar
 
@@ -116,7 +116,7 @@ class MetatypeObjecttypes(ObjecttypeFeed):
 
     def items(self, obj):
         """Items are the published objecttypes of the metatype"""
-        return obj.nodes_published()[:FEEDS_MAX_ITEMS]
+        return obj.objecttypes_published()[:FEEDS_MAX_ITEMS]
 
     def link(self, obj):
         """URL of the metatype"""
@@ -140,7 +140,7 @@ class AuthorObjecttypes(ObjecttypeFeed):
 
     def items(self, obj):
         """Items are the published objecttypes of the author"""
-        return nodes_published(obj.objecttypes)[:FEEDS_MAX_ITEMS]
+        return objecttypes_published(obj.objecttypes)[:FEEDS_MAX_ITEMS]
 
     def link(self, obj):
         """URL of the author"""
