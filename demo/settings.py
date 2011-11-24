@@ -48,7 +48,7 @@ MIDDLEWARE_CLASSES = (
     )
 
 ROOT_URLCONF = 'demo.urls'
-
+GRAPHVIZ_DOT_CMD = '/usr/bin/dot'
 TEMPLATE_LOADERS = (
     ('django.template.loaders.cached.Loader', (
         'django.template.loaders.app_directories.Loader',
@@ -56,6 +56,7 @@ TEMPLATE_LOADERS = (
         )
      ),
     )
+
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.auth.context_processors.auth',
@@ -86,6 +87,7 @@ INSTALLED_APPS = (
     'tagging',
     'django_xmlrpc',
     'demo',
+    'graphviz',
     )
 
 from gstudio.xmlrpc import GSTUDIO_XMLRPC_METHODS
