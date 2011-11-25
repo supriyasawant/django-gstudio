@@ -20,7 +20,7 @@ setup(name='django-gstudio',
       
       classifiers=[
           'Framework :: Django',
-          'Development Status :: 2 - Development/Pre-Alpha',
+          'Development Status :: 3 - Development/Alpha',
           'Environment :: Web Environment',
           'Programming Language :: Python',
           'Intended Audience :: Developers',

@@ -1,6 +1,6 @@
 Metadata-Version: 1.0
 Name: django-gstudio
-Version: 0.2.dev
+Version: 0.3.dev
 Summary: A collaborative blogspace for constructing and publishing semantic knowledge networks and ontologies
 Home-page: http://github.com/gnowgi/django-gstudio
 Author: gnowgi
@@ -316,7 +316,7 @@ Description: ==================
 Keywords: django,blog,weblog,zinnia,post,news,gnowsys,gnowledge,semantic,networks,ontolgies
 Platform: UNKNOWN
 Classifier: Framework :: Django
-Classifier: Development Status :: 2 - Development/Pre-Alpha
+Classifier: Development Status :: 3 - Development/Alpha
 Classifier: Environment :: Web Environment
 Classifier: Programming Language :: Python
 Classifier: Intended Audience :: Developers

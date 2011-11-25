@@ -1,5 +1,5 @@
 """Objectapp"""
-__version__ = '0.2.dev'
+__version__ = '0.3.dev'
 __license__ = 'BSD License'
 
 __author__ = 'Nagarjuna G.'

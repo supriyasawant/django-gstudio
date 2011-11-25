@@ -12,8 +12,9 @@ from gstudio.models import Relationtype
 from gstudio.models import Relation
 from gstudio.models import Attributetype
 from gstudio.models import Attribute
-from gstudio.models import System
+
 from gstudio.models import Systemtype
+from gstudio.models import Processtype
 
 from gstudio.models import Edgetype
 from gstudio.models import Edge
@@ -42,7 +43,11 @@ class SystemtypeAdminForm(forms.ModelForm):
         """SystemAdminForm's Meta"""
         model = Systemtype
 
+class ProcesstypeAdminForm(forms.ModelForm):
 
+    class Meta:
+        """SystemAdminForm's Meta"""
+        model = Processtype
 
 class AttributetypeAdminForm(forms.ModelForm):
 

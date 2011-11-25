@@ -23,6 +23,11 @@ import mptt
 from tagging.fields import TagField
 from gstudio.models import Objecttype
 from gstudio.models import Node
+from gstudio.models import Edge
+from gstudio.models import Systemtype
+from gstudio.models import Processtype
+from gstudio.models import Attribute
+from gstudio.models import Relation
 
 import reversion
 from objectapp.settings import UPLOAD_TO
@@ -67,8 +72,7 @@ class Gbobject(Node):
                       (HIDDEN, _('hidden')),
                       (PUBLISHED, _('published')))
 
-    content = models.TextField(_('content'))
-
+    content = models.TextField(_('content'), null=True, blank=True)
     image = models.ImageField(_('image'), upload_to=UPLOAD_TO,
                               blank=True, help_text=_('used for illustration'))
 
@@ -243,13 +247,70 @@ class Gbobject(Node):
                        ('can_change_author', 'Can change author'), )
 
 
+class System(Gbobject):    
+
+    """
+    class to represent complex compositions containing other nodes such as an ontology, a complex organization
+    """
+
+    systemtypes = models.ManyToManyField(Systemtype, verbose_name=_('system type'),
+                                        related_name='systemtypes',
+                                        blank=True, null=True)
+    edgeset = models.ManyToManyField(Edge, related_name="system_edge", verbose_name='Edges in the system',    
+                                   blank=True, null=False) 
+    nodeset = models.ManyToManyField(Node, related_name="system_node", verbose_name='Nodes in the system',    
+                                   blank=True, null=False) 
+    systemset = models.ManyToManyField('self', related_name="system_system", verbose_name='Nested systems',
+                                       blank=True, null=False)
+    
+    def __unicode__(self):
+        return self.title
+
+
+class Process(Gbobject):    
+
+    """
+    A store processes, events or changes described as changes in attributes and relations
+    """
+    processtypes = models.ManyToManyField(Processtype, verbose_name=_('processtypes'),
+                                          related_name='processes',
+                                          blank=True, null=True)
+    priorstate_attribute_set = models.ManyToManyField(Attribute, null=True, blank=True,
+                                                      verbose_name=_('priorstate of objects attributes'),
+                                                      related_name='priorstate_attribute_set')
+    priorstate_relation_set = models.ManyToManyField(Relation, null=True, blank=True,
+                                                     verbose_name=_('priorsate of objects relations'),
+                                                     related_name='priorstate_relation_set')
+
+    poststate_attribute_set = models.ManyToManyField(Attribute, null=True, blank=True,
+                                                     verbose_name=_('changing attribute set'),
+                                                     related_name='proststate_attribute_set')
+
+    poststate_relation_set = models.ManyToManyField(Relation, null=True, blank=True,
+                               verbose_name=_('changing relation set'),
+                               related_name='poststate_relation_set')
+
+    def __unicode__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = _('process')
+        verbose_name_plural = _('processes')
+        permissions = (('can_view_all', 'Can view all'),
+                       ('can_change_author', 'Can change author'), )
+    
+if not reversion.is_registered(Process):
+    reversion.register(Process, follow=["priorstate_attribute_set", "priorstate_relation_set", "poststate_attribute_set", "poststate_relation_set"])
+
+if not reversion.is_registered(System): 
+    reversion.register(System, follow=["systemtypes", "edgeset", "nodeset", "systemset"])
+
 if not reversion.is_registered(Gbobject):
     reversion.register(Gbobject, follow=["objecttypes"])
 
 
 moderator.register(Gbobject, GbobjectCommentModerator)
 
-mptt.register(Gbobject, order_insertion_by=['title'])
 post_save.connect(ping_directories_handler, sender=Gbobject,
                   dispatch_uid='objectapp.gbobject.post_save.ping_directories')
 post_save.connect(ping_external_urls_handler, sender=Gbobject,
