@@ -9,9 +9,26 @@ from django.contrib.admin.widgets import RelatedFieldWidgetWrapper
 import reversion
 from objectapp.models import Gbobject
 from objectapp.models import Objecttype
+from objectapp.models import System
+from objectapp.models import Process
+
 from objectapp.admin.widgets import TreeNodeChoiceField
 from objectapp.admin.widgets import MPTTFilteredSelectMultiple
 from objectapp.admin.widgets import MPTTModelMultipleChoiceField
+
+
+class ProcessAdminForm(forms.ModelForm):
+
+    class Meta:
+        """SystemAdminForm's Meta"""
+        model = Process
+
+class SystemAdminForm(forms.ModelForm):
+
+    class Meta:
+        """SystemAdminForm's Meta"""
+        model = System
+
 
 
 class ObjecttypeAdminForm(forms.ModelForm):

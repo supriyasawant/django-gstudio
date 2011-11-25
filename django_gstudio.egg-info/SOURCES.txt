@@ -68,9 +68,9 @@ gstudio/admin/attributetype.py
 gstudio/admin/forms.py
 gstudio/admin/metatype.py
 gstudio/admin/objecttype.py
+gstudio/admin/processtype.py
 gstudio/admin/relation.py
 gstudio/admin/relationtype.py
-gstudio/admin/system.py
 gstudio/admin/systemtype.py
 gstudio/admin/widgets.py
 gstudio/fixtures/examples.json
@@ -482,6 +482,8 @@ objectapp/admin/__init__.py
 objectapp/admin/forms.py
 objectapp/admin/gbobject.py
 objectapp/admin/objecttype.py
+objectapp/admin/process.py
+objectapp/admin/system.py
 objectapp/admin/widgets.py
 objectapp/fixtures/helloworld.json
 objectapp/locale/de/LC_MESSAGES/django.mo

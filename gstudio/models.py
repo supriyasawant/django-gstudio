@@ -18,6 +18,7 @@ from django.contrib.markup.templatetags.markup import textile
 from django.contrib.markup.templatetags.markup import restructuredtext
 
 import mptt
+
 from tagging.fields import TagField
 from gstudio.settings import UPLOAD_TO
 from gstudio.settings import MARKUP_LANGUAGE
@@ -93,7 +94,7 @@ STATUS_CHOICES = ((DRAFT, _('draft')),
 
 class Author(User):
     """Proxy Model around User"""
-
+    
     objects = models.Manager()
     published = AuthorPublishedManager()
 
@@ -480,7 +481,7 @@ class Objecttype(Nodetype):
 
 
 
-class Relationtype(Edgetype):
+class Relationtype(Objecttype):
     '''
     Binary Relationtypes are defined in this table.
     '''
@@ -499,7 +500,7 @@ class Relationtype(Edgetype):
     def __unicode__(self):
         return self.title
 
-class Attributetype(Edgetype):
+class Attributetype(Objecttype):
     '''
     datatype properties
     '''
@@ -580,7 +581,7 @@ class Attribute(Edge):
         return '%s %s has %s %s %s %s' % (self.subjectScope, self.subject, self.attributeTypeScope, self.attributeType, self.valueScope, self.value)
     composed_sentence = property(_get_sentence)
 
-class Systemtype(Nodetype):    
+class Systemtype(Objecttype):    
 
     """
     class to organize Systems
@@ -588,37 +589,42 @@ class Systemtype(Nodetype):
 
     def __unicode__(self):
         return self.title
-
-class System(Node):    
-
-    """
-    class to represent complex compositions containing other nodes such as an ontology, a complex organization
-    """
-
-    systemtypes = models.ManyToManyField(Systemtype, verbose_name=_('system type'),
-                                        related_name='systemtypes',
-                                        blank=True, null=True)
-    edgeset = models.ManyToManyField(Edge, related_name="system_edge", verbose_name='Edges in the system',    
-                                   blank=True, null=False) 
-    nodeset = models.ManyToManyField(Node, related_name="system_node", verbose_name='Nodes in the system',    
-                                   blank=True, null=False) 
-    systemset = models.ManyToManyField('self', related_name="system_system", verbose_name='Nested systems',
-                                       blank=True, null=False)
     
+
+
+class Processtype(Objecttype):    
+
+    """
+    A kind of objecttype for defining processes or events or temporal
+    objects involving change.  
+    """
+    attributetype_set = models.ManyToManyField(Attributetype, null=True, blank=True,
+                               verbose_name=_('changing attribute set'),
+                               related_name='processtype_attributetypeset')
+    relationtype_set = models.ManyToManyField(Relationtype, null=True, blank=True,
+                               verbose_name=_('changing relation set'),
+                               related_name='processtype_relationtypeset')
     def __unicode__(self):
         return self.title
 
+    class Meta:
+        verbose_name = _('process type')
+        verbose_name_plural = _('process types')
+        permissions = (('can_view_all', 'Can view all'),
+                       ('can_change_author', 'Can change author'), )
+
+
 reversion.register(NID)
-reversion.register(Node)
 reversion.register(Nodetype)
-reversion.register(Edge)
+reversion.register(Node)
 reversion.register(Edgetype)
+reversion.register(Edge)
 
 if not reversion.is_registered(Systemtype):
     reversion.register(Systemtype)
 
-if not reversion.is_registered(System): 
-    reversion.register(System, follow=["systemtypes", "edgeset", "nodeset", "systemset"])
+if not reversion.is_registered(Processtype):
+    reversion.register(Processtype, follow=["attributetype_set", "relationtype_set"])
 
 if not reversion.is_registered(Objecttype): 
     reversion.register(Objecttype, follow=["parent", "metatypes"])
@@ -644,6 +650,10 @@ if not reversion.is_registered(Relation):
 moderator.register(Objecttype, ObjecttypeCommentModerator)
 mptt.register(Metatype, order_insertion_by=['title'])
 mptt.register(Objecttype, order_insertion_by=['title'])
+mptt.register(Relationtype, order_insertion_by=['title'])
+mptt.register(Attributetype, order_insertion_by=['title'])
+mptt.register(Systemtype, order_insertion_by=['title'])
+mptt.register(Processtype, order_insertion_by=['title'])
 post_save.connect(ping_directories_handler, sender=Objecttype,
                   dispatch_uid='gstudio.objecttype.post_save.ping_directories')
 post_save.connect(ping_external_urls_handler, sender=Objecttype,

@@ -12,8 +12,10 @@ from gstudio.models import Relationtype
 from gstudio.models import Relation
 from gstudio.models import Attributetype
 from gstudio.models import Attribute
-from gstudio.models import System
+
 from gstudio.models import Systemtype
+from gstudio.models import Processtype
+
 
 from gstudio.admin.widgets import TreeNodeChoiceField
 from gstudio.admin.widgets import MPTTFilteredSelectMultiple
@@ -38,12 +40,11 @@ class SystemtypeAdminForm(forms.ModelForm):
         """SystemAdminForm's Meta"""
         model = Systemtype
 
-
-class SystemAdminForm(forms.ModelForm):
+class ProcesstypeAdminForm(forms.ModelForm):
 
     class Meta:
         """SystemAdminForm's Meta"""
-        model = System
+        model = Processtype
 
 
 class AttributetypeAdminForm(forms.ModelForm):
