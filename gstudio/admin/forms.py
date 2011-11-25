@@ -13,6 +13,7 @@ from gstudio.models import Relation
 from gstudio.models import Attributetype
 from gstudio.models import Attribute
 
+
 from gstudio.models import Systemtype
 from gstudio.models import Processtype
 
@@ -62,9 +63,6 @@ class AttributeAdminForm(forms.ModelForm):
         """MetatypeAdminForm's Meta"""
         model = Attribute
 
-class SystemAdminForm(forms.ModelForm):
-    class Meta:
-        model = System
         
 class MetatypeAdminForm(forms.ModelForm):
     """Form for Metatype's Admin"""
