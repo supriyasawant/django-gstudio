@@ -15,6 +15,10 @@ from gstudio.models import Attribute
 from gstudio.models import System
 from gstudio.models import Systemtype
 
+from gstudio.models import Edgetype
+from gstudio.models import Edge
+from gstudio.models import Node
+
 from gstudio.admin.widgets import TreeNodeChoiceField
 from gstudio.admin.widgets import MPTTFilteredSelectMultiple
 from gstudio.admin.widgets import MPTTModelMultipleChoiceField
@@ -39,12 +43,6 @@ class SystemtypeAdminForm(forms.ModelForm):
         model = Systemtype
 
 
-class SystemAdminForm(forms.ModelForm):
-
-    class Meta:
-        """SystemAdminForm's Meta"""
-        model = System
-
 
 class AttributetypeAdminForm(forms.ModelForm):
 
@@ -59,7 +57,10 @@ class AttributeAdminForm(forms.ModelForm):
         """MetatypeAdminForm's Meta"""
         model = Attribute
 
-
+class SystemAdminForm(forms.ModelForm):
+    class Meta:
+        model = System
+        
 class MetatypeAdminForm(forms.ModelForm):
     """Form for Metatype's Admin"""
     parent = TreeNodeChoiceField(
@@ -99,12 +100,33 @@ class ObjecttypeAdminForm(forms.ModelForm):
         queryset=Metatype.objects.all(),
         widget=MPTTFilteredSelectMultiple(_('metatypes'), False,
                                           attrs={'rows': '10'}))
+    priornode = MPTTModelMultipleChoiceField(
+        label=_('priornodes'), required=False,
+        queryset=Objecttype.objects.all(),
+        widget=MPTTFilteredSelectMultiple(_('objecttypes'), False,
+                                          attrs={'rows': '10'}))
+
+    posteriornode = MPTTModelMultipleChoiceField(
+        label=_('posteriornode'), required=False,
+        queryset=Objecttype.objects.all(),
+        widget=MPTTFilteredSelectMultiple(_('objecttypes'), False,
+                                          attrs={'rows': '10'}))
+
+
 
     def __init__(self, *args, **kwargs):
         super(ObjecttypeAdminForm, self).__init__(*args, **kwargs)
         rel = ManyToManyRel(Metatype, 'id')
+        prior = ManyToManyRel(Objecttype,'id')
+        post = ManyToManyRel(Objecttype,'id')
         self.fields['metatypes'].widget = RelatedFieldWidgetWrapper(
             self.fields['metatypes'].widget, rel, self.admin_site)
+        self.fields['priornode'].widget = RelatedFieldWidgetWrapper(
+            self.fields['priornode'].widget, prior, self.admin_site)
+        self.fields['posteriornode'].widget = RelatedFieldWidgetWrapper(
+            self.fields['posteriornode'].widget, post, self.admin_site)
+
+
         self.fields['sites'].initial = [Site.objects.get_current()]
 
     def clean_parent(self):
@@ -118,3 +140,4 @@ class ObjecttypeAdminForm(forms.ModelForm):
     class Meta:
         """ObjecttypeAdminForm's Meta"""
         model = Objecttype
+
