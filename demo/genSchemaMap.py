@@ -23,6 +23,8 @@ try:
 
     os.system("sed -i 's/Node ->/gbNode ->/g' " + dot_path)
     os.system("sed -i 's/-> Node/-> gbNode/g' " + dot_path)
+    os.system("sed -i 's/-> Edge/-> gbEdge/g' " + dot_path)
+    os.system("sed -i 's/Edge ->/gbEdge ->/g' " + dot_path)
 
     '''
     for line in fileinput.input(dot_path, inplace = 1): 
