@@ -121,10 +121,18 @@ class NID(models.Model):
 
     def get_serialized_dict(self):
         """
+        return the fields in a serialized form of the current object using the __dict__ function.
+        """
+        return self.__dict__
+
+    def get_serialized_data(self):
+        """
         return the fields in a serialized form of the current object.
         get object id, go to version model, return serialized_data for the given id
         """
-        return self.__dict__
+        from reversion.models import Version
+        version = Version.objects.get(id=self.id)
+        return version.serialized_data
 
     def __unicode__(self):
         return self.title
@@ -136,7 +144,11 @@ class NID(models.Model):
 
 
 class Node(NID):
+    """
+    Super class 
+    """
 
+    altnames = TagField(_('alternate names'), help_text=_('alternate names if any'), blank=True, null=True)
     plural = models.CharField(_('plural name'), help_text=_('plural form of the node name if any'), max_length=255, blank=True, null=True)
 
     def __unicode__(self):

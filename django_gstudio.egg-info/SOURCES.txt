@@ -102,14 +102,6 @@ gstudio/management/commands/feed2gstudio.py
 gstudio/management/commands/gstudio2wp.py
 gstudio/management/commands/spam_cleanup.py
 gstudio/management/commands/wp2gstudio.py
-gstudio/migrations/0001_initial.py
-gstudio/migrations/0002_auto__add_field_objecttype_pingback_enabled.py
-gstudio/migrations/0003_auto__chg_field_metatype_title__chg_field_metatype_slug__add_unique_ca.py
-gstudio/migrations/0004_mptt_metatypes.py
-gstudio/migrations/0005_objecttype_protection.py
-gstudio/migrations/0006_objecttype_template.py
-gstudio/migrations/0007_objecttype_featured.py
-gstudio/migrations/__init__.py
 gstudio/plugins/__init__.py
 gstudio/plugins/admin.py
 gstudio/plugins/cms_app.py
