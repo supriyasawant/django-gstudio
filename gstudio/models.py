@@ -34,6 +34,7 @@ from gstudio.url_shortener import get_url_shortener
 from gstudio.signals import ping_directories_handler
 from gstudio.signals import ping_external_urls_handler
 import reversion
+from reversion.models import Version
 from django.core import serializers
 
 NODETYPE_CHOICES = (
@@ -118,15 +119,12 @@ class NID(models.Model):
 
     title = models.CharField(_('title'), help_text=_('give a name to the node'), max_length=255)
 
-    def get_serialized_data(self):
+    def get_serialized_dict(self):
         """
         return the fields in a serialized form of the current object.
         get object id, go to version model, return serialized_data for the given id
         """
-        from reversion.models import Version
-        version = Version.objects.get(id=self.id)
-        return version.serialized_data
-
+        return self.__dict__
 
     def __unicode__(self):
         return self.title
@@ -139,6 +137,7 @@ class NID(models.Model):
 
 class Node(NID):
 
+    plural = models.CharField(_('plural name'), help_text=_('plural form of the node name if any'), max_length=255, blank=True, null=True)
 
     def __unicode__(self):
         return self.title
@@ -150,8 +149,6 @@ class Node(NID):
     
 class Nodetype(Node):
 
-    plural = models.CharField(_('plural name'), help_text=_('plural form of the node name if any'), max_length=255, blank=True, null=True)
-
 
     def __unicode__(self):
         return self.title
@@ -160,9 +157,6 @@ class Nodetype(Node):
         abstract=False
 
 class Edgetype(Node):
-
-    plural = models.CharField(_('plural name'), help_text=_('plural form of the edge name if any'), max_length=255,  blank=True, null=True)
-    description = models.TextField(_('description'), blank=True, null=True)
 
     def __unicode__(self):
         return self.title
@@ -181,19 +175,27 @@ class Edge(NID):
 
 
 class Metatype(Nodetype):
-    """Metatype object for Objecttype"""
+    """
+    Metatype object for Objecttype
+    """
+
+
 
     slug = models.SlugField(help_text=_('used for publication'), unique=True, max_length=255)
     description = models.TextField(_('description'), blank=True, null=True)
     parent = models.ForeignKey('self', null=True, blank=True, verbose_name=_('parent metatype'), related_name='children')
 
     def objecttypes_published(self):
-        """Return only the objecttypes published"""
+        """
+        Return only the published objecttypes 
+        """
         return objecttypes_published(self.objecttypes)
 
     @property
     def get_nbh(self):
-        """ Returns the neighbourhood of the metatype """
+        """ 
+        Returns the neighbourhood of the metatype 
+        """
         nbh = {}
         nbh['title'] = self.title        
         
@@ -246,19 +248,22 @@ class Metatype(Nodetype):
 
 class Objecttype(Nodetype):
     """Model design publishing objecttypes"""
+
+
+    plural = models.CharField(_('plural name'), help_text=_('plural form of the node name if any'), max_length=255, blank=True, null=True)
     STATUS_CHOICES = ((DRAFT, _('draft')),
                       (HIDDEN, _('hidden')),
                       (PUBLISHED, _('published')))
 
     content = models.TextField(_('content'), null=True, blank=True)
     parent = models.ForeignKey('self', null=True, blank=True,
-                               verbose_name=_('has parent objecttype'),
+                               verbose_name=_('is a kind of'),
                                related_name='subtypes')
     priornode = models.ManyToManyField('self', null=True, blank=True,
-                               verbose_name=_('has prior nodes'),
+                               verbose_name=_('its meaning depends'),
                                related_name='posteriors')
     posteriornode = models.ManyToManyField('self', null=True, blank=True,
-                               verbose_name=_('has posterior nodes'),
+                               verbose_name=_('required for the meaning of'),
                                related_name='priornodes')
 
     image = models.ImageField(_('image'), upload_to=UPLOAD_TO,
@@ -268,7 +273,7 @@ class Objecttype(Nodetype):
                                 help_text=_('optional element'))
 
     tags = TagField(_('tags'))
-    metatypes = models.ManyToManyField(Metatype, verbose_name=_('metatypes'),
+    metatypes = models.ManyToManyField(Metatype, verbose_name=_('member of metatypes'),
                                         related_name='objecttypes',
                                         blank=True, null=True)
     related = models.ManyToManyField('self', verbose_name=_('related objecttypes'),
@@ -482,7 +487,7 @@ class Objecttype(Nodetype):
         get object id, go to version model, return serialized_data for the given id
         """
         from reversion.models import Version
-        version = Version.objects.get(id=self.id)
+        version = Version.objects.get(id=self.node_ptr_id)
         return version.serialized_data
 
     class Meta:
@@ -510,16 +515,39 @@ class Relationtype(Objecttype):
     isReflexive = models.NullBooleanField(verbose_name='Is reflexive?')
     isTransitive = models.NullBooleanField(verbose_name='Is transitive?')
 
+
+    def get_serialized_data(self):
+        """
+        return the fields in a serialized form of the current object.
+        get object id, go to version model, return serialized_data for the given id
+        """
+        from reversion.models import Version
+        version = Version.objects.get(id=self.node_ptr_id)
+        return version.serialized_data
+
+
     def __unicode__(self):
         return self.title
+
+    class Meta:
+        """
+        relation type's meta class
+        """
+        verbose_name = _('relation type')
+        verbose_name_plural = _('relation types')
+        permissions = (('can_view_all', 'Can view all'),
+                       ('can_change_author', 'Can change author'), )
+
+
+
 
 class Attributetype(Objecttype):
     '''
     datatype properties
     '''
-    subjecttype = models.ForeignKey(NID, related_name="subjecttype_GbnodeType") 
-    applicablenodetypes = models.CharField(max_length=2,choices=NODETYPE_CHOICES,default='OT')
-    dataType = models.CharField(max_length=2, choices=FIELD_TYPE_CHOICES,default='01')
+    subjecttype = models.ForeignKey(NID, related_name="subjecttype_GbnodeType", verbose_name='subject type name')  
+    applicablenodetypes = models.CharField(max_length=2,choices=NODETYPE_CHOICES,default='OT', verbose_name='applicable nodetypes') 
+    dataType = models.CharField(max_length=2, choices=FIELD_TYPE_CHOICES,default='01', verbose_name='data type of value') 
 
 
     def simpleform(self):
@@ -532,16 +560,39 @@ class Attributetype(Objecttype):
         return simpleform
 
     def simpleform_xml(self):
+        """
+        this function will move to the managaers module with functions
+        like gstudio2epicollect and epicollect2gstudio. this is a
+        simple example to suggest a usecase to create dynamic forms.
+        """
+
         dictionary = self.simpleform()
         return '<xform>  <model>  <submission id="learning-epicollect" projectName="learning-epicollect" allowDownloadEdits="false" versionNumber="2.1"/>  <uploadToServer>http://test.mlst.net/epicollectplus/school2/upload</uploadToServer>  <downloadFromServer>http://test.mlst.net/epicollectplus/school2/download</downloadFromServer>  </model> <form num="1" name=" %s  " key=" %s " main="true"> ' % (dictionary['projectName'], dictionary['projectName'])  
 
     def inputform_xml(self):
+
+        """
+        this function will move to the managaers module with functions
+        like gstudio2epicollect and epicollect2gstudio. this is a
+        simple example to suggest a usecase to create dynamic forms.
+        """
+
         return '<input ref="%s" title="true">  <label>what is the %s? </label>  </input>' % (self.title, self.title) 
 
 
 
     def __unicode__(self):
         return self.title
+
+    class Meta:
+        """
+        attribute type's meta class
+        """
+        verbose_name = _('attribute type')
+        verbose_name_plural = _('attribute types')
+        permissions = (('can_view_all', 'Can view all'),
+                       ('can_change_author', 'Can change author'), )
+
 
     
 class Relation(Edge):
@@ -550,20 +601,24 @@ class Relation(Edge):
     nodetypes except relations for now.
     '''
 
-    subject1Scope = models.CharField(max_length=50, verbose_name='subject scope', null=True, blank=True)
+    subject1Scope = models.CharField(max_length=50, verbose_name='subject scope or qualification', null=True, blank=True)
     subject1 = models.ForeignKey(NID, related_name="subject1_gbnode", verbose_name='subject name') 
-    relationTypeScope = models.CharField(max_length=50, verbose_name='relation scope', null=True, blank=True)
+    relationTypeScope = models.CharField(max_length=50, verbose_name='relation scope or qualification', null=True, blank=True)
     relationtype = models.ForeignKey(Relationtype, verbose_name='relation name')
-    objectScope = models.CharField(max_length=50, verbose_name='object scope', null=True, blank=True)
+    objectScope = models.CharField(max_length=50, verbose_name='object scope or qualification', null=True, blank=True)
     subject2 = models.ForeignKey(NID, related_name="subject2_gbnode", verbose_name='object name') 
 
 
     class Meta:
         unique_together = (('subject1Scope', 'subject1', 'relationTypeScope', 'relationtype', 'objectScope', 'subject2'),)
+        verbose_name = _('relation')
+        verbose_name_plural = _('relations')
+        permissions = (('can_view_all', 'Can view all'),
+                       ('can_change_author', 'Can change author'), )
+
 
     def __unicode__(self):
         return self.composed_sentence
-
 
 
     def _get_sentence(self):
@@ -571,22 +626,27 @@ class Relation(Edge):
         return '%s %s %s %s %s %s' % (self.subject1Scope, self.subject1, self.relationTypeScope, self.relationtype, self.objectScope, self.subject2)
     composed_sentence = property(_get_sentence)
 
+
 class Attribute(Edge):
     '''
     Attribute value store for default datatype varchar. Subject can be any of the
     nodetypes. 
     '''
 
-    subjectScope = models.CharField(max_length=50, verbose_name='subject scope', null=True, blank=True)
+    subjectScope = models.CharField(max_length=50, verbose_name='subject scope or qualification', null=True, blank=True)
     subject = models.ForeignKey(NID, related_name="subject_gbnode", verbose_name='subject name') 
-    attributeTypeScope = models.CharField(max_length=50, verbose_name='property scope', null=True, blank=True)
+    attributeTypeScope = models.CharField(max_length=50, verbose_name='property scope or qualification', null=True, blank=True)
     attributeType = models.ForeignKey(Attributetype, verbose_name='property name')
-    valueScope = models.CharField(max_length=50, verbose_name='value scope', null=True, blank=True)
+    valueScope = models.CharField(max_length=50, verbose_name='value scope or qualification', null=True, blank=True)
     value  = models.CharField(max_length=100, verbose_name='value') 
 
     
     class Meta:
         unique_together = (('subjectScope', 'subject', 'attributeTypeScope', 'attributeType', 'valueScope', 'value'),)
+        verbose_name = _('attribute')
+        verbose_name_plural = _('attributes')
+        permissions = (('can_view_all', 'Can view all'),
+                       ('can_change_author', 'Can change author'), )
 
 
     def __unicode__(self):
@@ -608,6 +668,12 @@ class Systemtype(Objecttype):
 
     def __unicode__(self):
         return self.title
+
+    class Meta:
+        verbose_name = _('system type')
+        verbose_name_plural = _('system types')
+        permissions = (('can_view_all', 'Can view all'),
+                       ('can_change_author', 'Can change author'), )
     
 
 
@@ -618,10 +684,10 @@ class Processtype(Objecttype):
     objects involving change.  
     """
     attributetype_set = models.ManyToManyField(Attributetype, null=True, blank=True,
-                               verbose_name=_('changing attribute set'),
+                               verbose_name=_('attribute set involved in the process'),
                                related_name='processtype_attributetypeset')
     relationtype_set = models.ManyToManyField(Relationtype, null=True, blank=True,
-                               verbose_name=_('changing relation set'),
+                               verbose_name=_('relation set involved in the process'),
                                related_name='processtype_relationtypeset')
 
 
@@ -633,6 +699,10 @@ class Processtype(Objecttype):
         verbose_name_plural = _('process types')
         permissions = (('can_view_all', 'Can view all'),
                        ('can_change_author', 'Can change author'), )
+
+
+
+
 
 
 reversion.register(NID)
