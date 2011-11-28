@@ -67,7 +67,14 @@ class Author(User):
 
 
 class Gbobject(Node):
-    """Class for publishing gbobjects"""
+    """
+    Member nodes of object types. This is actually to be named the
+    Object class, since 'Object' is a reserved name in Python, we
+    prefix this with 'Gb', to suggest that it is an object of the gnowledge
+    base.  System and Process classes also inherit this class.
+    """
+
+
     STATUS_CHOICES = ((DRAFT, _('draft')),
                       (HIDDEN, _('hidden')),
                       (PUBLISHED, _('published')))
@@ -80,10 +87,10 @@ class Gbobject(Node):
                                 help_text=_('optional element'))
 
     tags = TagField(_('tags'))
-    objecttypes = models.ManyToManyField(Objecttype, verbose_name=_('objecttypes'),
+    objecttypes = models.ManyToManyField(Objecttype, verbose_name=_('member of'),
                                         related_name='gbobjects',
                                         blank=True, null=True)
-    related = models.ManyToManyField('self', verbose_name=_('related gbobjects'),
+    related = models.ManyToManyField('self', verbose_name=_('related objects'),
                                      blank=True, null=True)
 
     slug = models.SlugField(help_text=_('used for publication'),
@@ -260,7 +267,7 @@ class System(Gbobject):
                                    blank=True, null=False) 
     nodeset = models.ManyToManyField(Node, related_name="system_node", verbose_name='Nodes in the system',    
                                    blank=True, null=False) 
-    systemset = models.ManyToManyField('self', related_name="system_system", verbose_name='Nested systems',
+    systemset = models.ManyToManyField('self', related_name="system_system", verbose_name='systems to be nested in the system',
                                        blank=True, null=False)
 
 
@@ -273,22 +280,22 @@ class Process(Gbobject):
     """
     A store processes, events or changes described as changes in attributes and relations
     """
-    processtypes = models.ManyToManyField(Processtype, verbose_name=_('processtypes'),
+    processtypes = models.ManyToManyField(Processtype, verbose_name=_('member of process type'),
                                           related_name='processes',
                                           blank=True, null=True)
     priorstate_attribute_set = models.ManyToManyField(Attribute, null=True, blank=True,
-                                                      verbose_name=_('priorstate of objects attributes'),
+                                                      verbose_name=_('priorstate of attribute set'),
                                                       related_name='priorstate_attribute_set')
     priorstate_relation_set = models.ManyToManyField(Relation, null=True, blank=True,
-                                                     verbose_name=_('priorsate of objects relations'),
+                                                     verbose_name=_('priorsate of relation set'),
                                                      related_name='priorstate_relation_set')
 
     poststate_attribute_set = models.ManyToManyField(Attribute, null=True, blank=True,
-                                                     verbose_name=_('changing attribute set'),
+                                                     verbose_name=_('poststate of attribute set'),
                                                      related_name='proststate_attribute_set')
 
     poststate_relation_set = models.ManyToManyField(Relation, null=True, blank=True,
-                               verbose_name=_('changing relation set'),
+                               verbose_name=_('poststate of relation set'),
                                related_name='poststate_relation_set')
 
 
