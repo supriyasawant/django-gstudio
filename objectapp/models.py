@@ -262,7 +262,8 @@ class System(Gbobject):
                                    blank=True, null=False) 
     systemset = models.ManyToManyField('self', related_name="system_system", verbose_name='Nested systems',
                                        blank=True, null=False)
-    
+
+
     def __unicode__(self):
         return self.title
 
@@ -289,6 +290,9 @@ class Process(Gbobject):
     poststate_relation_set = models.ManyToManyField(Relation, null=True, blank=True,
                                verbose_name=_('changing relation set'),
                                related_name='poststate_relation_set')
+
+
+
 
     def __unicode__(self):
         return self.title

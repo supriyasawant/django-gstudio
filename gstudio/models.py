@@ -18,7 +18,6 @@ from django.contrib.markup.templatetags.markup import textile
 from django.contrib.markup.templatetags.markup import restructuredtext
 
 import mptt
-
 from tagging.fields import TagField
 from gstudio.settings import UPLOAD_TO
 from gstudio.settings import MARKUP_LANGUAGE
@@ -35,6 +34,7 @@ from gstudio.url_shortener import get_url_shortener
 from gstudio.signals import ping_directories_handler
 from gstudio.signals import ping_external_urls_handler
 import reversion
+from django.core import serializers
 
 NODETYPE_CHOICES = (
     ('ED', 'Edges'),
@@ -118,6 +118,16 @@ class NID(models.Model):
 
     title = models.CharField(_('title'), help_text=_('give a name to the node'), max_length=255)
 
+    def get_serialized_data(self):
+        """
+        return the fields in a serialized form of the current object.
+        get object id, go to version model, return serialized_data for the given id
+        """
+        from reversion.models import Version
+        version = Version.objects.get(id=self.id)
+        return version.serialized_data
+
+
     def __unicode__(self):
         return self.title
 
@@ -180,8 +190,6 @@ class Metatype(Nodetype):
     def objecttypes_published(self):
         """Return only the objecttypes published"""
         return objecttypes_published(self.objecttypes)
-
-
 
     @property
     def get_nbh(self):
@@ -308,7 +316,6 @@ class Objecttype(Nodetype):
 
     objects = models.Manager()
     published = ObjecttypePublishedManager()
-
 
     @property
     def get_nbh(self):
@@ -460,8 +467,6 @@ class Objecttype(Nodetype):
             return '%s' % (self.parent.tree_path)
         return None 
 
-
-
     @models.permalink
     def get_absolute_url(self):
         """Return objecttype's URL"""
@@ -470,6 +475,15 @@ class Objecttype(Nodetype):
             'month': self.creation_date.strftime('%m'),
             'day': self.creation_date.strftime('%d'),
             'slug': self.slug})
+
+    def get_serialized_data(self):
+        """
+        return the fields in a serialized form of the current object.
+        get object id, go to version model, return serialized_data for the given id
+        """
+        from reversion.models import Version
+        version = Version.objects.get(id=self.id)
+        return version.serialized_data
 
     class Meta:
         """Objecttype's Meta"""
@@ -495,7 +509,6 @@ class Relationtype(Objecttype):
     isSymmetrical = models.NullBooleanField(verbose_name='Is symmetrical?')
     isReflexive = models.NullBooleanField(verbose_name='Is reflexive?')
     isTransitive = models.NullBooleanField(verbose_name='Is transitive?')
-   
 
     def __unicode__(self):
         return self.title
@@ -525,6 +538,8 @@ class Attributetype(Objecttype):
     def inputform_xml(self):
         return '<input ref="%s" title="true">  <label>what is the %s? </label>  </input>' % (self.title, self.title) 
 
+
+
     def __unicode__(self):
         return self.title
 
@@ -549,6 +564,8 @@ class Relation(Edge):
     def __unicode__(self):
         return self.composed_sentence
 
+
+
     def _get_sentence(self):
         "composes the relation as a sentence in a triple format."
         return '%s %s %s %s %s %s' % (self.subject1Scope, self.subject1, self.relationTypeScope, self.relationtype, self.objectScope, self.subject2)
@@ -571,6 +588,7 @@ class Attribute(Edge):
     class Meta:
         unique_together = (('subjectScope', 'subject', 'attributeTypeScope', 'attributeType', 'valueScope', 'value'),)
 
+
     def __unicode__(self):
         return self.composed_sentence
 
@@ -586,6 +604,7 @@ class Systemtype(Objecttype):
     """
     class to organize Systems
     """
+
 
     def __unicode__(self):
         return self.title
@@ -604,6 +623,8 @@ class Processtype(Objecttype):
     relationtype_set = models.ManyToManyField(Relationtype, null=True, blank=True,
                                verbose_name=_('changing relation set'),
                                related_name='processtype_relationtypeset')
+
+
     def __unicode__(self):
         return self.title
 
@@ -658,4 +679,6 @@ post_save.connect(ping_directories_handler, sender=Objecttype,
                   dispatch_uid='gstudio.objecttype.post_save.ping_directories')
 post_save.connect(ping_external_urls_handler, sender=Objecttype,
                   dispatch_uid='gstudio.objecttype.post_save.ping_external_urls')
+
+
 
