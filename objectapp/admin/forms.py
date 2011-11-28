@@ -11,6 +11,9 @@ from objectapp.models import Gbobject
 from objectapp.models import Objecttype
 from objectapp.models import System
 from objectapp.models import Process
+from objectapp.models import Systemtype
+from gstudio.models import Edge
+from gstudio.models import Node
 
 from objectapp.admin.widgets import TreeNodeChoiceField
 from objectapp.admin.widgets import MPTTFilteredSelectMultiple
@@ -24,6 +27,44 @@ class ProcessAdminForm(forms.ModelForm):
         model = Process
 
 class SystemAdminForm(forms.ModelForm):
+    systemtypes = MPTTModelMultipleChoiceField(
+        label=_('Systemtypes'), required=False,
+        queryset=Systemtype.objects.all(),
+        widget=MPTTFilteredSelectMultiple(_('systemtypes'), False,
+                                          attrs={'rows': '10'}))
+    edgeset = MPTTModelMultipleChoiceField(
+        label=_('Edgeset'), required=False,
+        queryset=Edge.objects.all(),
+        widget=MPTTFilteredSelectMultiple(_('edgesets'), False,
+                                          attrs={'rows': '10'}))
+    nodeset = MPTTModelMultipleChoiceField(
+        label=_('Nodeset'), required=False,
+        queryset=Systemtype.objects.all(),
+        widget=MPTTFilteredSelectMultiple(_('nodesets'), False,
+                                          attrs={'rows': '10'}))
+    systemset = MPTTModelMultipleChoiceField(
+        label=_('Systemset'), required=False,
+        queryset=System.objects.all(),
+        widget=MPTTFilteredSelectMultiple(_('systemset'), False,
+                                          attrs={'rows': '10'}))
+
+    def __init__(self, *args, **kwargs):
+        super(SystemAdminForm, self).__init__(*args, **kwargs)
+        st = ManyToManyRel(Systemtype, 'id')
+        ed = ManyToManyRel(Edge, 'id')
+        nd = ManyToManyRel(Node, 'id')
+        ss = ManyToManyRel(System, 'id')
+
+        self.fields['systemtypes'].widget = RelatedFieldWidgetWrapper(
+            self.fields['systemtypes'].widget, st, self.admin_site)
+        self.fields['edgeset'].widget = RelatedFieldWidgetWrapper(
+            self.fields['edgeset'].widget, ed, self.admin_site)
+        self.fields['nodeset'].widget = RelatedFieldWidgetWrapper(
+            self.fields['nodeset'].widget, nd, self.admin_site)
+        self.fields['systemset'].widget = RelatedFieldWidgetWrapper(
+            self.fields['systemset'].widget, ss, self.admin_site)
+
+
 
     class Meta:
         """SystemAdminForm's Meta"""
