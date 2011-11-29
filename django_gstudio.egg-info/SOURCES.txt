@@ -73,8 +73,6 @@ gstudio/admin/relation.py
 gstudio/admin/relationtype.py
 gstudio/admin/systemtype.py
 gstudio/admin/widgets.py
-gstudio/fixtures/examples.json
-gstudio/fixtures/helloworld.json
 gstudio/locale/de/LC_MESSAGES/django.mo
 gstudio/locale/de/LC_MESSAGES/django.po
 gstudio/locale/es/LC_MESSAGES/django.mo
@@ -122,11 +120,13 @@ gstudio/spam_checker/backends/all_is_spam.py
 gstudio/spam_checker/backends/automattic.py
 gstudio/spam_checker/backends/mollom.py
 gstudio/spam_checker/backends/typepad.py
+gstudio/static/css/rabidratings.css
 gstudio/static/gstudio/css/config.rb
 gstudio/static/gstudio/css/dashboard_gstudio.css
 gstudio/static/gstudio/css/ie.css
 gstudio/static/gstudio/css/jquery.autocomplete.css
 gstudio/static/gstudio/css/print.css
+gstudio/static/gstudio/css/rabidratings.css
 gstudio/static/gstudio/css/screen.css
 gstudio/static/gstudio/css/slider.css
 gstudio/static/gstudio/css/wymeditor_styles.css
@@ -140,6 +140,7 @@ gstudio/static/gstudio/css/src/ie.sass
 gstudio/static/gstudio/css/src/print.sass
 gstudio/static/gstudio/css/src/screen.sass
 gstudio/static/gstudio/css/src/slider.sass
+gstudio/static/gstudio/img/ajax-loading.gif
 gstudio/static/gstudio/img/background.gif
 gstudio/static/gstudio/img/bullet.png
 gstudio/static/gstudio/img/comments.png
@@ -150,6 +151,8 @@ gstudio/static/gstudio/img/manage.png
 gstudio/static/gstudio/img/metatype.png
 gstudio/static/gstudio/img/plugin.png
 gstudio/static/gstudio/img/preview.png
+gstudio/static/gstudio/img/rabidhearts.png
+gstudio/static/gstudio/img/rabidpreview.png
 gstudio/static/gstudio/img/rss.png
 gstudio/static/gstudio/img/shorturl.png
 gstudio/static/gstudio/img/sitemap.png
@@ -163,7 +166,9 @@ gstudio/static/gstudio/js/jquery.bgiframe.js
 gstudio/static/gstudio/js/jquery.js
 gstudio/static/gstudio/js/jquery.masonry.js
 gstudio/static/gstudio/js/jquery.ui.js
+gstudio/static/gstudio/js/mootools-1.2.js
 gstudio/static/gstudio/js/mptt_m2m_selectbox.js
+gstudio/static/gstudio/js/rabidratings.js
 gstudio/static/gstudio/js/markitup/jquery.markitup.js
 gstudio/static/gstudio/js/markitup/sets/html/set.js
 gstudio/static/gstudio/js/markitup/sets/html/style.css
@@ -319,6 +324,11 @@ gstudio/static/gstudio/js/wymeditor/skins/silver/images/icons.silver.gif
 gstudio/static/gstudio/js/wymeditor/skins/twopanels/icons.png
 gstudio/static/gstudio/js/wymeditor/skins/twopanels/skin.css
 gstudio/static/gstudio/js/wymeditor/skins/twopanels/skin.js
+gstudio/static/img/ajax-loading.gif
+gstudio/static/img/rabidhearts.png
+gstudio/static/img/rabidpreview.png
+gstudio/static/js/mootools-1.2.js
+gstudio/static/js/rabidratings.js
 gstudio/templates/404.html
 gstudio/templates/500.html
 gstudio/templates/admin/gstudio/app_index.html
@@ -399,9 +409,13 @@ gstudio/templates/gstudio/tags/recent_objecttypes.html
 gstudio/templates/gstudio/tags/similar_objecttypes.html
 gstudio/templates/gstudio/tags/slider_objecttypes.html
 gstudio/templates/gstudio/tags/tag_cloud.html
+gstudio/templates/rabidratings/rating.html
+gstudio/templates/rabidratings/rating_header.html
+gstudio/templates/rabidratings/test.html
 gstudio/templatetags/__init__.py
 gstudio/templatetags/gstudio_admin_tags.py
 gstudio/templatetags/gstudio_tags.py
+gstudio/templatetags/rabidratings_extras.py
 gstudio/templatetags/zbreadcrumbs.py
 gstudio/templatetags/zcalendar.py
 gstudio/tests/__init__.py

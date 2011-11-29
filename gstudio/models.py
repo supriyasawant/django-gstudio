@@ -285,7 +285,9 @@ class Metatype(Nodetype):
 
 
 class Objecttype(Nodetype):
-    """Model design publishing objecttypes"""
+    """
+    Model design for publishing objecttypes.  Other nodetypes inherit this class.
+    """
 
 
     plural = models.CharField(_('plural name'), help_text=_('plural form of the node name if any'), max_length=255, blank=True, null=True)
@@ -748,6 +750,18 @@ class Systemtype(Objecttype):
     """
 
 
+    objecttypeset = models.ManyToManyField(Objecttype, related_name="objecttypeset_systemtype", verbose_name='Possible edges in the system',    
+                                           blank=True, null=False) 
+    relationtypeset = models.ManyToManyField(Relationtype, related_name="relationtypeset_systemtype", verbose_name='Possible nodetypes in the system',    
+                                             blank=True, null=False) 
+    attributetypeset = models.ManyToManyField(Attributetype, related_name="attributetypeset_systemtype", verbose_name='systems to be nested in the system',
+                                              blank=True, null=False)
+    metatypeset = models.ManyToManyField(Metatype, related_name="metatypeset_systemtype", verbose_name='Possible edges in the system',    
+                                         blank=True, null=False) 
+    processtypeset = models.ManyToManyField(Processtype, related_name="processtypeset_systemtype", verbose_name='Possible edges in the system',    
+                                            blank=True, null=False) 
+
+
     def __unicode__(self):
         return self.title
 
@@ -781,10 +795,6 @@ class Processtype(Objecttype):
         verbose_name_plural = _('process types')
         permissions = (('can_view_all', 'Can view all'),
                        ('can_change_author', 'Can change author'), )
-
-
-
-
 
 
 reversion.register(NID)
