@@ -38,4 +38,5 @@ setup(name='django-gstudio',
                         'pyparsing>=1.5.5',
                         'django-reversion>=1.5.1',
                         'django-grappelli>=2.3.4',
+                        'django-ratings>=0.3.6',
                         ])

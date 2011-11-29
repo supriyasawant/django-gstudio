@@ -20,6 +20,7 @@ from django.contrib.markup.templatetags.markup import textile
 from django.contrib.markup.templatetags.markup import restructuredtext
 
 import mptt
+from djangoratings.fields import RatingField
 from tagging.fields import TagField
 from gstudio.models import Objecttype
 from gstudio.models import Node

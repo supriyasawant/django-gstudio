@@ -18,6 +18,7 @@ from django.contrib.markup.templatetags.markup import textile
 from django.contrib.markup.templatetags.markup import restructuredtext
 
 import mptt
+from djangoratings.fields import RatingField
 from tagging.fields import TagField
 from gstudio.settings import UPLOAD_TO
 from gstudio.settings import MARKUP_LANGUAGE
@@ -150,6 +151,7 @@ class Node(NID):
 
     altnames = TagField(_('alternate names'), help_text=_('alternate names if any'), blank=True, null=True)
     plural = models.CharField(_('plural name'), help_text=_('plural form of the node name if any'), max_length=255, blank=True, null=True)
+    rating = RatingField(range=5, can_change_vote = True, help_text=_('your rating'), blank=True, null=True)
 
     def __unicode__(self):
         return self.title
