@@ -14,7 +14,7 @@ img_path = 'gstudio_schema.png'
 
 try:
     # generate dot file
-    os.system('python manage.py modelviz objectapp gstudio  >' + dot_path )
+    os.system('python manage.py modelviz objectapp gstudio auth reversion mptt >' + dot_path )
     
     # find and Replace "Node" in the file
     #dotfile = open(dot_path,'rw')
@@ -34,8 +34,12 @@ try:
         print line.replace("Node ->", "gbNode ->"),
     '''
 
+    #reduce graph
+
+    os.system("tred " + dot_path + "> reduced_" + dot_path )
+
     # generate png
-    os.system('dot '+dot_path+' -Tpng -o '+img_path)
+    os.system('dot reduced_'+dot_path+' -Tpng -o '+img_path)
 
 
 except(Error):
