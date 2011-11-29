@@ -28,8 +28,8 @@ class ObjecttypeAdmin(reversion.VersionAdmin):
     """Admin for Objecttype model"""
     form = ObjecttypeAdminForm
     date_hierarchy = 'creation_date'
-    fieldsets = ((_('Content'), {'fields': ('title', 'content', 'parent',
-                                            'image', 'status')}),
+    fieldsets = ((_('Neighbourhood'), {'fields': ('title','plural','parent','slug',
+                                            'metatypes','tags','image', 'status','content')}),
                  (_('Dependency'), {'fields': ('priornode', 'posteriornode',), 
                                  'classes': ('collapse', 'collapse-closed')}),
                  (_('Options'), {'fields': ('featured', 'excerpt', 'template',
@@ -41,9 +41,9 @@ class ObjecttypeAdmin(reversion.VersionAdmin):
                  (_('Privacy'), {'fields': ('password', 'login_required',),
                                  'classes': ('collapse', 'collapse-closed')}),
                  (_('Discussion'), {'fields': ('comment_enabled',
-                                               'pingback_enabled')}),
-                 (_('Publication'), {'fields': ('metatypes', 'tags',
-                                                'sites', 'slug')}))
+                                               'pingback_enabled','sites'),'classes': ('collapse', 'collapse-closed')}),
+
+                 )
     list_filter = ('parent','metatypes', 'authors', 'status', 'featured',
                    'login_required', 'comment_enabled', 'pingback_enabled',
                    'creation_date', 'start_publication',

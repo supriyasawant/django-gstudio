@@ -26,6 +26,29 @@ from gstudio.admin.widgets import MPTTFilteredSelectMultiple
 from gstudio.admin.widgets import MPTTModelMultipleChoiceField
 
 class RelationtypeAdminForm(forms.ModelForm):
+    
+    priornode = MPTTModelMultipleChoiceField(
+        label=_('Priornodes'), required=False,
+        queryset=Node.objects.all(),
+        widget=MPTTFilteredSelectMultiple(_('priornodes'), False,
+                                          attrs={'rows': '10'}))
+    posteriornode = MPTTModelMultipleChoiceField(
+        label=_('Prosterior Nodes'), required=False,
+        queryset=Node.objects.all(),
+        widget=MPTTFilteredSelectMultiple(_('prosteriornode'), False,
+                                          attrs={'rows': '10'}))
+
+    def __init__(self, *args, **kwargs):
+        super(RelationtypeAdminForm, self).__init__(*args, **kwargs)
+        pn = ManyToManyRel(Node, 'id')
+       
+
+        self.fields['priornode'].widget = RelatedFieldWidgetWrapper(
+            self.fields['priornode'].widget, pn, self.admin_site)
+        self.fields['posteriornode'].widget = RelatedFieldWidgetWrapper(
+            self.fields['posteriornode'].widget, pn, self.admin_site)
+
+
 
     class Meta:
         """MetatypeAdminForm's Meta"""
