@@ -1,424 +1,556 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 # Translators:
 # Julien Fache <fantomas42@gmail.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: django-gstudio\n"
-"Report-Msgid-Bugs-To: https://github.com/gnowgi/django-gstudio/issues\n"
-"POT-Creation-Date: 2011-04-12 13:21-0500\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-11-29 19:24+0530\n"
 "PO-Revision-Date: 2011-04-12 18:21+0000\n"
 "Last-Translator: Fantomas42 <fantomas42@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: zh_CN\n"
 "Plural-Forms: nplurals=1; plural=0\n"
 
-#: feeds.py:102 plugins/cms_plugins.py:23
+#: feeds.py:103 plugins/cms_plugins.py:23
 #: templates/gstudio/objecttype_archive.html:4
-#: templates/gstudio/objecttype_archive.html:25 templates/gstudio/objecttype_list.html:19
-#: tests/feeds.py:115
+#: templates/gstudio/objecttype_archive.html:25
+#: templates/gstudio/objecttype_list.html:19 tests/feeds.py:124
 msgid "Latest objecttypes"
 msgstr "最新日志"
 
-#: feeds.py:106 tests/feeds.py:117
+#: feeds.py:107 tests/feeds.py:127
 #, python-format
 msgid "The latest objecttypes for the site %s"
 msgstr ""
 
-#: feeds.py:126 tests/feeds.py:126
+#: feeds.py:127 tests/feeds.py:137
 #, python-format
 msgid "Objecttypes for the metatype %s"
 msgstr "类别 %s 的日志"
 
-#: feeds.py:130 tests/feeds.py:128
+#: feeds.py:131 tests/feeds.py:140
 #, python-format
 msgid "The latest objecttypes for the metatype %s"
 msgstr ""
 
-#: feeds.py:150 tests/feeds.py:137
+#: feeds.py:151 tests/feeds.py:149
 #, python-format
 msgid "Objecttypes for author %s"
 msgstr "作者 %s 的日志"
 
-#: feeds.py:154 tests/feeds.py:139
+#: feeds.py:155 tests/feeds.py:151
 #, python-format
 msgid "The latest objecttypes by %s"
 msgstr ""
 
-#: feeds.py:175 tests/feeds.py:149
+#: feeds.py:176 tests/feeds.py:161
 #, python-format
 msgid "Objecttypes for the tag %s"
 msgstr "标签含 %s 的日志"
 
-#: feeds.py:179 tests/feeds.py:151
+#: feeds.py:180 tests/feeds.py:163
 #, python-format
 msgid "The latest objecttypes for the tag %s"
 msgstr ""
 
-#: feeds.py:199 tests/feeds.py:160
+#: feeds.py:203 tests/feeds.py:177
 #, python-format
 msgid "Results of the search for '%s'"
 msgstr ""
 
-#: feeds.py:203 tests/feeds.py:162
+#: feeds.py:207 tests/feeds.py:180
 #, python-format
 msgid "The objecttypes containing the pattern '%s'"
 msgstr ""
 
-#: feeds.py:245 tests/feeds.py:178
+#: feeds.py:252 tests/feeds.py:199
 #, python-format
 msgid "Discussions on %s"
 msgstr ""
 
-#: feeds.py:249 tests/feeds.py:180
+#: feeds.py:256 tests/feeds.py:202
 #, python-format
 msgid "The latest discussions for the objecttype %s"
 msgstr ""
 
-#: feeds.py:267 tests/feeds.py:190
+#: feeds.py:274 tests/feeds.py:212
 #, python-format
 msgid "Comments on %s"
 msgstr "对于 %s 的评论"
 
-#: feeds.py:271 tests/feeds.py:192
+#: feeds.py:278 tests/feeds.py:215
 #, python-format
 msgid "The latest comments for the objecttype %s"
 msgstr ""
 
-#: feeds.py:301 tests/feeds.py:206
+#: feeds.py:308 tests/feeds.py:231
 #, python-format
 msgid "Pingbacks on %s"
 msgstr ""
 
-#: feeds.py:305 tests/feeds.py:208
+#: feeds.py:312 tests/feeds.py:234
 #, python-format
 msgid "The latest pingbacks for the objecttype %s"
 msgstr ""
 
-#: feeds.py:323 tests/feeds.py:218
+#: feeds.py:330 tests/feeds.py:244
 #, python-format
 msgid "Trackbacks on %s"
 msgstr ""
 
-#: feeds.py:327 tests/feeds.py:220
+#: feeds.py:334 tests/feeds.py:247
 #, python-format
 msgid "The latest trackbacks for the objecttype %s"
 msgstr ""
 
-#: models.py:64 models.py:105 admin/objecttype.py:73
-msgid "title"
-msgstr "标题"
-
-#: models.py:65 models.py:119
-msgid "used for publication"
-msgstr "用于发布"
-
-#: models.py:67
-msgid "description"
-msgstr "描述"
-
-#: models.py:70 admin/forms.py:18
-msgid "parent metatype"
-msgstr ""
-
-#: models.py:95
-msgid "metatype"
-msgstr "类别"
-
-#: models.py:96 models.py:114 admin/forms.py:47 plugins/models.py:24
-msgid "metatypes"
-msgstr "类别"
-
-#: models.py:101
+#: models.py:90 models.py:294
 msgid "draft"
 msgstr "草稿"
 
-#: models.py:102
+#: models.py:91 models.py:295
 msgid "hidden"
 msgstr "隐藏"
 
-#: models.py:103
+#: models.py:92 models.py:296
 msgid "published"
 msgstr "发布"
 
-#: models.py:107
-msgid "image"
-msgstr "图片"
+#: models.py:120 admin/objecttype.py:80
+msgid "title"
+msgstr "标题"
 
-#: models.py:108
-msgid "used for illustration"
-msgstr "用于插图"
-
-#: models.py:109
-msgid "content"
-msgstr "内容"
-
-#: models.py:110
-msgid "excerpt"
-msgstr "摘要"
-
-#: models.py:111
-msgid "optional element"
-msgstr "可选项"
-
-#: models.py:113 plugins/models.py:30
-msgid "tags"
-msgstr "标签"
-
-#: models.py:116
-msgid "related objecttypes"
-msgstr "相关日志"
-
-#: models.py:123 plugins/models.py:28
-msgid "authors"
-msgstr "作者"
-
-#: models.py:126
-msgid "featured"
-msgstr ""
-
-#: models.py:127 admin/objecttype.py:124
-msgid "comment enabled"
-msgstr "允许评论"
-
-#: models.py:128
-msgid "linkback enabled"
-msgstr ""
-
-#: models.py:130
-msgid "creation date"
-msgstr "创建日期"
-
-#: models.py:131
-msgid "last update"
-msgstr "最后更新"
-
-#: models.py:132
-msgid "start publication"
-msgstr "开始发布"
-
-#: models.py:133
-msgid "date start publish"
-msgstr "开始发布日期"
-
-#: models.py:135
-msgid "end publication"
-msgstr "结束发布"
-
-#: models.py:136
-msgid "date end publish"
-msgstr "结束发布日期"
-
-#: models.py:139
-msgid "sites publication"
-msgstr "发布网站"
-
-#: models.py:141
-msgid "login required"
-msgstr ""
-
-#: models.py:142
-msgid "only authenticated users can view the objecttype"
-msgstr ""
-
-#: models.py:143
-msgid "password"
-msgstr ""
-
-#: models.py:144
-msgid "protect the objecttype with a password"
-msgstr ""
-
-#: models.py:146 plugins/models.py:34 plugins/models.py:58
-#: plugins/models.py:80
-msgid "template"
-msgstr ""
-
-#: models.py:149
-msgid "Default template"
+#: models.py:120
+msgid "give a name to the node"
 msgstr ""
 
 #: models.py:151
+msgid "alternate names"
+msgstr ""
+
+#: models.py:151
+msgid "alternate names if any"
+msgstr ""
+
+#: models.py:152 models.py:293
+msgid "plural name"
+msgstr ""
+
+#: models.py:152 models.py:293
+msgid "plural form of the node name if any"
+msgstr ""
+
+#: models.py:196 models.py:322
+msgid "used for publication"
+msgstr "用于发布"
+
+#: models.py:197
+msgid "description"
+msgstr "描述"
+
+#: models.py:198 admin/forms.py:67
+msgid "parent metatype"
+msgstr ""
+
+#: models.py:283
+msgid "metatype"
+msgstr "类别"
+
+#: models.py:284 admin/forms.py:101 plugins/models.py:25
+msgid "metatypes"
+msgstr "类别"
+
+#: models.py:298
+msgid "content"
+msgstr "内容"
+
+#: models.py:300
+msgid "is a kind of"
+msgstr ""
+
+#: models.py:303
+msgid "its meaning depends"
+msgstr ""
+
+#: models.py:306
+msgid "required for the meaning of"
+msgstr ""
+
+#: models.py:309
+msgid "image"
+msgstr "图片"
+
+#: models.py:310
+msgid "used for illustration"
+msgstr "用于插图"
+
+#: models.py:312
+msgid "excerpt"
+msgstr "摘要"
+
+#: models.py:313
+msgid "optional element"
+msgstr "可选项"
+
+#: models.py:315 plugins/models.py:32
+msgid "tags"
+msgstr "标签"
+
+#: models.py:316
+#, fuzzy
+msgid "member of metatypes"
+msgstr "日志数量"
+
+#: models.py:319
+msgid "related objecttypes"
+msgstr "相关日志"
+
+#: models.py:326 plugins/models.py:30
+msgid "authors"
+msgstr "作者"
+
+#: models.py:331
+msgid "featured"
+msgstr ""
+
+#: models.py:332 admin/objecttype.py:132
+msgid "comment enabled"
+msgstr "允许评论"
+
+#: models.py:333
+msgid "linkback enabled"
+msgstr ""
+
+#: models.py:335
+msgid "creation date"
+msgstr "创建日期"
+
+#: models.py:337
+msgid "last update"
+msgstr "最后更新"
+
+#: models.py:338
+msgid "start publication"
+msgstr "开始发布"
+
+#: models.py:339
+msgid "date start publish"
+msgstr "开始发布日期"
+
+#: models.py:341
+msgid "end publication"
+msgstr "结束发布"
+
+#: models.py:342
+msgid "date end publish"
+msgstr "结束发布日期"
+
+#: models.py:345
+msgid "sites publication"
+msgstr "发布网站"
+
+#: models.py:349
+msgid "login required"
+msgstr ""
+
+#: models.py:350
+msgid "only authenticated users can view the objecttype"
+msgstr ""
+
+#: models.py:352
+msgid "password"
+msgstr ""
+
+#: models.py:353
+msgid "protect the objecttype with a password"
+msgstr ""
+
+#: models.py:356 plugins/models.py:37 plugins/models.py:63
+#: plugins/models.py:87
+msgid "template"
+msgstr ""
+
+#: models.py:358
+msgid "Default template"
+msgstr ""
+
+#: models.py:360
 msgid "template used to display the objecttype"
 msgstr ""
 
-#: models.py:285
-msgid "objecttype"
+#: models.py:568
+#, fuzzy
+msgid "object type"
 msgstr "日志"
 
-#: models.py:286 plugins/cms_plugins.py:21 plugins/cms_plugins.py:92
-#: plugins/cms_plugins.py:114 plugins/models.py:57
-#: templates/gstudio/base.html:40
-msgid "objecttypes"
+#: models.py:569
+#, fuzzy
+msgid "object types"
 msgstr "日志"
 
-#: moderator.py:45 moderator.py:72
+#: models.py:579
+msgid "inverse name"
+msgstr ""
+
+#: models.py:579
+msgid ""
+"when subjecttypes are interchanged, what should be the name of the relation "
+"type? This is mandatory field. If the relation is symmetric, same name will "
+"do."
+msgstr ""
+
+#: models.py:608
+#, fuzzy
+msgid "relation type"
+msgstr "创建日期"
+
+#: models.py:609
+#, fuzzy
+msgid "relation types"
+msgstr "创建日期"
+
+#: models.py:663
+msgid "attribute type"
+msgstr ""
+
+#: models.py:664
+#, fuzzy
+msgid "attribute types"
+msgstr "最新日志"
+
+#: models.py:686
+#, fuzzy
+msgid "relation"
+msgstr "创建日期"
+
+#: models.py:687
+#, fuzzy
+msgid "relations"
+msgstr "创建日期"
+
+#: models.py:723
+msgid "attribute"
+msgstr ""
+
+#: models.py:724
+msgid "attributes"
+msgstr ""
+
+#: models.py:755
+msgid "attribute set involved in the process"
+msgstr ""
+
+#: models.py:758
+msgid "relation set involved in the process"
+msgstr ""
+
+#: models.py:766
+msgid "process type"
+msgstr ""
+
+#: models.py:767
+msgid "process types"
+msgstr ""
+
+#: models.py:797
+msgid "system type"
+msgstr ""
+
+#: models.py:798
+msgid "system types"
+msgstr ""
+
+#: moderator.py:58 moderator.py:81 moderator.py:106
 #, python-format
 msgid "[%(site)s] New comment posted on \"%(title)s\""
+msgstr ""
+
+#: admin/forms.py:68
+msgid "No parent metatype"
+msgstr ""
+
+#: admin/forms.py:82
+msgid "A metatype cannot be a parent of itself."
+msgstr ""
+
+#: admin/forms.py:94
+#, fuzzy
+msgid "parent objecttype"
+msgstr "下一篇"
+
+#: admin/forms.py:95
+#, fuzzy
+msgid "No parent objecttype"
+msgstr "下一篇"
+
+#: admin/forms.py:99 plugins/menu.py:70 templates/gstudio/base.html:35
+#: templates/gstudio/metatype_list.html:6 templates/gstudio/sitemap.html:50
+#: templatetags/zbreadcrumbs.py:50
+msgid "Metatypes"
+msgstr "类别"
+
+#: admin/forms.py:116
+msgid "An objectype cannot be parent of itself."
 msgstr ""
 
 #: admin/metatype.py:30
 msgid "tree path"
 msgstr ""
 
-#: admin/objecttype.py:27 plugins/admin.py:17
+#: admin/objecttype.py:31 plugins/admin.py:17
 #: templates/admin/gstudio/widgets/quickpost.html:17
 msgid "Content"
 msgstr "内容"
 
-#: admin/objecttype.py:29 plugins/admin.py:19
+#: admin/objecttype.py:33
+msgid "Dependency"
+msgstr ""
+
+#: admin/objecttype.py:35 plugins/admin.py:20
 msgid "Options"
 msgstr "选项"
 
-#: admin/objecttype.py:34 plugins/admin.py:24
+#: admin/objecttype.py:41 plugins/admin.py:26
 msgid "Privacy"
 msgstr ""
 
-#: admin/objecttype.py:36 plugins/admin.py:26
+#: admin/objecttype.py:43 plugins/admin.py:28
 msgid "Discussion"
 msgstr ""
 
-#: admin/objecttype.py:38 plugins/admin.py:28
+#: admin/objecttype.py:45 plugins/admin.py:30
 msgid "Publication"
 msgstr ""
 
-#: admin/objecttype.py:66
+#: admin/objecttype.py:73
 #, python-format
 msgid "%(title)s (%(word_count)i words)"
 msgstr "%(title)s (%(word_count)i 个字符)"
 
-#: admin/objecttype.py:70
+#: admin/objecttype.py:77
 #, python-format
 msgid "%(title)s (%(comments)i comments)"
 msgstr "%(title)s (%(comments)i 条评论)"
 
-#: admin/objecttype.py:86
+#: admin/objecttype.py:93
 msgid "author(s)"
 msgstr "作者"
 
-#: admin/objecttype.py:99
+#: admin/objecttype.py:106
 msgid "metatype(s)"
 msgstr "类别"
 
-#: admin/objecttype.py:111
+#: admin/objecttype.py:118
 msgid "tag(s)"
 msgstr "标签"
 
-#: admin/objecttype.py:118
+#: admin/objecttype.py:126
 msgid "site(s)"
 msgstr "网站"
 
-#: admin/objecttype.py:130
+#: admin/objecttype.py:138
 msgid "is actual"
 msgstr "发布期间"
 
-#: admin/objecttype.py:136
+#: admin/objecttype.py:144
 msgid "is visible"
 msgstr "是否可见"
 
-#: admin/objecttype.py:141
+#: admin/objecttype.py:149
 msgid "View"
 msgstr ""
 
-#: admin/objecttype.py:143
+#: admin/objecttype.py:151
 msgid "View on site"
 msgstr "浏览站点"
 
-#: admin/objecttype.py:149 templates/gstudio/_objecttype_detail.html:64
+#: admin/objecttype.py:157
 msgid "Unavailable"
 msgstr "不存在"
 
-#: admin/objecttype.py:153
+#: admin/objecttype.py:161
 msgid "short url"
 msgstr "缩略URL"
 
-#: admin/objecttype.py:207
+#: admin/objecttype.py:216
 msgid "The selected objecttypes now belong to you."
 msgstr ""
 
-#: admin/objecttype.py:208
+#: admin/objecttype.py:217
 msgid "Set the objecttypes to the user"
 msgstr "设置自己为所选日志的作者"
 
-#: admin/objecttype.py:214
+#: admin/objecttype.py:224
 msgid "The selected objecttypes are now marked as published."
 msgstr ""
 
-#: admin/objecttype.py:215
+#: admin/objecttype.py:225
 msgid "Set objecttypes selected as published"
 msgstr "发布所选日志"
 
-#: admin/objecttype.py:220
+#: admin/objecttype.py:231
 msgid "The selected objecttypes are now marked as hidden."
 msgstr ""
 
-#: admin/objecttype.py:221
+#: admin/objecttype.py:232
 msgid "Set objecttypes selected as hidden"
 msgstr "隐藏所选日志"
 
-#: admin/objecttype.py:234
+#: admin/objecttype.py:247
 msgid "The selected objecttypes have been tweeted."
 msgstr ""
 
-#: admin/objecttype.py:235
+#: admin/objecttype.py:248
 msgid "Tweet objecttypes selected"
 msgstr "推特所选日志"
 
-#: admin/objecttype.py:240
+#: admin/objecttype.py:254
 msgid "Comments are now closed for selected objecttypes."
 msgstr ""
 
-#: admin/objecttype.py:241
+#: admin/objecttype.py:255
 msgid "Close the comments for selected objecttypes"
 msgstr "关闭所选日志的评论功能"
 
-#: admin/objecttype.py:247
+#: admin/objecttype.py:262
 msgid "Linkbacks are now closed for selected objecttypes."
 msgstr ""
 
-#: admin/objecttype.py:248
+#: admin/objecttype.py:264
 msgid "Close the linkbacks for selected objecttypes"
 msgstr ""
 
-#: admin/objecttype.py:254
+#: admin/objecttype.py:271
 msgid "The selected objecttypes are now set at the current date."
 msgstr ""
 
-#: admin/objecttype.py:255
+#: admin/objecttype.py:273
 msgid "Put the selected objecttypes on top at the current date"
 msgstr ""
 
-#: admin/objecttype.py:272
+#: admin/objecttype.py:292
 #, python-format
 msgid "%(directory)s directory succesfully pinged %(success)d objecttypes."
 msgstr ""
 
-#: admin/objecttype.py:275
+#: admin/objecttype.py:296
 msgid "Ping Directories for selected objecttypes"
 msgstr "提交所选日志到搜索引擎"
-
-#: admin/forms.py:20
-msgid "No parent metatype"
-msgstr ""
-
-#: admin/forms.py:35
-msgid "A metatype cannot be parent of itself."
-msgstr ""
-
-#: admin/forms.py:46 plugins/menu.py:70 templates/gstudio/base.html:22
-#: templates/gstudio/metatype_list.html:6 templates/gstudio/sitemap.html:50
-#: templatetags/zbreadcrumbs.py:49
-msgid "Metatypes"
-msgstr "类别"
 
 #: plugins/cms_app.py:12
 msgid "Gstudio App Hook"
 msgstr ""
+
+#: plugins/cms_plugins.py:21 plugins/cms_plugins.py:92
+#: plugins/cms_plugins.py:114 plugins/models.py:61
+msgid "objecttypes"
+msgstr "日志"
 
 #: plugins/cms_plugins.py:33
 msgid "Sorting"
@@ -432,8 +564,9 @@ msgstr ""
 msgid "Selected objecttypes"
 msgstr "所选日志"
 
-#: plugins/cms_plugins.py:116 templates/gstudio/base.html:59
-msgid "Random objecttypes"
+#: plugins/cms_plugins.py:116 templates/gstudio/base.html:64
+#, fuzzy
+msgid "Random object types"
 msgstr "随机日志"
 
 #: plugins/menu.py:19
@@ -449,7 +582,7 @@ msgid "Gstudio Author Menu"
 msgstr ""
 
 #: plugins/menu.py:87 templates/gstudio/author_list.html:6
-#: templates/gstudio/base.html:26 templatetags/zbreadcrumbs.py:46
+#: templates/gstudio/base.html:40 templatetags/zbreadcrumbs.py:46
 msgid "Authors"
 msgstr "作者"
 
@@ -458,7 +591,7 @@ msgid "Gstudio Tag Menu"
 msgstr ""
 
 #: plugins/menu.py:105 templates/admin/gstudio/widgets/quickpost.html:25
-#: templates/gstudio/_objecttype_detail.html:47 templates/gstudio/base.html:34
+#: templates/gstudio/_objecttype_detail.html:53 templates/gstudio/base.html:48
 #: templates/gstudio/tag_list.html:6 templatetags/zbreadcrumbs.py:43
 msgid "Tags"
 msgstr "标签"
@@ -471,19 +604,19 @@ msgstr ""
 msgid "Objecttype detailed"
 msgstr ""
 
-#: plugins/models.py:27
+#: plugins/models.py:28
 msgid "include submetatypes"
 msgstr ""
 
-#: plugins/models.py:33 plugins/models.py:79
+#: plugins/models.py:35 plugins/models.py:85
 msgid "number of objecttypes"
 msgstr "日志数量"
 
-#: plugins/models.py:36 plugins/models.py:60 plugins/models.py:82
+#: plugins/models.py:39 plugins/models.py:65 plugins/models.py:89
 msgid "Template used to display the plugin"
 msgstr ""
 
-#: plugins/models.py:51 plugins/models.py:73 plugins/models.py:85
+#: plugins/models.py:54 plugins/models.py:78 plugins/models.py:92
 #, python-format
 msgid "%s objecttypes"
 msgstr "%s 日志"
@@ -500,46 +633,47 @@ msgstr ""
 msgid "Sorry, but the requested page could not be found."
 msgstr ""
 
-#: templates/404.html:15 templates/500.html:20
+#: templates/404.html:15 templates/500.html:15
 msgid "Useful links"
 msgstr ""
 
-#: templates/404.html:19 templates/404.html.py:20 templates/500.html:24
-#: templates/500.html.py:25
+#: templates/404.html:19 templates/404.html.py:20 templates/500.html:19
+#: templates/500.html.py:20
 msgid "Blog index"
 msgstr ""
 
-#: templates/404.html:24 templates/404.html.py:25 templates/500.html:29
-#: templates/500.html.py:30 templates/gstudio/sitemap.html:4
-#: templates/gstudio/sitemap.html.py:7 templates/gstudio/skeleton.html:36
-#: templates/gstudio/skeleton.html.py:37
+#: templates/404.html:24 templates/404.html.py:25 templates/500.html:24
+#: templates/500.html.py:25 templates/gstudio/sitemap.html:4
+#: templates/gstudio/sitemap.html.py:7 templates/gstudio/skeleton.html:32
+#: templates/gstudio/skeleton.html.py:33
 msgid "Sitemap"
 msgstr ""
 
-#: templates/404.html:31 templates/500.html:36 templates/gstudio/base.html:47
-msgid "Recent objecttypes"
+#: templates/404.html:31 templates/500.html:31 templates/gstudio/base.html:52
+#, fuzzy
+msgid "Recent object types"
 msgstr "最近日志"
 
-#: templates/404.html:36 templates/500.html:41 templates/gstudio/base.html:10
+#: templates/404.html:36 templates/500.html:36 templates/gstudio/base.html:23
 msgid "Search"
 msgstr "搜索"
 
-#: templates/404.html:40 templates/500.html:45 templates/gstudio/base.html:13
+#: templates/404.html:40 templates/500.html:40 templates/gstudio/base.html:26
 msgid "Keywords..."
 msgstr "关键词..."
 
-#: templates/500.html:10
+#: templates/500.html:5
 msgid "Error 500"
 msgstr ""
 
-#: templates/500.html:13 templates/500.html.py:16
+#: templates/500.html:8 templates/500.html.py:11
 msgid "Server error"
 msgstr ""
 
-#: templates/500.html:18
+#: templates/500.html:13
 msgid ""
-"There's been an error. It's been reported to the site administrators via "
-"e-mail and should be fixed shortly. Thanks for your patience."
+"There's been an error. It's been reported to the site administrators via e-"
+"mail and should be fixed shortly. Thanks for your patience."
 msgstr ""
 
 #: templates/admin/gstudio/widgets/_content_stats.html:4
@@ -547,7 +681,7 @@ msgid "Contents"
 msgstr ""
 
 #: templates/admin/gstudio/widgets/_content_stats.html:5
-#: templates/gstudio/_objecttype_detail.html:69
+#: templates/gstudio/_objecttype_detail.html:71
 msgid "Discussions"
 msgstr ""
 
@@ -592,8 +726,7 @@ msgid "%(rejects)s rejected"
 msgstr ""
 
 #: templates/admin/gstudio/widgets/_draft_objecttypes.html:7
-#: templates/gstudio/objecttype_detail.html:186
-#: templates/gstudio/objecttype_detail.html:187
+#: templates/gstudio/objecttype_detail.html:211
 msgid "Edit the objecttype"
 msgstr ""
 
@@ -603,10 +736,11 @@ msgstr ""
 #: templates/feeds/discussion_title.html:2
 #: templates/feeds/pingback_title.html:2
 #: templates/feeds/trackback_title.html:2
-#: templates/gstudio/_objecttype_detail.html:18
-#: templates/gstudio/objecttype_detail.html:91
-#: templates/gstudio/objecttype_detail.html:126
-#: templates/gstudio/objecttype_detail.html:157
+#: templates/gstudio/_objecttype_detail.html:22
+#: templates/gstudio/objecttype_detail.html:108
+#: templates/gstudio/objecttype_detail.html:142
+#: templates/gstudio/objecttype_detail.html:175
+#: templates/gstudio/tags/recent_comments.html:7
 msgid "on"
 msgstr "在"
 
@@ -625,8 +759,6 @@ msgid "View all draft objecttypes"
 msgstr ""
 
 #: templates/admin/gstudio/widgets/_recent_comments.html:11
-#: templates/gstudio/_objecttype_detail.html:24
-#: templates/gstudio/tags/recent_comments.html:7
 #: templates/gstudio/tags/recent_linkbacks.html:8
 msgid "in"
 msgstr "在"
@@ -646,8 +778,8 @@ msgid "Edit"
 msgstr ""
 
 #: templates/admin/gstudio/widgets/_recent_comments.html:31
-#: templates/gstudio/_objecttype_detail.html:77
-#: templates/gstudio/objecttype_detail.html:107
+#: templates/gstudio/_objecttype_detail.html:79
+#: templates/gstudio/objecttype_detail.html:122
 #: templates/gstudio/tags/recent_comments.html:16
 msgid "No comments yet."
 msgstr ""
@@ -703,50 +835,14 @@ msgstr ""
 
 #: templates/admin/gstudio/widgets/recent_comments.html:6
 #: templates/admin/gstudio/widgets/recent_comments.html:7
-#: templates/gstudio/base.html:51
+#: templates/gstudio/base.html:56
 msgid "Recent comments"
 msgstr ""
 
 #: templates/admin/gstudio/widgets/recent_linkbacks.html:6
 #: templates/admin/gstudio/widgets/recent_linkbacks.html:7
-#: templates/gstudio/base.html:55
+#: templates/gstudio/base.html:60
 msgid "Recent linkbacks"
-msgstr ""
-
-#: templates/comments/comment_notification_email.txt:1
-#: templates/comments/comment_reply_email.txt:1
-#: templates/gstudio/objecttype_list.html:19
-msgid "Author"
-msgstr "作者"
-
-#: templates/comments/comment_notification_email.txt:2
-msgid "Email"
-msgstr ""
-
-#: templates/comments/comment_notification_email.txt:3
-msgid "IP"
-msgstr ""
-
-#: templates/comments/comment_notification_email.txt:5
-#: templates/comments/comment_reply_email.txt:3
-msgid "Comment"
-msgstr ""
-
-#: templates/comments/comment_notification_email.txt:8
-#: templates/comments/comment_reply_email.txt:6
-msgid "View this comment"
-msgstr ""
-
-#: templates/comments/comment_notification_email.txt:10
-msgid "Flag this comment"
-msgstr ""
-
-#: templates/comments/comment_notification_email.txt:12
-msgid "Delete this comment"
-msgstr ""
-
-#: templates/comments/comment_notification_email.txt:14
-msgid "Approve this comment"
 msgstr ""
 
 #: templates/comments/gstudio_objecttype_preview.html:4
@@ -780,50 +876,47 @@ msgstr "感谢你的评论"
 msgid "Return to objecttype list"
 msgstr "返回日志列表"
 
-#: templates/gstudio/_objecttype_detail.html:11
-msgid "Written by"
-msgstr "作者是"
-
 #: templates/gstudio/_objecttype_detail.html:15
+#: templates/gstudio/_objecttype_detail.html:24
+msgid "Contributed by"
+msgstr ""
+
+#: templates/gstudio/_objecttype_detail.html:19
 #, python-format
 msgid "Show %(author)s objecttypes"
 msgstr "显示 %(author)s 的日志"
 
-#: templates/gstudio/_objecttype_detail.html:20
-msgid "Written on"
-msgstr ""
-
-#: templates/gstudio/_objecttype_detail.html:53
+#: templates/gstudio/_objecttype_detail.html:59
 msgid "No tags"
 msgstr "没有标签"
 
-#: templates/gstudio/_objecttype_detail.html:58
+#: templates/gstudio/_objecttype_detail.html:64
 msgid "Short url"
 msgstr "缩略URL"
 
-#: templates/gstudio/_objecttype_detail.html:73
+#: templates/gstudio/_objecttype_detail.html:75
 #, python-format
 msgid "%(comment_count)s comment"
 msgid_plural "%(comment_count)s comments"
 msgstr[0] ""
 
-#: templates/gstudio/_objecttype_detail.html:79
-msgid "Be first to comment!"
+#: templates/gstudio/_objecttype_detail.html:81
+msgid "Discuss the relations or raise any issues!"
 msgstr ""
 
-#: templates/gstudio/_objecttype_detail.html:82
-#: templates/gstudio/objecttype_detail.html:103
-#: templates/gstudio/objecttype_detail.html:109
+#: templates/gstudio/_objecttype_detail.html:84
+#: templates/gstudio/objecttype_detail.html:118
+#: templates/gstudio/objecttype_detail.html:124
 msgid "Comments are closed."
 msgstr "评论已关闭"
 
-#: templates/gstudio/_objecttype_detail.html:89
+#: templates/gstudio/_objecttype_detail.html:91
 #, python-format
 msgid "%(pingback_count)s pingback"
 msgid_plural "%(pingback_count)s pingbacks"
 msgstr[0] ""
 
-#: templates/gstudio/_objecttype_detail.html:96
+#: templates/gstudio/_objecttype_detail.html:98
 #, python-format
 msgid "%(trackback_count)s trackback"
 msgid_plural "%(trackback_count)s trackbacks"
@@ -833,31 +926,43 @@ msgstr[0] ""
 msgid "Author list"
 msgstr "作者列表"
 
-#: templates/gstudio/author_list.html:18 templates/gstudio/metatype_list.html:14
-#: templates/gstudio/sitemap.html:55 templates/gstudio/tag_list.html:16
-#: templates/gstudio/tags/authors.html:8
+#: templates/gstudio/author_list.html:18
+#: templates/gstudio/metatype_list.html:14 templates/gstudio/sitemap.html:55
+#: templates/gstudio/tag_list.html:15 templates/gstudio/tags/authors.html:8
 #: templates/gstudio/tags/metatypes.html:6
+#: templates/gstudio/tags/tag_cloud.html:8
 #, python-format
 msgid "%(objecttype_count)s objecttype"
 msgid_plural "%(objecttype_count)s objecttypes"
 msgstr[0] ""
 
-#: templates/gstudio/base.html:15
-msgid ""
-"You can use - to exclude words or phrases, &quot;double quotes&quot; for "
-"exact phrases and the AND/OR boolean operators combined with parenthesis for"
-" complex searchs."
+#: templates/gstudio/author_list.html:22
+#: templates/gstudio/tags/authors.html:12
+msgid "No authors yet."
 msgstr ""
 
-#: templates/gstudio/base.html:30
+#: templates/gstudio/base.html:13 templates/gstudio/skeleton.html:35
+msgid "RSS Feed of latest objecttypes"
+msgstr ""
+
+#: templates/gstudio/base.html:28 templates/gstudio/objecttype_search.html:39
+msgid ""
+"You can use - to exclude words or phrases, &quot;double quotes&quot; for "
+"exact phrases and the AND/OR boolean operators combined with parenthesis for "
+"complex searchs."
+msgstr ""
+
+#: templates/gstudio/base.html:44
 msgid "Calendar"
 msgstr ""
 
-#: templates/gstudio/base.html:63
-msgid "Popular objecttypes"
+#: templates/gstudio/base.html:68
+#, fuzzy
+msgid "Popular object types"
 msgstr "热门日志"
 
-#: templates/gstudio/base.html:67 templates/gstudio/objecttype_archive_day.html:4
+#: templates/gstudio/base.html:72
+#: templates/gstudio/objecttype_archive_day.html:4
 #: templates/gstudio/objecttype_archive_day.html:6
 #: templates/gstudio/objecttype_archive_day.html:9
 #: templates/gstudio/objecttype_archive_month.html:4
@@ -874,25 +979,47 @@ msgstr "热门日志"
 msgid "Archives"
 msgstr "归档"
 
-#: templates/gstudio/base.html:72
+#: templates/gstudio/base.html:77
 msgid "Tools"
 msgstr ""
 
-#: templates/gstudio/base.html:76 templates/gstudio/base.html.py:77
+#: templates/gstudio/base.html:81 templates/gstudio/base.html.py:82
 msgid "Dashboard"
 msgstr ""
 
-#: templates/gstudio/base.html:83 templates/gstudio/base.html.py:84
+#: templates/gstudio/base.html:88 templates/gstudio/base.html.py:89
 msgid "Post an objecttype"
 msgstr ""
 
-#: templates/gstudio/base.html:91 templates/gstudio/base.html.py:92
+#: templates/gstudio/base.html:96 templates/gstudio/base.html.py:97
 msgid "Log out"
 msgstr ""
 
-#: templates/gstudio/metatype_list.html:4 templates/gstudio/metatype_list.html:9
+#: templates/gstudio/login.html:4 templates/gstudio/login.html.py:7
+msgid "Login required"
+msgstr ""
+
+#: templates/gstudio/login.html:12
+msgid "Your username and password didn't match. Please try again."
+msgstr ""
+
+#: templates/gstudio/login.html:16
+msgid "You need to be connected to view this objecttype."
+msgstr ""
+
+#: templates/gstudio/login.html:33
+msgid "Login"
+msgstr ""
+
+#: templates/gstudio/metatype_list.html:4
+#: templates/gstudio/metatype_list.html:9
 msgid "Metatype list"
 msgstr "类别列表"
+
+#: templates/gstudio/metatype_list.html:20 templates/gstudio/sitemap.html:60
+#: templates/gstudio/tags/metatypes.html:11
+msgid "No metatypes yet."
+msgstr ""
 
 #: templates/gstudio/objecttype_archive_month.html:13
 msgid "Daily archives"
@@ -903,61 +1030,70 @@ msgstr ""
 msgid "Monthly archives"
 msgstr ""
 
-#: templates/gstudio/objecttype_detail.html:10
+#: templates/gstudio/objecttype_detail.html:22
 msgid "RSS Feed of discussions on"
 msgstr ""
 
-#: templates/gstudio/objecttype_detail.html:11
+#: templates/gstudio/objecttype_detail.html:24
 msgid "RSS Feed of comments on"
 msgstr "RSS 源（基于评论）"
 
-#: templates/gstudio/objecttype_detail.html:12
+#: templates/gstudio/objecttype_detail.html:26
 msgid "RSS Feed of pingbacks on"
 msgstr ""
 
-#: templates/gstudio/objecttype_detail.html:13
+#: templates/gstudio/objecttype_detail.html:28
 msgid "RSS Feed of trackbacks on"
 msgstr ""
 
-#: templates/gstudio/objecttype_detail.html:29
-msgid "Next objecttype"
+#: templates/gstudio/objecttype_detail.html:46
+#, fuzzy
+msgid "Next object type"
 msgstr "下一篇"
 
-#: templates/gstudio/objecttype_detail.html:43
-msgid "Previous objecttype"
+#: templates/gstudio/objecttype_detail.html:60
+#, fuzzy
+msgid "Previous object type"
 msgstr "上一篇"
 
-#: templates/gstudio/objecttype_detail.html:56
-msgid "Related objecttypes"
+#: templates/gstudio/objecttype_detail.html:73
+#, fuzzy
+msgid "Related object types"
 msgstr "相关日志"
 
-#: templates/gstudio/objecttype_detail.html:67
-msgid "Similar objecttypes"
+#: templates/gstudio/objecttype_detail.html:84
+#, fuzzy
+msgid "Similar object types"
 msgstr "类似日志"
 
-#: templates/gstudio/objecttype_detail.html:75
+#: templates/gstudio/objecttype_detail.html:92
 msgid "Comments"
 msgstr "评论"
 
-#: templates/gstudio/objecttype_detail.html:117
+#: templates/gstudio/objecttype_detail.html:133
 msgid "Pingbacks"
 msgstr ""
 
-#: templates/gstudio/objecttype_detail.html:139
+#: templates/gstudio/objecttype_detail.html:155
 msgid "Pingbacks are open."
 msgstr ""
 
-#: templates/gstudio/objecttype_detail.html:141
+#: templates/gstudio/objecttype_detail.html:157
 msgid "Pingbacks are closed."
 msgstr ""
 
-#: templates/gstudio/objecttype_detail.html:148
+#: templates/gstudio/objecttype_detail.html:167
 msgid "Trackbacks"
 msgstr ""
 
-#: templates/gstudio/objecttype_detail.html:170
+#: templates/gstudio/objecttype_detail.html:190
 msgid "Trackback URL"
 msgstr ""
+
+#: templates/gstudio/objecttype_detail.html:212
+#, fuzzy
+msgid "Edit the object type"
+msgstr "下一篇"
 
 #: templates/gstudio/objecttype_list.html:4
 msgid "Latest objecttypes for"
@@ -975,12 +1111,15 @@ msgstr ""
 msgid "the author"
 msgstr ""
 
-#: templates/gstudio/objecttype_list.html:4 templates/gstudio/objecttype_search.html:6
+#: templates/gstudio/objecttype_list.html:4
+#: templates/gstudio/objecttype_search.html:6
 msgid "page"
 msgstr ""
 
-#: templates/gstudio/objecttype_list.html:9 templates/gstudio/objecttype_list.html:12
-#: templates/gstudio/objecttype_list.html:15 templates/gstudio/skeleton.html:40
+#: templates/gstudio/objecttype_list.html:9
+#: templates/gstudio/objecttype_list.html:12
+#: templates/gstudio/objecttype_list.html:15
+#: templates/gstudio/skeleton.html:36
 msgid "RSS Feed"
 msgstr "RSS 源"
 
@@ -988,60 +1127,46 @@ msgstr "RSS 源"
 msgid "Metatype"
 msgstr "类别"
 
-#: templates/gstudio/objecttype_list.html:19 templates/gstudio/objecttype_list.html:30
+#: templates/gstudio/objecttype_list.html:19
+#: templates/gstudio/objecttype_list.html:31
 msgid "Tag"
 msgstr "标签"
 
-#: templates/gstudio/objecttype_list.html:19 templates/gstudio/objecttype_search.html:4
+#: templates/gstudio/objecttype_list.html:19
+msgid "Author"
+msgstr "作者"
+
+#: templates/gstudio/objecttype_list.html:19
+#: templates/gstudio/objecttype_search.html:4
 msgid "Page"
 msgstr "页码"
 
-#: templates/gstudio/objecttype_list.html:34
+#: templates/gstudio/objecttype_list.html:35
 #, python-format
 msgid "Objecttypes by %(author)s"
 msgstr "作者 %(author)s 的日志"
 
-#: templates/gstudio/objecttype_list.html:45 templates/gstudio/sitemap.html:23
-#: templates/gstudio/sitemap.html.py:43
-#: templates/gstudio/cms/objecttype_detail.html:12
-#: templates/gstudio/cms/objecttype_list.html:9
-#: templates/gstudio/tags/featured_objecttypes.html:9
-#: templates/gstudio/tags/popular_objecttypes.html:13
-#: templates/gstudio/tags/random_objecttypes.html:9
-#: templates/gstudio/tags/recent_objecttypes.html:9
-msgid "No objecttypes yet."
+#: templates/gstudio/objecttype_list.html:43
+msgid "No nodes in the network yet. Login and construct a network!"
 msgstr ""
 
-#: templates/gstudio/objecttype_list.html:51 templates/gstudio/objecttype_search.html:40
-#, python-format
-msgid "Page %(current_page)s of %(total_page)s"
-msgstr ""
-
-#: templates/gstudio/objecttype_list.html:56 templates/gstudio/objecttype_search.html:45
-msgid "More recent objecttypes"
-msgstr "更多最近日志"
-
-#: templates/gstudio/objecttype_list.html:65 templates/gstudio/objecttype_search.html:54
-msgid "Objecttypes page"
-msgstr ""
-
-#: templates/gstudio/objecttype_list.html:72 templates/gstudio/objecttype_search.html:61
-msgid "More old objecttypes"
-msgstr "更多以前日志"
-
-#: templates/gstudio/objecttype_list.html:82 templates/gstudio/objecttype_list.html:83
+#: templates/gstudio/objecttype_list.html:54
+#: templates/gstudio/objecttype_list.html:55
 msgid "Edit the metatype"
 msgstr ""
 
-#: templates/gstudio/objecttype_list.html:89 templates/gstudio/objecttype_list.html:90
+#: templates/gstudio/objecttype_list.html:61
+#: templates/gstudio/objecttype_list.html:62
 msgid "Edit the tag"
 msgstr ""
 
-#: templates/gstudio/objecttype_list.html:96 templates/gstudio/objecttype_list.html:97
+#: templates/gstudio/objecttype_list.html:68
+#: templates/gstudio/objecttype_list.html:69
 msgid "Edit the author"
 msgstr ""
 
-#: templates/gstudio/objecttype_search.html:4 templates/gstudio/objecttype_search.html:6
+#: templates/gstudio/objecttype_search.html:4
+#: templates/gstudio/objecttype_search.html:6
 #: templates/gstudio/objecttype_search.html:14
 msgid "Search results for"
 msgstr ""
@@ -1056,25 +1181,9 @@ msgid "%(objecttype_count)s objecttype found"
 msgid_plural "%(objecttype_count)s objecttypes found"
 msgstr[0] ""
 
-#: templates/gstudio/objecttype_search.html:34
+#: templates/gstudio/objecttype_search.html:31
 msgid "Nothing found."
 msgstr "没有找到"
-
-#: templates/gstudio/login.html:4 templates/gstudio/login.html.py:7
-msgid "Login required"
-msgstr ""
-
-#: templates/gstudio/login.html:12
-msgid "Your username and password didn't match. Please try again."
-msgstr ""
-
-#: templates/gstudio/login.html:16
-msgid "You need to be connected to view this objecttype."
-msgstr ""
-
-#: templates/gstudio/login.html:33
-msgid "Login"
-msgstr ""
 
 #: templates/gstudio/password.html:4 templates/gstudio/password.html.py:7
 msgid "Password required"
@@ -1105,42 +1214,67 @@ msgstr ""
 msgid "comment"
 msgstr "评论"
 
+#: templates/gstudio/sitemap.html:23 templates/gstudio/sitemap.html.py:43
+#: templates/gstudio/cms/objecttype_list.html:9
+#: templates/gstudio/tags/featured_objecttypes.html:9
+#: templates/gstudio/tags/popular_objecttypes.html:13
+#: templates/gstudio/tags/random_objecttypes.html:9
+msgid "No objecttypes yet."
+msgstr ""
+
 #: templates/gstudio/sitemap.html:31
 msgid "All the objecttypes"
-msgstr ""
-
-#: templates/gstudio/sitemap.html:60 templates/gstudio/tags/metatypes.html:11
-msgid "No metatypes yet."
-msgstr ""
-
-#: templates/gstudio/skeleton.html:27 templates/gstudio/skeleton.html.py:39
-msgid "RSS Feed of latest objecttypes"
 msgstr ""
 
 #: templates/gstudio/tag_list.html:4 templates/gstudio/tag_list.html.py:9
 msgid "Tag list"
 msgstr "标签列表"
 
-#: templates/gstudio/wlwmanifest.xml:40
-msgid "View site"
-msgstr ""
+#: templates/gstudio/tag_list.html:19
+#, fuzzy
+msgid "No tags yet."
+msgstr "没有标签"
 
-#: templates/gstudio/wlwmanifest.xml:41
-msgid "Admin. site"
-msgstr ""
-
-#: templates/gstudio/wlwmanifest.xml:53
-msgid "Manage comments"
-msgstr ""
+#: templates/gstudio/cms/objecttype_detail.html:7
+#, fuzzy
+msgid "No object types yet."
+msgstr "日志"
 
 #: templates/gstudio/tags/archives_objecttypes.html:12
 #: templates/gstudio/tags/archives_objecttypes_tree.html:38
 msgid "No archives yet."
 msgstr ""
 
-#: templates/gstudio/tags/authors.html:12
-msgid "No authors yet."
+#: templates/gstudio/tags/objecttypes.html:6
+#, python-format
+msgid "%(gbobjects_count)s gbobject"
+msgid_plural "%(gbobjects_count)s gbobjects"
+msgstr[0] ""
+
+#: templates/gstudio/tags/objecttypes.html:11
+#: templates/gstudio/tags/recent_objecttypes.html:16
+msgid "No subtypes yet."
 msgstr ""
+
+#: templates/gstudio/tags/pagination.html:4
+#, python-format
+msgid "Page %(current_page)s of %(total_page)s"
+msgstr ""
+
+#: templates/gstudio/tags/pagination.html:10
+#, fuzzy
+msgid "More recent object types"
+msgstr "更多最近日志"
+
+#: templates/gstudio/tags/pagination.html:20
+#: templates/gstudio/tags/pagination.html:33
+#: templates/gstudio/tags/pagination.html:47
+msgid "Objecttypes page"
+msgstr ""
+
+#: templates/gstudio/tags/pagination.html:56
+msgid "More old objecttypes"
+msgstr "更多以前日志"
 
 #: templates/gstudio/tags/recent_linkbacks.html:10
 msgid "Linkback on"
@@ -1150,11 +1284,11 @@ msgstr ""
 msgid "No similar objecttypes."
 msgstr "没有类似日志"
 
-#: tests/views.py:165 views/search.py:18
+#: tests/views.py:222 views/search.py:18
 msgid "The pattern is too short"
 msgstr "模式长度不够"
 
-#: tests/views.py:168 views/search.py:22
+#: tests/views.py:226 views/search.py:22
 msgid "No pattern to search found"
 msgstr "没有搜索到相关模式"
 
@@ -1175,8 +1309,9 @@ msgstr ""
 msgid "User cannot %s."
 msgstr ""
 
-#: xmlrpc/pingback.py:93
+#: xmlrpc/pingback.py:96
 msgid "No title"
 msgstr ""
 
-
+#~ msgid "Written by"
+#~ msgstr "作者是"

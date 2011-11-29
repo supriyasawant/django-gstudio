@@ -743,6 +743,34 @@ class Attribute(Edge):
         '''
         return '%s %s has %s %s %s %s' % (self.subjectScope, self.subject, self.attributeTypeScope, self.attributeType, self.valueScope, self.value)
 
+
+
+class Processtype(Objecttype):    
+
+    """
+    A kind of objecttype for defining processes or events or temporal
+    objects involving change.  
+    """
+    attributetype_set = models.ManyToManyField(Attributetype, null=True, blank=True,
+                               verbose_name=_('attribute set involved in the process'),
+                               related_name='processtype_attributetypeset')
+    relationtype_set = models.ManyToManyField(Relationtype, null=True, blank=True,
+                               verbose_name=_('relation set involved in the process'),
+                               related_name='processtype_relationtypeset')
+
+
+    def __unicode__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = _('process type')
+        verbose_name_plural = _('process types')
+        permissions = (('can_view_all', 'Can view all'),
+                       ('can_change_author', 'Can change author'), )
+
+
+
+
 class Systemtype(Objecttype):    
 
     """
@@ -772,29 +800,6 @@ class Systemtype(Objecttype):
                        ('can_change_author', 'Can change author'), )
     
 
-
-class Processtype(Objecttype):    
-
-    """
-    A kind of objecttype for defining processes or events or temporal
-    objects involving change.  
-    """
-    attributetype_set = models.ManyToManyField(Attributetype, null=True, blank=True,
-                               verbose_name=_('attribute set involved in the process'),
-                               related_name='processtype_attributetypeset')
-    relationtype_set = models.ManyToManyField(Relationtype, null=True, blank=True,
-                               verbose_name=_('relation set involved in the process'),
-                               related_name='processtype_relationtypeset')
-
-
-    def __unicode__(self):
-        return self.title
-
-    class Meta:
-        verbose_name = _('process type')
-        verbose_name_plural = _('process types')
-        permissions = (('can_view_all', 'Can view all'),
-                       ('can_change_author', 'Can change author'), )
 
 
 reversion.register(NID)
