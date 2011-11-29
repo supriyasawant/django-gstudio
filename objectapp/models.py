@@ -136,6 +136,90 @@ class Gbobject(Node):
     objects = models.Manager()
     published = GbobjectPublishedManager()
 
+    @property
+    def get_nbh(self):
+        """ 
+        Returns the neighbourhood of the object
+        """
+        fields = ['title','altname','pluralform']
+        nbh = {}
+        nbh['title'] = self.title        
+        #nbh['altname'] = self.altname                
+        #nbh['pluralform'] = self.pluralform
+
+        # ALGO to find the relations and their leftroles and rightroles
+        # 1. Get the OT this object has
+        # 2. Retrieve the possible RT's that the OT can have
+        # 3. For each RT , retrieve where it occurs (left or right)
+
+        # 1. Get the OT this object has
+        possible_relationtypes = {"left":[], "right": [] }
+        
+        nbh['member_of'] = {}
+        for objtype in self.objecttypes.all():
+            # create member of dict
+            nbh['member_of'].update({str(objtype.id):str(objtype.title)})
+
+            # also fill in possible reltypes
+            #possible_relationtypes.left.append(Relationtype.objects.filter(subjecttypeLeft=self.id)) 
+            #possible_relationtypes.right.append(Relationtype.objects.filter(subjecttypeRight=self.id)) 
+     
+        #for relationtype in Relationtypes
+                
+        nbh['relations'] = {}
+        left_relset = Relation.objects.filter(subject1=self.id) 
+        right_relset = Relation.objects.filter(subject2=self.id) 
+                
+        #nbh['relations']['leftroles']  =[]
+        #nbh['relations']['rightroles'] =[]
+
+        # dictionary to store a single relation
+        rel_dict ={}
+        rel_dict['leftroles'] = {}
+        rel_dict['rightroles'] ={}
+
+        possible_reltypes = {}
+        
+        for relation in left_relset:
+            # check if relation in possibles
+            if relation.relationtype not in possible_reltypes.keys():
+                # add to possibles
+                possible_reltypes.update({str(relation.relationtype.id):str(relation.relationtype.title)})
+                # create a new dict key field and add to it
+                rel_dict['leftroles'][str(relation.relationtype.id)] = []
+                rel_dict['leftroles'][str(relation.relationtype.id)].append({str(relation.id):str(relation.composed_sentence)})                
+            else:
+                # retrieve the existing key and add.
+                rel_dict['leftroles'][str(relation.relationtype.id)].append({str(relation.id):str(relation.composed_sentence)})                
+    
+        for relation in right_relset:
+            # check if relation in possibles
+            if relation.relationtype not in possible_reltypes.keys():
+                # add to possibles
+                possible_reltypes.update({str(relation.relationtype.id):str(relation.relationtype.title)})
+                # create a new dict key field and add to it
+                rel_dict['rightroles'][str(relation.relationtype.id)] = []
+                rel_dict['rightroles'][str(relation.relationtype.id)].append({str(relation.id):str(relation.inversed_sentence)})                
+            else:
+                # retrieve the existing key and add.
+                rel_dict['rightroles'][str(relation.relationtype.id)].append({str(relation.id):str(relation.inversed_sentence)})                
+
+        nbh['relations'] = rel_dict
+
+        nbh['attributes'] = {}  
+        
+        # output format looks like  {'title': ['17753', 'plants'], ...}, 
+        for attribute in Attribute.objects.filter(subject=self.id):
+            #for key,value in attribute.edge_node_dict.iteritems():
+            #    nbh[key]= value
+            nbh['attributes'].update({str(attribute.id):str(attribute.composed_sentence)})  
+                
+        #nbh['subjecttype_of'] =   
+
+        return nbh
+
+
+
 
     @property
     def html_content(self):
