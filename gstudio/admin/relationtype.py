@@ -15,6 +15,7 @@ class RelationtypeAdmin(reversion.VersionAdmin):
                  (_('Neighbourhood Definiton'), {'fields': (
                                                            'title',
                                                            'inverse', 
+                                                           'altnames',
                                                            'parent',
                                                            'slug',
 

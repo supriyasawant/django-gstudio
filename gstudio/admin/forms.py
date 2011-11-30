@@ -61,11 +61,6 @@ class RelationAdminForm(forms.ModelForm):
         """MetatypeAdminForm's Meta"""
         model = Relation
 
-class SystemtypeAdminForm(forms.ModelForm):
-
-    class Meta:
-        """SystemAdminForm's Meta"""
-        model = Systemtype
 
 class ProcesstypeAdminForm(forms.ModelForm):
 
@@ -228,3 +223,72 @@ class ObjecttypeAdminForm(forms.ModelForm):
         """ObjecttypeAdminForm's Meta"""
         model = Objecttype
 
+class SystemtypeAdminForm(forms.ModelForm):
+    objecttypeset = MPTTModelMultipleChoiceField(
+        label=_('Objecttypeset'), required=False,
+        queryset=Objecttype.objects.all(),
+        widget=MPTTFilteredSelectMultiple(_('Objecttypesets'), False,
+                                          attrs={'rows': '10'}))
+    relationtypeset = MPTTModelMultipleChoiceField(
+        label=_('Relationtypeset'), required=False,
+        queryset=Relationtype.objects.all(),
+        widget=MPTTFilteredSelectMultiple(_('Relationtypesets'), False,
+                                          attrs={'rows': '10'}))
+    attributetypeset = MPTTModelMultipleChoiceField(
+        label=_('Attributetypeset'), required=False,
+        queryset=Attributetype.objects.all(),
+        widget=MPTTFilteredSelectMultiple(_('Attributetypesets'), False,
+                                          attrs={'rows': '10'}))
+    metatypeset = MPTTModelMultipleChoiceField(
+        label=_('Metatypeset'), required=False,
+        queryset=Metatype.objects.all(),
+        widget=MPTTFilteredSelectMultiple(_('metatypesets'), False,
+                                          attrs={'rows': '10'}))
+    processtypeset = MPTTModelMultipleChoiceField(
+        label=_('Processtypeset'), required=False,
+        queryset=Processtype.objects.all(),
+        widget=MPTTFilteredSelectMultiple(_('Processtypesets'), False,
+                                          attrs={'rows': '10'}))
+
+    priornode = MPTTModelMultipleChoiceField(
+        label=_('priornodes'), required=False,
+        queryset=Objecttype.objects.all(),
+        widget=MPTTFilteredSelectMultiple(_('objecttypes'), False,
+                                          attrs={'rows': '10'}))
+
+    posteriornode = MPTTModelMultipleChoiceField(
+        label=_('posteriornode'), required=False,
+        queryset=Objecttype.objects.all(),
+        widget=MPTTFilteredSelectMultiple(_('objecttypes'), False,
+                                          attrs={'rows': '10'}))
+    def __init__(self, *args, **kwargs):
+        super(SystemtypeAdminForm, self).__init__(*args, **kwargs)
+        ob = ManyToManyRel(Objecttype,'id')
+        rl = ManyToManyRel(Relationtype,'id')
+        att = ManyToManyRel(Attributetype,'id')
+        mt = ManyToManyRel(Metatype,'id')
+        ps = ManyToManyRel(Processtype,'id')
+        prior = ManyToManyRel(Objecttype,'id')
+        post = ManyToManyRel(Objecttype,'id')
+
+
+        self.fields['objecttypeset'].widget = RelatedFieldWidgetWrapper(
+            self.fields['objecttypeset'].widget, ob, self.admin_site)
+        self.fields['relationtypeset'].widget = RelatedFieldWidgetWrapper(
+            self.fields['relationtypeset'].widget, rl, self.admin_site)
+        self.fields['attributetypeset'].widget = RelatedFieldWidgetWrapper(
+            self.fields['attributetypeset'].widget, att, self.admin_site)
+        self.fields['metatypeset'].widget = RelatedFieldWidgetWrapper(
+            self.fields['metatypeset'].widget, mt, self.admin_site)
+        self.fields['processtypeset'].widget = RelatedFieldWidgetWrapper(
+            self.fields['processtypeset'].widget, ps, self.admin_site)
+        self.fields['posteriornode'].widget = RelatedFieldWidgetWrapper(
+            self.fields['posteriornode'].widget, post, self.admin_site)
+        self.fields['posteriornode'].widget = RelatedFieldWidgetWrapper(
+            self.fields['posteriornode'].widget, post, self.admin_site)
+
+
+
+    class Meta:
+        """SystemAdminForm's Meta"""
+        model = Systemtype

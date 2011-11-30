@@ -9,9 +9,9 @@ import reversion
 class SystemAdmin(reversion.VersionAdmin):
         form = SystemAdminForm
 	prepopulated_fields = {'slug': ('title', )}
-	fieldsets = ((_('Content'), {'fields': ('title', 'content','tags', 
+	fieldsets = ((_('Content'), {'fields': ('title','altnames' ,'content','tags', 
                                             'image', 'status')}),
-                 (_('System specific'), {'fields': ('systemtypes', 'edgeset','nodeset','systemset')}),
+                 (_('System specific'), {'fields': ('systemtypes', 'objectset','relationset','attributeset','processset','systemset')}),
  		   
 
                  (_('Options'), {'fields': ('featured', 'excerpt', 'template',

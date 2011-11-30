@@ -11,7 +11,7 @@ class ProcesstypeAdmin(reversion.VersionAdmin):
     prepopulated_fields = {'slug': ('title', )}
 
 
-    fieldsets = ((_('Neighbourhood'), {'fields': ('title', 'content', 'parent',
+    fieldsets = ((_('Neighbourhood'), {'fields': ('title','altnames' ,'content', 'parent',
                                             'image', 'slug','status')}),
                  (_('Processtype Definiton'), {'fields': ('attributetype_set','relationtype_set'), 
                                  'classes': ('collapse', 'collapse-closed')}),

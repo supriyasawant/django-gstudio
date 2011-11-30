@@ -12,9 +12,12 @@ class SystemtypeAdmin(reversion.VersionAdmin):
     prepopulated_fields = {'slug': ('title', )}
 
 
-    fieldsets = ((_('Neighbourhood'), {'fields': ('title', 'content', 'parent',
-                                            'image', 'slug','status')}),
- 		   
+    fieldsets = ((_('Neighbourhood'), {'fields': ('title', 'altnames','content', 'parent','image', 'slug','status')}),
+                 (_('Systemtype definiton'), {'fields': ('objecttypeset', 
+                                                         'relationtypeset', 
+                                                         'attributetypeset',
+                                                         'metatypeset', 
+                                                         'processtypeset')}),
                  (_('Dependency'), {'fields': ('priornode', 'posteriornode',), 
                                  'classes': ('collapse', 'collapse-closed')}),
                  (_('Options'), {'fields': ('featured', 'excerpt', 'template',

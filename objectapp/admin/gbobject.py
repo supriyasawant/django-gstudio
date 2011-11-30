@@ -56,7 +56,7 @@ class GbobjectAdmin(reversion.VersionAdmin):
     """Admin for Gbobject model"""
     form = GbobjectAdminForm
     date_hierarchy = 'creation_date'
-    fieldsets = ((_('Content'), {'fields': ('title', 'content',
+    fieldsets = ((_('Content'), {'fields': ('title', 'altnames','content',
                                             'image', 'status')}),
                  (_('Options'), {'fields': ('featured', 'excerpt', 'template',
                                             'related', 'authors',

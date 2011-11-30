@@ -34,7 +34,7 @@ class AttributetypeAdmin(reversion.VersionAdmin):
     prepopulated_fields = {'slug': ('title', )}
 
 
-    fieldsets = ((_('Attribute Definiton'), {'fields': ('title','subjecttype','applicablenodetypes','dataType','parent','slug','status') }),
+    fieldsets = ((_('Attribute Definiton'), {'fields': ('title','altnames','subjecttype','applicablenodetypes','dataType','parent','slug','status') }),
 
                  (_('Content'), {'fields': ('content', 'image',), 
                                  'classes': ('collapse', 'collapse-closed')}),

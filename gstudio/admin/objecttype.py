@@ -28,7 +28,7 @@ class ObjecttypeAdmin(reversion.VersionAdmin):
     """Admin for Objecttype model"""
     form = ObjecttypeAdminForm
     date_hierarchy = 'creation_date'
-    fieldsets = ((_('Neighbourhood'), {'fields': ('title','plural','parent','slug',
+    fieldsets = ((_('Neighbourhood'), {'fields': ('title','altnames','plural','parent','slug',
                                             'metatypes','tags','image', 'status','content')}),
                  (_('Dependency'), {'fields': ('priornode', 'posteriornode',), 
                                  'classes': ('collapse', 'collapse-closed')}),
