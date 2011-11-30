@@ -92,8 +92,6 @@ STATUS_CHOICES = ((DRAFT, _('draft')),
                   (HIDDEN, _('hidden')),
                   (PUBLISHED, _('published')))
 
-
-
 class Author(User):
     """Proxy Model around User"""
     
