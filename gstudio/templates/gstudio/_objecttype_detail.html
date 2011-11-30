@@ -4,11 +4,13 @@
     <h3 class="objecttype-title">
       <a href="{{ object.get_absolute_url }}" title="{{ object.title }}" rel="bookmark">
         {{ object.title }}
+
       </a>
 
     </h3>
 
     <p class="objecttype-info">
+
       {% if object.authors.count %}
       {% trans "Contributed by" %}
       {% for author in object.authors.all %}

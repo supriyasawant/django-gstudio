@@ -17,6 +17,7 @@ from django.contrib.markup.templatetags.markup import markdown
 from django.contrib.markup.templatetags.markup import textile
 from django.contrib.markup.templatetags.markup import restructuredtext
 import mptt
+from djangoratings.fields import RatingField
 from tagging.fields import TagField
 from gstudio.settings import UPLOAD_TO
 from gstudio.settings import MARKUP_LANGUAGE
@@ -149,6 +150,7 @@ class Node(NID):
 
     altnames = TagField(_('alternate names'), help_text=_('alternate names if any'), blank=True, null=True)
     plural = models.CharField(_('plural name'), help_text=_('plural form of the node name if any'), max_length=255, blank=True, null=True)
+    rating = RatingField(range=5, can_change_vote = True, help_text=_('your rating'), blank=True, null=True)
 
     def __unicode__(self):
         return self.title
@@ -200,7 +202,61 @@ class Metatype(Nodetype):
         """
         return objecttypes_published(self.objecttypes)
 
+
+
     @property
+<<<<<<< HEAD
+=======
+    def get_nbh(self):
+        """ 
+        Returns the neighbourhood of the metatype 
+        """
+        fields = ['title','altname','pluralform']
+        nbh = {}
+        nbh['title'] = self.title        
+        #nbh['altname'] = self.altname                
+        #nbh['pluralform'] = self.pluralform
+
+        nbh['typeof'] = {}
+        if self.parent:
+            nbh['typeof'] = dict({str(self.parent.id) : str(self.parent.title)})
+
+        nbh['contains_subtypes'] = {}        
+        # generate ids and names of children/members
+        for obj in self.children.get_query_set():  
+            nbh['contains_subtypes'].update({str(obj.id):str(obj.title)})
+
+        
+        nbh['relations'] = {}
+        left_relset = Relationtype.objects.filter(subjecttypeLeft=self.id) 
+        right_relset = Relationtype.objects.filter(subjecttypeRight=self.id) 
+
+        nbh['relations']['leftroles']  =[]
+        nbh['relations']['rightroles'] =[]
+
+        for relation in left_relset:
+            nbh['relations']['leftroles'].append({str(relation.id):str(relation.composed_sentence)})
+
+        for relation in right_relset:
+            nbh['relations']['rightroles'].append({str(relation.id):str(relation.composed_sentence)})
+
+        nbh['attributes'] = {}  
+        
+        # output format looks like  {'title': ['17753', 'plants'], ...}, 
+        for attribute in Attributetype.objects.filter(subjecttype=self.id):
+             nbh['attributes'].update({str(attribute._attributeType_cache.title):[attribute.id ,str(valueScope) + str(attribute.value)]})  
+                
+        nbh['contains_members'] = {}
+        for obj in self.objecttypes.all():
+            nbh['contains_members'].update({str(obj.id):str(obj.title)})
+
+        #nbh['subjecttype_of'] =   
+
+        return nbh
+
+                  
+    @property
+>>>>>>> gnowgi/master
     def tree_path(self):
         """Return metatype's tree path, by its ancestors"""
         if self.parent:
@@ -231,7 +287,9 @@ class Metatype(Nodetype):
 
 
 class Objecttype(Nodetype):
-    """Model design publishing objecttypes"""
+    """
+    Model design for publishing objecttypes.  Other nodetypes inherit this class.
+    """
 
 
     plural = models.CharField(_('plural name'), help_text=_('plural form of the node name if any'), max_length=255, blank=True, null=True)
@@ -306,7 +364,66 @@ class Objecttype(Nodetype):
     objects = models.Manager()
     published = ObjecttypePublishedManager()
 
+
     @property
+<<<<<<< HEAD
+=======
+    def get_nbh(self):
+        """ 
+        Returns the neighbourhood of the objecttype 
+        """
+        fields = ['title','altname','pluralform']
+        nbh = {}
+        nbh['title'] = self.title        
+        #nbh['altname'] = self.altname                
+        #nbh['pluralform'] = self.pluralform
+
+        nbh['attributetypes'] = {}  
+                 
+        for attributetype in Attributetype.objects.filter(subjecttype=self.id):
+             nbh['attributetypes'].update({str(attributetype.id):str(attributetype.title)})          
+       
+        left_relset = Relationtype.objects.filter(subjecttypeLeft=self.id) 
+        right_relset = Relationtype.objects.filter(subjecttypeRight=self.id) 
+
+        nbh['rightroles'] = []
+        nbh['leftroles'] = []
+
+        for relationtype in left_relset:
+            nbh['leftroles'].append({str(relationtype.id):str(relationtype.title)})
+
+        for relationtype in right_relset:
+            nbh['rightroles'].append({str(relationtype.id):str(relationtype.title)})
+
+                
+        nbh['typeof'] = {}
+        if self.parent:
+            nbh['typeof'] = dict({str(self.parent.id) : str(self.parent.title)})
+        nbh['subtypes'] = {}
+        
+        # generate ids and names of children/members
+        for objecttype in Objecttype.objects.filter(parent=self.id):
+            nbh['subtypes'].update({str(objecttype.id):str(objecttype.title)})
+
+        nbh['members'] = {}
+
+        if self.gbobjects.all():
+            for gbobject in Gbobject.objects.filter(objecttypes__id__exact=self.id):
+                nbh['members'].update({str(gbobject.id):str(gbobject.title)})
+
+        nbh['authors'] = {}
+        for author in self.authors.all():
+            nbh['authors'].update({str(author.id):str(author.username)})
+
+
+        return nbh
+
+                  
+
+
+
+    @property
+>>>>>>> gnowgi/master
     def tree_path(self):
         """Return objecttype's tree path, by its ancestors"""
         if self.parent:
@@ -580,11 +697,16 @@ class Relation(Edge):
     def __unicode__(self):
         return self.composed_sentence
 
-
-    def _get_sentence(self):
+    @property
+    def composed_sentence(self):
         "composes the relation as a sentence in a triple format."
         return '%s %s %s %s %s %s' % (self.subject1Scope, self.subject1, self.relationTypeScope, self.relationtype, self.objectScope, self.subject2)
-    composed_sentence = property(_get_sentence)
+
+    @property
+    def inversed_sentence(self):
+        "composes the inverse relation as a sentence in a triple format."
+        return '%s %s %s %s %s' % (self.objectScope, self.subject2, self.relationtype.inverse, self.subject1Scope, self.subject1 )
+
 
 
 class Attribute(Edge):
@@ -612,29 +734,20 @@ class Attribute(Edge):
     def __unicode__(self):
         return self.composed_sentence
 
-    def _get_sentence(self):
+    @property
+    def edge_node_dict(self):
+        '''
+        composes the attribution as a name:value pair sentence without the subject.
+        '''
+        return dict({str(self.attributeTypeScope) + str(self.attributeType): str(self.valueScope)+ str(self.value)})
+
+    @property
+    def composed_sentence(self):
         '''
         composes the attribution as a sentence in a triple format.
         '''
         return '%s %s has %s %s %s %s' % (self.subjectScope, self.subject, self.attributeTypeScope, self.attributeType, self.valueScope, self.value)
-    composed_sentence = property(_get_sentence)
 
-class Systemtype(Objecttype):    
-
-    """
-    class to organize Systems
-    """
-
-
-    def __unicode__(self):
-        return self.title
-
-    class Meta:
-        verbose_name = _('system type')
-        verbose_name_plural = _('system types')
-        permissions = (('can_view_all', 'Can view all'),
-                       ('can_change_author', 'Can change author'), )
-    
 
 
 class Processtype(Objecttype):    
@@ -662,6 +775,35 @@ class Processtype(Objecttype):
 
 
 
+
+class Systemtype(Objecttype):    
+
+    """
+    class to organize Systems
+    """
+
+
+    objecttypeset = models.ManyToManyField(Objecttype, related_name="objecttypeset_systemtype", verbose_name='Possible edges in the system',    
+                                           blank=True, null=False) 
+    relationtypeset = models.ManyToManyField(Relationtype, related_name="relationtypeset_systemtype", verbose_name='Possible nodetypes in the system',    
+                                             blank=True, null=False) 
+    attributetypeset = models.ManyToManyField(Attributetype, related_name="attributetypeset_systemtype", verbose_name='systems to be nested in the system',
+                                              blank=True, null=False)
+    metatypeset = models.ManyToManyField(Metatype, related_name="metatypeset_systemtype", verbose_name='Possible edges in the system',    
+                                         blank=True, null=False) 
+    processtypeset = models.ManyToManyField(Processtype, related_name="processtypeset_systemtype", verbose_name='Possible edges in the system',    
+                                            blank=True, null=False) 
+
+
+    def __unicode__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = _('system type')
+        verbose_name_plural = _('system types')
+        permissions = (('can_view_all', 'Can view all'),
+                       ('can_change_author', 'Can change author'), )
+    
 
 
 
