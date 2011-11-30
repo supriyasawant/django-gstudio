@@ -9,7 +9,7 @@ import reversion
 class ObjecttypeAdmin(reversion.VersionAdmin):
     """Admin for Objecttype model"""
     form = ObjecttypeAdminForm
-    fields = ('title', 'parent', 'description', 'slug')
+    fields = ('title','altnames', 'parent', 'description', 'slug')
     list_display = ('title', 'slug', 'get_tree_path', 'description')
     prepopulated_fields = {'slug': ('title', )}
     search_fields = ('title', 'description')

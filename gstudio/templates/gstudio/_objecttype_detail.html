@@ -29,6 +29,13 @@
   </div>
              <h4> {{ object.tree_path_sentence }} </h4>  
              <h4>  {{ object.memberof_sentence }}</h4>
+     	     <h3>Neighbourhood</h3>
+	     {% for key,value in object.get_nbh.items %}
+	     <h5>{{key}}</h5>
+	     {{value}}
+	      
+	     {% endfor %}
+
 
   <div class="objecttype-body span-16 last">
     {% if object.image %}
@@ -41,6 +48,9 @@
     </div>
     {% endif %}
     <div class="objecttype-content">
+      <br>
+      <h3>Objecttype Content</h3>
+      
       {{ object_content }}
     </div>
 
