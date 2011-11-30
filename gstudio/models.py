@@ -191,8 +191,6 @@ class Metatype(Nodetype):
     Metatype object for Objecttype
     """
 
-
-
     slug = models.SlugField(help_text=_('used for publication'), unique=True, max_length=255)
     description = models.TextField(_('description'), blank=True, null=True)
     parent = models.ForeignKey('self', null=True, blank=True, verbose_name=_('parent metatype'), related_name='children')
@@ -207,28 +205,28 @@ class Metatype(Nodetype):
 
     @property
     def get_nbh(self):
-        """ 
-        Returns the neighbourhood of the metatype 
+        """  
+        Returns the neighbourhood of the metatype
         """
         fields = ['title','altname','pluralform']
         nbh = {}
-        nbh['title'] = self.title        
-        #nbh['altname'] = self.altname                
-        #nbh['pluralform'] = self.pluralform
+        nbh['title'] = self.title
+        #nbh['altname'] = self.altname                                                                                                                              
+        #nbh['pluralform'] = self.pluralform                                                                                                                       
 
         nbh['typeof'] = {}
         if self.parent:
             nbh['typeof'] = dict({str(self.parent.id) : str(self.parent.title)})
 
-        nbh['contains_subtypes'] = {}        
+        nbh['contains_subtypes'] = {}
         # generate ids and names of children/members
-        for obj in self.children.get_query_set():  
+
+        for obj in self.children.get_query_set():
             nbh['contains_subtypes'].update({str(obj.id):str(obj.title)})
 
-        
         nbh['relations'] = {}
-        left_relset = Relationtype.objects.filter(subjecttypeLeft=self.id) 
-        right_relset = Relationtype.objects.filter(subjecttypeRight=self.id) 
+        left_relset = Relationtype.objects.filter(subjecttypeLeft=self.id)
+        right_relset = Relationtype.objects.filter(subjecttypeRight=self.id)
 
         nbh['relations']['leftroles']  =[]
         nbh['relations']['rightroles'] =[]
@@ -239,19 +237,19 @@ class Metatype(Nodetype):
         for relation in right_relset:
             nbh['relations']['rightroles'].append({str(relation.id):str(relation.composed_sentence)})
 
-        nbh['attributes'] = {}  
-        
-        # output format looks like  {'title': ['17753', 'plants'], ...}, 
+        nbh['attributes'] = {}
+        # output format looks like  {'title': ['17753','plants'], ...},                                                                                               
         for attribute in Attributetype.objects.filter(subjecttype=self.id):
-             nbh['attributes'].update({str(attribute._attributeType_cache.title):[attribute.id ,str(valueScope) + str(attribute.value)]})  
-                
+             nbh['attributes'].update({str(attribute._attributeType_cache.title):[attribute.id ,str(valueScope) + str(attribute.value)]})
+
         nbh['contains_members'] = {}
         for obj in self.objecttypes.all():
             nbh['contains_members'].update({str(obj.id):str(obj.title)})
 
-        #nbh['subjecttype_of'] =   
+        node = {}
+        node[self.title] = nbh
 
-        return nbh
+        return node
 
                   
     @property
@@ -363,54 +361,56 @@ class Objecttype(Nodetype):
 
     @property
     def get_nbh(self):
-        """ 
-        Returns the neighbourhood of the objecttype 
+        """          
+        Returns the neighbourhood of the objecttype
         """
-        fields = ['title','altname','pluralform']
+
         nbh = {}
-        nbh['title'] = self.title        
-        #nbh['altname'] = self.altname                
-        #nbh['pluralform'] = self.pluralform
+        nbh['title'] = self.title
+        nbh['altnames'] = self.altnames
+        nbh['plural'] = self.plural
 
-        nbh['attributetypes'] = {}  
-                 
+        nbh['attributetypes'] = {}
+
         for attributetype in Attributetype.objects.filter(subjecttype=self.id):
-             nbh['attributetypes'].update({str(attributetype.id):str(attributetype.title)})          
-       
-        left_relset = Relationtype.objects.filter(subjecttypeLeft=self.id) 
-        right_relset = Relationtype.objects.filter(subjecttypeRight=self.id) 
+             nbh['attributetypes'].update({str(attributetype.id):str(attributetype.title)})
 
-        nbh['rightroles'] = []
-        nbh['leftroles'] = []
+        left_relset = Relationtype.objects.filter(subjecttypeLeft=self.id)
+        right_relset = Relationtype.objects.filter(subjecttypeRight=self.id)
+
+	nbh['rightroles'] = []
+	nbh['leftroles'] = []
 
         for relationtype in left_relset:
-            nbh['leftroles'].append({str(relationtype.id):str(relationtype.title)})
+	    nbh['leftroles'].append({str(relationtype.id):str(relationtype.title)})
 
         for relationtype in right_relset:
-            nbh['rightroles'].append({str(relationtype.id):str(relationtype.title)})
+	    nbh['rightroles'].append({str(relationtype.id):str(relationtype.title)})
 
-                
+
         nbh['typeof'] = {}
-        if self.parent:
+	if self.parent:
             nbh['typeof'] = dict({str(self.parent.id) : str(self.parent.title)})
         nbh['subtypes'] = {}
-        
-        # generate ids and names of children/members
+
+        # generate ids and names of children /members
         for objecttype in Objecttype.objects.filter(parent=self.id):
             nbh['subtypes'].update({str(objecttype.id):str(objecttype.title)})
 
         nbh['members'] = {}
 
         if self.gbobjects.all():
-            for gbobject in Gbobject.objects.filter(objecttypes__id__exact=self.id):
-                nbh['members'].update({str(gbobject.id):str(gbobject.title)})
+            for gbobject in self.gbobjects.all():    #Gbobject.objects.filter(objecttypes__id__exact=self.id): 
+		nbh['members'].update({str(gbobject.id):str(gbobject.title)})
 
-        nbh['authors'] = {}
+	nbh['authors'] = {}
         for author in self.authors.all():
             nbh['authors'].update({str(author.id):str(author.username)})
 
+        node = {}
+        node[self.title] = nbh
 
-        return nbh
+	return node
 
                   
 
@@ -699,6 +699,9 @@ class Relation(Edge):
     def inversed_sentence(self):
         "composes the inverse relation as a sentence in a triple format."
         return '%s %s %s %s %s' % (self.objectScope, self.subject2, self.relationtype.inverse, self.subject1Scope, self.subject1 )
+
+    #def inversed_edge_node(self):
+    #    return dict({str():str()})
 
 
 
