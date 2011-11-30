@@ -4,12 +4,12 @@ def tags_published(12,169
 class AuthorPublishedManager(22,559
     def get_query_set(25,654
 def objecttypes_published(36,1057
-class ObjecttypePublishedManager(45,1382
-    def get_query_set(48,1485
-    def on_site(53,1665
-    def search(58,1873
-    def advanced_search(65,2082
-    def basic_search(70,2259
+class ObjecttypePublishedManager(46,1383
+    def get_query_set(49,1486
+    def on_site(54,1666
+    def search(59,1874
+    def advanced_search(66,2083
+    def basic_search(71,2260
 
 plugins/menu.py,274
 class ObjecttypeMenu(17,496
@@ -99,6 +99,11 @@ class ExternalUrlsPinger(78,2731
     def find_pingback_href(123,4416
     def find_pingback_urls(132,4802
     def pingback_url(160,5846
+
+genform.py,64
+def inputitems(4,89
+def formmodel(15,376
+def fullform(21,521
 
 url_shortener/__init__.py,30
 def get_url_shortener(11,286
@@ -711,46 +716,87 @@ class VectorBuilder(44,1227
     def flush(86,2649
     def __call__(91,2780
 
-fixtures/helloworld.json,158
-      "login_required": false,67,1888
-      "comment_enabled": true,70,1992
-      "login_required": false,101,5063
-      "comment_enabled": true,104,5167
-
-models.py,1036
-class Author(41,1586
-    def objecttypes_published(47,1714
-    def get_absolute_url(52,1881
-    class Meta:Meta56,2007
-class Metatype(61,2074
-    def objecttypes_published(73,2576
-    def tree_path(79,2748
-    def __unicode__(85,2947
-    def _get_sentence(88,3001
-    def get_absolute_url(96,3317
-    class Meta:Meta101,3449
-class Objecttype(108,3608
-    def tree_path(177,6910
-    def tree_path_sentence(184,7125
-    def html_content(191,7395
-    def previous_objecttype(205,7896
-    def next_objecttype(213,8154
-    def word_count(221,8430
-    def is_actual(226,8576
-    def is_visible(232,8787
-    def related_published(237,8943
-    def discussions(242,9098
-    def comments(248,9279
-    def pingbacks(254,9473
-    def trackbacks(259,9617
-    def comments_are_open(264,9764
-    def short_url(272,10067
-    def __unicode__(276,10182
-    def memberof_sentence(280,10250
-    def subtypeof_sentence(289,10650
-    def subtypeof(296,10957
-    def get_absolute_url(305,11142
-    class Meta:Meta313,11461
+models.py,2487
+class Author(97,3072
+    def objecttypes_published(103,3204
+    def get_absolute_url(108,3371
+    class Meta:Meta112,3497
+class NID(116,3563
+    def get_serialized_dict(123,3858
+    def get_serialized_data(129,4045
+    def __unicode__(138,4393
+    class Meta:Meta142,4448
+class Node(147,4492
+    def __unicode__(156,4900
+    class Meta:Meta159,4954
+class Nodetype(164,5000
+    def __unicode__(167,5024
+    class Meta:Meta170,5078
+class Edgetype(173,5118
+    def __unicode__(175,5141
+    class Meta:Meta178,5195
+class Edge(181,5235
+    def __unicode__(184,5254
+    class Meta:Meta187,5308
+class Metatype(191,5349
+    def objecttypes_published(202,5722
+    def get_nbh(211,5902
+    def tree_path(260,7724
+    def __unicode__(266,7923
+    def _get_sentence(269,7977
+    def get_absolute_url(277,8293
+    class Meta:Meta282,8425
+class Objecttype(289,8584
+    def get_nbh(369,12451
+    def tree_path(424,14294
+    def tree_path_sentence(431,14509
+    def html_content(438,14779
+    def previous_objecttype(452,15280
+    def next_objecttype(460,15538
+    def word_count(468,15814
+    def is_actual(473,15960
+    def is_visible(479,16171
+    def related_published(484,16327
+    def discussions(489,16482
+    def comments(495,16663
+    def pingbacks(501,16857
+    def trackbacks(506,17001
+    def comments_are_open(511,17148
+    def short_url(519,17451
+    def __unicode__(523,17566
+    def memberof_sentence(527,17634
+    def subtypeof_sentence(536,18034
+    def subtypeof(543,18341
+    def get_absolute_url(550,18524
+    def get_serialized_data(558,18843
+    class Meta:Meta567,19200
+class Relationtype(577,19503
+    def get_serialized_data(593,20797
+    def __unicode__(603,21155
+    class Meta:Meta606,21209
+class Attributetype(618,21506
+    def simpleform(627,21953
+    def simpleform_xml(636,22255
+    def inputform_xml(646,23012
+    def __unicode__(658,23394
+    class Meta:Meta661,23448
+class Relation(672,23751
+    class Meta:Meta686,24549
+    def __unicode__(694,24898
+    def composed_sentence(698,24978
+    def inversed_sentence(703,25241
+class Attribute(709,25482
+    class Meta:Meta723,26242
+    def __unicode__(731,26589
+    def edge_node_dict(735,26669
+    def composed_sentence(742,26939
+class Processtype(750,27215
+    def __unicode__(764,27865
+    class Meta:Meta767,27919
+class Systemtype(776,28155
+    class to 779,28198
+    def __unicode__(795,29326
+    class Meta:Meta798,29380
 
 xmlrpc/metaweblog.py,469
 def authenticate(30,943
@@ -1149,6 +1195,9 @@ class TagSitemap(84,2382
     def priority(108,3184
     def location(115,3403
 
+__init__.pyc,7
+N,2,4
+
 management/commands/wp2gstudio.py,425
 class Command(29,905
     def __init__(56,2036
@@ -1243,41 +1292,6 @@ def month_crumb(23,544
 def day_crumb(32,877
 def retrieve_breadcrumbs(62,2264
 
-migrations/0005_objecttype_protection.py,71
-class Migration(5,63
-    def forwards(7,98
-    def backwards(15,545
-
-migrations/0004_mptt_metatypes.py,72
-class Migration(5,63
-    def forwards(7,98
-    def backwards(24,1151
-
-migrations/0002_auto__add_field_objecttype_pingback_enabled.py,71
-class Migration(5,63
-    def forwards(7,98
-    def backwards(12,321
-
-migrations/0001_initial.py,74
-class Migration(7,108
-    def forwards(9,143
-    def backwards(70,3981
-
-migrations/0007_objecttype_featured.py,71
-class Migration(5,63
-    def forwards(7,98
-    def backwards(12,314
-
-migrations/0006_objecttype_template.py,71
-class Migration(5,63
-    def forwards(7,98
-    def backwards(12,354
-
-migrations/0003_auto__chg_field_metatype_title__chg_field_metatype_slug__add_unique_ca.py,71
-class Migration(5,63
-    def forwards(7,98
-    def backwards(24,899
-
 search.py,70
 def createQ(23,630
 def unionQ(81,2706
@@ -1324,19 +1338,25 @@ templates/404.html,172
 {% trans "Search" %}36,800
 {% endblock %}searchbox46,1146
 
+templates/base.html,162
+{% block title %}User test{% endblock %}8,266
+{% block header %}header13,364
+{% block content %}{% endblock %}content28,812
+{% block footer %}footer32,888
+
 templates/gstudio/metatype_list.html,34
 {% trans "Metatype list" %}9,208
 
 templates/gstudio/skeleton.html,389
-Gnowledge Studio - {% block title %}{% endblock %}24,1534
-{% trans "Sitemap" %}header31,1830
-Gnowledge Studio39,2137
-A workspace for constructing and publishing knowledge networks.43,2188
-/ {% block breadcrumbs %}{% endblock %}breadcrumbs46,2324
-{% block content %}content51,2480
-The content block need to be overrided!52,2503
-Welcome!sidebar57,2646
-Powered by footer83,3693
+Gnowledge Studio - {% block title %}{% endblock %}26,1536
+{% trans "Sitemap" %}header33,1832
+Gnowledge Studio41,2139
+A workspace for constructing and publishing knowledge networks.45,2190
+/ {% block breadcrumbs %}{% endblock %}breadcrumbs48,2326
+{% block content %}content53,2482
+The content block need to be overrided!54,2505
+Welcome!sidebar59,2648
+Powered by footer79,3320
 
 templates/gstudio/objecttype_list.html,210
 {{ metatype.title }}23,1565
@@ -1459,40 +1479,57 @@ templates/admin/gstudio/widgets/base.html,74
 {% block title %}{% endblock %}{% block module_id %}{% endblock %}3,116
 
 moderator.py,196
-class ObjecttypeCommentModerator(23,892
-    def email(34,1374
-    def do_email_notification(50,2094
-    def do_email_authors(67,2979
-    def do_email_reply(89,4139
-    def moderate(116,5595
+class ObjecttypeCommentModerator(22,891
+    def email(33,1368
+    def do_email_notification(49,2088
+    def do_email_authors(66,2973
+    def do_email_reply(88,4133
+    def moderate(115,5589
 
 admin/objecttype.py,801
 class ObjecttypeAdmin(27,769
-    def __init__(64,2901
-    def get_title(69,3073
-    def get_authors(80,3574
-    def get_metatypes(93,4154
-    def get_tags(106,4733
-    def get_sites(118,5249
-    def get_comments_are_open(126,5575
-    def get_is_actual(132,5838
-    def get_is_visible(138,6055
-    def get_link(144,6278
-    def get_short_url(151,6563
-    def save_model(162,6961
-    def queryset(176,7593
-    def formfield_for_manytomany(183,7882
-    def get_actions(194,8382
-    def make_mine(208,8912
-    def make_published(217,9322
-    def make_hidden(225,9721
-    def make_tweet(232,10037
-    def close_comments(248,10802
-    def close_pingbacks(256,11194
-    def put_on_top(264,11556
-    def ping_directories(273,12008
-    def get_urls(296,13074
-    def _media(314,14010
+    def __init__(66,3060
+    def get_title(71,3232
+    def get_authors(82,3733
+    def get_metatypes(95,4313
+    def get_tags(108,4892
+    def get_sites(120,5408
+    def get_comments_are_open(128,5734
+    def get_is_actual(134,5997
+    def get_is_visible(140,6214
+    def get_link(146,6437
+    def get_short_url(153,6722
+    def save_model(164,7120
+    def queryset(178,7752
+    def formfield_for_manytomany(185,8041
+    def get_actions(196,8541
+    def make_mine(210,9071
+    def make_published(219,9481
+    def make_hidden(227,9880
+    def make_tweet(234,10196
+    def close_comments(250,10961
+    def close_pingbacks(258,11353
+    def put_on_top(266,11715
+    def ping_directories(275,12167
+    def get_urls(298,13233
+    def _media(316,14169
+
+admin/attribute.py,55
+class AttributeAdmin(9,243
+    def save_model(10,289
+
+admin/relation.py,54
+class RelationAdmin(9,242
+    def save_model(10,287
+
+admin/processtype.py,30
+class ProcesstypeAdmin(9,245
+
+admin/attributetype.py,32
+class AttributetypeAdmin(9,247
+
+admin/systemtype.py,29
+class SystemtypeAdmin(9,244
 
 admin/metatype.py,82
 class MetatypeAdmin(9,242
@@ -1515,15 +1552,30 @@ class MPTTFilteredSelectMultiple(60,2388
         def render_option(74,3074
     class Media:Media103,4435
 
-admin/forms.py,236
-class MetatypeAdminForm(16,563
-    def __init__(23,824
-    def clean_parent(29,1104
-    class Meta:Meta37,1388
-class ObjecttypeAdminForm(42,1470
-    def __init__(56,2006
-    def clean_parent(63,2363
-    class Meta:Meta71,2661
+admin/forms.py,624
+class RelationtypeAdminForm(24,796
+    class Meta:Meta26,843
+class RelationAdminForm(31,929
+    class Meta:Meta33,972
+class SystemtypeAdminForm(37,1053
+    class Meta:Meta39,1098
+class ProcesstypeAdminForm(43,1179
+    class Meta:Meta45,1225
+class AttributetypeAdminForm(50,1308
+    class Meta:Meta52,1356
+class AttributeAdminForm(57,1443
+    class Meta:Meta59,1487
+class MetatypeAdminForm(64,1570
+    def __init__(71,1831
+    def clean_parent(77,2111
+    class Meta:Meta85,2395
+class ObjecttypeAdminForm(90,2477
+    def __init__(104,3013
+    def clean_parent(111,3370
+    class Meta:Meta119,3668
+
+admin/relationtype.py,31
+class RelationtypeAdmin(9,246
 
 admin/__init__.py,0
 
@@ -1623,6 +1675,36 @@ templates/feeds/objecttype_description.html,0
 
 templates/feeds/discussion_description.html,0
 
+templates/index.html,0
+
+templates/registration/password_change_form.html,0
+
+templates/registration/login.html,0
+
+templates/registration/activate.html,0
+
+templates/registration/password_reset_email.html,0
+
+templates/registration/activation_email_subject.txt,0
+
+templates/registration/password_reset_form.html,0
+
+templates/registration/password_reset_confirm.html,0
+
+templates/registration/logout.html,0
+
+templates/registration/registration_form.html,0
+
+templates/registration/password_reset_done.html,0
+
+templates/registration/password_change_done.html,0
+
+templates/registration/password_reset_complete.html,0
+
+templates/registration/activation_email.txt,0
+
+templates/registration/registration_complete.html,0
+
 spam_checker/backends/__init__.py,0
 
 urls/discussions.py,0
@@ -1649,15 +1731,11 @@ urls/objecttypes.py,0
 
 urls/capabilities.py,0
 
-migrations/__init__.py,0
-
 templatetags/__init__.py,0
 
 management/__init__.py,0
 
 management/commands/__init__.py,0
-
-__init__.pyc,0
 
 __init__.py,0
 
@@ -1889,9 +1967,15 @@ locale/de/LC_MESSAGES/django.po,0
 
 locale/ru/LC_MESSAGES/django.po,0
 
+locale/te/LC_MESSAGES/django.po,0
+
 locale/es/LC_MESSAGES/django.po,0
 
+locale/mr/LC_MESSAGES/django.po,0
+
 locale/hu/LC_MESSAGES/django.po,0
+
+locale/hi/LC_MESSAGES/django.po,0
 
 locale/it/LC_MESSAGES/django.po,0
 
@@ -1901,9 +1985,15 @@ locale/pl/LC_MESSAGES/django.po,0
 
 locale/fr/LC_MESSAGES/django.po,0
 
+locale/bl/LC_MESSAGES/django.po,0
+
 locale/nl/LC_MESSAGES/django.po,0
 
 locale/zh_CN/LC_MESSAGES/django.po,0
+
+locale/pu/LC_MESSAGES/django.po,0
+
+locale/ml/LC_MESSAGES/django.po,0
 
 plugins/migrations/__init__.py,0
 
