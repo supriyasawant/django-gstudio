@@ -11,9 +11,13 @@ import reversion
 class RelationtypeAdmin(reversion.VersionAdmin):
     form = RelationtypeAdminForm
     prepopulated_fields = {'slug': ('title', )}
-    fieldsets = ((_('Neighbourhood'), {'fields': ('title', 'content', 'parent',
-                                            'image', 'slug','status')}),
-                 (_('Relationtype Definiton'), {'fields': ('inverse', 
+    fieldsets = ((
+                 (_('Neighbourhood Definiton'), {'fields': (
+                                                           'title',
+                                                           'inverse', 
+                                                           'parent',
+                                                           'slug',
+
                                                            'subjecttypeLeft',
                                                            'applicablenodetypes1',
                                                            'cardinalityLeft',
@@ -24,6 +28,9 @@ class RelationtypeAdmin(reversion.VersionAdmin):
                                                            'isReflexive',
                                                            'isTransitive') 
                                                 }),
+                 (_('Content'), {'fields': ('content', 'image',), 
+                                 'classes': ('collapse', 'collapse-closed')}),
+
  		   
                  (_('Dependency'), {'fields': ('priornode', 'posteriornode',), 
                                  'classes': ('collapse', 'collapse-closed')}),
@@ -37,6 +44,7 @@ class RelationtypeAdmin(reversion.VersionAdmin):
                                  
                  (_('Publication'), {'fields': ('tags', 
                                                 'sites')}))
+                 )
     def __init__(self, model, admin_site):
         self.form.admin_site = admin_site
         super(RelationtypeAdmin, self).__init__(model, admin_site)
