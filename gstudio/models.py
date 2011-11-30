@@ -205,58 +205,6 @@ class Metatype(Nodetype):
 
 
     @property
-<<<<<<< HEAD
-=======
-    def get_nbh(self):
-        """ 
-        Returns the neighbourhood of the metatype 
-        """
-        fields = ['title','altname','pluralform']
-        nbh = {}
-        nbh['title'] = self.title        
-        #nbh['altname'] = self.altname                
-        #nbh['pluralform'] = self.pluralform
-
-        nbh['typeof'] = {}
-        if self.parent:
-            nbh['typeof'] = dict({str(self.parent.id) : str(self.parent.title)})
-
-        nbh['contains_subtypes'] = {}        
-        # generate ids and names of children/members
-        for obj in self.children.get_query_set():  
-            nbh['contains_subtypes'].update({str(obj.id):str(obj.title)})
-
-        
-        nbh['relations'] = {}
-        left_relset = Relationtype.objects.filter(subjecttypeLeft=self.id) 
-        right_relset = Relationtype.objects.filter(subjecttypeRight=self.id) 
-
-        nbh['relations']['leftroles']  =[]
-        nbh['relations']['rightroles'] =[]
-
-        for relation in left_relset:
-            nbh['relations']['leftroles'].append({str(relation.id):str(relation.composed_sentence)})
-
-        for relation in right_relset:
-            nbh['relations']['rightroles'].append({str(relation.id):str(relation.composed_sentence)})
-
-        nbh['attributes'] = {}  
-        
-        # output format looks like  {'title': ['17753', 'plants'], ...}, 
-        for attribute in Attributetype.objects.filter(subjecttype=self.id):
-             nbh['attributes'].update({str(attribute._attributeType_cache.title):[attribute.id ,str(valueScope) + str(attribute.value)]})  
-                
-        nbh['contains_members'] = {}
-        for obj in self.objecttypes.all():
-            nbh['contains_members'].update({str(obj.id):str(obj.title)})
-
-        #nbh['subjecttype_of'] =   
-
-        return nbh
-
-                  
-    @property
->>>>>>> gnowgi/master
     def tree_path(self):
         """Return metatype's tree path, by its ancestors"""
         if self.parent:
@@ -366,64 +314,6 @@ class Objecttype(Nodetype):
 
 
     @property
-<<<<<<< HEAD
-=======
-    def get_nbh(self):
-        """ 
-        Returns the neighbourhood of the objecttype 
-        """
-        fields = ['title','altname','pluralform']
-        nbh = {}
-        nbh['title'] = self.title        
-        #nbh['altname'] = self.altname                
-        #nbh['pluralform'] = self.pluralform
-
-        nbh['attributetypes'] = {}  
-                 
-        for attributetype in Attributetype.objects.filter(subjecttype=self.id):
-             nbh['attributetypes'].update({str(attributetype.id):str(attributetype.title)})          
-       
-        left_relset = Relationtype.objects.filter(subjecttypeLeft=self.id) 
-        right_relset = Relationtype.objects.filter(subjecttypeRight=self.id) 
-
-        nbh['rightroles'] = []
-        nbh['leftroles'] = []
-
-        for relationtype in left_relset:
-            nbh['leftroles'].append({str(relationtype.id):str(relationtype.title)})
-
-        for relationtype in right_relset:
-            nbh['rightroles'].append({str(relationtype.id):str(relationtype.title)})
-
-                
-        nbh['typeof'] = {}
-        if self.parent:
-            nbh['typeof'] = dict({str(self.parent.id) : str(self.parent.title)})
-        nbh['subtypes'] = {}
-        
-        # generate ids and names of children/members
-        for objecttype in Objecttype.objects.filter(parent=self.id):
-            nbh['subtypes'].update({str(objecttype.id):str(objecttype.title)})
-
-        nbh['members'] = {}
-
-        if self.gbobjects.all():
-            for gbobject in Gbobject.objects.filter(objecttypes__id__exact=self.id):
-                nbh['members'].update({str(gbobject.id):str(gbobject.title)})
-
-        nbh['authors'] = {}
-        for author in self.authors.all():
-            nbh['authors'].update({str(author.id):str(author.username)})
-
-
-        return nbh
-
-                  
-
-
-
-    @property
->>>>>>> gnowgi/master
     def tree_path(self):
         """Return objecttype's tree path, by its ancestors"""
         if self.parent:
