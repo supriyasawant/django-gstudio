@@ -194,7 +194,7 @@ class Gbobject(Node):
                 nbh[key]= value
                 
         # encapsulate the dictionary with its node name as key
-        nbh.update(attribute_set)
+        #nbh.update(attribute_set)
         node = {}
         node[self.title] = nbh
         
