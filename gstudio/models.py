@@ -700,8 +700,13 @@ class Relation(Edge):
         "composes the inverse relation as a sentence in a triple format."
         return '%s %s %s %s %s' % (self.objectScope, self.subject2, self.relationtype.inverse, self.subject1Scope, self.subject1 )
 
-    #def inversed_edge_node(self):
-    #    return dict({str():str()})
+    @property
+    def key_value(self):
+        return dict({str(self.relationtype):str(self.subject2)})
+
+    @property
+    def inverse_key_value(self):
+        return dict({str(self.relationtype.inverse):str(self.subject1)})
 
 
 
