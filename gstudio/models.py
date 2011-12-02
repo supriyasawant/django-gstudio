@@ -378,14 +378,14 @@ class Objecttype(Nodetype):
         left_relset = Relationtype.objects.filter(subjecttypeLeft=self.id)
         right_relset = Relationtype.objects.filter(subjecttypeRight=self.id)
 
-	nbh['rightroles'] = []
-	nbh['leftroles'] = []
+	nbh['rightroles'] = {}
+	nbh['leftroles'] = {}
 
         for relationtype in left_relset:
-	    nbh['leftroles'].append({str(relationtype.id):str(relationtype.title)})
+	    nbh['leftroles'].update({str(relationtype.id):str(relationtype.title)})
 
         for relationtype in right_relset:
-	    nbh['rightroles'].append({str(relationtype.id):str(relationtype.title)})
+	    nbh['rightroles'].update({str(relationtype.id):str(relationtype.title)})
 
 
         nbh['typeof'] = {}
