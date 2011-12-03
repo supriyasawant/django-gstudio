@@ -23,8 +23,8 @@ class ObjecttypeAdmin(reversion.VersionAdmin):
         """Return the objecttype's tree path in HTML"""
         try:
             return '<a href="%s" target="blank">/%s/</a>' % \
-                   (objecttype.get_absolute_url(), objecttype.tree_path)
+                   (Objecttype.get_absolute_url(), Objecttype.tree_path)
         except NoReverseMatch:
-            return '/%s/' % objecttype.tree_path
+            return '/%s/' % Objecttype.tree_path
     get_tree_path.allow_tags = True
     get_tree_path.short_description = _('tree path')
