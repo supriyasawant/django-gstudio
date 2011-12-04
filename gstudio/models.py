@@ -504,17 +504,28 @@ class Relationtype(Objecttype):
                        ('can_change_author', 'Can change author'), )
 
 
-
-
 class Attributetype(Objecttype):
     '''
-    datatype properties
+    To define attributes of objects. First three fields are mandatory.
+    The rest of the fields may be required depending on what type of
+    field is selected for datatype. 
     '''
     subjecttype = models.ForeignKey(NID, related_name="subjecttype_GbnodeType", verbose_name='subject type name')  
     applicablenodetypes = models.CharField(max_length=2,choices=NODETYPE_CHOICES,default='OT', verbose_name='applicable nodetypes') 
     dataType = models.CharField(max_length=2, choices=FIELD_TYPE_CHOICES,default='01', verbose_name='data type of value') 
-
-
+ 
+    verbose_name = models.CharField(max_length=500, null=True, blank=True, verbose_name='verbosename', help_text='verbose name')
+    null = models.NullBooleanField(verbose_name='Null', help_text='can the value be null?')
+    blank = models.NullBooleanField(verbose_name='Blank', help_text='can the form be left blank?')
+    help_text = models.CharField(max_length=500, null=True, blank=True, verbose_name='Help text', help_text='help text for the field')
+    max_digits = models.IntegerField(max_length=5, null=True, blank=True, verbose_name='Max digit', help_text='If you have selected Decimal Field for datatype, you have to specify the number of digits.')
+    decimal_places = models.IntegerField(max_length=2, null=True, blank=True, verbose_name='Decimal places', help_text='If you have selected Decimal Field for datatype, you have to specify the decimal places.')
+    auto_now = models.NullBooleanField(verbose_name='Auto now',  null=True, blank=True, help_text='Use this if DateTime & Time Field was chosen above for datatype') 
+    auto_now_add = models.NullBooleanField(verbose_name='Auto now add',  null=True, blank=True, help_text='Use this if DateTime & Time Field was chosen above for datatype')
+    upload_to = models.CharField(max_length=500,verbose_name='Upload to', null=True, blank=True, help_text='Required for FileField and ImageField')
+    path=models.CharField(max_length=500,verbose_name='Path', null=True, blank=True, help_text='Required for FilePathField')
+    verify_exists=models.NullBooleanField(verbose_name='Verify exits', null=True, blank=True, help_text='Required for AttributeURLField')
+    
     def simpleform(self):
         """ create the form elements """
         simpleform = {}
@@ -608,11 +619,11 @@ class Attribute(Edge):
     attributeTypeScope = models.CharField(max_length=50, verbose_name='property scope or qualification', null=True, blank=True)
     attributeType = models.ForeignKey(Attributetype, verbose_name='property name')
     valueScope = models.CharField(max_length=50, verbose_name='value scope or qualification', null=True, blank=True)
-    value  = models.CharField(max_length=100, verbose_name='value') 
+    svalue  = models.CharField(max_length=100, verbose_name='serialized value') 
 
     
     class Meta:
-        unique_together = (('subjectScope', 'subject', 'attributeTypeScope', 'attributeType', 'valueScope', 'value'),)
+        unique_together = (('subjectScope', 'subject', 'attributeTypeScope', 'attributeType', 'valueScope', 'svalue'),)
         verbose_name = _('attribute')
         verbose_name_plural = _('attributes')
         permissions = (('can_view_all', 'Can view all'),
@@ -627,15 +638,144 @@ class Attribute(Edge):
         '''
         composes the attribution as a name:value pair sentence without the subject.
         '''
-        return dict({str(self.attributeTypeScope) + str(self.attributeType): str(self.valueScope)+ str(self.value)})
+        return dict({str(self.attributeTypeScope) + str(self.attributeType): str(self.valueScope)+ str(self.svalue)})
 
     @property
     def composed_sentence(self):
         '''
         composes the attribution as a sentence in a triple format.
         '''
-        return '%s %s has %s %s %s %s' % (self.subjectScope, self.subject, self.attributeTypeScope, self.attributeType, self.valueScope, self.value)
+        return '%s %s has %s %s %s %s' % (self.subjectScope, self.subject, self.attributeTypeScope, self.attributeType, self.valueScope, self.svalue)
 
+class AttributeCharfield(Attribute):    
+
+    charfield  = models.CharField(max_length=100, verbose_name='string') 
+
+    def __unicode__(self):
+        return self.title
+
+class AttributeTextField(Attribute):
+    
+    textfield  = models.TextField(verbose_name='text') 
+
+    def __unicode__(self):
+        return self.title
+    
+class IntegerField(Attribute):
+     integerfield = models.IntegerField(max_length=100, verbose_name='Integer') 
+
+     def __unicode__(self):
+         return self.title
+
+class CommaSeparatedIntegerField(Attribute):
+    
+    commaseparatedintegerfield  = models.CommaSeparatedIntegerField(max_length=100, verbose_name='integers separated by comma') 
+
+    def __unicode__(self):
+        return self.title
+
+class BigIntegerField(Attribute):
+    
+    bigintegerfield  = models.BigIntegerField(max_length=100, verbose_name='big integer') 
+
+    def __unicode__(self):
+        return self.title
+
+class PositiveIntegerField(Attribute):
+    
+    positiveintegerfield  = models.PositiveIntegerField(max_length=100, verbose_name='positive integer') 
+
+    def __unicode__(self):
+        return self.title
+
+class DecimalField(Attribute):
+    
+    decimalfield  = models.DecimalField(max_digits=3, decimal_places=2, verbose_name='decimal') 
+
+    def __unicode__(self):
+        return self.title
+
+class FloatField(Attribute):
+    
+    floatfield  = models.FloatField(max_length=100, verbose_name='number as float') 
+
+    def __unicode__(self):
+        return self.title
+
+class BooleanField(Attribute):
+    
+    booleanfield  = models.BooleanField(verbose_name='boolean') 
+
+    def __unicode__(self):
+        return self.title
+
+class NullBooleanField(Attribute):
+    nullbooleanfield  = models.NullBooleanField(verbose_name='true false or unknown') 
+
+    def __unicode__(self):
+        return self.title
+
+class DateField(Attribute):
+    
+    datefield  = models.DateField(max_length=100, verbose_name='date') 
+
+    def __unicode__(self):
+        return self.title
+
+class DateTimeField(Attribute):
+    
+    DateTimeField  = models.DateTimeField(max_length=100, verbose_name='date time') 
+    
+    def __unicode__(self):
+        return self.title
+    
+class TimeField(Attribute):
+    TimeField  = models.TimeField(max_length=100, verbose_name='time') 
+
+    def __unicode__(self):
+        return self.title
+
+class EmailField(Attribute):
+    
+    charfield  = models.CharField(max_length=100,verbose_name='value') 
+
+    def __unicode__(self):
+        return self.title
+
+class FileField(Attribute):
+    
+    filefield  = models.FileField(upload_to='/media', verbose_name='file') 
+
+    def __unicode__(self):
+        return self.title
+
+class FilePathField(Attribute):
+    
+    filepathfield  = models.FilePathField(verbose_name='path of file') 
+
+    def __unicode__(self):
+        return self.title
+
+class ImageField(Attribute):
+    
+    imagefield  = models.ImageField(upload_to='/media', verbose_name='image') 
+
+    def __unicode__(self):
+        return self.title
+
+class URLField(Attribute):
+
+    urlfield  = models.URLField(max_length=100, verbose_name='url') 
+
+    def __unicode__(self):
+        return self.title
+
+class IPAddressField(Attribute):
+
+    ipaddressfield  = models.IPAddressField(max_length=100, verbose_name='ip address') 
+
+    def __unicode__(self):
+        return self.title
 
 
 class Processtype(Objecttype):    
