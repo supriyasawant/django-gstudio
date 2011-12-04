@@ -1,4 +1,4 @@
-e"""AttributetypeAdmin for Gstudio"""
+"""AttributetypeAdmin for Gstudio"""
 from datetime import datetime
 
 from django.forms import Media

@@ -29,37 +29,37 @@ class RelationtypeAdmin(reversion.VersionAdmin):
     form = RelationtypeAdminForm
     date_hierarchy = 'creation_date'
     fieldsets = ((
-                 (_('Neighbourhood Definiton'), {'fields': (
-                                                           'title',
-                                                           'inverse', 
-                                                           'altnames',
-                                                           'parent',
-                                                           'slug',
-
-                                                           'subjecttypeLeft',
-                                                           'applicablenodetypes1',
-                                                           'cardinalityLeft',
-                                                           'subjecttypeRight',
-                                                           'applicablenodetypes2',
-                                                           'cardinalityRight',
-                                                           'isSymmetrical',
-                                                           'isReflexive',
-                                                           'isTransitive') 
-                                                }),
-                 (_('Content'), {'fields': ('content', 'image',), 
-                                 'classes': ('collapse', 'collapse-closed')}),
-
- 		   
-                 (_('Dependency'), {'fields': ('priornode', 'posteriornode',), 
-                                 'classes': ('collapse', 'collapse-closed')}),
-                 (_('Options'), {'fields': ('featured', 'excerpt', 'template',
-                                            'related', 'authors',
-                                            'creation_date',
-                                            'start_publication',
-                                            'end_publication'),
-                                 'classes': ('collapse', 'collapse-closed')}),
-
-
+            (_('Neighbourhood Definiton'), {'fields': (
+                        'title',
+                        'inverse', 
+                        'altnames',
+                        'parent',
+                        'slug',
+                        
+                        'subjecttypeLeft',
+                        'applicablenodetypes1',
+                        'cardinalityLeft',
+                        'subjecttypeRight',
+                        'applicablenodetypes2',
+                        'cardinalityRight',
+                        'isSymmetrical',
+                        'isReflexive',
+                        'isTransitive') 
+                                            }),
+            (_('Content'), {'fields': ('content', 'image',), 
+                            'classes': ('collapse', 'collapse-closed')}),
+            
+            
+            (_('Dependency'), {'fields': ('priornode', 'posteriornode',), 
+                               'classes': ('collapse', 'collapse-closed')}),
+            (_('Options'), {'fields': ('featured', 'excerpt', 'template',
+                                       'related', 'authors',
+                                       'creation_date',
+                                       'start_publication',
+                                       'end_publication'),
+                            'classes': ('collapse', 'collapse-closed')}),
+            ))
+            
     list_filter = ('parent','metatypes', 'authors', 'status', 'featured',
                    'login_required', 'comment_enabled', 'pingback_enabled',
                    'creation_date', 'start_publication',
@@ -78,23 +78,23 @@ class RelationtypeAdmin(reversion.VersionAdmin):
                'ping_directories', 'make_tweet', 'put_on_top']
     actions_on_top = True
     actions_on_bottom = True
-
+    
     def __init__(self, model, admin_site):
-        self.form.admin_site = admin_site
-        super(RelationtypeAdmin, self).__init__(model, admin_site)
-
-    # Custom Display
+                     self.form.admin_site = admin_site
+                     super(RelationtypeAdmin, self).__init__(model, admin_site)
+                 
+                 # Custom Display
     def get_title(self, relationtype):
         """Return the title with word count and number of comments"""
         title = _('%(title)s (%(word_count)i words)') % \
-                {'title': relationtype.title, 'word_count': relationtype.word_count}
+            {'title': relationtype.title, 'word_count': relationtype.word_count}
         comments = relationtype.comments.count()
         if comments:
             return _('%(title)s (%(comments)i comments)') % \
-                   {'title': title, 'comments': comments}
+                {'title': title, 'comments': comments}
         return title
     get_title.short_description = _('title')
-
+    
     def get_authors(self, relationtype):
         """Return the authors in HTML"""
         try:
@@ -104,10 +104,10 @@ class RelationtypeAdmin(reversion.VersionAdmin):
                         author.username) for author in relationtype.authors.all()]
         except NoReverseMatch:
             authors = [author.username for author in relationtype.authors.all()]
-        return ', '.join(authors)
-    get_authors.allow_tags = True
-    get_authors.short_description = _('author(s)')
-
+            return ', '.join(authors)
+        get_authors.allow_tags = True
+        get_authors.short_description = _('author(s)')
+        
     def get_metatypes(self, relationtype):
         """Return the metatypes linked in HTML"""
         try:
