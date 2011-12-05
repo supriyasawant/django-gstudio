@@ -59,7 +59,7 @@ DATE_REGEXP = re.compile(
     r'.*(?P<year>\d{4})/(?P<month>\d{2})?/(?P<day>\d{2})?.*')
 
 
-def retrieve_breadcrumbs(path, model_instance, root_name=''):
+def retrieve_breadcrumbs(path, model_instance, root_name='gstudio'):
     """Build a semi-hardcoded breadcrumbs
     based of the model's url handled by Gstudio"""
     breadcrumbs = []

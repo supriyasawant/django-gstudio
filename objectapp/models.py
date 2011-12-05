@@ -20,6 +20,7 @@ from django.contrib.markup.templatetags.markup import textile
 from django.contrib.markup.templatetags.markup import restructuredtext
 
 import mptt
+from djangoratings.fields import RatingField
 from tagging.fields import TagField
 from gstudio.models import Objecttype
 from gstudio.models import Node
@@ -327,17 +328,31 @@ class Gbobject(Node):
 class System(Gbobject):    
 
     """
-    class to represent complex compositions containing other nodes such as an ontology, a complex organization
+    instance of a Systemtype
     """
 
-    systemtypes = models.ManyToManyField(Systemtype, verbose_name=_('system type'),
+    systemtypes = models.ManyToManyField(Systemtype, verbose_name=_('member of systemtype'),
                                         related_name='systemtypes',
-                                        blank=True, null=True)
-    edgeset = models.ManyToManyField(Edge, related_name="system_edge", verbose_name='Edges in the system',    
-                                   blank=True, null=False) 
-    nodeset = models.ManyToManyField(Node, related_name="system_node", verbose_name='Nodes in the system',    
-                                   blank=True, null=False) 
-    systemset = models.ManyToManyField('self', related_name="system_system", verbose_name='systems to be nested in the system',
+                                         blank=True, null=True)
+
+    objectset = models.ManyToManyField(Gbobject, related_name="objectset_system", 
+                                       verbose_name='Possible edges in the system',    
+                                       blank=True, null=False) 
+
+    relationset = models.ManyToManyField(Relation, related_name="relationset_system", 
+                                         verbose_name='Possible nodetypes in the system',    
+                                         blank=True, null=False) 
+
+    attributeset = models.ManyToManyField(Attribute, related_name="attributeset_system", 
+                                          verbose_name='systems to be nested in the system',
+                                          blank=True, null=False)
+
+    processset = models.ManyToManyField(Processtype, related_name="processset_system", 
+                                        verbose_name='Possible edges in the system',    
+                                        blank=True, null=False) 
+
+    systemset = models.ManyToManyField('self', related_name="systems_system", 
+                                       verbose_name='systems that can be nested in the system',
                                        blank=True, null=False)
 
 
