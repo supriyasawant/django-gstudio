@@ -137,6 +137,7 @@ class Gbobject(Node):
     objects = models.Manager()
     published = GbobjectPublishedManager()
 
+
     @property
     def get_nbh(self):
         """ 
@@ -145,80 +146,65 @@ class Gbobject(Node):
         fields = ['title','altname','pluralform']
         nbh = {}
         nbh['title'] = self.title        
-        #nbh['altname'] = self.altname                
-        #nbh['pluralform'] = self.pluralform
+        nbh['altnames'] = self.altnames                
+        nbh['plural'] = self.plural
+        nbh['content'] = self.content
 
-        # ALGO to find the relations and their leftroles and rightroles
-        # 1. Get the OT this object has
-        # 2. Retrieve the possible RT's that the OT can have
-        # 3. For each RT , retrieve where it occurs (left or right)
-
-        # 1. Get the OT this object has
-        possible_relationtypes = {"left":[], "right": [] }
-        
         nbh['member_of'] = {}
         for objtype in self.objecttypes.all():
             # create member of dict
             nbh['member_of'].update({str(objtype.id):str(objtype.title)})
 
-            # also fill in possible reltypes
-            #possible_relationtypes.left.append(Relationtype.objects.filter(subjecttypeLeft=self.id)) 
-            #possible_relationtypes.right.append(Relationtype.objects.filter(subjecttypeRight=self.id)) 
-     
-        #for relationtype in Relationtypes
-                
-        nbh['relations'] = {}
+        # ALGO to find the relations and their leftroles and rightroles
+        # 1. Get the relations containing a reference to the object. Retrieve where it occurs (left or right)
+        # 2. Find out which RT they come from.
+        # 3. For each RT, create a dict key and a value as a dict. And add the relation as a new key-value pair (rid:subject).
+        # 4. If self is in right value, then add inverse relation as RT and add the relation as a new key-value pair (rid:subject).
+
         left_relset = Relation.objects.filter(subject1=self.id) 
         right_relset = Relation.objects.filter(subject2=self.id) 
                 
-        #nbh['relations']['leftroles']  =[]
-        #nbh['relations']['rightroles'] =[]
-
-        # dictionary to store a single relation
+        # RT dictionary to store a single relation
         rel_dict ={}
         rel_dict['leftroles'] = {}
         rel_dict['rightroles'] ={}
 
-        possible_reltypes = {}
-        
+               
         for relation in left_relset:
             # check if relation in possibles
-            if relation.relationtype not in possible_reltypes.keys():
-                # add to possibles
-                possible_reltypes.update({str(relation.relationtype.id):str(relation.relationtype.title)})
+            if relation.relationtype.title not in rel_dict['leftroles'].keys():
                 # create a new dict key field and add to it
-                rel_dict['leftroles'][str(relation.relationtype.id)] = []
-                rel_dict['leftroles'][str(relation.relationtype.id)].append({str(relation.id):str(relation.composed_sentence)})                
-            else:
-                # retrieve the existing key and add.
-                rel_dict['leftroles'][str(relation.relationtype.id)].append({str(relation.id):str(relation.composed_sentence)})                
+                rel_dict['leftroles'][str(relation.relationtype.title)] = {}
+            # add 
+            rel_dict['leftroles'][str(relation.relationtype.title)][str(relation.id)] = str(relation.subject2) 
+
     
         for relation in right_relset:
             # check if relation in possibles
-            if relation.relationtype not in possible_reltypes.keys():
-                # add to possibles
-                possible_reltypes.update({str(relation.relationtype.id):str(relation.relationtype.title)})
+            if relation.relationtype.inverse not in rel_dict['rightroles'].keys():
                 # create a new dict key field and add to it
-                rel_dict['rightroles'][str(relation.relationtype.id)] = []
-                rel_dict['rightroles'][str(relation.relationtype.id)].append({str(relation.id):str(relation.inversed_sentence)})                
-            else:
-                # retrieve the existing key and add.
-                rel_dict['rightroles'][str(relation.relationtype.id)].append({str(relation.id):str(relation.inversed_sentence)})                
+                rel_dict['rightroles'][str(relation.relationtype.inverse)] = {}
+                # add to the existing key
+            rel_dict['rightroles'][str(relation.relationtype.inverse)][str(relation.id)] = str(relation.subject1)
 
-        nbh['relations'] = rel_dict
-
-        nbh['attributes'] = {}  
+        nbh['relations'] = {}  #rel_dict    
+        #nbh['leftroles'] = rel_dict['leftroles']
+        #nbh['rightroles'] = rel_dict['rightroles']
+        nbh['relations'].update(rel_dict['leftroles'])
+        nbh['relations'].update(rel_dict['rightroles'])
+        #nbh['relations'].update(rel_dict['rightroles'])
         
-        # output format looks like  {'title': ['17753', 'plants'], ...}, 
+        attributes =  {}
         for attribute in Attribute.objects.filter(subject=self.id):
-            #for key,value in attribute.edge_node_dict.iteritems():
-            #    nbh[key]= value
-            nbh['attributes'].update({str(attribute.id):str(attribute.composed_sentence)})  
-                
-        #nbh['subjecttype_of'] =   
-
-        return nbh
-
+            for key,value in attribute.edge_node_dict.iteritems():
+                attributes[key]= value
+        nbh['attributes'] = attributes
+        # encapsulate the dictionary with its node name as key
+        #nbh.update(attribute_set)
+        node = {}
+        node[self.title] = nbh
+        
+        return node
 
 
 
