@@ -1,6 +1,5 @@
 """RelationtypeAdmin for Gstudio"""
 from datetime import datetime
-
 from django.forms import Media
 from django.contrib import admin
 from django.contrib.auth.models import User
@@ -50,7 +49,7 @@ class RelationtypeAdmin(reversion.VersionAdmin):
                             'classes': ('collapse', 'collapse-closed')}),
             
             
-            (_('Dependency'), {'fields': ('priornode', 'posteriornode',), 
+            (_('Dependency'), {'fields': ('priornodes', 'posteriornode',), 
                                'classes': ('collapse', 'collapse-closed')}),
             (_('Options'), {'fields': ('featured', 'excerpt', 'template',
                                        'related', 'authors',
@@ -60,6 +59,7 @@ class RelationtypeAdmin(reversion.VersionAdmin):
                             'classes': ('collapse', 'collapse-closed')}),
             ))
             
+
     list_filter = ('parent','metatypes', 'authors', 'status', 'featured',
                    'login_required', 'comment_enabled', 'pingback_enabled',
                    'creation_date', 'start_publication',

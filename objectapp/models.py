@@ -87,6 +87,15 @@ class Gbobject(Node):
     excerpt = models.TextField(_('excerpt'), blank=True,
                                 help_text=_('optional element'))
 
+    priornodes = models.ManyToManyField('self', null=True, blank=True,
+                               verbose_name=_('its meaning depends'),
+                               related_name='posteriors')
+
+    posteriornodes = models.ManyToManyField('self', null=True, blank=True,
+                               verbose_name=_('required for the meaning of'),
+                               related_name='priornodes')
+
+
     tags = TagField(_('tags'))
     objecttypes = models.ManyToManyField(Objecttype, verbose_name=_('member of'),
                                         related_name='gbobjects',
@@ -95,6 +104,7 @@ class Gbobject(Node):
     slug = models.SlugField(help_text=_('used for publication'),
                             unique_for_date='creation_date',
                             max_length=255)
+
 
     authors = models.ManyToManyField(User, verbose_name=_('authors'),
                                      related_name='gbobjects',
@@ -400,7 +410,7 @@ if not reversion.is_registered(System):
     reversion.register(System, follow=["systemtypes", "edgeset", "nodeset", "systemset"])
 
 if not reversion.is_registered(Gbobject):
-    reversion.register(Gbobject, follow=["objecttypes"])
+    reversion.register(Gbobject, follow=["objecttypes","priornodes","posteriornodes"])
 
 
 moderator.register(Gbobject, GbobjectCommentModerator)

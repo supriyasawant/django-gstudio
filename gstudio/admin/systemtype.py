@@ -30,7 +30,8 @@ class SystemtypeAdmin(reversion.VersionAdmin):
     date_hierarchy = 'creation_date'
 
     fieldsets = ((_('Neighbourhood'), {'fields': ('title', 'altnames','content', 'parent','image', 'slug','status')}),
-                 (_('Systemtype definiton'), {'fields': ('objecttypeset', 
+                 (_('Systemtype definiton'), {'fields': (
+                                                         'objecttypeset', 
                                                          'relationtypeset', 
                                                          'attributetypeset',
                                                          'metatypeset', 
