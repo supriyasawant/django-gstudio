@@ -1,6 +1,5 @@
 """RelationtypeAdmin for Gstudio"""
 from datetime import datetime
-
 from django.forms import Media
 from django.contrib import admin
 from django.contrib.auth.models import User
@@ -28,9 +27,7 @@ class RelationtypeAdmin(reversion.VersionAdmin):
     """Admin for Relationtype model"""
     form = RelationtypeAdminForm
     date_hierarchy = 'creation_date'
-    fieldsets = ((
-                 (_('Neighbourhood Definiton'), {'fields': (
-                                                           'title',
+    fieldsets = ((_('Neighbourhood Definiton'), {'fields': ('title',
                                                            'inverse', 
                                                            'altnames',
                                                            'parent',
@@ -44,13 +41,14 @@ class RelationtypeAdmin(reversion.VersionAdmin):
                                                            'cardinalityRight',
                                                            'isSymmetrical',
                                                            'isReflexive',
-                                                           'isTransitive') 
-                                                }),
-                 (_('Content'), {'fields': ('content', 'image',), 
+                                                           'isTransitive') }),
+
+                 (_('Content'), {'fields': ('content', 'image',),
                                  'classes': ('collapse', 'collapse-closed')}),
 
- 		   
-                 (_('Dependency'), {'fields': ('priornode', 'posteriornode',), 
+
+
+                 (_('Dependency'), {'fields': ('priornode', 'posteriornode',),
                                  'classes': ('collapse', 'collapse-closed')}),
                  (_('Options'), {'fields': ('featured', 'excerpt', 'template',
                                             'related', 'authors',
@@ -58,6 +56,11 @@ class RelationtypeAdmin(reversion.VersionAdmin):
                                             'start_publication',
                                             'end_publication'),
                                  'classes': ('collapse', 'collapse-closed')}),
+                 (_('Privacy'), {'fields': ('password', 'login_required',),
+                                 'classes': ('collapse', 'collapse-closed')}),
+                 (_('Publication'), {'fields': ('tags',
+                                                'sites')}))
+
 
 
     list_filter = ('parent','metatypes', 'authors', 'status', 'featured',
