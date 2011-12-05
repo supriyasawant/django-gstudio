@@ -194,6 +194,7 @@ class Metatype(Nodetype):
     slug = models.SlugField(help_text=_('used for publication'), unique=True, max_length=255)
     description = models.TextField(_('description'), blank=True, null=True)
     parent = models.ForeignKey('self', null=True, blank=True, verbose_name=_('parent metatype'), related_name='children')
+    #plural = models.CharField(_('plural name'), help_text=_('plural form of the node name if any'), max_length=255, blank=True, null=True)
 
     def objecttypes_published(self):
         """
@@ -208,11 +209,11 @@ class Metatype(Nodetype):
         """  
         Returns the neighbourhood of the metatype
         """
-        fields = ['title','altname','pluralform']
+        fields = ['title','altname','plural']
         nbh = {}
         nbh['title'] = self.title
-        #nbh['altname'] = self.altname 
-        #nbh['pluralform'] = self.pluralform
+        nbh['altnames'] = self.altnames 
+        #nbh['plural'] = self.plural
 
         nbh['typeof'] = {}
         if self.parent:
@@ -220,31 +221,29 @@ class Metatype(Nodetype):
 
         nbh['contains_subtypes'] = {}
         # generate ids and names of children/members
-
         for obj in self.children.get_query_set():
             nbh['contains_subtypes'].update({str(obj.id):str(obj.title)})
+
+        nbh['contains_members'] = {}
+        for obj in self.objecttypes.all():
+            nbh['contains_members'].update({str(obj.id):str(obj.title)})
 
         nbh['relations'] = {}
         left_relset = Relationtype.objects.filter(subjecttypeLeft=self.id)
         right_relset = Relationtype.objects.filter(subjecttypeRight=self.id)
 
-        nbh['relations']['leftroles']  =[]
-        nbh['relations']['rightroles'] =[]
+        nbh['relations']['leftroles']  ={}
+        nbh['relations']['rightroles'] ={}
 
-        for relation in left_relset:
-            nbh['relations']['leftroles'].append({str(relation.id):str(relation.composed_sentence)})
+        for relationtype in left_relset:
+            nbh['relations']['leftroles'].update({str(relationtype.id):str(relationtype.title)})
 
-        for relation in right_relset:
-            nbh['relations']['rightroles'].append({str(relation.id):str(relation.composed_sentence)})
+        for relationtype in right_relset:
+            nbh['relations']['rightroles'].update({str(relationtype.id):str(relationtype.title)})
 
-        nbh['attributes'] = {}
-        # output format looks like  {'title': ['17753','plants'], ...},  
-        for attribute in Attributetype.objects.filter(subjecttype=self.id):
-             nbh['attributes'].update({str(attribute._attributeType_cache.title):[attribute.id ,str(valueScope) + str(attribute.value)]})
-
-        nbh['contains_members'] = {}
-        for obj in self.objecttypes.all():
-            nbh['contains_members'].update({str(obj.id):str(obj.title)})
+        nbh['attributetypes'] = {}
+        for attributetype in Attributetype.objects.filter(subjecttype=self.id):
+             nbh['attributetypes'].update({str(attributetype._attributeType_cache.title):[attributetype.id ,str(attributetype.valueScope) + str(attributetype.value)]})
 
         node = {}
         node[self.title] = nbh
