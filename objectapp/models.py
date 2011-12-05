@@ -147,6 +147,7 @@ class Gbobject(Node):
         nbh['title'] = self.title        
         nbh['altnames'] = self.altnames                
         nbh['plural'] = self.plural
+        nbh['content'] = self.content
 
         nbh['member_of'] = {}
         for objtype in self.objecttypes.all():
@@ -183,16 +184,20 @@ class Gbobject(Node):
                 # create a new dict key field and add to it
                 rel_dict['rightroles'][str(relation.relationtype.inverse)] = {}
                 # add to the existing key
-            rel_dict['rightroles'][str(relation.relationtype.inverse)][str(relation.id)] = str(relation.subject1)                
-            
-        nbh.update(rel_dict['leftroles'])
-        nbh.update(rel_dict['rightroles'])
+            rel_dict['rightroles'][str(relation.relationtype.inverse)][str(relation.id)] = str(relation.subject1)
+
+        nbh['relations'] = {}  #rel_dict    
+        #nbh['leftroles'] = rel_dict['leftroles']
+        #nbh['rightroles'] = rel_dict['rightroles']
+        nbh['relations'].update(rel_dict['leftroles'])
+        nbh['relations'].update(rel_dict['rightroles'])
+        #nbh['relations'].update(rel_dict['rightroles'])
         
-        
+        attributes =  {}
         for attribute in Attribute.objects.filter(subject=self.id):
             for key,value in attribute.edge_node_dict.iteritems():
-                nbh[key]= value
-                
+                attributes[key]= value
+        nbh['attributes'] = attributes
         # encapsulate the dictionary with its node name as key
         #nbh.update(attribute_set)
         node = {}

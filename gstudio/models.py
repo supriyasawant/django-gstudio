@@ -194,7 +194,7 @@ class Metatype(Nodetype):
     slug = models.SlugField(help_text=_('used for publication'), unique=True, max_length=255)
     description = models.TextField(_('description'), blank=True, null=True)
     parent = models.ForeignKey('self', null=True, blank=True, verbose_name=_('parent metatype'), related_name='children')
-    #plural = models.CharField(_('plural name'), help_text=_('plural form of the node name if any'), max_length=255, blank=True, null=True)
+    plural = models.CharField(_('plural name'), help_text=_('plural form of the node name if any'), max_length=255, blank=True, null=True)
 
     def objecttypes_published(self):
         """
@@ -213,7 +213,7 @@ class Metatype(Nodetype):
         nbh = {}
         nbh['title'] = self.title
         nbh['altnames'] = self.altnames 
-        #nbh['plural'] = self.plural
+        nbh['plural'] = self.plural
 
         nbh['typeof'] = {}
         if self.parent:
@@ -261,12 +261,13 @@ class Metatype(Nodetype):
     def __unicode__(self):
         return self.title
 
-    def _get_sentence(self):
+    @property
+    def composed_sentence(self):
         "composes the relation as a sentence in triple format."
         if self.parent:
             return '%s is a kind of %s' % (self.title, self.parent.tree_path)
         return '%s is a root node'  % (self.slug)
-    composed_sentence = property(_get_sentence)
+    
 
     @models.permalink
     def get_absolute_url(self):
@@ -295,10 +296,10 @@ class Objecttype(Nodetype):
                                verbose_name=_('is a kind of'),
                                related_name='subtypes')
     priornode = models.ManyToManyField('self', null=True, blank=True,
-                               verbose_name=_('its meaning depends'),
+                               verbose_name=_('its meaning depends on '),
                                related_name='posteriors')
     posteriornode = models.ManyToManyField('self', null=True, blank=True,
-                               verbose_name=_('required for the meaning of'),
+                               verbose_name=_('required for the meaning of '),
                                related_name='priornodes')
 
     image = models.ImageField(_('image'), upload_to=UPLOAD_TO,
@@ -368,6 +369,11 @@ class Objecttype(Nodetype):
         nbh['title'] = self.title
         nbh['altnames'] = self.altnames
         nbh['plural'] = self.plural
+        
+        nbh['member_of_metatype'] = {}
+        if self.metatypes.all():
+            for metatype in self.metatypes.all():    
+		nbh['member_of_metatype'].update({str(metatype.id):str(metatype.title)})      
 
         nbh['attributetypes'] = {}
 
@@ -376,35 +382,46 @@ class Objecttype(Nodetype):
 
         left_relset = Relationtype.objects.filter(subjecttypeLeft=self.id)
         right_relset = Relationtype.objects.filter(subjecttypeRight=self.id)
-        
-	nbh['rightroles'] = {}
-	nbh['leftroles'] = {}
+        nbh['relations'] = {}
+        reltypes = {}
+	reltypes['right_role_of'] = {}
+	reltypes['left_role_of'] = {}
 
         for relationtype in left_relset:
-	    nbh['leftroles'].update({str(relationtype.id):str(relationtype.title)})
+	    reltypes['left_role_of'].update({str(relationtype.id):str(relationtype.title)})
 
         for relationtype in right_relset:
-	    nbh['rightroles'].update({str(relationtype.id):str(relationtype.title)})
+	    reltypes['right_role_of'].update({str(relationtype.id):str(relationtype.title)})
 
-
-        nbh['typeof'] = {}
+        nbh['type_of'] = {}
 	if self.parent:
-            nbh['typeof'] = dict({str(self.parent.id) : str(self.parent.title)})
-        nbh['subtypes'] = {}
+            nbh['type_of'].update({str(self.parent.id) : str(self.parent.title)})
 
+        nbh['contains_subtypes'] = {}
         # generate ids and names of children /members
         for objecttype in Objecttype.objects.filter(parent=self.id):
-            nbh['subtypes'].update({str(objecttype.id):str(objecttype.title)})
+            nbh['contains_subtypes'].update({str(objecttype.id):str(objecttype.title)})
 
-        nbh['members'] = {}
+        nbh['contains_members'] = {}
 
         if self.gbobjects.all():
-            for gbobject in self.gbobjects.all():    #Gbobject.objects.filter(objecttypes__id__exact=self.id): 
-		nbh['members'].update({str(gbobject.id):str(gbobject.title)})
+            for gbobject in self.gbobjects.all():   
+		nbh['contains_members'].update({str(gbobject.id):str(gbobject.title)})
+                
+        nbh['priornodes'] = {} 
+        if self.priornode.all():            
+            for prnode in self.priornode.all():
+                nbh['priornodes'].update({str(prnode.id):str(prnode.title)})
+
+        nbh['posteriornodes'] = {} 
+        if self.posteriornode.all():            
+            for pstnode in self.posteriornode.all():
+                nbh['postnodes'].update({str(pstnode.id):str(pstnode.title)})
 
 	nbh['authors'] = {}
         for author in self.authors.all():
             nbh['authors'].update({str(author.id):str(author.username)})
+        nbh['content']  = self.content
 
         node = {}
         node[self.title] = nbh
@@ -573,7 +590,7 @@ class Relationtype(Objecttype):
     '''
     Binary Relationtypes are defined in this table.
     '''
-    inverse = models.CharField(_('inverse name'), help_text=_('when subjecttypes are interchanged, what should be the name of the relation type? This is mandatory field. If the relation is symmetric, same name will do.'), max_length=255)
+    inverse = models.CharField(_('inverse name'), help_text=_('when subjecttypes are interchanged, what should be the name of the relation type? This is mandatory field. If the relation is symmetric, same name will do.'), max_length=255,db_index=True ) 
     subjecttypeLeft = models.ForeignKey(NID,related_name="subjecttypeLeft_gbnodetype", verbose_name='left role')  
     applicablenodetypes1 = models.CharField(max_length=2,choices=NODETYPE_CHOICES,default='OT', verbose_name='Node types for left role')
     cardinalityLeft = models.IntegerField(null=True, blank=True, verbose_name='cardinality for the left role')
