@@ -39,7 +39,7 @@ types','dataType','verbose_name','null','blank','help_text','max_digits','decima
                  (_('Dependency'), {'fields': ('priornode', 'posteriornode',),
                                  'classes': ('collapse', 'collapse-closed')}),
                  (_('Options'), {'fields': ('featured', 'excerpt', 'template',
-                                            'related', 'authors',
+                                            'authors',
                                             'creation_date',
                                             'start_publication',
                                             'end_publication'),
@@ -60,7 +60,7 @@ types','dataType','verbose_name','null','blank','help_text','max_digits','decima
                     'get_is_actual', 'get_is_visible', 'get_link',
                     'get_short_url', 'creation_date')
     radio_fields = {'template': admin.VERTICAL}
-    filter_horizontal = ('metatypes', 'authors', 'related')
+    filter_horizontal = ('metatypes', 'authors')
     prepopulated_fields = {'slug': ('title', )}
     search_fields = ('title', 'excerpt', 'content', 'tags')
     actions = ['make_mine', 'make_published', 'make_hidden',
