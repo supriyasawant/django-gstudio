@@ -211,8 +211,8 @@ class Metatype(Nodetype):
         fields = ['title','altname','pluralform']
         nbh = {}
         nbh['title'] = self.title
-        #nbh['altname'] = self.altname                                                                                                                              
-        #nbh['pluralform'] = self.pluralform                                                                                                                       
+        #nbh['altname'] = self.altname 
+        #nbh['pluralform'] = self.pluralform
 
         nbh['typeof'] = {}
         if self.parent:
@@ -238,7 +238,7 @@ class Metatype(Nodetype):
             nbh['relations']['rightroles'].append({str(relation.id):str(relation.composed_sentence)})
 
         nbh['attributes'] = {}
-        # output format looks like  {'title': ['17753','plants'], ...},                                                                                               
+        # output format looks like  {'title': ['17753','plants'], ...},  
         for attribute in Attributetype.objects.filter(subjecttype=self.id):
              nbh['attributes'].update({str(attribute._attributeType_cache.title):[attribute.id ,str(valueScope) + str(attribute.value)]})
 
@@ -377,7 +377,7 @@ class Objecttype(Nodetype):
 
         left_relset = Relationtype.objects.filter(subjecttypeLeft=self.id)
         right_relset = Relationtype.objects.filter(subjecttypeRight=self.id)
-
+        
 	nbh['rightroles'] = {}
 	nbh['leftroles'] = {}
 
