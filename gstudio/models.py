@@ -642,7 +642,15 @@ class Attributetype(Objecttype):
     upload_to = models.CharField(max_length=500,verbose_name='Upload to', null=True, blank=True, help_text='Required for FileField and ImageField')
     path=models.CharField(max_length=500,verbose_name='Path', null=True, blank=True, help_text='Required for FilePathField')
     verify_exists=models.NullBooleanField(verbose_name='Verify exits', null=True, blank=True, help_text='Required for AttributeURLField')
+    min_length=models.IntegerField(max_length=10,null=True, blank=True, verbose_name='min length', help_text='minimum length')
+    required=models.NullBooleanField(verbose_name='required', null=True, blank=True, help_text='Use this for setting mandatory and optional fields')
+    label=models.CharField(max_length=500, null=True,blank=True,verbose_name='label',help_text='specify the "human-friendly" label')
+    unique=models.NullBooleanField(verbose_name='unique', null=True, blank=True, help_text='If True, this field must be unique throughout the table')
+    validators=models.ManyToManyField('self', verbose_name='validators',blank=True, null=True,help_text='A list of validators to run for this field')
+    default=models.CharField(max_length=500, null=True, blank=True, verbose_name='default', help_text='The default value for the field')
+    editable=models.NullBooleanField(verbose_name='required', null=True, blank=True, help_text='If False, the field will not be editable')
     
+
     def simpleform(self):
         """ create the form elements """
         simpleform = {}
