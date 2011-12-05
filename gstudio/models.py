@@ -247,10 +247,10 @@ class Objecttype(Nodetype):
     parent = models.ForeignKey('self', null=True, blank=True,
                                verbose_name=_('is a kind of'),
                                related_name='subtypes')
-    priornode = models.ManyToManyField('self', null=True, blank=True,
+    priornodes = models.ManyToManyField('self', null=True, blank=True,
                                verbose_name=_('its meaning depends'),
                                related_name='posteriors')
-    posteriornode = models.ManyToManyField('self', null=True, blank=True,
+    posteriornodes = models.ManyToManyField('self', null=True, blank=True,
                                verbose_name=_('required for the meaning of'),
                                related_name='priornodes')
 

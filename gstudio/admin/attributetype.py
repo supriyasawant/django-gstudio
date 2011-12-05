@@ -29,7 +29,7 @@ class AttributetypeAdmin(reversion.VersionAdmin):
     form = AttributetypeAdminForm
     date_hierarchy = 'creation_date'
     fieldsets = ((_('Attribute Definiton'), {'fields': ('title','altnames','subjecttype','applicablenode\
-types','dataType','parent','slug','status') }),
+types','dataType','verbose_name','null','blank','help_text','max_digits','decimal_places','auto_now','auto_now_add','upload_to','path','verify_exists','parent','slug','status') }),
 
                  (_('Content'), {'fields': ('content', 'image',),
                                  'classes': ('collapse', 'collapse-closed')}),

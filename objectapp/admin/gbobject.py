@@ -27,8 +27,11 @@ class GbobjectAdmin(reversion.VersionAdmin):
     date_hierarchy = 'creation_date'
     fieldsets = ((_('Content'), {'fields': ('title', 'altnames','content',
                                             'image', 'status')}),
+                 (_('Dependency'), {'fields': ('priornodes', 'posteriornodes',),
+                                 'classes': ('collapse', 'collapse-closed')}),
+
                  (_('Options'), {'fields': ('featured', 'excerpt', 'template',
-                                            'related', 'authors',
+                                             'authors',
                                             'creation_date',
                                             'start_publication',
                                             'end_publication'),
@@ -49,7 +52,7 @@ class GbobjectAdmin(reversion.VersionAdmin):
                     'get_is_actual', 'get_is_visible', 'get_link',
                     'get_short_url', 'creation_date')
     radio_fields = {'template': admin.VERTICAL}
-    filter_horizontal = ('objecttypes', 'authors', 'related')
+    filter_horizontal = ('objecttypes', 'authors')
     prepopulated_fields = {'slug': ('title', )}
     search_fields = ('title', 'excerpt', 'content', 'tags')
     actions = ['make_mine', 'make_published', 'make_hidden',
