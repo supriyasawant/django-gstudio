@@ -36,7 +36,7 @@ class SystemtypeAdmin(reversion.VersionAdmin):
                                                          'attributetypeset',
                                                          'metatypeset', 
                                                          'processtypeset')}),
-                 (_('Dependency'), {'fields': ('priornode', 'posteriornode',), 
+                 (_('Dependency'), {'fields': ('priornodes', 'posteriornodes',), 
                                  'classes': ('collapse', 'collapse-closed')}),
                  (_('Options'), {'fields': ('featured', 'excerpt', 'template',
                                             'authors',

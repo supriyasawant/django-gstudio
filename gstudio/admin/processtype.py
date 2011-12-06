@@ -33,7 +33,7 @@ class ProcesstypeAdmin(reversion.VersionAdmin):
                  (_('Processtype Definiton'), {'fields': ('attributetype_set','relationtype_set'), 
                                  'classes': ('collapse', 'collapse-closed')}),
  		   
-                 (_('Dependency'), {'fields': ('priornode', 'posteriornode',), 
+                 (_('Dependency'), {'fields': ('priornodes', 'posteriornodes',), 
                                  'classes': ('collapse', 'collapse-closed')}),
                  (_('Options'), {'fields': ('featured', 'excerpt', 'template',
                                              'authors',
