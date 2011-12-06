@@ -15,7 +15,7 @@ from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
 from django.template.defaultfilters import slugify
 
-from gstudio.models import Objecttype
+from gstudio.models import Nodetype
 from gstudio.models import Metatype
 from gstudio.settings import PROTOCOL
 from gstudio.settings import UPLOAD_TO
@@ -46,7 +46,7 @@ def authenticate(username, password, permission=None):
 def blog_structure(site):
     """A blog structure"""
     return {'url': '%s://%s%s' % (
-        PROTOCOL, site.domain, reverse('gstudio_objecttype_archive_index')),
+        PROTOCOL, site.domain, reverse('gstudio_nodetype_archive_index')),
             'blogid': settings.SITE_ID,
             'blogName': site.name}
 
@@ -87,32 +87,32 @@ def metatype_structure(metatype, site):
             'metatypeName': metatype.title}
 
 
-def post_structure(objecttype, site):
+def post_structure(nodetype, site):
     """A post structure with extensions"""
-    author = objecttype.authors.all()[0]
-    return {'title': objecttype.title,
-            'description': unicode(objecttype.html_content),
+    author = nodetype.authors.all()[0]
+    return {'title': nodetype.title,
+            'description': unicode(nodetype.html_content),
             'link': '%s://%s%s' % (PROTOCOL, site.domain,
-                                   objecttype.get_absolute_url()),
+                                   nodetype.get_absolute_url()),
             # Basic Extensions
             'permaLink': '%s://%s%s' % (PROTOCOL, site.domain,
-                                        objecttype.get_absolute_url()),
-            'metatypes': [cat.title for cat in objecttype.metatypes.all()],
-            'dateCreated': DateTime(objecttype.creation_date.isoformat()),
-            'postid': objecttype.pk,
+                                        nodetype.get_absolute_url()),
+            'metatypes': [cat.title for cat in nodetype.metatypes.all()],
+            'dateCreated': DateTime(nodetype.creation_date.isoformat()),
+            'postid': nodetype.pk,
             'userid': author.username,
             # Useful Movable Type Extensions
-            'mt_excerpt': objecttype.excerpt,
-            'mt_allow_comments': int(objecttype.comment_enabled),
-            'mt_allow_pings': int(objecttype.pingback_enabled),
-            'mt_keywords': objecttype.tags,
+            'mt_excerpt': nodetype.excerpt,
+            'mt_allow_comments': int(nodetype.comment_enabled),
+            'mt_allow_pings': int(nodetype.pingback_enabled),
+            'mt_keywords': nodetype.tags,
             # Useful Wordpress Extensions
             'wp_author': author.username,
             'wp_author_id': author.pk,
             'wp_author_display_name': author.username,
-            'wp_password': objecttype.password,
-            'wp_slug': objecttype.slug,
-            'sticky': objecttype.featured}
+            'wp_password': nodetype.password,
+            'wp_slug': nodetype.slug,
+            'sticky': nodetype.featured}
 
 
 @xmlrpc_func(returns='struct[]', args=['string', 'string', 'string'])
@@ -147,9 +147,9 @@ def get_authors(apikey, username, password):
 def delete_post(apikey, post_id, username, password, publish):
     """blogger.deletePost(api_key, post_id, username, password, 'publish')
     => boolean"""
-    user = authenticate(username, password, 'gstudio.delete_objecttype')
-    objecttype = Objecttype.objects.get(id=post_id, authors=user)
-    objecttype.delete()
+    user = authenticate(username, password, 'gstudio.delete_nodetype')
+    nodetype = Nodetype.objects.get(id=post_id, authors=user)
+    nodetype.delete()
     return True
 
 
@@ -159,7 +159,7 @@ def get_post(post_id, username, password):
     => post structure"""
     user = authenticate(username, password)
     site = Site.objects.get_current()
-    return post_structure(Objecttype.objects.get(id=post_id, authors=user), site)
+    return post_structure(Nodetype.objects.get(id=post_id, authors=user), site)
 
 
 @xmlrpc_func(returns='struct[]',
@@ -169,8 +169,8 @@ def get_recent_posts(blog_id, username, password, number):
     => post structure[]"""
     user = authenticate(username, password)
     site = Site.objects.get_current()
-    return [post_structure(objecttype, site) \
-            for objecttype in Objecttype.objects.filter(authors=user)[:number]]
+    return [post_structure(nodetype, site) \
+            for nodetype in Nodetype.objects.filter(authors=user)[:number]]
 
 
 @xmlrpc_func(returns='struct[]', args=['string', 'string', 'string'])
@@ -204,7 +204,7 @@ def new_metatype(blog_id, username, password, metatype_struct):
 def new_post(blog_id, username, password, post, publish):
     """metaWeblog.newPost(blog_id, username, password, post, publish)
     => post_id"""
-    user = authenticate(username, password, 'gstudio.add_objecttype')
+    user = authenticate(username, password, 'gstudio.add_nodetype')
     if post.get('dateCreated'):
         creation_date = datetime.strptime(
             post['dateCreated'].value.replace('Z', '').replace('-', ''),
@@ -212,7 +212,7 @@ def new_post(blog_id, username, password, post, publish):
     else:
         creation_date = datetime.now()
 
-    objecttype_dict = {'title': post['title'],
+    nodetype_dict = {'title': post['title'],
                   'content': post['description'],
                   'excerpt': post.get('mt_excerpt', truncate_words(
                       strip_tags(post['description']), 50)),
@@ -226,21 +226,21 @@ def new_post(blog_id, username, password, post, publish):
                       post['title']),
                   'password': post.get('wp_password', ''),
                   'status': publish and PUBLISHED or DRAFT}
-    objecttype = Objecttype.objects.create(**objecttype_dict)
+    nodetype = Nodetype.objects.create(**nodetype_dict)
 
     author = user
     if 'wp_author_id' in post and user.has_perm('gstudio.can_change_author'):
         if int(post['wp_author_id']) != user.pk:
             author = User.objects.get(pk=post['wp_author_id'])
-    objecttype.authors.add(author)
+    nodetype.authors.add(author)
 
-    objecttype.sites.add(Site.objects.get_current())
+    nodetype.sites.add(Site.objects.get_current())
     if 'metatypes' in post:
-        objecttype.metatypes.add(*[Metatype.objects.get_or_create(
+        nodetype.metatypes.add(*[Metatype.objects.get_or_create(
             title=cat, slug=slugify(cat))[0]
                                for cat in post['metatypes']])
 
-    return objecttype.pk
+    return nodetype.pk
 
 
 @xmlrpc_func(returns='boolean', args=['string', 'string', 'string',
@@ -248,40 +248,40 @@ def new_post(blog_id, username, password, post, publish):
 def edit_post(post_id, username, password, post, publish):
     """metaWeblog.editPost(post_id, username, password, post, publish)
     => boolean"""
-    user = authenticate(username, password, 'gstudio.change_objecttype')
-    objecttype = Objecttype.objects.get(id=post_id, authors=user)
+    user = authenticate(username, password, 'gstudio.change_nodetype')
+    nodetype = Nodetype.objects.get(id=post_id, authors=user)
     if post.get('dateCreated'):
         creation_date = datetime.strptime(
             post['dateCreated'].value.replace('Z', '').replace('-', ''),
             '%Y%m%dT%H:%M:%S')
     else:
-        creation_date = objecttype.creation_date
+        creation_date = nodetype.creation_date
 
-    objecttype.title = post['title']
-    objecttype.content = post['description']
-    objecttype.excerpt = post.get('mt_excerpt', truncate_words(
+    nodetype.title = post['title']
+    nodetype.content = post['description']
+    nodetype.excerpt = post.get('mt_excerpt', truncate_words(
         strip_tags(post['description']), 50))
-    objecttype.creation_date = creation_date
-    objecttype.last_update = datetime.now()
-    objecttype.comment_enabled = post.get('mt_allow_comments', 1) == 1
-    objecttype.pingback_enabled = post.get('mt_allow_pings', 1) == 1
-    objecttype.featured = post.get('sticky', 0) == 1
-    objecttype.tags = 'mt_keywords' in post and post['mt_keywords'] or ''
-    objecttype.slug = 'wp_slug' in post and post['wp_slug'] or slugify(
+    nodetype.creation_date = creation_date
+    nodetype.last_update = datetime.now()
+    nodetype.comment_enabled = post.get('mt_allow_comments', 1) == 1
+    nodetype.pingback_enabled = post.get('mt_allow_pings', 1) == 1
+    nodetype.featured = post.get('sticky', 0) == 1
+    nodetype.tags = 'mt_keywords' in post and post['mt_keywords'] or ''
+    nodetype.slug = 'wp_slug' in post and post['wp_slug'] or slugify(
         post['title'])
-    objecttype.status = publish and PUBLISHED or DRAFT
-    objecttype.password = post.get('wp_password', '')
-    objecttype.save()
+    nodetype.status = publish and PUBLISHED or DRAFT
+    nodetype.password = post.get('wp_password', '')
+    nodetype.save()
 
     if 'wp_author_id' in post and user.has_perm('gstudio.can_change_author'):
         if int(post['wp_author_id']) != user.pk:
             author = User.objects.get(pk=post['wp_author_id'])
-            objecttype.authors.clear()
-            objecttype.authors.add(author)
+            nodetype.authors.clear()
+            nodetype.authors.add(author)
 
     if 'metatypes' in post:
-        objecttype.metatypes.clear()
-        objecttype.metatypes.add(*[Metatype.objects.get_or_create(
+        nodetype.metatypes.clear()
+        nodetype.metatypes.add(*[Metatype.objects.get_or_create(
             title=cat, slug=slugify(cat))[0]
                                for cat in post['metatypes']])
     return True

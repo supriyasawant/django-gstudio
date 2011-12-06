@@ -13,7 +13,7 @@
     {% block meta %}{% endblock %}
     <link rel="pingback" href="/xmlrpc/" />
     <link rel="shortcut icon" href="{{ STATIC_URL }}gstudio/img/favicon.ico" />
-    <link rel="home" href="{% url gstudio_objecttype_archive_index %}" />
+    <link rel="home" href="{% url gstudio_nodetype_archive_index %}" />
     <link rel="stylesheet" type="text/css" media="screen, projection" href="{{ STATIC_URL }}gstudio/css/screen.css" />
     <link rel="stylesheet" type="text/css" media="print" href="{{ STATIC_URL }}gstudio/css/print.css" />
     <!--[if lt IE 8]>
@@ -30,12 +30,12 @@
 	  <a href="{% url gstudio_sitemap %}" title="{% trans "Sitemap" %}" class="link sitemap">
 	    {% trans "Sitemap" %}
 	  </a> |
-	  <a href="{% url gstudio_objecttype_latest_feed %}" title="{% trans "RSS Feed of latest objecttypes" %}" class="link feeds">
+	  <a href="{% url gstudio_nodetype_latest_feed %}" title="{% trans "RSS Feed of latest objecttypes" %}" class="link feeds">
 	    {% trans "RSS Feed" %}
 	  </a>
 	</div>
 	<h1>
-	  <a href="{% url gstudio_objecttype_archive_index %}" title="Gnowledge Studio" rel="home">
+	  <a href="{% url gstudio_nodetype_archive_index %}" title="Gnowledge Studio" rel="home">
 	    Gnowledge Studio
 	  </a>
 	</h1>
@@ -53,28 +53,6 @@
 	  {% endblock %}
 	</div>
 	<div id="sidebar" class="span-8 last">
-	  <div class="welcome">
-	    <h3>Welcome!</h3>
-	    <p>
-	      This application is an attempt to collaborative
-	      framework for online construction and publication of
-	      knowledge networks and ontologies. 
-            </p>
-            <p>
-	      Currently gnowledge studio provides support for
-	      Metatypes and Objecttypes. Using metatypes you can
-	      define different kinds of concepts, like "concept
-	      names", "action names", "scientific concept", "phylem"
-	      etc. Objecttypes are any regular classes, which can be
-	      defined as members of Metatypes. Both objecttypes and
-	      metatypes can have parent, siblings and children to
-	      create hierarchical structures. In our next release we
-	      will have objects as members of objecttypes. While we
-	      shape this project, if you are interested in joining,
-	      visit us
-	      at <a href="https://www.metastudio.org/groups/gstudio/">metastudio.org</a>.
-	    </p>
-	  </div>
 	  {% block sidebar %}
 	  {% endblock %}
 	</div>

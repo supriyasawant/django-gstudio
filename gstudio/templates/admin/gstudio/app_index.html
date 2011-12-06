@@ -13,7 +13,7 @@
 <script type="text/javascript" src="{{ STATIC_URL }}gstudio/js/jquery.masonry.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}gstudio/js/jquery.bgiframe.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}gstudio/js/jquery.autocomplete.js"></script>
-<script type="text/javascript" src="{% url admin:gstudio_objecttype_autocomplete_tags %}"></script>
+<script type="text/javascript" src="{% url admin:gstudio_nodetype_autocomplete_tags %}"></script>
 <script type="text/javascript">
 $(document).ready(function() {
   $("#content-main").masonry({
@@ -31,7 +31,7 @@ $(document).ready(function() {
 
   {% include "admin/gstudio/widgets/recent_comments.html" %}
 
-  {% include "admin/gstudio/widgets/draft_objecttypes.html" %}
+  {% include "admin/gstudio/widgets/draft_nodetypes.html" %}
 
   {% include "admin/gstudio/widgets/recent_linkbacks.html" %}
 </div>

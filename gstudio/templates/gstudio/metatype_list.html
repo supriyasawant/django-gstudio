@@ -11,7 +11,7 @@
   {% for object, structure in object_list|tree_info %}
     {% if structure.new_level %}<ul><li>{% else %}</li><li>{% endif %}
       <a href="{{ object.get_absolute_url }}" title="{{ object }}">{{ object }}</a>
-      {% blocktrans count object.objecttypes_published.count as objecttype_count %}{{ objecttype_count }} objecttype{% plural %}{{ objecttype_count }} objecttypes{% endblocktrans %}
+      {% blocktrans count object.nodetypes_published.count as nodetype_count %}{{ nodetype_count }} nodetype{% plural %}{{ nodetype_count }} nodetypes{% endblocktrans %}
       {% if object.description %}<br />{{ object.description|striptags|safe }}{% endif %}
     {% for level in structure.closed_levels %}</li></ul>{% endfor %}
   {% empty %}

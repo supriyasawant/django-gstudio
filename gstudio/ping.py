@@ -21,18 +21,18 @@ class URLRessources(object):
         self.current_site = Site.objects.get_current()
         self.site_url = '%s://%s' % (PROTOCOL, self.current_site.domain)
         self.blog_url = '%s%s' % (self.site_url,
-                                  reverse('gstudio_objecttype_archive_index'))
+                                  reverse('gstudio_nodetype_archive_index'))
         self.blog_feed = '%s%s' % (self.site_url,
-                                   reverse('gstudio_objecttype_latest_feed'))
+                                   reverse('gstudio_nodetype_latest_feed'))
 
 
 class DirectoryPinger(threading.Thread):
     """Threaded Directory Pinger"""
 
-    def __init__(self, server_name, objecttypes, timeout=10, start_now=True):
+    def __init__(self, server_name, nodetypes, timeout=10, start_now=True):
         self.results = []
         self.timeout = timeout
-        self.objecttypes = objecttypes
+        self.nodetypes = nodetypes
         self.server_name = server_name
         self.server = xmlrpclib.ServerProxy(self.server_name)
         self.ressources = URLRessources()
@@ -42,31 +42,31 @@ class DirectoryPinger(threading.Thread):
             self.start()
 
     def run(self):
-        """Ping objecttypes to a Directory in a Thread"""
+        """Ping nodetypes to a Directory in a Thread"""
         logger = getLogger('gstudio.ping.directory')
         socket.setdefaulttimeout(self.timeout)
-        for objecttype in self.objecttypes:
-            reply = self.ping_objecttype(objecttype)
+        for nodetype in self.nodetypes:
+            reply = self.ping_nodetype(nodetype)
             self.results.append(reply)
             logger.info('%s : %s' % (self.server_name, reply['message']))
         socket.setdefaulttimeout(None)
 
-    def ping_objecttype(self, objecttype):
-        """Ping an objecttype to a Directory"""
-        objecttype_url = '%s%s' % (self.ressources.site_url,
-                              objecttype.get_absolute_url())
-        metatypes = '|'.join([c.title for c in objecttype.metatypes.all()])
+    def ping_nodetype(self, nodetype):
+        """Ping an nodetype to a Directory"""
+        nodetype_url = '%s%s' % (self.ressources.site_url,
+                              nodetype.get_absolute_url())
+        metatypes = '|'.join([c.title for c in nodetype.metatypes.all()])
 
         try:
             reply = self.server.weblogUpdates.extendedPing(
                 self.ressources.current_site.name,
-                self.ressources.blog_url, objecttype_url,
+                self.ressources.blog_url, nodetype_url,
                 self.ressources.blog_feed, metatypes)
         except Exception:
             try:
                 reply = self.server.weblogUpdates.ping(
                     self.ressources.current_site.name,
-                    self.ressources.blog_url, objecttype_url,
+                    self.ressources.blog_url, nodetype_url,
                     metatypes)
             except Exception:
                 reply = {'message': '%s is an invalid directory.' % \
@@ -78,13 +78,13 @@ class DirectoryPinger(threading.Thread):
 class ExternalUrlsPinger(threading.Thread):
     """Threaded ExternalUrls Pinger"""
 
-    def __init__(self, objecttype, timeout=10, start_now=True):
+    def __init__(self, nodetype, timeout=10, start_now=True):
         self.results = []
-        self.objecttype = objecttype
+        self.nodetype = nodetype
         self.timeout = timeout
         self.ressources = URLRessources()
-        self.objecttype_url = '%s%s' % (self.ressources.site_url,
-                                   self.objecttype.get_absolute_url())
+        self.nodetype_url = '%s%s' % (self.ressources.site_url,
+                                   self.nodetype.get_absolute_url())
 
         threading.Thread.__init__(self)
         if start_now:
@@ -95,7 +95,7 @@ class ExternalUrlsPinger(threading.Thread):
         logger = getLogger('gstudio.ping.external_urls')
         socket.setdefaulttimeout(self.timeout)
 
-        external_urls = self.find_external_urls(self.objecttype)
+        external_urls = self.find_external_urls(self.nodetype)
         external_urls_pingable = self.find_pingback_urls(external_urls)
 
         for url, server_name in external_urls_pingable.items():
@@ -112,9 +112,9 @@ class ExternalUrlsPinger(threading.Thread):
             return False
         return url_splitted.netloc != urlsplit(site_url).netloc
 
-    def find_external_urls(self, objecttype):
-        """Find external urls in an objecttype"""
-        soup = BeautifulSoup(objecttype.html_content)
+    def find_external_urls(self, nodetype):
+        """Find external urls in an nodetype"""
+        soup = BeautifulSoup(nodetype.html_content)
         external_urls = [a['href'] for a in soup.findAll('a')
                          if self.is_external_url(
                              a['href'], self.ressources.site_url)]
@@ -161,7 +161,7 @@ class ExternalUrlsPinger(threading.Thread):
         """Do a pingback call for the target url"""
         try:
             server = xmlrpclib.ServerProxy(server_name)
-            reply = server.pingback.ping(self.objecttype_url, target_url)
+            reply = server.pingback.ping(self.nodetype_url, target_url)
         except (xmlrpclib.Error, socket.error):
             reply = '%s cannot be pinged.' % target_url
         return reply

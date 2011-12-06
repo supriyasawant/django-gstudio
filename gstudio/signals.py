@@ -24,32 +24,32 @@ def disable_for_loaddata(signal_handler):
 
 @disable_for_loaddata
 def ping_directories_handler(sender, **kwargs):
-    """Ping Directories when an objecttype is saved"""
-    objecttype = kwargs['instance']
+    """Ping Directories when an nodetype is saved"""
+    nodetype = kwargs['instance']
 
-    if objecttype.is_visible and settings.SAVE_PING_DIRECTORIES:
+    if nodetype.is_visible and settings.SAVE_PING_DIRECTORIES:
         from gstudio.ping import DirectoryPinger
 
         for directory in settings.PING_DIRECTORIES:
-            DirectoryPinger(directory, [objecttype])
+            DirectoryPinger(directory, [nodetype])
 
 
 @disable_for_loaddata
 def ping_external_urls_handler(sender, **kwargs):
-    """Ping Externals URLS when an objecttype is saved"""
-    objecttype = kwargs['instance']
+    """Ping Externals URLS when an nodetype is saved"""
+    nodetype = kwargs['instance']
 
-    if objecttype.is_visible and settings.SAVE_PING_EXTERNAL_URLS:
+    if nodetype.is_visible and settings.SAVE_PING_EXTERNAL_URLS:
         from gstudio.ping import ExternalUrlsPinger
 
-        ExternalUrlsPinger(objecttype)
+        ExternalUrlsPinger(nodetype)
 
 
 def disconnect_gstudio_signals():
     """Disconnect all the signals provided by Gstudio"""
-    from gstudio.models import Objecttype
+    from gstudio.models import Nodetype
 
     post_save.disconnect(
-        sender=Objecttype, dispatch_uid='gstudio.objecttype.post_save.ping_directories')
+        sender=Nodetype, dispatch_uid='gstudio.nodetype.post_save.ping_directories')
     post_save.disconnect(
-        sender=Objecttype, dispatch_uid='gstudio.objecttype.post_save.ping_external_urls')
+        sender=Nodetype, dispatch_uid='gstudio.nodetype.post_save.ping_external_urls')

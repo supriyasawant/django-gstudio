@@ -4,23 +4,23 @@ from django.core.urlresolvers import reverse
 
 from tagging.models import TaggedItem
 
-from gstudio.models import Objecttype
+from gstudio.models import Nodetype
 from gstudio.models import Author
 from gstudio.models import Metatype
 from gstudio.managers import tags_published
 
 
-class ObjecttypeSitemap(Sitemap):
-    """Sitemap for objecttypes"""
+class NodetypeSitemap(Sitemap):
+    """Sitemap for nodetypes"""
     priority = 0.5
     changefreq = 'weekly'
 
     def items(self):
-        """Return published objecttypes"""
-        return Objecttype.published.all()
+        """Return published nodetypes"""
+        return Nodetype.published.all()
 
     def lastmod(self, obj):
-        """Return last modification of an objecttype"""
+        """Return last modification of an nodetype"""
         return obj.last_update
 
 
@@ -29,13 +29,13 @@ class MetatypeSitemap(Sitemap):
     changefreq = 'monthly'
 
     def cache(self, metatypes):
-        """Cache categorie's objecttypes percent on total objecttypes"""
-        len_objecttypes = float(Objecttype.published.count())
+        """Cache categorie's nodetypes percent on total nodetypes"""
+        len_nodetypes = float(Nodetype.published.count())
         self.cache_metatypes = {}
         for cat in metatypes:
-            if len_objecttypes:
-                self.cache_metatypes[cat.pk] = cat.objecttypes_published(
-                    ).count() / len_objecttypes
+            if len_nodetypes:
+                self.cache_metatypes[cat.pk] = cat.nodetypes_published(
+                    ).count() / len_nodetypes
             else:
                 self.cache_metatypes[cat.pk] = 0.0
 
@@ -47,10 +47,10 @@ class MetatypeSitemap(Sitemap):
 
     def lastmod(self, obj):
         """Return last modification of a metatype"""
-        objecttypes = obj.objecttypes_published()
-        if not objecttypes:
+        nodetypes = obj.nodetypes_published()
+        if not nodetypes:
             return None
-        return objecttypes[0].creation_date
+        return nodetypes[0].creation_date
 
     def priority(self, obj):
         """Compute priority with cached coeffs"""
@@ -71,10 +71,10 @@ class AuthorSitemap(Sitemap):
 
     def lastmod(self, obj):
         """Return last modification of an author"""
-        objecttypes = obj.objecttypes_published()
-        if not objecttypes:
+        nodetypes = obj.nodetypes_published()
+        if not nodetypes:
             return None
-        return objecttypes[0].creation_date
+        return nodetypes[0].creation_date
 
     def location(self, obj):
         """Return url of an author"""
@@ -86,13 +86,13 @@ class TagSitemap(Sitemap):
     changefreq = 'monthly'
 
     def cache(self, tags):
-        """Cache tag's objecttypes percent on total objecttypes"""
-        len_objecttypes = float(Objecttype.published.count())
+        """Cache tag's nodetypes percent on total nodetypes"""
+        len_nodetypes = float(Nodetype.published.count())
         self.cache_tags = {}
         for tag in tags:
-            objecttypes = TaggedItem.objects.get_by_model(
-                Objecttype.published.all(), tag)
-            self.cache_tags[tag.pk] = (objecttypes, objecttypes.count() / len_objecttypes)
+            nodetypes = TaggedItem.objects.get_by_model(
+                Nodetype.published.all(), tag)
+            self.cache_tags[tag.pk] = (nodetypes, nodetypes.count() / len_nodetypes)
 
     def items(self):
         """Return all tags with coeff"""
@@ -102,8 +102,8 @@ class TagSitemap(Sitemap):
 
     def lastmod(self, obj):
         """Return last modification of a tag"""
-        objecttypes = self.cache_tags[obj.pk][0]
-        return objecttypes[0].creation_date
+        nodetypes = self.cache_tags[obj.pk][0]
+        return nodetypes[0].creation_date
 
     def priority(self, obj):
         """Compute priority with cached coeffs"""

@@ -3,12 +3,12 @@ from django.test import TestCase
 from django.contrib.auth.models import User
 
 from gstudio import settings
-from gstudio.models import Objecttype
+from gstudio.models import Nodetype
 from gstudio.models import Metatype
 
 
-class ObjecttypeAdminTestCase(TestCase):
-    """Test case for Objecttype Admin"""
+class NodetypeAdminTestCase(TestCase):
+    """Test case for Nodetype Admin"""
     urls = 'gstudio.tests.urls'
 
     def setUp(self):
@@ -24,11 +24,11 @@ class ObjecttypeAdminTestCase(TestCase):
     def tearDown(self):
         settings.WYSIWYG = self.original_wysiwyg
 
-    def test_objecttype_add_and_change(self):
-        """Test the insertion of an Objecttype"""
-        self.assertEquals(Objecttype.objects.count(), 0)
-        post_data = {'title': u'New objecttype',
-                     'template': u'gstudio/objecttype_detail.html',
+    def test_nodetype_add_and_change(self):
+        """Test the insertion of an Nodetype"""
+        self.assertEquals(Nodetype.objects.count(), 0)
+        post_data = {'title': u'New nodetype',
+                     'template': u'gstudio/nodetype_detail.html',
                      'creation_date_0': u'2011-01-01',
                      'creation_date_1': u'12:00:00',
                      'start_publication_0': u'2011-01-01',
@@ -39,16 +39,16 @@ class ObjecttypeAdminTestCase(TestCase):
                      'sites': u'1',
                      'content': u'My content'}
 
-        response = self.client.post('/admin/gstudio/objecttype/add/', post_data)
+        response = self.client.post('/admin/gstudio/nodetype/add/', post_data)
         self.assertEquals(response.status_code, 200)
-        self.assertEquals(Objecttype.objects.count(), 0)
+        self.assertEquals(Nodetype.objects.count(), 0)
 
-        post_data.update({'slug': u'new-objecttype'})
-        response = self.client.post('/admin/gstudio/objecttype/add/',
+        post_data.update({'slug': u'new-nodetype'})
+        response = self.client.post('/admin/gstudio/nodetype/add/',
                                     post_data, follow=True)
         self.assertEquals(response.redirect_chain,
-                          [('http://testserver/admin/gstudio/objecttype/', 302)])
-        self.assertEquals(Objecttype.objects.count(), 1)
+                          [('http://testserver/admin/gstudio/nodetype/', 302)])
+        self.assertEquals(Nodetype.objects.count(), 1)
 
 
 class MetatypeAdminTestCase(TestCase):

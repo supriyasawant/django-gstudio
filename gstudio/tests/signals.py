@@ -1,7 +1,7 @@
 """Test cases for Gstudio's signals"""
 from django.test import TestCase
 
-from gstudio.models import Objecttype
+from gstudio.models import Nodetype
 from gstudio.managers import DRAFT
 from gstudio.managers import PUBLISHED
 from gstudio.signals import disable_for_loaddata
@@ -38,21 +38,21 @@ class SignalsTestCase(TestCase):
         self.original_pinger = gstudio.ping.DirectoryPinger
         gstudio.ping.DirectoryPinger = fake_pinger
 
-        params = {'title': 'My objecttype',
+        params = {'title': 'My nodetype',
                   'content': 'My content',
                   'status': PUBLISHED,
-                  'slug': 'my-objecttype'}
-        objecttype = Objecttype.objects.create(**params)
-        self.assertEquals(objecttype.is_visible, True)
+                  'slug': 'my-nodetype'}
+        nodetype = Nodetype.objects.create(**params)
+        self.assertEquals(nodetype.is_visible, True)
         settings.PING_DIRECTORIES = ()
-        ping_directories_handler('sender', **{'instance': objecttype})
+        ping_directories_handler('sender', **{'instance': nodetype})
         self.assertEquals(self.top, 0)
         settings.PING_DIRECTORIES = ('toto',)
         settings.SAVE_PING_DIRECTORIES = True
-        ping_directories_handler('sender', **{'instance': objecttype})
+        ping_directories_handler('sender', **{'instance': nodetype})
         self.assertEquals(self.top, 1)
-        objecttype.status = DRAFT
-        ping_directories_handler('sender', **{'instance': objecttype})
+        nodetype.status = DRAFT
+        ping_directories_handler('sender', **{'instance': nodetype})
         self.assertEquals(self.top, 1)
 
         # Remove stub
@@ -70,20 +70,20 @@ class SignalsTestCase(TestCase):
         self.original_pinger = gstudio.ping.ExternalUrlsPinger
         gstudio.ping.ExternalUrlsPinger = fake_pinger
 
-        params = {'title': 'My objecttype',
+        params = {'title': 'My nodetype',
                   'content': 'My content',
                   'status': PUBLISHED,
-                  'slug': 'my-objecttype'}
-        objecttype = Objecttype.objects.create(**params)
-        self.assertEquals(objecttype.is_visible, True)
+                  'slug': 'my-nodetype'}
+        nodetype = Nodetype.objects.create(**params)
+        self.assertEquals(nodetype.is_visible, True)
         settings.SAVE_PING_EXTERNAL_URLS = False
-        ping_external_urls_handler('sender', **{'instance': objecttype})
+        ping_external_urls_handler('sender', **{'instance': nodetype})
         self.assertEquals(self.top, 0)
         settings.SAVE_PING_EXTERNAL_URLS = True
-        ping_external_urls_handler('sender', **{'instance': objecttype})
+        ping_external_urls_handler('sender', **{'instance': nodetype})
         self.assertEquals(self.top, 1)
-        objecttype.status = 0
-        ping_external_urls_handler('sender', **{'instance': objecttype})
+        nodetype.status = 0
+        ping_external_urls_handler('sender', **{'instance': nodetype})
         self.assertEquals(self.top, 1)
 
         # Remove stub

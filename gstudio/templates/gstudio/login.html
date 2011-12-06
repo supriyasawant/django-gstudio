@@ -6,14 +6,14 @@
 {% block content %}
 <h2>{% trans "Login required" %}</h2>
 
-<div class="objecttype_login">
+<div class="nodetype_login">
   {% if form.errors %}
   <p class="error">
     {% trans "Your username and password didn't match. Please try again." %}
   </p>
   {% endif %}
   <p>
-    {% trans "You need to be connected to view this objecttype." %}
+    {% trans "You need to be connected to view this nodetype." %}
   </p>
 
   <form method="post" action=".">

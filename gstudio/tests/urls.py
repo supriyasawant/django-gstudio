@@ -13,7 +13,7 @@ handler404 = 'django.views.defaults.page_not_found'
 
 urlpatterns += patterns(
     '',
-    url(r'^channel-test/$', 'gstudio.views.channels.objecttype_channel',
+    url(r'^channel-test/$', 'gstudio.views.channels.nodetype_channel',
         {'query': 'test'}),
     url(r'^comments/', include('django.contrib.comments.urls')),
     url(r'^xmlrpc/$', 'django_xmlrpc.views.handle_xmlrpc'),

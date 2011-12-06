@@ -21,15 +21,15 @@ from djangoratings.fields import RatingField
 from tagging.fields import TagField
 from gstudio.settings import UPLOAD_TO
 from gstudio.settings import MARKUP_LANGUAGE
-from gstudio.settings import OBJECTTYPE_TEMPLATES
-from gstudio.settings import OBJECTTYPE_BASE_MODEL
+from gstudio.settings import NODETYPE_TEMPLATES
+from gstudio.settings import NODETYPE_BASE_MODEL
 from gstudio.settings import MARKDOWN_EXTENSIONS
 from gstudio.settings import AUTO_CLOSE_COMMENTS_AFTER
-from gstudio.managers import objecttypes_published
-from gstudio.managers import ObjecttypePublishedManager
+from gstudio.managers import nodetypes_published
+from gstudio.managers import NodetypePublishedManager
 from gstudio.managers import AuthorPublishedManager
 from gstudio.managers import DRAFT, HIDDEN, PUBLISHED
-from gstudio.moderator import ObjecttypeCommentModerator
+from gstudio.moderator import NodetypeCommentModerator
 from gstudio.url_shortener import get_url_shortener
 from gstudio.signals import ping_directories_handler
 from gstudio.signals import ping_external_urls_handler
@@ -97,9 +97,9 @@ class Author(User):
     objects = models.Manager()
     published = AuthorPublishedManager()
 
-    def objecttypes_published(self):
-        """Return only the objecttypes published"""
-        return objecttypes_published(self.objecttypes)
+    def nodetypes_published(self):
+        """Return only the nodetypes published"""
+        return nodetypes_published(self.nodetypes)
 
     @models.permalink
     def get_absolute_url(self):
@@ -156,25 +156,6 @@ class Node(NID):
     class Meta:
         abstract=False
 
-
-    
-class Nodetype(Node):
-
-
-    def __unicode__(self):
-        return self.title
-
-    class Meta:
-        abstract=False
-
-class Edgetype(Node):
-
-    def __unicode__(self):
-        return self.title
-
-    class Meta:
-        abstract=False
-
 class Edge(NID):
 
 
@@ -185,21 +166,21 @@ class Edge(NID):
         abstract=False
 
 
-class Metatype(Nodetype):
+class Metatype(Node):
     """
-    Metatype object for Objecttype
+    Metatype object for Nodetype
     """
 
     slug = models.SlugField(help_text=_('used for publication'), unique=True, max_length=255)
     description = models.TextField(_('description'), blank=True, null=True)
     parent = models.ForeignKey('self', null=True, blank=True, verbose_name=_('parent metatype'), related_name='children')
-    plural = models.CharField(_('plural name'), help_text=_('plural form of the node name if any'), max_length=255, blank=True, null=True)
 
-    def objecttypes_published(self):
+
+    def nodetypes_published(self):
         """
-        Return only the published objecttypes 
+        Return only the published nodetypes 
         """
-        return objecttypes_published(self.objecttypes)
+        return nodetypes_published(self.nodetypes)
 
 
 
@@ -224,7 +205,7 @@ class Metatype(Nodetype):
             nbh['contains_subtypes'].update({str(obj.id):str(obj.title)})
 
         nbh['contains_members'] = {}
-        for obj in self.objecttypes.all():
+        for obj in self.nodetypes.all():
             nbh['contains_members'].update({str(obj.id):str(obj.title)})
 
         nbh['relations'] = {}
@@ -281,13 +262,16 @@ class Metatype(Nodetype):
         verbose_name_plural = _('metatypes')
 
 
-class Objecttype(Nodetype):
+
+
+
+class Nodetype(Node):
     """
-    Model design for publishing objecttypes.  Other nodetypes inherit this class.
+    Model design for publishing nodetypes.  Other nodetypes inherit this class.
     """
 
 
-    plural = models.CharField(_('plural name'), help_text=_('plural form of the node name if any'), max_length=255, blank=True, null=True)
+
     STATUS_CHOICES = ((DRAFT, _('draft')),
                       (HIDDEN, _('hidden')),
                       (PUBLISHED, _('published')))
@@ -311,7 +295,7 @@ class Objecttype(Nodetype):
 
     tags = TagField(_('tags'))
     metatypes = models.ManyToManyField(Metatype, verbose_name=_('member of metatypes'),
-                                        related_name='objecttypes',
+                                        related_name='nodetypes',
                                         blank=True, null=True)
 
     slug = models.SlugField(help_text=_('used for publication'),
@@ -319,7 +303,7 @@ class Objecttype(Nodetype):
                             max_length=255)
 
     authors = models.ManyToManyField(User, verbose_name=_('authors'),
-                                     related_name='objecttypes',
+                                     related_name='nodetypes',
                                      blank=True, null=False)
     status = models.IntegerField(choices=STATUS_CHOICES, default=PUBLISHED)
 
@@ -338,30 +322,30 @@ class Objecttype(Nodetype):
                                            default=datetime(2042, 3, 15))
 
     sites = models.ManyToManyField(Site, verbose_name=_('sites publication'),
-                                   related_name='objecttypes')
+                                   related_name='nodetypes')
 
     login_required = models.BooleanField(
         _('login required'), default=False,
-        help_text=_('only authenticated users can view the objecttype'))
+        help_text=_('only authenticated users can view the nodetype'))
     password = models.CharField(
         _('password'), max_length=50, blank=True,
-        help_text=_('protect the objecttype with a password'))
+        help_text=_('protect the nodetype with a password'))
 
     template = models.CharField(
         _('template'), max_length=250,
-        default='gstudio/objecttype_detail.html',
-        choices=[('gstudio/objecttype_detail.html', _('Default template'))] + \
-        OBJECTTYPE_TEMPLATES,
-        help_text=_('template used to display the objecttype'))
+        default='gstudio/nodetype_detail.html',
+        choices=[('gstudio/nodetype_detail.html', _('Default template'))] + \
+        NODETYPE_TEMPLATES,
+        help_text=_('template used to display the nodetype'))
 
     objects = models.Manager()
-    published = ObjecttypePublishedManager()
+    published = NodetypePublishedManager()
 
 
     @property
     def get_nbh(self):
         """          
-        Returns the neighbourhood of the objecttype
+        Returns the neighbourhood of the nodetype
         """
 
         nbh = {}
@@ -398,8 +382,8 @@ class Objecttype(Nodetype):
 
         nbh['contains_subtypes'] = {}
         #generate ids and names of children /members
-        for objecttype in Objecttype.objects.filter(parent=self.id):
-            nbh['contains_subtypes'].update({str(objecttype.id):str(objecttype.title)})
+        for nodetype in Nodetype.objects.filter(parent=self.id):
+            nbh['contains_subtypes'].update({str(nodetype.id):str(nodetype.title)})
 
         nbh['contains_members'] = {}
 
@@ -430,14 +414,14 @@ class Objecttype(Nodetype):
 
     @property
     def tree_path(self):
-        """Return objecttype's tree path, by its ancestors"""
+        """Return nodetype's tree path, by its ancestors"""
         if self.parent:
             return '%s/%s' % (self.parent.tree_path, self.slug)
         return self.slug
 
     @property
     def tree_path_sentence(self):
-        """ Return the parent of the objecttype in a triple form """
+        """ Return the parent of the nodetype in a triple form """
         if self.parent:
             return '%s is a kind of %s' % (self.title, self.parent.tree_path)
         return '%s is a root node' % (self.title)
@@ -457,41 +441,41 @@ class Objecttype(Nodetype):
 
 
     @property
-    def previous_objecttype(self):
-        """Return the previous objecttype"""
-        objecttypes = Objecttype.published.filter(
+    def previous_nodetype(self):
+        """Return the previous nodetype"""
+        nodetypes = Nodetype.published.filter(
             creation_date__lt=self.creation_date)[:1]
-        if objecttypes:
-            return objecttypes[0]
+        if nodetypes:
+            return nodetypes[0]
 
     @property
-    def next_objecttype(self):
-        """Return the next objecttype"""
-        objecttypes = Objecttype.published.filter(
+    def next_nodetype(self):
+        """Return the next nodetype"""
+        nodetypes = Nodetype.published.filter(
             creation_date__gt=self.creation_date).order_by('creation_date')[:1]
-        if objecttypes:
-            return objecttypes[0]
+        if nodetypes:
+            return nodetypes[0]
 
     @property
     def word_count(self):
-        """Count the words of an objecttype"""
+        """Count the words of an nodetype"""
         return len(strip_tags(self.html_content).split())
 
     @property
     def is_actual(self):
-        """Check if an objecttype is within publication period"""
+        """Check if an nodetype is within publication period"""
         now = datetime.now()
         return now >= self.start_publication and now < self.end_publication
 
     @property
     def is_visible(self):
-        """Check if an objecttype is visible on site"""
+        """Check if an nodetype is visible on site"""
         return self.is_actual and self.status == PUBLISHED
 
     @property
     def related_published(self):
-        """Return only related objecttypes published"""
-        return objecttypes_published(self.related)
+        """Return only related nodetypes published"""
+        return nodetypes_published(self.related)
 
     @property
     def discussions(self):
@@ -525,7 +509,7 @@ class Objecttype(Nodetype):
 
     @property
     def short_url(self):
-        """Return the objecttype's short url"""
+        """Return the nodetype's short url"""
         return get_url_shortener()(self)
 
     def __unicode__(self):
@@ -533,7 +517,7 @@ class Objecttype(Nodetype):
 
     @property
     def memberof_sentence(self):
-        """Return the metatype of which the objecttype is a member of"""
+        """Return the metatype of which the nodetype is a member of"""
         
         if self.metatypes.count:
             for each in self.metatypes.all():
@@ -549,15 +533,15 @@ class Objecttype(Nodetype):
     composed_sentence = property(subtypeof_sentence)
 
     def subtypeof(self):
-        "retuns the parent objecttype."
+        "retuns the parent nodetype."
         if self.parent:
             return '%s' % (self.parent.tree_path)
         return None 
 
     @models.permalink
     def get_absolute_url(self):
-        """Return objecttype's URL"""
-        return ('gstudio_objecttype_detail', (), {
+        """Return nodetype's URL"""
+        return ('gstudio_nodetype_detail', (), {
             'year': self.creation_date.strftime('%Y'),
             'month': self.creation_date.strftime('%m'),
             'day': self.creation_date.strftime('%d'),
@@ -573,8 +557,26 @@ class Objecttype(Nodetype):
         return version.serialized_data
 
     class Meta:
-        """Objecttype's Meta"""
+        """Nodetype's Meta"""
         ordering = ['-creation_date']
+        verbose_name = _('node type')
+        verbose_name_plural = _('node types')
+        permissions = (('can_view_all', 'Can view all'),
+                       ('can_change_author', 'Can change author'), )
+
+
+class Objecttype(Nodetype):
+    '''
+    Object class
+    '''
+
+    def __unicode__(self):
+        return self.title
+
+    class Meta:
+        """
+        object type's meta class
+        """
         verbose_name = _('object type')
         verbose_name_plural = _('object types')
         permissions = (('can_view_all', 'Can view all'),
@@ -582,7 +584,17 @@ class Objecttype(Nodetype):
 
 
 
-class Relationtype(Objecttype):
+
+class Edgetype(Nodetype):
+
+    def __unicode__(self):
+        return self.title
+
+    class Meta:
+        abstract=False
+
+
+class Relationtype(Edgetype):
     '''
     Binary Relationtypes are defined in this table.
     '''
@@ -621,7 +633,7 @@ class Relationtype(Objecttype):
                        ('can_change_author', 'Can change author'), )
 
 
-class Attributetype(Objecttype):
+class Attributetype(Edgetype):
     '''
     To define attributes of objects. First three fields are mandatory.
     The rest of the fields may be required depending on what type of
@@ -911,10 +923,10 @@ class IPAddressField(Attribute):
         return self.title
 
 
-class Processtype(Objecttype):    
+class Processtype(Nodetype):    
 
     """
-    A kind of objecttype for defining processes or events or temporal
+    A kind of nodetype for defining processes or events or temporal
     objects involving change.  
     """
     attributetype_set = models.ManyToManyField(Attributetype, null=True, blank=True,
@@ -937,14 +949,14 @@ class Processtype(Objecttype):
 
 
 
-class Systemtype(Objecttype):    
+class Systemtype(Nodetype):    
 
     """
     class to organize Systems
     """
 
 
-    objecttype_set = models.ManyToManyField(Objecttype, related_name="objecttypeset_systemtype", verbose_name='Possible edges in the system',    
+    nodetype_set = models.ManyToManyField(Nodetype, related_name="nodetypeset_systemtype", verbose_name='Possible edges in the system',    
                                            blank=True, null=False) 
     relationtype_set = models.ManyToManyField(Relationtype, related_name="relationtypeset_systemtype", verbose_name='Possible nodetypes in the system',    
                                              blank=True, null=False) 
@@ -969,8 +981,8 @@ class Systemtype(Objecttype):
 
 
 reversion.register(NID)
-reversion.register(Nodetype)
 reversion.register(Node)
+reversion.register(Nodetype)
 reversion.register(Edgetype)
 reversion.register(Edge)
 
@@ -980,14 +992,14 @@ if not reversion.is_registered(Systemtype):
 if not reversion.is_registered(Processtype):
     reversion.register(Processtype, follow=["attributetype_set", "relationtype_set"])
 
-if not reversion.is_registered(Objecttype): 
-    reversion.register(Objecttype, follow=["parent", "metatypes"])
+if not reversion.is_registered(Nodetype): 
+    reversion.register(Nodetype, follow=["parent", "metatypes"])
 
 if not reversion.is_registered(Metatype):
     reversion.register(Metatype, follow=["parent"])
 
-if not reversion.is_registered(Objecttype):
-    reversion.register(Objecttype, follow=["priornode", "posteriornode"])
+if not reversion.is_registered(Nodetype):
+    reversion.register(Nodetype, follow=["priornode", "posteriornode"])
 
 if not reversion.is_registered(Relationtype): 
     reversion.register(Relationtype, follow=["subjecttypeLeft", "subjecttypeRight"])
@@ -1001,17 +1013,17 @@ if not reversion.is_registered(Attribute):
 if not reversion.is_registered(Relation): 
     reversion.register(Relation, follow=["subject1", "subject2", "relationtype"])
 
-moderator.register(Objecttype, ObjecttypeCommentModerator)
+moderator.register(Nodetype, NodetypeCommentModerator)
 mptt.register(Metatype, order_insertion_by=['title'])
-mptt.register(Objecttype, order_insertion_by=['title'])
+mptt.register(Nodetype, order_insertion_by=['title'])
 mptt.register(Relationtype, order_insertion_by=['title'])
 mptt.register(Attributetype, order_insertion_by=['title'])
 mptt.register(Systemtype, order_insertion_by=['title'])
 mptt.register(Processtype, order_insertion_by=['title'])
-post_save.connect(ping_directories_handler, sender=Objecttype,
-                  dispatch_uid='gstudio.objecttype.post_save.ping_directories')
-post_save.connect(ping_external_urls_handler, sender=Objecttype,
-                  dispatch_uid='gstudio.objecttype.post_save.ping_external_urls')
+post_save.connect(ping_directories_handler, sender=Nodetype,
+                  dispatch_uid='gstudio.nodetype.post_save.ping_directories')
+post_save.connect(ping_external_urls_handler, sender=Nodetype,
+                  dispatch_uid='gstudio.nodetype.post_save.ping_external_urls')
 
 
 

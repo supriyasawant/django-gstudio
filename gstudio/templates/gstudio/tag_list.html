@@ -12,7 +12,7 @@
     {% for object in object_list %}
     <li>
       <a href="{% url gstudio_tag_detail object %}" title="{{ object }}">{{ object }}</a>
-      {% blocktrans count object.count as objecttype_count %}{{ objecttype_count }} objecttype{% plural %}{{ objecttype_count }} objecttypes{% endblocktrans %}
+      {% blocktrans count object.count as nodetype_count %}{{ nodetype_count }} nodetype{% plural %}{{ nodetype_count }} nodetypes{% endblocktrans %}
     </li>
     {% empty %}
     <li>

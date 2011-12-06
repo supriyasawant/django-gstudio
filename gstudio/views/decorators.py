@@ -30,53 +30,53 @@ def update_queryset(view, queryset,
 
 @csrf_protect
 @never_cache
-def password(request, objecttype):
+def password(request, nodetype):
     """Displays the password form and handle validation
     by setting the valid password in a cookie."""
     error = False
     if request.method == 'POST':
-        if request.POST.get('password') == objecttype.password:
+        if request.POST.get('password') == nodetype.password:
             request.session[
-                'gstudio_objecttype_%s_password' % objecttype.pk] = objecttype.password
-            return redirect(objecttype)
+                'gstudio_nodetype_%s_password' % nodetype.pk] = nodetype.password
+            return redirect(nodetype)
         error = True
     return render_to_response('gstudio/password.html', {'error': error},
                               context_instance=RequestContext(request))
 
 
-def protect_objecttype(view):
+def protect_nodetype(view):
     """Decorator performing a security check if needed
-    around the generic.date_based.objecttype_detail view
-    and specify the template used to render the objecttype"""
+    around the generic.date_based.nodetype_detail view
+    and specify the template used to render the nodetype"""
 
     @wraps(view)
     def wrapper(*ka, **kw):
         """Do security check and retrieve the template"""
         request = ka[0]
-        objecttype = get_object_or_404(kw['queryset'], slug=kw['slug'],
+        nodetype = get_object_or_404(kw['queryset'], slug=kw['slug'],
                                   creation_date__year=kw['year'],
                                   creation_date__month=kw['month'],
                                   creation_date__day=kw['day'])
 
-        if objecttype.login_required and not request.user.is_authenticated():
+        if nodetype.login_required and not request.user.is_authenticated():
             return login(request, 'gstudio/login.html')
-        if objecttype.password and objecttype.password != \
-               request.session.get('gstudio_objecttype_%s_password' % objecttype.pk):
-            return password(request, objecttype)
-        kw['template_name'] = objecttype.template
+        if nodetype.password and nodetype.password != \
+               request.session.get('gstudio_nodetype_%s_password' % nodetype.pk):
+            return password(request, nodetype)
+        kw['template_name'] = nodetype.template
         return view(*ka, **kw)
 
     return wrapper
 
 
-def template_name_for_objecttype_queryset_filtered(model_type, model_name):
+def template_name_for_nodetype_queryset_filtered(model_type, model_name):
     """Return a custom template name for views
-    returning a queryset of Objecttype filtered by another model."""
+    returning a queryset of Nodetype filtered by another model."""
     template_name_list = (
-        'gstudio/%s/%s/objecttype_list.html' % (model_type, model_name),
-        'gstudio/%s/%s_objecttype_list.html' % (model_type, model_name),
-        'gstudio/%s/objecttype_list.html' % model_type,
-        'gstudio/objecttype_list.html')
+        'gstudio/%s/%s/nodetype_list.html' % (model_type, model_name),
+        'gstudio/%s/%s_nodetype_list.html' % (model_type, model_name),
+        'gstudio/%s/nodetype_list.html' % model_type,
+        'gstudio/nodetype_list.html')
 
     for template_name in template_name_list:
         try:

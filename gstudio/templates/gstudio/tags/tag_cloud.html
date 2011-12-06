@@ -5,7 +5,7 @@
     {% for tag in tags %}
     <li>
       <a href="{% url gstudio_tag_detail tag.name %}"
-         title="{% blocktrans count tag.count as objecttype_count %}{{ objecttype_count }} objecttype{% plural %}{{ objecttype_count }} objecttypes{% endblocktrans %}"
+         title="{% blocktrans count tag.count as nodetype_count %}{{ nodetype_count }} nodetype{% plural %}{{ nodetype_count }} nodetypes{% endblocktrans %}"
          class="tag_{{ tag.font_size }}">{{ tag }}</a>
     </li>
     {% endfor %}

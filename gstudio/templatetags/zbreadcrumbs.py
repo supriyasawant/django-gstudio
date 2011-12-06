@@ -16,7 +16,7 @@ class Crumb(object):
 def year_crumb(creation_date):
     """Crumb for a year"""
     year = creation_date.strftime('%Y')
-    return Crumb(year, reverse('gstudio_objecttype_archive_year',
+    return Crumb(year, reverse('gstudio_nodetype_archive_year',
                                args=[year]))
 
 
@@ -25,7 +25,7 @@ def month_crumb(creation_date):
     year = creation_date.strftime('%Y')
     month = creation_date.strftime('%m')
     month_text = creation_date.strftime('%b').capitalize()
-    return Crumb(month_text, reverse('gstudio_objecttype_archive_month',
+    return Crumb(month_text, reverse('gstudio_nodetype_archive_month',
                                      args=[year, month]))
 
 
@@ -34,11 +34,11 @@ def day_crumb(creation_date):
     year = creation_date.strftime('%Y')
     month = creation_date.strftime('%m')
     day = creation_date.strftime('%d')
-    return Crumb(day, reverse('gstudio_objecttype_archive_day',
+    return Crumb(day, reverse('gstudio_nodetype_archive_day',
                               args=[year, month, day]))
 
 
-GSTUDIO_ROOT_URL = lambda: reverse('gstudio_objecttype_archive_index')
+GSTUDIO_ROOT_URL = lambda: reverse('gstudio_nodetype_archive_index')
 
 MODEL_BREADCRUMBS = {'Tag': lambda x: [Crumb(_('Tags'),
                                              reverse('gstudio_tag_list')),
@@ -50,7 +50,7 @@ MODEL_BREADCRUMBS = {'Tag': lambda x: [Crumb(_('Tags'),
                          _('Metatypes'), reverse('gstudio_metatype_list'))] + \
                      [Crumb(anc.title, anc.get_absolute_url())
                       for anc in x.get_ancestors()] + [Crumb(x.title)],
-                     'Objecttype': lambda x: [year_crumb(x.creation_date),
+                     'Nodetype': lambda x: [year_crumb(x.creation_date),
                                          month_crumb(x.creation_date),
                                          day_crumb(x.creation_date),
                                          Crumb(x.title)]}

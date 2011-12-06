@@ -18,7 +18,7 @@ from django.core.management.base import LabelCommand
 from tagging.models import Tag
 
 from gstudio import __version__
-from gstudio.models import Objecttype
+from gstudio.models import Nodetype
 from gstudio.models import Metatype
 from gstudio.signals import disconnect_gstudio_signals
 from gstudio.managers import DRAFT, HIDDEN, PUBLISHED
@@ -38,7 +38,7 @@ class Command(LabelCommand):
                     dest='auto_excerpt', default=True,
                     help='Do NOT generate an excerpt if not present.'),
         make_option('--author', dest='author', default='',
-                    help='All imported objecttypes belong to specified author'),
+                    help='All imported nodetypes belong to specified author'),
         make_option('--wxr_version', dest='wxr_version', default='1.0',
                     help='Wordpress XML export version'),
         )
@@ -92,7 +92,7 @@ class Command(LabelCommand):
 
         self.import_tags(tree.findall('channel/{%s}tag' % WP_NS))
 
-        self.import_objecttypes(tree.findall('channel/item'))
+        self.import_nodetypes(tree.findall('channel/item'))
 
     def import_authors(self, tree):
         """Retrieve all the authors used in posts
@@ -185,8 +185,8 @@ class Command(LabelCommand):
             Tag.objects.get_or_create(name=tag_name)
             self.write_out(self.style.ITEM('OK\n'))
 
-    def get_objecttype_tags(self, metatypes):
-        """Return a list of objecttype's tags,
+    def get_nodetype_tags(self, metatypes):
+        """Return a list of nodetype's tags,
         by using the nicename for url compatibility"""
         tags = []
         for metatype in metatypes:
@@ -195,8 +195,8 @@ class Command(LabelCommand):
                 tags.append(metatype.attrib.get('nicename'))
         return tags
 
-    def get_objecttype_metatypes(self, metatype_nodes):
-        """Return a list of objecttype's metatypes
+    def get_nodetype_metatypes(self, metatype_nodes):
+        """Return a list of nodetype's metatypes
         based of imported metatypes"""
         metatypes = []
         for metatype_node in metatype_nodes:
@@ -205,9 +205,9 @@ class Command(LabelCommand):
                 metatypes.append(self.metatypes[metatype_node.text])
         return metatypes
 
-    def import_objecttype(self, title, content, item_node):
-        """Importing an objecttype but some data are missing like
-        the image, related objecttypes, start_publication and end_publication.
+    def import_nodetype(self, title, content, item_node):
+        """Importing an nodetype but some data are missing like
+        the image, related nodetypes, start_publication and end_publication.
         start_publication and creation_date will use the same value,
         wich is always in Wordpress $post->post_date"""
         creation_date = datetime.strptime(
@@ -220,7 +220,7 @@ class Command(LabelCommand):
             else:
                 excerpt = ''
 
-        objecttype_dict = {
+        nodetype_dict = {
             'content': content,
             'excerpt': excerpt,
             # Prefer use this function than
@@ -228,7 +228,7 @@ class Command(LabelCommand):
             # Because slug can be not well formated
             'slug': slugify(title)[:255] or 'post-%s' % item_node.find(
                 '{%s}post_id' % WP_NS).text,
-            'tags': ', '.join(self.get_objecttype_tags(item_node.findall(
+            'tags': ', '.join(self.get_nodetype_tags(item_node.findall(
                 'metatype'))),
             'status': self.REVERSE_STATUS[item_node.find(
                 '{%s}status' % WP_NS).text],
@@ -244,25 +244,25 @@ class Command(LabelCommand):
             'last_update': datetime.now(),
             'start_publication': creation_date}
 
-        objecttype, created = Objecttype.objects.get_or_create(title=title,
-                                                     defaults=objecttype_dict)
+        nodetype, created = Nodetype.objects.get_or_create(title=title,
+                                                     defaults=nodetype_dict)
 
-        objecttype.metatypes.add(*self.get_objecttype_metatypes(
+        nodetype.metatypes.add(*self.get_nodetype_metatypes(
             item_node.findall('metatype')))
-        objecttype.authors.add(self.authors[item_node.find(
+        nodetype.authors.add(self.authors[item_node.find(
             '{http://purl.org/dc/elements/1.1/}creator').text])
-        objecttype.sites.add(self.SITE)
+        nodetype.sites.add(self.SITE)
 
         #current_id = item_node.find('{%s}post_id' % WP_NS).text
         #parent_id = item_node.find('%s}post_parent' % WP_NS).text
 
-        return objecttype
+        return nodetype
 
-    def import_objecttypes(self, items):
-        """Loops over items and find objecttype to import,
-        an objecttype need to have 'post_type' set to 'post' and
+    def import_nodetypes(self, items):
+        """Loops over items and find nodetype to import,
+        an nodetype need to have 'post_type' set to 'post' and
         have content."""
-        self.write_out(self.style.STEP('- Importing objecttypes\n'))
+        self.write_out(self.style.STEP('- Importing nodetypes\n'))
 
         for item_node in items:
             title = (item_node.find('title').text or '')[:255]
@@ -272,15 +272,15 @@ class Command(LabelCommand):
 
             if post_type == 'post' and content and title:
                 self.write_out('> %s... ' % title)
-                objecttype = self.import_objecttype(title, content, item_node)
+                nodetype = self.import_nodetype(title, content, item_node)
                 self.write_out(self.style.ITEM('OK\n'))
-                self.import_comments(objecttype, item_node.findall(
+                self.import_comments(nodetype, item_node.findall(
                     '{%s}comment/' % WP_NS))
             else:
                 self.write_out('> %s... ' % title, 2)
                 self.write_out(self.style.NOTICE('SKIPPED (not a post)\n'), 2)
 
-    def import_comments(self, objecttype, comment_nodes):
+    def import_comments(self, nodetype, comment_nodes):
         """Loops over comments nodes and import then
         in django.contrib.comments"""
         for comment_node in comment_nodes:
@@ -313,7 +313,7 @@ class Command(LabelCommand):
                 is_public = False
 
             comment_dict = {
-                'content_object': objecttype,
+                'content_object': nodetype,
                 'site': self.SITE,
                 'user_name': comment_node.find(
                     '{%s}comment_author/' % WP_NS).text[:50],
@@ -331,12 +331,12 @@ class Command(LabelCommand):
             comment.save()
             if approvation == 'spam':
                 comment.flags.create(
-                    user=objecttype.authors.all()[0], flag='spam')
+                    user=nodetype.authors.all()[0], flag='spam')
             if is_pingback:
                 comment.flags.create(
-                    user=objecttype.authors.all()[0], flag='pingback')
+                    user=nodetype.authors.all()[0], flag='pingback')
             if is_trackback:
                 comment.flags.create(
-                    user=objecttype.authors.all()[0], flag='trackback')
+                    user=nodetype.authors.all()[0], flag='trackback')
 
             self.write_out(self.style.ITEM('OK\n'))

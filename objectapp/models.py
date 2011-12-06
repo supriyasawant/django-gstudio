@@ -22,6 +22,7 @@ from django.contrib.markup.templatetags.markup import restructuredtext
 import mptt
 from djangoratings.fields import RatingField
 from tagging.fields import TagField
+from gstudio.models import Nodetype
 from gstudio.models import Objecttype
 from gstudio.models import Node
 from gstudio.models import Edge
@@ -88,16 +89,16 @@ class Gbobject(Node):
                                 help_text=_('optional element'))
 
     priornodes = models.ManyToManyField('self', null=True, blank=True,
-                               verbose_name=_('its meaning depends'),
+                               verbose_name=_('depends on'),
                                related_name='posteriors')
 
     posteriornodes = models.ManyToManyField('self', null=True, blank=True,
-                               verbose_name=_('required for the meaning of'),
+                               verbose_name=_('required for'),
                                related_name='priornodes')
 
 
     tags = TagField(_('tags'))
-    objecttypes = models.ManyToManyField(Objecttype, verbose_name=_('member of'),
+    objecttypes = models.ManyToManyField(Nodetype, verbose_name=_('member of'),
                                         related_name='gbobjects',
                                         blank=True, null=True)
 

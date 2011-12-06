@@ -2,7 +2,7 @@
 from django.test import TestCase
 from django.contrib.sites.models import Site
 
-from gstudio.models import Objecttype
+from gstudio.models import Nodetype
 from gstudio.models import Metatype
 from gstudio.managers import PUBLISHED
 
@@ -15,36 +15,36 @@ class MetatypeTestCase(TestCase):
                                                    slug='metatype-1'),
                            Metatype.objects.create(title='Metatype 2',
                                                    slug='metatype-2')]
-        params = {'title': 'My objecttype',
+        params = {'title': 'My nodetype',
                   'content': 'My content',
                   'tags': 'gstudio, test',
-                  'slug': 'my-objecttype'}
+                  'slug': 'my-nodetype'}
 
-        self.objecttype = Objecttype.objects.create(**params)
-        self.objecttype.metatypes.add(*self.metatypes)
-        self.objecttype.sites.add(self.site)
+        self.nodetype = Nodetype.objects.create(**params)
+        self.nodetype.metatypes.add(*self.metatypes)
+        self.nodetype.sites.add(self.site)
 
-    def test_objecttypes_published(self):
+    def test_nodetypes_published(self):
         metatype = self.metatypes[0]
-        self.assertEqual(metatype.objecttypes_published().count(), 0)
-        self.objecttype.status = PUBLISHED
-        self.objecttype.save()
-        self.assertEqual(metatype.objecttypes_published().count(), 1)
+        self.assertEqual(metatype.nodetypes_published().count(), 0)
+        self.nodetype.status = PUBLISHED
+        self.nodetype.save()
+        self.assertEqual(metatype.nodetypes_published().count(), 1)
 
-        params = {'title': 'My second objecttype',
+        params = {'title': 'My second nodetype',
                   'content': 'My second content',
                   'tags': 'gstudio, test',
                   'status': PUBLISHED,
-                  'slug': 'my-second-objecttype'}
+                  'slug': 'my-second-nodetype'}
 
-        new_objecttype = Objecttype.objects.create(**params)
-        new_objecttype.sites.add(self.site)
-        new_objecttype.metatypes.add(self.metatypes[0])
+        new_nodetype = Nodetype.objects.create(**params)
+        new_nodetype.sites.add(self.site)
+        new_nodetype.metatypes.add(self.metatypes[0])
 
-        self.assertEqual(self.metatypes[0].objecttypes_published().count(), 2)
-        self.assertEqual(self.metatypes[1].objecttypes_published().count(), 1)
+        self.assertEqual(self.metatypes[0].nodetypes_published().count(), 2)
+        self.assertEqual(self.metatypes[1].nodetypes_published().count(), 1)
 
-    def test_objecttypes_tree_path(self):
+    def test_nodetypes_tree_path(self):
         self.assertEqual(self.metatypes[0].tree_path, 'metatype-1')
         self.assertEqual(self.metatypes[1].tree_path, 'metatype-2')
         self.metatypes[1].parent = self.metatypes[0]

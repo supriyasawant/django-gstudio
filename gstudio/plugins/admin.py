@@ -6,13 +6,13 @@ from django.utils.translation import ugettext_lazy as _
 from cms.plugin_rendering import render_placeholder
 from cms.admin.placeholderadmin import PlaceholderAdmin
 
-from gstudio.models import Objecttype
-from gstudio.admin.objecttype import ObjecttypeAdmin
-from gstudio.settings import OBJECTTYPE_BASE_MODEL
+from gstudio.models import Nodetype
+from gstudio.admin.nodetype import NodetypeAdmin
+from gstudio.settings import NODETYPE_BASE_MODEL
 
 
-class ObjecttypePlaceholderAdmin(PlaceholderAdmin, ObjecttypeAdmin):
-    """ObjecttypePlaceholder Admin"""
+class NodetypePlaceholderAdmin(PlaceholderAdmin, NodetypeAdmin):
+    """NodetypePlaceholder Admin"""
     fieldsets = ((None, {'fields': ('title', 'image', 'status')}),
                  (_('Content'), {'fields': ('content_placeholder',),
                                  'classes': ('plugin-holder',
@@ -30,15 +30,15 @@ class ObjecttypePlaceholderAdmin(PlaceholderAdmin, ObjecttypeAdmin):
                  (_('Publication'), {'fields': ('sites', 'metatypes',
                                                 'tags', 'slug')}))
 
-    def save_model(self, request, objecttype, form, change):
+    def save_model(self, request, nodetype, form, change):
         """Fill the content field with the interpretation
         of the placeholder"""
         context = RequestContext(request)
-        objecttype.content = render_placeholder(objecttype.content_placeholder, context)
-        super(ObjecttypePlaceholderAdmin, self).save_model(
-            request, objecttype, form, change)
+        nodetype.content = render_placeholder(nodetype.content_placeholder, context)
+        super(NodetypePlaceholderAdmin, self).save_model(
+            request, nodetype, form, change)
 
 
-if OBJECTTYPE_BASE_MODEL == 'gstudio.plugins.placeholder.ObjecttypePlaceholder':
-    admin.site.unregister(Objecttype)
-    admin.site.register(Objecttype, ObjecttypePlaceholderAdmin)
+if NODETYPE_BASE_MODEL == 'gstudio.plugins.placeholder.NodetypePlaceholder':
+    admin.site.unregister(Nodetype)
+    admin.site.register(Nodetype, NodetypePlaceholderAdmin)

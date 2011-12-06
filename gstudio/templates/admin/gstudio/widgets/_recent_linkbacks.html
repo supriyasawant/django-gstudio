@@ -3,12 +3,12 @@
 {% for linkback in linkbacks %}
 <tr>
   <th>
-    {% with linkback.content_object as objecttype %}
+    {% with linkback.content_object as nodetype %}
     <a href="{{ linkback.url }}">{{ linkback.user_name }}</a>
     {% trans "made a linkback on" %}
-    <a href="{{ objecttype.get_absolute_url }}#{{ linkback.flags.all.0.flag }}_{{ linkback.pk }}"
-       title="{{ objecttype.title }}">
-      {{ objecttype.title }}
+    <a href="{{ nodetype.get_absolute_url }}#{{ linkback.flags.all.0.flag }}_{{ linkback.pk }}"
+       title="{{ nodetype.title }}">
+      {{ nodetype.title }}
     </a>
     {% endwith %}
     {{ linkback.comment|truncatewords:20|linebreaks }}

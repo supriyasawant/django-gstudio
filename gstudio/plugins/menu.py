@@ -7,27 +7,27 @@ from menus.base import NavigationNode
 from menus.menu_pool import menu_pool
 from cms.menu_bases import CMSAttachMenu
 
-from gstudio.models import Objecttype
+from gstudio.models import Nodetype
 from gstudio.models import Author
 from gstudio.models import Metatype
 from gstudio.managers import tags_published
-from gstudio.plugins.settings import HIDE_OBJECTTYPE_MENU
+from gstudio.plugins.settings import HIDE_NODETYPE_MENU
 
 
-class ObjecttypeMenu(CMSAttachMenu):
-    """Menu for the objecttypes organized by archives dates"""
-    name = _('Gstudio Objecttype Menu')
+class NodetypeMenu(CMSAttachMenu):
+    """Menu for the nodetypes organized by archives dates"""
+    name = _('Gstudio Nodetype Menu')
 
     def get_nodes(self, request):
-        """Return menu's node for objecttypes"""
+        """Return menu's node for nodetypes"""
         nodes = []
         archives = []
-        attributes = {'hidden': HIDE_OBJECTTYPE_MENU}
-        for objecttype in Objecttype.published.all():
-            year = objecttype.creation_date.strftime('%Y')
-            month = objecttype.creation_date.strftime('%m')
-            month_text = objecttype.creation_date.strftime('%b')
-            day = objecttype.creation_date.strftime('%d')
+        attributes = {'hidden': HIDE_NODETYPE_MENU}
+        for nodetype in Nodetype.published.all():
+            year = nodetype.creation_date.strftime('%Y')
+            month = nodetype.creation_date.strftime('%m')
+            month_text = nodetype.creation_date.strftime('%b')
+            day = nodetype.creation_date.strftime('%d')
 
             key_archive_year = 'year-%s' % year
             key_archive_month = 'month-%s-%s' % (year, month)
@@ -35,28 +35,28 @@ class ObjecttypeMenu(CMSAttachMenu):
 
             if not key_archive_year in archives:
                 nodes.append(NavigationNode(
-                    year, reverse('gstudio_objecttype_archive_year', args=[year]),
+                    year, reverse('gstudio_nodetype_archive_year', args=[year]),
                     key_archive_year, attr=attributes))
                 archives.append(key_archive_year)
 
             if not key_archive_month in archives:
                 nodes.append(NavigationNode(
                     month_text,
-                    reverse('gstudio_objecttype_archive_month', args=[year, month]),
+                    reverse('gstudio_nodetype_archive_month', args=[year, month]),
                     key_archive_month, key_archive_year,
                     attr=attributes))
                 archives.append(key_archive_month)
 
             if not key_archive_day in archives:
                 nodes.append(NavigationNode(
-                    day, reverse('gstudio_objecttype_archive_day',
+                    day, reverse('gstudio_nodetype_archive_day',
                                  args=[year, month, day]),
                     key_archive_day, key_archive_month,
                     attr=attributes))
                 archives.append(key_archive_day)
 
-            nodes.append(NavigationNode(objecttype.title, objecttype.get_absolute_url(),
-                                        objecttype.pk, key_archive_day))
+            nodes.append(NavigationNode(nodetype.title, nodetype.get_absolute_url(),
+                                        nodetype.pk, key_archive_day))
         return nodes
 
 
@@ -112,9 +112,9 @@ class TagMenu(CMSAttachMenu):
         return nodes
 
 
-class ObjecttypeModifier(Modifier):
-    """Menu Modifier for objecttypes,
-    hide the MenuObjecttype in navigation, not in breadcrumbs"""
+class NodetypeModifier(Modifier):
+    """Menu Modifier for nodetypes,
+    hide the MenuNodetype in navigation, not in breadcrumbs"""
 
     def modify(self, request, nodes, namespace, root_id, post_cut, breadcrumb):
         """Modify nodes of a menu"""
@@ -126,8 +126,8 @@ class ObjecttypeModifier(Modifier):
         return nodes
 
 
-menu_pool.register_menu(ObjecttypeMenu)
+menu_pool.register_menu(NodetypeMenu)
 menu_pool.register_menu(MetatypeMenu)
 menu_pool.register_menu(AuthorMenu)
 menu_pool.register_menu(TagMenu)
-menu_pool.register_modifier(ObjecttypeModifier)
+menu_pool.register_modifier(NodetypeModifier)

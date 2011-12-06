@@ -21,45 +21,45 @@ msgstr ""
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 
 #: feeds.py:103 plugins/cms_plugins.py:23
-#: templates/gstudio/objecttype_archive.html:4
-#: templates/gstudio/objecttype_archive.html:25
-#: templates/gstudio/objecttype_list.html:19 tests/feeds.py:124
-msgid "Latest objecttypes"
+#: templates/gstudio/nodetype_archive.html:4
+#: templates/gstudio/nodetype_archive.html:25
+#: templates/gstudio/nodetype_list.html:19 tests/feeds.py:124
+msgid "Latest nodetypes"
 msgstr "Последние записи"
 
 #: feeds.py:107 tests/feeds.py:127
 #, python-format
-msgid "The latest objecttypes for the site %s"
+msgid "The latest nodetypes for the site %s"
 msgstr "Последние новости сайта %s"
 
 #: feeds.py:127 tests/feeds.py:137
 #, python-format
-msgid "Objecttypes for the metatype %s"
+msgid "Nodetypes for the metatype %s"
 msgstr "Записи в категории %s"
 
 #: feeds.py:131 tests/feeds.py:140
 #, python-format
-msgid "The latest objecttypes for the metatype %s"
+msgid "The latest nodetypes for the metatype %s"
 msgstr "Последние новости в категории %s"
 
 #: feeds.py:151 tests/feeds.py:149
 #, python-format
-msgid "Objecttypes for author %s"
+msgid "Nodetypes for author %s"
 msgstr "Записи от %s"
 
 #: feeds.py:155 tests/feeds.py:151
 #, python-format
-msgid "The latest objecttypes by %s"
+msgid "The latest nodetypes by %s"
 msgstr "Последние новости от %s"
 
 #: feeds.py:176 tests/feeds.py:161
 #, python-format
-msgid "Objecttypes for the tag %s"
+msgid "Nodetypes for the tag %s"
 msgstr "Записи с тегом %s"
 
 #: feeds.py:180 tests/feeds.py:163
 #, python-format
-msgid "The latest objecttypes for the tag %s"
+msgid "The latest nodetypes for the tag %s"
 msgstr "Последние новости с тегом %s"
 
 #: feeds.py:203 tests/feeds.py:177
@@ -69,7 +69,7 @@ msgstr ""
 
 #: feeds.py:207 tests/feeds.py:180
 #, python-format
-msgid "The objecttypes containing the pattern '%s'"
+msgid "The nodetypes containing the pattern '%s'"
 msgstr ""
 
 #: feeds.py:252 tests/feeds.py:199
@@ -79,7 +79,7 @@ msgstr "Обсуждений %s"
 
 #: feeds.py:256 tests/feeds.py:202
 #, python-format
-msgid "The latest discussions for the objecttype %s"
+msgid "The latest discussions for the nodetype %s"
 msgstr "Последние комментарии к %s"
 
 #: feeds.py:274 tests/feeds.py:212
@@ -89,7 +89,7 @@ msgstr "Комментарии к %s"
 
 #: feeds.py:278 tests/feeds.py:215
 #, python-format
-msgid "The latest comments for the objecttype %s"
+msgid "The latest comments for the nodetype %s"
 msgstr "Последние комментарии к %s"
 
 #: feeds.py:308 tests/feeds.py:231
@@ -99,7 +99,7 @@ msgstr "Пингбэки к %s"
 
 #: feeds.py:312 tests/feeds.py:234
 #, python-format
-msgid "The latest pingbacks for the objecttype %s"
+msgid "The latest pingbacks for the nodetype %s"
 msgstr "Последние пингбэки к %s"
 
 #: feeds.py:330 tests/feeds.py:244
@@ -109,7 +109,7 @@ msgstr "Трэкбэки к %s"
 
 #: feeds.py:334 tests/feeds.py:247
 #, python-format
-msgid "The latest trackbacks for the objecttype %s"
+msgid "The latest trackbacks for the nodetype %s"
 msgstr "Последние трэкбэки к %s"
 
 #: models.py:90 models.py:294
@@ -124,7 +124,7 @@ msgstr "скрыта"
 msgid "published"
 msgstr "опубликована"
 
-#: models.py:120 admin/objecttype.py:80
+#: models.py:120 admin/nodetype.py:80
 msgid "title"
 msgstr "заголовок"
 
@@ -210,7 +210,7 @@ msgid "member of metatypes"
 msgstr "количество записей"
 
 #: models.py:319
-msgid "related objecttypes"
+msgid "related nodetypes"
 msgstr "связанные записи"
 
 #: models.py:326 plugins/models.py:30
@@ -221,7 +221,7 @@ msgstr "авторы"
 msgid "featured"
 msgstr "Популярные"
 
-#: models.py:332 admin/objecttype.py:132
+#: models.py:332 admin/nodetype.py:132
 msgid "comment enabled"
 msgstr "комментирование включено"
 
@@ -262,7 +262,7 @@ msgid "login required"
 msgstr "требуется авторизация"
 
 #: models.py:350
-msgid "only authenticated users can view the objecttype"
+msgid "only authenticated users can view the nodetype"
 msgstr "только авторизованные пользователи могут просматривать запись"
 
 #: models.py:352
@@ -270,7 +270,7 @@ msgid "password"
 msgstr "пароль"
 
 #: models.py:353
-msgid "protect the objecttype with a password"
+msgid "protect the nodetype with a password"
 msgstr "защитить запись паролем"
 
 #: models.py:356 plugins/models.py:37 plugins/models.py:63
@@ -283,17 +283,17 @@ msgid "Default template"
 msgstr "Шаблон по умолчанию"
 
 #: models.py:360
-msgid "template used to display the objecttype"
+msgid "template used to display the nodetype"
 msgstr "шаблон, используемый для отображения записи"
 
 #: models.py:568
 #, fuzzy
-msgid "object type"
+msgid "node type"
 msgstr "запись"
 
 #: models.py:569
 #, fuzzy
-msgid "object types"
+msgid "node types"
 msgstr "записи"
 
 #: models.py:579
@@ -384,12 +384,12 @@ msgstr "Категория не может быть унаследована о�
 
 #: admin/forms.py:94
 #, fuzzy
-msgid "parent objecttype"
+msgid "parent nodetype"
 msgstr "Следующая запись"
 
 #: admin/forms.py:95
 #, fuzzy
-msgid "No parent objecttype"
+msgid "No parent nodetype"
 msgstr "Отсутствует родительская категория"
 
 #: admin/forms.py:99 plugins/menu.py:70 templates/gstudio/base.html:35
@@ -407,144 +407,144 @@ msgstr "Категория не может быть унаследована о�
 msgid "tree path"
 msgstr "путь"
 
-#: admin/objecttype.py:31 plugins/admin.py:17
+#: admin/nodetype.py:31 plugins/admin.py:17
 #: templates/admin/gstudio/widgets/quickpost.html:17
 msgid "Content"
 msgstr "Содержимое"
 
-#: admin/objecttype.py:33
+#: admin/nodetype.py:33
 msgid "Dependency"
 msgstr ""
 
-#: admin/objecttype.py:35 plugins/admin.py:20
+#: admin/nodetype.py:35 plugins/admin.py:20
 msgid "Options"
 msgstr "Опции"
 
-#: admin/objecttype.py:41 plugins/admin.py:26
+#: admin/nodetype.py:41 plugins/admin.py:26
 msgid "Privacy"
 msgstr "приватность"
 
-#: admin/objecttype.py:43 plugins/admin.py:28
+#: admin/nodetype.py:43 plugins/admin.py:28
 msgid "Discussion"
 msgstr "Обсуждение"
 
-#: admin/objecttype.py:45 plugins/admin.py:30
+#: admin/nodetype.py:45 plugins/admin.py:30
 msgid "Publication"
 msgstr "Публикация"
 
-#: admin/objecttype.py:73
+#: admin/nodetype.py:73
 #, python-format
 msgid "%(title)s (%(word_count)i words)"
 msgstr "%(title)s (%(word_count)i слов)"
 
-#: admin/objecttype.py:77
+#: admin/nodetype.py:77
 #, python-format
 msgid "%(title)s (%(comments)i comments)"
 msgstr "%(title)s (%(comments)i комментариев)"
 
-#: admin/objecttype.py:93
+#: admin/nodetype.py:93
 msgid "author(s)"
 msgstr "автор(ы)"
 
-#: admin/objecttype.py:106
+#: admin/nodetype.py:106
 msgid "metatype(s)"
 msgstr "категория(категории)"
 
-#: admin/objecttype.py:118
+#: admin/nodetype.py:118
 msgid "tag(s)"
 msgstr "тэг(и)"
 
-#: admin/objecttype.py:126
+#: admin/nodetype.py:126
 msgid "site(s)"
 msgstr "сайт(ы)"
 
-#: admin/objecttype.py:138
+#: admin/nodetype.py:138
 msgid "is actual"
 msgstr "актуальна"
 
-#: admin/objecttype.py:144
+#: admin/nodetype.py:144
 msgid "is visible"
 msgstr "видима"
 
-#: admin/objecttype.py:149
+#: admin/nodetype.py:149
 msgid "View"
 msgstr ""
 
-#: admin/objecttype.py:151
+#: admin/nodetype.py:151
 msgid "View on site"
 msgstr "Смотреть на сайте"
 
-#: admin/objecttype.py:157
+#: admin/nodetype.py:157
 msgid "Unavailable"
 msgstr "Недоступно"
 
-#: admin/objecttype.py:161
+#: admin/nodetype.py:161
 msgid "short url"
 msgstr "короткая ссылка"
 
-#: admin/objecttype.py:216
-msgid "The selected objecttypes now belong to you."
+#: admin/nodetype.py:216
+msgid "The selected nodetypes now belong to you."
 msgstr ""
 
-#: admin/objecttype.py:217
-msgid "Set the objecttypes to the user"
+#: admin/nodetype.py:217
+msgid "Set the nodetypes to the user"
 msgstr "Установить записи пользователю"
 
-#: admin/objecttype.py:224
-msgid "The selected objecttypes are now marked as published."
+#: admin/nodetype.py:224
+msgid "The selected nodetypes are now marked as published."
 msgstr ""
 
-#: admin/objecttype.py:225
-msgid "Set objecttypes selected as published"
+#: admin/nodetype.py:225
+msgid "Set nodetypes selected as published"
 msgstr "Пометить выделенные записи как опубликованные"
 
-#: admin/objecttype.py:231
-msgid "The selected objecttypes are now marked as hidden."
+#: admin/nodetype.py:231
+msgid "The selected nodetypes are now marked as hidden."
 msgstr ""
 
-#: admin/objecttype.py:232
-msgid "Set objecttypes selected as hidden"
+#: admin/nodetype.py:232
+msgid "Set nodetypes selected as hidden"
 msgstr "Пометить выделенные записи как скрытые"
 
-#: admin/objecttype.py:247
-msgid "The selected objecttypes have been tweeted."
+#: admin/nodetype.py:247
+msgid "The selected nodetypes have been tweeted."
 msgstr ""
 
-#: admin/objecttype.py:248
-msgid "Tweet objecttypes selected"
+#: admin/nodetype.py:248
+msgid "Tweet nodetypes selected"
 msgstr "Отправить выбранные записи в твиттер"
 
-#: admin/objecttype.py:254
-msgid "Comments are now closed for selected objecttypes."
+#: admin/nodetype.py:254
+msgid "Comments are now closed for selected nodetypes."
 msgstr ""
 
-#: admin/objecttype.py:255
-msgid "Close the comments for selected objecttypes"
+#: admin/nodetype.py:255
+msgid "Close the comments for selected nodetypes"
 msgstr "Закрыть комментирование для выбранных записей"
 
-#: admin/objecttype.py:262
-msgid "Linkbacks are now closed for selected objecttypes."
+#: admin/nodetype.py:262
+msgid "Linkbacks are now closed for selected nodetypes."
 msgstr ""
 
-#: admin/objecttype.py:264
-msgid "Close the linkbacks for selected objecttypes"
+#: admin/nodetype.py:264
+msgid "Close the linkbacks for selected nodetypes"
 msgstr "Запретить обратные ссылки для выбранных записей"
 
-#: admin/objecttype.py:271
-msgid "The selected objecttypes are now set at the current date."
+#: admin/nodetype.py:271
+msgid "The selected nodetypes are now set at the current date."
 msgstr ""
 
-#: admin/objecttype.py:273
-msgid "Put the selected objecttypes on top at the current date"
+#: admin/nodetype.py:273
+msgid "Put the selected nodetypes on top at the current date"
 msgstr "Поднять выбранные записи на текущую дату"
 
-#: admin/objecttype.py:292
+#: admin/nodetype.py:292
 #, python-format
-msgid "%(directory)s directory succesfully pinged %(success)d objecttypes."
+msgid "%(directory)s directory succesfully pinged %(success)d nodetypes."
 msgstr "%(directory)s успешно оповещены о %(success)d записей"
 
-#: admin/objecttype.py:296
-msgid "Ping Directories for selected objecttypes"
+#: admin/nodetype.py:296
+msgid "Ping Directories for selected nodetypes"
 msgstr "Оповестить каталоги о выбранных записях"
 
 #: plugins/cms_app.py:12
@@ -553,7 +553,7 @@ msgstr "Gstudio App Hook"
 
 #: plugins/cms_plugins.py:21 plugins/cms_plugins.py:92
 #: plugins/cms_plugins.py:114 plugins/models.py:61
-msgid "objecttypes"
+msgid "nodetypes"
 msgstr "записи"
 
 #: plugins/cms_plugins.py:33
@@ -565,16 +565,16 @@ msgid "Advanced"
 msgstr "Расширенный"
 
 #: plugins/cms_plugins.py:94
-msgid "Selected objecttypes"
+msgid "Selected nodetypes"
 msgstr "Выбранные записи"
 
 #: plugins/cms_plugins.py:116 templates/gstudio/base.html:64
 #, fuzzy
-msgid "Random object types"
+msgid "Random node types"
 msgstr "Случайные записи"
 
 #: plugins/menu.py:19
-msgid "Gstudio Objecttype Menu"
+msgid "Gstudio Nodetype Menu"
 msgstr "Gstudio меню записи"
 
 #: plugins/menu.py:65
@@ -595,17 +595,17 @@ msgid "Gstudio Tag Menu"
 msgstr "Gstudio меню тега"
 
 #: plugins/menu.py:105 templates/admin/gstudio/widgets/quickpost.html:25
-#: templates/gstudio/_objecttype_detail.html:53 templates/gstudio/base.html:48
+#: templates/gstudio/_nodetype_detail.html:53 templates/gstudio/base.html:48
 #: templates/gstudio/tag_list.html:6 templatetags/zbreadcrumbs.py:43
 msgid "Tags"
 msgstr "Теги"
 
 #: plugins/models.py:16
-msgid "Objecttype list (default)"
+msgid "Nodetype list (default)"
 msgstr "Список записей (по умолчанию)"
 
 #: plugins/models.py:17
-msgid "Objecttype detailed"
+msgid "Nodetype detailed"
 msgstr "Просмотреть запись подробнее"
 
 #: plugins/models.py:28
@@ -613,7 +613,7 @@ msgid "include submetatypes"
 msgstr "включает подкатегории"
 
 #: plugins/models.py:35 plugins/models.py:85
-msgid "number of objecttypes"
+msgid "number of nodetypes"
 msgstr "количество записей"
 
 #: plugins/models.py:39 plugins/models.py:65 plugins/models.py:89
@@ -622,7 +622,7 @@ msgstr "Шаблон для отображения плагина"
 
 #: plugins/models.py:54 plugins/models.py:78 plugins/models.py:92
 #, python-format
-msgid "%s objecttypes"
+msgid "%s nodetypes"
 msgstr "%s записей"
 
 #: templates/404.html:5
@@ -655,7 +655,7 @@ msgstr "Карта сайта"
 
 #: templates/404.html:31 templates/500.html:31 templates/gstudio/base.html:52
 #, fuzzy
-msgid "Recent object types"
+msgid "Recent node types"
 msgstr "Последние записи"
 
 #: templates/404.html:36 templates/500.html:36 templates/gstudio/base.html:23
@@ -687,14 +687,14 @@ msgid "Contents"
 msgstr "Содержимое"
 
 #: templates/admin/gstudio/widgets/_content_stats.html:5
-#: templates/gstudio/_objecttype_detail.html:71
+#: templates/gstudio/_nodetype_detail.html:71
 msgid "Discussions"
 msgstr "Обсуждения"
 
 #: templates/admin/gstudio/widgets/_content_stats.html:10
 #, python-format
-msgid "%(objecttypes)s objecttypes"
-msgstr "%(objecttypes)s записей"
+msgid "%(nodetypes)s nodetypes"
+msgstr "%(nodetypes)s записей"
 
 #: templates/admin/gstudio/widgets/_content_stats.html:15
 #, python-format
@@ -731,37 +731,37 @@ msgstr "%(authors)s авторов"
 msgid "%(rejects)s rejected"
 msgstr "%(rejects)s отклонены"
 
-#: templates/admin/gstudio/widgets/_draft_objecttypes.html:7
-#: templates/gstudio/objecttype_detail.html:211
-msgid "Edit the objecttype"
+#: templates/admin/gstudio/widgets/_draft_nodetypes.html:7
+#: templates/gstudio/nodetype_detail.html:211
+msgid "Edit the nodetype"
 msgstr "Изменить запись"
 
-#: templates/admin/gstudio/widgets/_draft_objecttypes.html:10
-#: templates/comments/gstudio_objecttype_preview.html:25
+#: templates/admin/gstudio/widgets/_draft_nodetypes.html:10
+#: templates/comments/gstudio_nodetype_preview.html:25
 #: templates/feeds/comment_title.html:2
 #: templates/feeds/discussion_title.html:2
 #: templates/feeds/pingback_title.html:2
 #: templates/feeds/trackback_title.html:2
-#: templates/gstudio/_objecttype_detail.html:22
-#: templates/gstudio/objecttype_detail.html:108
-#: templates/gstudio/objecttype_detail.html:142
-#: templates/gstudio/objecttype_detail.html:175
+#: templates/gstudio/_nodetype_detail.html:22
+#: templates/gstudio/nodetype_detail.html:108
+#: templates/gstudio/nodetype_detail.html:142
+#: templates/gstudio/nodetype_detail.html:175
 #: templates/gstudio/tags/recent_comments.html:7
 msgid "on"
 msgstr "на"
 
-#: templates/admin/gstudio/widgets/_draft_objecttypes.html:16
-#: templates/comments/gstudio/objecttype/form.html:19
+#: templates/admin/gstudio/widgets/_draft_nodetypes.html:16
+#: templates/comments/gstudio/nodetype/form.html:19
 msgid "Preview"
 msgstr "Предпросмотр"
 
-#: templates/admin/gstudio/widgets/_draft_objecttypes.html:23
-msgid "No draft objecttypes."
+#: templates/admin/gstudio/widgets/_draft_nodetypes.html:23
+msgid "No draft nodetypes."
 msgstr "Записи отсутствуют."
 
-#: templates/admin/gstudio/widgets/_draft_objecttypes.html:32
-#: templates/admin/gstudio/widgets/_draft_objecttypes.html:33
-msgid "View all draft objecttypes"
+#: templates/admin/gstudio/widgets/_draft_nodetypes.html:32
+#: templates/admin/gstudio/widgets/_draft_nodetypes.html:33
+msgid "View all draft nodetypes"
 msgstr "Просмотреть все записи"
 
 #: templates/admin/gstudio/widgets/_recent_comments.html:11
@@ -784,8 +784,8 @@ msgid "Edit"
 msgstr "Редактировать"
 
 #: templates/admin/gstudio/widgets/_recent_comments.html:31
-#: templates/gstudio/_objecttype_detail.html:79
-#: templates/gstudio/objecttype_detail.html:122
+#: templates/gstudio/_nodetype_detail.html:79
+#: templates/gstudio/nodetype_detail.html:122
 #: templates/gstudio/tags/recent_comments.html:16
 msgid "No comments yet."
 msgstr "Еще нет комментариев."
@@ -813,9 +813,9 @@ msgstr "Обратных ссылок нет."
 msgid "Today"
 msgstr "Сегодня"
 
-#: templates/admin/gstudio/widgets/draft_objecttypes.html:6
-#: templates/admin/gstudio/widgets/draft_objecttypes.html:7
-msgid "Draft objecttypes"
+#: templates/admin/gstudio/widgets/draft_nodetypes.html:6
+#: templates/admin/gstudio/widgets/draft_nodetypes.html:7
+msgid "Draft nodetypes"
 msgstr "Связанные записи"
 
 #: templates/admin/gstudio/widgets/quickpost.html:5
@@ -851,58 +851,58 @@ msgstr "Последние комментарии"
 msgid "Recent linkbacks"
 msgstr "Последние обратные ссылки"
 
-#: templates/comments/gstudio_objecttype_preview.html:4
+#: templates/comments/gstudio_nodetype_preview.html:4
 msgid "Comment preview"
 msgstr "Предпросмотр комментария"
 
-#: templates/comments/gstudio_objecttype_preview.html:9
+#: templates/comments/gstudio_nodetype_preview.html:9
 msgid "Please correct following error."
 msgid_plural "Please correct following errors."
 msgstr[0] "Пожалуйста, исправьте следующую ошибку."
 msgstr[1] "Пожалуйста, исправьте следующие ошибки."
 msgstr[2] "Пожалуйста, исправьте следующие ошибки."
 
-#: templates/comments/gstudio_objecttype_preview.html:12
+#: templates/comments/gstudio_nodetype_preview.html:12
 msgid "Preview of the comment"
 msgstr "Предварительный просмотр комментария"
 
-#: templates/comments/gstudio/objecttype/form.html:7
+#: templates/comments/gstudio/nodetype/form.html:7
 msgid "Post your comment"
 msgstr "Написать комментарий"
 
-#: templates/comments/gstudio/objecttype/form.html:18
+#: templates/comments/gstudio/nodetype/form.html:18
 msgid "Post"
 msgstr "Опубликовать"
 
-#: templates/comments/gstudio/objecttype/posted.html:4
-#: templates/comments/gstudio/objecttype/posted.html:7
+#: templates/comments/gstudio/nodetype/posted.html:4
+#: templates/comments/gstudio/nodetype/posted.html:7
 msgid "Thanks for your comment"
 msgstr "Спасибо за комментарий"
 
-#: templates/comments/gstudio/objecttype/posted.html:9
-#: templates/comments/gstudio/objecttype/posted.html:10
-msgid "Return to objecttype list"
+#: templates/comments/gstudio/nodetype/posted.html:9
+#: templates/comments/gstudio/nodetype/posted.html:10
+msgid "Return to nodetype list"
 msgstr "Вернуться к списку записей"
 
-#: templates/gstudio/_objecttype_detail.html:15
-#: templates/gstudio/_objecttype_detail.html:24
+#: templates/gstudio/_nodetype_detail.html:15
+#: templates/gstudio/_nodetype_detail.html:24
 msgid "Contributed by"
 msgstr ""
 
-#: templates/gstudio/_objecttype_detail.html:19
+#: templates/gstudio/_nodetype_detail.html:19
 #, python-format
-msgid "Show %(author)s objecttypes"
+msgid "Show %(author)s nodetypes"
 msgstr "Показать записи %(author)s"
 
-#: templates/gstudio/_objecttype_detail.html:59
+#: templates/gstudio/_nodetype_detail.html:59
 msgid "No tags"
 msgstr "Нет тегов"
 
-#: templates/gstudio/_objecttype_detail.html:64
+#: templates/gstudio/_nodetype_detail.html:64
 msgid "Short url"
 msgstr "Короткая ссылка"
 
-#: templates/gstudio/_objecttype_detail.html:75
+#: templates/gstudio/_nodetype_detail.html:75
 #, python-format
 msgid "%(comment_count)s comment"
 msgid_plural "%(comment_count)s comments"
@@ -910,17 +910,17 @@ msgstr[0] "%(comment_count)s комментарий"
 msgstr[1] "%(comment_count)s комментариев"
 msgstr[2] "%(comment_count)s комментарии"
 
-#: templates/gstudio/_objecttype_detail.html:81
+#: templates/gstudio/_nodetype_detail.html:81
 msgid "Discuss the relations or raise any issues!"
 msgstr ""
 
-#: templates/gstudio/_objecttype_detail.html:84
-#: templates/gstudio/objecttype_detail.html:118
-#: templates/gstudio/objecttype_detail.html:124
+#: templates/gstudio/_nodetype_detail.html:84
+#: templates/gstudio/nodetype_detail.html:118
+#: templates/gstudio/nodetype_detail.html:124
 msgid "Comments are closed."
 msgstr "Комментирование отключено."
 
-#: templates/gstudio/_objecttype_detail.html:91
+#: templates/gstudio/_nodetype_detail.html:91
 #, python-format
 msgid "%(pingback_count)s pingback"
 msgid_plural "%(pingback_count)s pingbacks"
@@ -928,7 +928,7 @@ msgstr[0] "%(pingback_count)s оповещение"
 msgstr[1] "%(pingback_count)s оповещений"
 msgstr[2] "%(pingback_count)s оповещения"
 
-#: templates/gstudio/_objecttype_detail.html:98
+#: templates/gstudio/_nodetype_detail.html:98
 #, python-format
 msgid "%(trackback_count)s trackback"
 msgid_plural "%(trackback_count)s trackbacks"
@@ -946,11 +946,11 @@ msgstr "Список авторов"
 #: templates/gstudio/tags/metatypes.html:6
 #: templates/gstudio/tags/tag_cloud.html:8
 #, python-format
-msgid "%(objecttype_count)s objecttype"
-msgid_plural "%(objecttype_count)s objecttypes"
-msgstr[0] "%(objecttype_count)s запись"
-msgstr[1] "%(objecttype_count)s записей"
-msgstr[2] "%(objecttype_count)s записи"
+msgid "%(nodetype_count)s nodetype"
+msgid_plural "%(nodetype_count)s nodetypes"
+msgstr[0] "%(nodetype_count)s запись"
+msgstr[1] "%(nodetype_count)s записей"
+msgstr[2] "%(nodetype_count)s записи"
 
 #: templates/gstudio/author_list.html:22
 #: templates/gstudio/tags/authors.html:12
@@ -958,10 +958,10 @@ msgid "No authors yet."
 msgstr "Авторов нет."
 
 #: templates/gstudio/base.html:13 templates/gstudio/skeleton.html:35
-msgid "RSS Feed of latest objecttypes"
+msgid "RSS Feed of latest nodetypes"
 msgstr "RSS лента последних записей"
 
-#: templates/gstudio/base.html:28 templates/gstudio/objecttype_search.html:39
+#: templates/gstudio/base.html:28 templates/gstudio/nodetype_search.html:39
 msgid ""
 "You can use - to exclude words or phrases, &quot;double quotes&quot; for "
 "exact phrases and the AND/OR boolean operators combined with parenthesis for "
@@ -976,24 +976,24 @@ msgstr "Календарь"
 
 #: templates/gstudio/base.html:68
 #, fuzzy
-msgid "Popular object types"
+msgid "Popular node types"
 msgstr "Популярные записи"
 
 #: templates/gstudio/base.html:72
-#: templates/gstudio/objecttype_archive_day.html:4
-#: templates/gstudio/objecttype_archive_day.html:6
-#: templates/gstudio/objecttype_archive_day.html:9
-#: templates/gstudio/objecttype_archive_month.html:4
-#: templates/gstudio/objecttype_archive_month.html:6
-#: templates/gstudio/objecttype_archive_month.html:9
-#: templates/gstudio/objecttype_archive_year.html:4
-#: templates/gstudio/objecttype_archive_year.html:6
-#: templates/gstudio/objecttype_archive_year.html:9
-#: templates/gstudio/tags/archives_objecttypes.html:5
-#: templates/gstudio/tags/archives_objecttypes_link.html:2
-#: templates/gstudio/tags/archives_objecttypes_tree.html:7
-#: templates/gstudio/tags/archives_objecttypes_tree.html:14
-#: templates/gstudio/tags/archives_objecttypes_tree.html:24
+#: templates/gstudio/nodetype_archive_day.html:4
+#: templates/gstudio/nodetype_archive_day.html:6
+#: templates/gstudio/nodetype_archive_day.html:9
+#: templates/gstudio/nodetype_archive_month.html:4
+#: templates/gstudio/nodetype_archive_month.html:6
+#: templates/gstudio/nodetype_archive_month.html:9
+#: templates/gstudio/nodetype_archive_year.html:4
+#: templates/gstudio/nodetype_archive_year.html:6
+#: templates/gstudio/nodetype_archive_year.html:9
+#: templates/gstudio/tags/archives_nodetypes.html:5
+#: templates/gstudio/tags/archives_nodetypes_link.html:2
+#: templates/gstudio/tags/archives_nodetypes_tree.html:7
+#: templates/gstudio/tags/archives_nodetypes_tree.html:14
+#: templates/gstudio/tags/archives_nodetypes_tree.html:24
 msgid "Archives"
 msgstr "Архив"
 
@@ -1006,7 +1006,7 @@ msgid "Dashboard"
 msgstr "Панель управления"
 
 #: templates/gstudio/base.html:88 templates/gstudio/base.html.py:89
-msgid "Post an objecttype"
+msgid "Post an nodetype"
 msgstr "Опубликовать запись"
 
 #: templates/gstudio/base.html:96 templates/gstudio/base.html.py:97
@@ -1023,7 +1023,7 @@ msgstr ""
 "Имя пользователя и пароль не совпадают. Пожалуйста, попробуйте еще раз."
 
 #: templates/gstudio/login.html:16
-msgid "You need to be connected to view this objecttype."
+msgid "You need to be connected to view this nodetype."
 msgstr "Вы должны быть подключены, чтобы посмотреть эту запись."
 
 #: templates/gstudio/login.html:33
@@ -1040,169 +1040,169 @@ msgstr "Список категорий"
 msgid "No metatypes yet."
 msgstr "Категории отсутствуют."
 
-#: templates/gstudio/objecttype_archive_month.html:13
+#: templates/gstudio/nodetype_archive_month.html:13
 msgid "Daily archives"
 msgstr "Ежедневные архивы"
 
-#: templates/gstudio/objecttype_archive_year.html:13
+#: templates/gstudio/nodetype_archive_year.html:13
 #: templates/gstudio/sitemap.html:67
 msgid "Monthly archives"
 msgstr "Архив за месяц"
 
-#: templates/gstudio/objecttype_detail.html:22
+#: templates/gstudio/nodetype_detail.html:22
 msgid "RSS Feed of discussions on"
 msgstr "Включена RSS рассылка обсуждений"
 
-#: templates/gstudio/objecttype_detail.html:24
+#: templates/gstudio/nodetype_detail.html:24
 msgid "RSS Feed of comments on"
 msgstr "RSS лента комментариев к"
 
-#: templates/gstudio/objecttype_detail.html:26
+#: templates/gstudio/nodetype_detail.html:26
 msgid "RSS Feed of pingbacks on"
 msgstr "RSS лента пинбэков к"
 
-#: templates/gstudio/objecttype_detail.html:28
+#: templates/gstudio/nodetype_detail.html:28
 msgid "RSS Feed of trackbacks on"
 msgstr "RSS лента трэкбэков к"
 
-#: templates/gstudio/objecttype_detail.html:46
+#: templates/gstudio/nodetype_detail.html:46
 #, fuzzy
-msgid "Next object type"
+msgid "Next node type"
 msgstr "Следующая запись"
 
-#: templates/gstudio/objecttype_detail.html:60
+#: templates/gstudio/nodetype_detail.html:60
 #, fuzzy
-msgid "Previous object type"
+msgid "Previous node type"
 msgstr "Предыдущая запись"
 
-#: templates/gstudio/objecttype_detail.html:73
+#: templates/gstudio/nodetype_detail.html:73
 #, fuzzy
-msgid "Related object types"
+msgid "Related node types"
 msgstr "Связанные записи"
 
-#: templates/gstudio/objecttype_detail.html:84
+#: templates/gstudio/nodetype_detail.html:84
 #, fuzzy
-msgid "Similar object types"
+msgid "Similar node types"
 msgstr "Похожие записи"
 
-#: templates/gstudio/objecttype_detail.html:92
+#: templates/gstudio/nodetype_detail.html:92
 msgid "Comments"
 msgstr "Комментарии"
 
-#: templates/gstudio/objecttype_detail.html:133
+#: templates/gstudio/nodetype_detail.html:133
 msgid "Pingbacks"
 msgstr "Пингбэки"
 
-#: templates/gstudio/objecttype_detail.html:155
+#: templates/gstudio/nodetype_detail.html:155
 msgid "Pingbacks are open."
 msgstr "Оповещения открыты."
 
-#: templates/gstudio/objecttype_detail.html:157
+#: templates/gstudio/nodetype_detail.html:157
 msgid "Pingbacks are closed."
 msgstr "Пингбэки отключены."
 
-#: templates/gstudio/objecttype_detail.html:167
+#: templates/gstudio/nodetype_detail.html:167
 msgid "Trackbacks"
 msgstr "Трэкбэки"
 
-#: templates/gstudio/objecttype_detail.html:190
+#: templates/gstudio/nodetype_detail.html:190
 msgid "Trackback URL"
 msgstr "URL архива"
 
-#: templates/gstudio/objecttype_detail.html:212
+#: templates/gstudio/nodetype_detail.html:212
 #, fuzzy
-msgid "Edit the object type"
+msgid "Edit the node type"
 msgstr "Изменить запись"
 
-#: templates/gstudio/objecttype_list.html:4
-msgid "Latest objecttypes for"
+#: templates/gstudio/nodetype_list.html:4
+msgid "Latest nodetypes for"
 msgstr ""
 
-#: templates/gstudio/objecttype_list.html:4
+#: templates/gstudio/nodetype_list.html:4
 msgid "the metatype"
 msgstr ""
 
-#: templates/gstudio/objecttype_list.html:4
+#: templates/gstudio/nodetype_list.html:4
 msgid "the tag"
 msgstr ""
 
-#: templates/gstudio/objecttype_list.html:4
+#: templates/gstudio/nodetype_list.html:4
 msgid "the author"
 msgstr ""
 
-#: templates/gstudio/objecttype_list.html:4
-#: templates/gstudio/objecttype_search.html:6
+#: templates/gstudio/nodetype_list.html:4
+#: templates/gstudio/nodetype_search.html:6
 msgid "page"
 msgstr ""
 
-#: templates/gstudio/objecttype_list.html:9
-#: templates/gstudio/objecttype_list.html:12
-#: templates/gstudio/objecttype_list.html:15
+#: templates/gstudio/nodetype_list.html:9
+#: templates/gstudio/nodetype_list.html:12
+#: templates/gstudio/nodetype_list.html:15
 #: templates/gstudio/skeleton.html:36
 msgid "RSS Feed"
 msgstr "RSS лента"
 
-#: templates/gstudio/objecttype_list.html:19
+#: templates/gstudio/nodetype_list.html:19
 msgid "Metatype"
 msgstr "Категория"
 
-#: templates/gstudio/objecttype_list.html:19
-#: templates/gstudio/objecttype_list.html:31
+#: templates/gstudio/nodetype_list.html:19
+#: templates/gstudio/nodetype_list.html:31
 msgid "Tag"
 msgstr "Тег"
 
-#: templates/gstudio/objecttype_list.html:19
+#: templates/gstudio/nodetype_list.html:19
 msgid "Author"
 msgstr "Автор"
 
-#: templates/gstudio/objecttype_list.html:19
-#: templates/gstudio/objecttype_search.html:4
+#: templates/gstudio/nodetype_list.html:19
+#: templates/gstudio/nodetype_search.html:4
 msgid "Page"
 msgstr "Страница"
 
-#: templates/gstudio/objecttype_list.html:35
+#: templates/gstudio/nodetype_list.html:35
 #, python-format
-msgid "Objecttypes by %(author)s"
+msgid "Nodetypes by %(author)s"
 msgstr "Записи от %(author)s"
 
-#: templates/gstudio/objecttype_list.html:43
+#: templates/gstudio/nodetype_list.html:43
 msgid "No nodes in the network yet. Login and construct a network!"
 msgstr ""
 
-#: templates/gstudio/objecttype_list.html:54
-#: templates/gstudio/objecttype_list.html:55
+#: templates/gstudio/nodetype_list.html:54
+#: templates/gstudio/nodetype_list.html:55
 msgid "Edit the metatype"
 msgstr "Редактировать категорию"
 
-#: templates/gstudio/objecttype_list.html:61
-#: templates/gstudio/objecttype_list.html:62
+#: templates/gstudio/nodetype_list.html:61
+#: templates/gstudio/nodetype_list.html:62
 msgid "Edit the tag"
 msgstr "Редактировать тег"
 
-#: templates/gstudio/objecttype_list.html:68
-#: templates/gstudio/objecttype_list.html:69
+#: templates/gstudio/nodetype_list.html:68
+#: templates/gstudio/nodetype_list.html:69
 msgid "Edit the author"
 msgstr "Редактировать автора"
 
-#: templates/gstudio/objecttype_search.html:4
-#: templates/gstudio/objecttype_search.html:6
-#: templates/gstudio/objecttype_search.html:14
+#: templates/gstudio/nodetype_search.html:4
+#: templates/gstudio/nodetype_search.html:6
+#: templates/gstudio/nodetype_search.html:14
 msgid "Search results for"
 msgstr ""
 
-#: templates/gstudio/objecttype_search.html:10
+#: templates/gstudio/nodetype_search.html:10
 msgid "RSS Feed of search result of"
 msgstr "RSS лента результатов поиска "
 
-#: templates/gstudio/objecttype_search.html:22
+#: templates/gstudio/nodetype_search.html:22
 #, python-format
-msgid "%(objecttype_count)s objecttype found"
-msgid_plural "%(objecttype_count)s objecttypes found"
-msgstr[0] "%(objecttype_count)s запись найдена"
-msgstr[1] "%(objecttype_count)s записей найдено"
-msgstr[2] "%(objecttype_count)s записи найдены"
+msgid "%(nodetype_count)s nodetype found"
+msgid_plural "%(nodetype_count)s nodetypes found"
+msgstr[0] "%(nodetype_count)s запись найдена"
+msgstr[1] "%(nodetype_count)s записей найдено"
+msgstr[2] "%(nodetype_count)s записи найдены"
 
-#: templates/gstudio/objecttype_search.html:31
+#: templates/gstudio/nodetype_search.html:31
 msgid "Nothing found."
 msgstr "Ничего не найдено."
 
@@ -1215,7 +1215,7 @@ msgid "The password provided is not valid. Please try again."
 msgstr "Неправильный пароль. Пожалуйста, попробуйте еще раз."
 
 #: templates/gstudio/password.html:16
-msgid "You need to provide a password to view this objecttype."
+msgid "You need to provide a password to view this nodetype."
 msgstr "Вы должны ввести пароль для просмотра этой записи."
 
 #: templates/gstudio/password.html:23
@@ -1227,24 +1227,24 @@ msgid "Valid"
 msgstr "Проверка пройдена"
 
 #: templates/gstudio/sitemap.html:10
-msgid "Objecttypes per metatypes"
+msgid "Nodetypes per metatypes"
 msgstr "Записи в категории"
 
 #: templates/gstudio/sitemap.html:18 templates/gstudio/sitemap.html.py:38
-#: templates/gstudio/tags/popular_objecttypes.html:8
+#: templates/gstudio/tags/popular_nodetypes.html:8
 msgid "comment"
 msgstr "комментарий"
 
 #: templates/gstudio/sitemap.html:23 templates/gstudio/sitemap.html.py:43
-#: templates/gstudio/cms/objecttype_list.html:9
-#: templates/gstudio/tags/featured_objecttypes.html:9
-#: templates/gstudio/tags/popular_objecttypes.html:13
-#: templates/gstudio/tags/random_objecttypes.html:9
-msgid "No objecttypes yet."
+#: templates/gstudio/cms/nodetype_list.html:9
+#: templates/gstudio/tags/featured_nodetypes.html:9
+#: templates/gstudio/tags/popular_nodetypes.html:13
+#: templates/gstudio/tags/random_nodetypes.html:9
+msgid "No nodetypes yet."
 msgstr "Записей еще нет."
 
 #: templates/gstudio/sitemap.html:31
-msgid "All the objecttypes"
+msgid "All the nodetypes"
 msgstr "Все записи"
 
 #: templates/gstudio/tag_list.html:4 templates/gstudio/tag_list.html.py:9
@@ -1256,26 +1256,26 @@ msgstr "Список тегов"
 msgid "No tags yet."
 msgstr "Категории отсутствуют."
 
-#: templates/gstudio/cms/objecttype_detail.html:7
+#: templates/gstudio/cms/nodetype_detail.html:7
 #, fuzzy
-msgid "No object types yet."
+msgid "No node types yet."
 msgstr "Записей еще нет."
 
-#: templates/gstudio/tags/archives_objecttypes.html:12
-#: templates/gstudio/tags/archives_objecttypes_tree.html:38
+#: templates/gstudio/tags/archives_nodetypes.html:12
+#: templates/gstudio/tags/archives_nodetypes_tree.html:38
 msgid "No archives yet."
 msgstr "Нет записей в архиве."
 
-#: templates/gstudio/tags/objecttypes.html:6
+#: templates/gstudio/tags/nodetypes.html:6
 #, fuzzy, python-format
 msgid "%(gbobjects_count)s gbobject"
 msgid_plural "%(gbobjects_count)s gbobjects"
-msgstr[0] "%(objecttype_count)s запись"
-msgstr[1] "%(objecttype_count)s записей"
-msgstr[2] "%(objecttype_count)s записи"
+msgstr[0] "%(nodetype_count)s запись"
+msgstr[1] "%(nodetype_count)s записей"
+msgstr[2] "%(nodetype_count)s записи"
 
-#: templates/gstudio/tags/objecttypes.html:11
-#: templates/gstudio/tags/recent_objecttypes.html:16
+#: templates/gstudio/tags/nodetypes.html:11
+#: templates/gstudio/tags/recent_nodetypes.html:16
 #, fuzzy
 msgid "No subtypes yet."
 msgstr "Записей еще нет."
@@ -1287,25 +1287,25 @@ msgstr "Страница %(current_page)s из %(total_page)s"
 
 #: templates/gstudio/tags/pagination.html:10
 #, fuzzy
-msgid "More recent object types"
+msgid "More recent node types"
 msgstr "Самые новые записи"
 
 #: templates/gstudio/tags/pagination.html:20
 #: templates/gstudio/tags/pagination.html:33
 #: templates/gstudio/tags/pagination.html:47
-msgid "Objecttypes page"
+msgid "Nodetypes page"
 msgstr "Страница записей"
 
 #: templates/gstudio/tags/pagination.html:56
-msgid "More old objecttypes"
+msgid "More old nodetypes"
 msgstr "Самые старые записи"
 
 #: templates/gstudio/tags/recent_linkbacks.html:10
 msgid "Linkback on"
 msgstr "Обратные ссылки включены"
 
-#: templates/gstudio/tags/similar_objecttypes.html:9
-msgid "No similar objecttypes."
+#: templates/gstudio/tags/similar_nodetypes.html:9
+msgid "No similar nodetypes."
 msgstr "Нет похожих записей."
 
 #: tests/views.py:222 views/search.py:18

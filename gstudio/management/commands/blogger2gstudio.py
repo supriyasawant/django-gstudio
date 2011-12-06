@@ -15,7 +15,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.comments import get_model as get_comment_model
 
 from gstudio import __version__
-from gstudio.models import Objecttype
+from gstudio.models import Nodetype
 from gstudio.models import Metatype
 from gstudio.managers import DRAFT, PUBLISHED
 
@@ -36,7 +36,7 @@ class Command(NoArgsCommand):
         make_option('--blogger-blog-id', dest='blogger_blog_id', default='',
                     help='The id of the Blogger blog to import'),
         make_option('--author', dest='author', default='',
-                    help='All imported objecttypes belong to specified author')
+                    help='All imported nodetypes belong to specified author')
         )
 
     SITE = Site.objects.get_current()
@@ -99,7 +99,7 @@ class Command(NoArgsCommand):
 
         if not self.metatype_title:
             self.metatype_title = raw_input(
-                'Metatype title for imported objecttypes: ')
+                'Metatype title for imported nodetypes: ')
             if not self.metatype_title:
                 raise CommandError('Invalid metatype title')
 
@@ -138,7 +138,7 @@ class Command(NoArgsCommand):
 
     def import_posts(self):
         metatype = self.get_metatype()
-        self.write_out(self.style.STEP('- Importing objecttypes\n'))
+        self.write_out(self.style.STEP('- Importing nodetypes\n'))
         for post in self.blogger_manager.get_posts(self.blogger_blog_id):
             creation_date = convert_blogger_timestamp(post.published.text)
             status = DRAFT if is_draft(post) else PUBLISHED
@@ -146,38 +146,38 @@ class Command(NoArgsCommand):
             content = post.content.text or ''
             slug = slugify(post.title.text or get_post_id(post))[:255]
             try:
-                objecttype = Objecttype.objects.get(creation_date=creation_date,
+                nodetype = Nodetype.objects.get(creation_date=creation_date,
                                           slug=slug)
                 output = self.style.NOTICE('> Skipped %s (already migrated)\n'
-                    % objecttype)
-            except Objecttype.DoesNotExist:
-                objecttype = Objecttype(status=status, title=title, content=content,
+                    % nodetype)
+            except Nodetype.DoesNotExist:
+                nodetype = Nodetype(status=status, title=title, content=content,
                               creation_date=creation_date, slug=slug)
                 if self.default_author:
-                    objecttype.author = self.default_author
-                objecttype.tags = ','.join([slugify(cat.term) for
+                    nodetype.author = self.default_author
+                nodetype.tags = ','.join([slugify(cat.term) for
                                        cat in post.metatype])
-                objecttype.last_update = convert_blogger_timestamp(
+                nodetype.last_update = convert_blogger_timestamp(
                     post.updated.text)
-                objecttype.save()
-                objecttype.sites.add(self.SITE)
-                objecttype.metatypes.add(metatype)
-                objecttype.authors.add(self.default_author)
+                nodetype.save()
+                nodetype.sites.add(self.SITE)
+                nodetype.metatypes.add(metatype)
+                nodetype.authors.add(self.default_author)
                 try:
-                    self.import_comments(objecttype, post)
+                    self.import_comments(nodetype, post)
                 except gdata_service.RequestError:
                     # comments not available for this post
                     pass
                 output = self.style.ITEM('> Migrated %s + %s comments\n'
-                    % (objecttype.title, len(Comment.objects.for_model(objecttype))))
+                    % (nodetype.title, len(Comment.objects.for_model(nodetype))))
 
             self.write_out(output)
 
-    def import_comments(self, objecttype, post):
+    def import_comments(self, nodetype, post):
         blog_id = self.blogger_blog_id
         post_id = get_post_id(post)
         comments = self.blogger_manager.get_comments(blog_id, post_id)
-        objecttype_content_type = ContentType.objects.get_for_model(Objecttype)
+        nodetype_content_type = ContentType.objects.get_for_model(Nodetype)
 
         for comment in comments:
             submit_date = convert_blogger_timestamp(comment.published.text)
@@ -195,8 +195,8 @@ class Command(NoArgsCommand):
                 user_url = ''
 
             com, created = Comment.objects.get_or_create(
-                content_type=objecttype_content_type,
-                object_pk=objecttype.pk,
+                content_type=nodetype_content_type,
+                object_pk=nodetype.pk,
                 comment=content,
                 submit_date=submit_date,
                 site=self.SITE,
@@ -240,16 +240,16 @@ class BloggerManager(object):
 
     def get_blogs(self):
         feed = self.service.Get('/feeds/default/blogs')
-        for blog in feed.objecttype:
+        for blog in feed.nodetype:
             yield blog
 
     def get_posts(self, blog_id):
         feed = self.service.Get('/feeds/%s/posts/default' % blog_id)
-        for post in feed.objecttype:
+        for post in feed.nodetype:
             yield post
 
     def get_comments(self, blog_id, post_id):
         feed = self.service.Get('/feeds/%s/%s/comments/default' % \
                                 (blog_id, post_id))
-        for comment in feed.objecttype:
+        for comment in feed.nodetype:
             yield comment
