@@ -29,7 +29,7 @@ class AttributetypeAdmin(reversion.VersionAdmin):
     form = AttributetypeAdminForm
     date_hierarchy = 'creation_date'
     fieldsets = ((_('Attribute Definiton'), {'fields': ('title','altnames','subjecttype','applicablenode\
-types','dataType','parent','slug','status') }),
+types','dataType','verbose_name','null','blank','help_text','max_digits','decimal_places','auto_now','auto_now_add','upload_to','path','verify_exists','parent','slug','status') }),
 
                  (_('Content'), {'fields': ('content', 'image',),
                                  'classes': ('collapse', 'collapse-closed')}),
@@ -39,7 +39,7 @@ types','dataType','parent','slug','status') }),
                  (_('Dependency'), {'fields': ('priornode', 'posteriornode',),
                                  'classes': ('collapse', 'collapse-closed')}),
                  (_('Options'), {'fields': ('featured', 'excerpt', 'template',
-                                            'related', 'authors',
+                                            'authors',
                                             'creation_date',
                                             'start_publication',
                                             'end_publication'),
@@ -60,7 +60,7 @@ types','dataType','parent','slug','status') }),
                     'get_is_actual', 'get_is_visible', 'get_link',
                     'get_short_url', 'creation_date')
     radio_fields = {'template': admin.VERTICAL}
-    filter_horizontal = ('metatypes', 'authors', 'related')
+    filter_horizontal = ('metatypes', 'authors')
     prepopulated_fields = {'slug': ('title', )}
     search_fields = ('title', 'excerpt', 'content', 'tags')
     actions = ['make_mine', 'make_published', 'make_hidden',

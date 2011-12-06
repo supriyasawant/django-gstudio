@@ -36,7 +36,7 @@ class ProcesstypeAdmin(reversion.VersionAdmin):
                  (_('Dependency'), {'fields': ('priornode', 'posteriornode',), 
                                  'classes': ('collapse', 'collapse-closed')}),
                  (_('Options'), {'fields': ('featured', 'excerpt', 'template',
-                                            'related', 'authors',
+                                             'authors',
                                             'creation_date',
                                             'start_publication',
                                             'end_publication'),
@@ -57,7 +57,7 @@ class ProcesstypeAdmin(reversion.VersionAdmin):
                     'get_is_actual', 'get_is_visible', 'get_link',
                     'get_short_url', 'creation_date')
     radio_fields = {'template': admin.VERTICAL}
-    filter_horizontal = ('metatypes', 'authors', 'related')
+    filter_horizontal = ('metatypes', 'authors')
     prepopulated_fields = {'slug': ('title', )}
     search_fields = ('title', 'excerpt', 'content', 'tags')
     actions = ['make_mine', 'make_published', 'make_hidden',

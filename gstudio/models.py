@@ -296,10 +296,10 @@ class Objecttype(Nodetype):
     parent = models.ForeignKey('self', null=True, blank=True,
                                verbose_name=_('is a kind of'),
                                related_name='subtypes')
-    priornode = models.ManyToManyField('self', null=True, blank=True,
+    priornodes = models.ManyToManyField('self', null=True, blank=True,
                                verbose_name=_('its meaning depends on '),
                                related_name='posteriors')
-    posteriornode = models.ManyToManyField('self', null=True, blank=True,
+    posteriornodes = models.ManyToManyField('self', null=True, blank=True,
                                verbose_name=_('required for the meaning of '),
                                related_name='priornodes')
 
@@ -313,8 +313,6 @@ class Objecttype(Nodetype):
     metatypes = models.ManyToManyField(Metatype, verbose_name=_('member of metatypes'),
                                         related_name='objecttypes',
                                         blank=True, null=True)
-    related = models.ManyToManyField('self', verbose_name=_('related objecttypes'),
-                                     blank=True, null=True)
 
     slug = models.SlugField(help_text=_('used for publication'),
                             unique_for_date='creation_date',
@@ -399,7 +397,7 @@ class Objecttype(Nodetype):
             nbh['type_of'].update({str(self.parent.id) : str(self.parent.title)})
 
         nbh['contains_subtypes'] = {}
-        # generate ids and names of children /members
+        #generate ids and names of children /members
         for objecttype in Objecttype.objects.filter(parent=self.id):
             nbh['contains_subtypes'].update({str(objecttype.id):str(objecttype.title)})
 
@@ -946,15 +944,15 @@ class Systemtype(Objecttype):
     """
 
 
-    objecttypeset = models.ManyToManyField(Objecttype, related_name="objecttypeset_systemtype", verbose_name='Possible edges in the system',    
+    objecttype_set = models.ManyToManyField(Objecttype, related_name="objecttypeset_systemtype", verbose_name='Possible edges in the system',    
                                            blank=True, null=False) 
-    relationtypeset = models.ManyToManyField(Relationtype, related_name="relationtypeset_systemtype", verbose_name='Possible nodetypes in the system',    
+    relationtype_set = models.ManyToManyField(Relationtype, related_name="relationtypeset_systemtype", verbose_name='Possible nodetypes in the system',    
                                              blank=True, null=False) 
-    attributetypeset = models.ManyToManyField(Attributetype, related_name="attributetypeset_systemtype", verbose_name='systems to be nested in the system',
+    attributetype_set = models.ManyToManyField(Attributetype, related_name="attributetypeset_systemtype", verbose_name='systems to be nested in the system',
                                               blank=True, null=False)
-    metatypeset = models.ManyToManyField(Metatype, related_name="metatypeset_systemtype", verbose_name='Possible edges in the system',    
+    metatype_set = models.ManyToManyField(Metatype, related_name="metatypeset_systemtype", verbose_name='Possible edges in the system',    
                                          blank=True, null=False) 
-    processtypeset = models.ManyToManyField(Processtype, related_name="processtypeset_systemtype", verbose_name='Possible edges in the system',    
+    processtype_set = models.ManyToManyField(Processtype, related_name="processtypeset_systemtype", verbose_name='Possible edges in the system',    
                                             blank=True, null=False) 
 
 

@@ -1,6 +1,5 @@
 """RelationtypeAdmin for Gstudio"""
 from datetime import datetime
-
 from django.forms import Media
 from django.contrib import admin
 from django.contrib.auth.models import User
@@ -50,16 +49,17 @@ class RelationtypeAdmin(reversion.VersionAdmin):
                             'classes': ('collapse', 'collapse-closed')}),
             
             
-            (_('Dependency'), {'fields': ('priornode', 'posteriornode',), 
+            (_('Dependency'), {'fields': ('priornodes', 'posteriornode',), 
                                'classes': ('collapse', 'collapse-closed')}),
             (_('Options'), {'fields': ('featured', 'excerpt', 'template',
-                                       'related', 'authors',
+                                       'authors',
                                        'creation_date',
                                        'start_publication',
                                        'end_publication'),
                             'classes': ('collapse', 'collapse-closed')}),
             ))
             
+
     list_filter = ('parent','metatypes', 'authors', 'status', 'featured',
                    'login_required', 'comment_enabled', 'pingback_enabled',
                    'creation_date', 'start_publication',
@@ -70,7 +70,7 @@ class RelationtypeAdmin(reversion.VersionAdmin):
                     'get_is_actual', 'get_is_visible', 'get_link',
                     'get_short_url', 'creation_date')
     radio_fields = {'template': admin.VERTICAL}
-    filter_horizontal = ('metatypes', 'authors', 'related')
+    filter_horizontal = ('metatypes', 'authors')
     prepopulated_fields = {'slug': ('title', )}
     search_fields = ('title', 'excerpt', 'content', 'tags')
     actions = ['make_mine', 'make_published', 'make_hidden',

@@ -87,16 +87,24 @@ class Gbobject(Node):
     excerpt = models.TextField(_('excerpt'), blank=True,
                                 help_text=_('optional element'))
 
+    priornodes = models.ManyToManyField('self', null=True, blank=True,
+                               verbose_name=_('its meaning depends'),
+                               related_name='posteriors')
+
+    posteriornodes = models.ManyToManyField('self', null=True, blank=True,
+                               verbose_name=_('required for the meaning of'),
+                               related_name='priornodes')
+
+
     tags = TagField(_('tags'))
     objecttypes = models.ManyToManyField(Objecttype, verbose_name=_('member of'),
                                         related_name='gbobjects',
                                         blank=True, null=True)
-    related = models.ManyToManyField('self', verbose_name=_('related objects'),
-                                     blank=True, null=True)
 
     slug = models.SlugField(help_text=_('used for publication'),
                             unique_for_date='creation_date',
                             max_length=255)
+
 
     authors = models.ManyToManyField(User, verbose_name=_('authors'),
                                      related_name='gbobjects',
@@ -335,23 +343,23 @@ class System(Gbobject):
                                         related_name='systemtypes',
                                          blank=True, null=True)
 
-    objectset = models.ManyToManyField(Gbobject, related_name="objectset_system", 
+    object_set = models.ManyToManyField(Gbobject, related_name="objectset_system", 
                                        verbose_name='Possible edges in the system',    
                                        blank=True, null=False) 
 
-    relationset = models.ManyToManyField(Relation, related_name="relationset_system", 
+    relation_set = models.ManyToManyField(Relation, related_name="relationset_system", 
                                          verbose_name='Possible nodetypes in the system',    
                                          blank=True, null=False) 
 
-    attributeset = models.ManyToManyField(Attribute, related_name="attributeset_system", 
+    attribute_set = models.ManyToManyField(Attribute, related_name="attributeset_system", 
                                           verbose_name='systems to be nested in the system',
                                           blank=True, null=False)
 
-    processset = models.ManyToManyField(Processtype, related_name="processset_system", 
+    process_set = models.ManyToManyField(Processtype, related_name="processset_system", 
                                         verbose_name='Possible edges in the system',    
                                         blank=True, null=False) 
 
-    systemset = models.ManyToManyField('self', related_name="systems_system", 
+    system_set = models.ManyToManyField('self', related_name="systems_system", 
                                        verbose_name='systems that can be nested in the system',
                                        blank=True, null=False)
 
@@ -402,7 +410,7 @@ if not reversion.is_registered(System):
     reversion.register(System, follow=["systemtypes", "edgeset", "nodeset", "systemset"])
 
 if not reversion.is_registered(Gbobject):
-    reversion.register(Gbobject, follow=["objecttypes"])
+    reversion.register(Gbobject, follow=["objecttypes","priornodes","posteriornodes"])
 
 
 moderator.register(Gbobject, GbobjectCommentModerator)
