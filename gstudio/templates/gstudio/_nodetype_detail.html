@@ -27,14 +27,9 @@
 
     </p>
   </div>
-             <h4> {{ object.tree_path_sentence }} </h4>  
-             <h4>  {{ object.memberof_sentence }}</h4>
-     	     <h3>Neighbourhood</h3>
-	     {% for key,value in object.get_nbh.items %}
-	     <h5>{{key}}</h5>
-	     {{value}}
-	      
-	     {% endfor %}
+             Title: {{ object.title }} <br/>
+             Member of metatypes:<a href="{{ object.get_absolute_url }}">{{object.title }}<br/>
+
 
 
   <div class="nodetype-body span-16 last">
@@ -49,8 +44,6 @@
     {% endif %}
     <div class="nodetype-content">
       <br>
-      <h3>Nodetype Content</h3>
-      
       {{ object_content }}
     </div>
 

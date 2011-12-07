@@ -222,7 +222,7 @@
 {% block admin_tools %}
 {% if perms.gstudio.change_nodetype %}
 <li>
-  <a href="{% url admin:gstudio_nodetype_change object.pk %}" title="{% trans "Edit the nodetype" %}">
+  <a href="{% url admin:gstudio_objecttype_change object.pk %}" title="{% trans "Edit the nodetype" %}">
     {% trans "Edit the node type" %}
   </a>
 </li>
