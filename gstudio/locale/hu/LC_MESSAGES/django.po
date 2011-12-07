@@ -1001,7 +1001,7 @@ msgid "Dashboard"
 msgstr "Műszerfal"
 
 #: templates/gstudio/base.html:88 templates/gstudio/base.html.py:89
-msgid "Post an nodetype"
+msgid "Post a nodetype"
 msgstr "Adj hozzá egy bejegyzést"
 
 #: templates/gstudio/base.html:96 templates/gstudio/base.html.py:97

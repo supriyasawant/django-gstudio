@@ -104,9 +104,9 @@ class RelationtypeAdmin(reversion.VersionAdmin):
                         author.username) for author in relationtype.authors.all()]
         except NoReverseMatch:
             authors = [author.username for author in relationtype.authors.all()]
-            return ', '.join(authors)
-        get_authors.allow_tags = True
-        get_authors.short_description = _('author(s)')
+        return ', '.join(authors)
+    get_authors.allow_tags = True
+    get_authors.short_description = _('author(s)')
         
     def get_metatypes(self, relationtype):
         """Return the metatypes linked in HTML"""

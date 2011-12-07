@@ -20,7 +20,7 @@ class NodetypeSitemap(Sitemap):
         return Nodetype.published.all()
 
     def lastmod(self, obj):
-        """Return last modification of an nodetype"""
+        """Return last modification of a nodetype"""
         return obj.last_update
 
 

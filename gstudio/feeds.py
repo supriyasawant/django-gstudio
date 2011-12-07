@@ -43,7 +43,7 @@ class NodetypeFeed(GstudioFeed):
     description_template = 'feeds/nodetype_description.html'
 
     def item_pubdate(self, item):
-        """Publication date of an nodetype"""
+        """Publication date of a nodetype"""
         return item.creation_date
 
     def item_metatypes(self, item):
@@ -51,7 +51,7 @@ class NodetypeFeed(GstudioFeed):
         return [metatype.title for metatype in item.metatypes.all()]
 
     def item_author_name(self, item):
-        """Returns the first author of an nodetype"""
+        """Returns the first author of a nodetype"""
         if item.authors.count():
             self.item_author = item.authors.all()[0]
             return self.item_author.username
@@ -208,7 +208,7 @@ class SearchNodetypes(NodetypeFeed):
 
 
 class NodetypeDiscussions(GstudioFeed):
-    """Feed for discussions in an nodetype"""
+    """Feed for discussions in a nodetype"""
     title_template = 'feeds/discussion_title.html'
     description_template = 'feeds/discussion_description.html'
 
@@ -257,7 +257,7 @@ class NodetypeDiscussions(GstudioFeed):
 
 
 class NodetypeComments(NodetypeDiscussions):
-    """Feed for comments in an nodetype"""
+    """Feed for comments in a nodetype"""
     title_template = 'feeds/comment_title.html'
     description_template = 'feeds/comment_description.html'
 
@@ -291,7 +291,7 @@ class NodetypeComments(NodetypeDiscussions):
 
 
 class NodetypePingbacks(NodetypeDiscussions):
-    """Feed for pingbacks in an nodetype"""
+    """Feed for pingbacks in a nodetype"""
     title_template = 'feeds/pingback_title.html'
     description_template = 'feeds/pingback_description.html'
 
@@ -313,7 +313,7 @@ class NodetypePingbacks(NodetypeDiscussions):
 
 
 class NodetypeTrackbacks(NodetypeDiscussions):
-    """Feed for trackbacks in an nodetype"""
+    """Feed for trackbacks in a nodetype"""
     title_template = 'feeds/trackback_title.html'
     description_template = 'feeds/trackback_description.html'
 

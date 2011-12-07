@@ -17,6 +17,7 @@ from django.contrib.markup.templatetags.markup import markdown
 from django.contrib.markup.templatetags.markup import textile
 from django.contrib.markup.templatetags.markup import restructuredtext
 import mptt
+
 from djangoratings.fields import RatingField
 from tagging.fields import TagField
 from gstudio.settings import UPLOAD_TO
@@ -458,18 +459,18 @@ class Nodetype(Node):
 
     @property
     def word_count(self):
-        """Count the words of an nodetype"""
+        """Count the words of a nodetype"""
         return len(strip_tags(self.html_content).split())
 
     @property
     def is_actual(self):
-        """Check if an nodetype is within publication period"""
+        """Check if a nodetype is within publication period"""
         now = datetime.now()
         return now >= self.start_publication and now < self.end_publication
 
     @property
     def is_visible(self):
-        """Check if an nodetype is visible on site"""
+        """Check if a nodetype is visible on site"""
         return self.is_actual and self.status == PUBLISHED
 
     @property
@@ -776,7 +777,7 @@ class Attribute(Edge):
 
 
     def __unicode__(self):
-        return self.composed_sentence
+        return self.composed_attribution
 
     @property
     def edge_node_dict(self):
@@ -791,6 +792,14 @@ class Attribute(Edge):
         composes the attribution as a sentence in a triple format.
         '''
         return '%s %s has %s %s %s %s' % (self.subjectScope, self.subject, self.attributeTypeScope, self.attributeType, self.valueScope, self.svalue)
+
+    @property
+    def composed_attribution(self):
+        '''
+        composes a name to the attribute
+        '''
+        return 'the %s of %s is %s' % (self.attributeType, self.subject, self.svalue)
+
 
 class AttributeCharfield(Attribute):    
 
@@ -978,11 +987,112 @@ class Systemtype(Nodetype):
                        ('can_change_author', 'Can change author'), )
     
 
+class AttributeSpecification(Node):
+    """
+    specifying an attribute by a subject
+    """
+    attributetype = models.ForeignKey(Attributetype, verbose_name='property name')
+    subjects = models.ManyToManyField(NID, related_name="subjects_attrspec", verbose_name='subjects')
 
+
+    @property
+    def composed_subject(self):
+        '''
+        composes a name to the attribute
+        '''
+        return 'the %s of %s' % (self.attributetype, self.subject)
+
+
+    def __unicode__(self):
+        return self.composed_subject
+
+
+    class Meta:
+        verbose_name = _('attribute specification')
+        permissions = (('can_view_all', 'Can view all'),
+                       ('can_change_author', 'Can change author'), )
+
+
+class RelationSpecification(Node):
+    """
+    specifying a relation with a subject 
+    """
+    relationtype = models.ForeignKey(Relationtype, verbose_name='relation name')
+    subjects = models.ManyToManyField(NID, related_name="subjects_relspec", verbose_name='subjects')
+
+
+    @property
+    def composed_subject(self):
+        '''
+        composing an expression with relation name and subject
+        '''
+        return 'the %s of %s' % (self.relationtype, self.subject)
+
+    def __unicode__(self):
+        return self.composed_subject
+
+
+    class Meta:
+        verbose_name = _('relation as subject')
+        permissions = (('can_view_all', 'Can view all'),
+                       ('can_change_author', 'Can change author'), )
+
+
+class NodeSpecification(Node):
+    """
+    A node specified (described) by its relations or attributes or both.  
+    """
+    subject = models.ForeignKey(Node, related_name="subject_node", verbose_name='subject name')
+    relations = models.ManyToManyField(Relation, related_name="relations_nodespec", verbose_name='relations used to specify the domain')
+    attributes = models.ManyToManyField(Attribute, related_name="attributes_nodespec", verbose_name='attributes used to specify the domain')
+    @property
+    def composed_subject(self):
+        '''
+        composing an expression subject and relations
+        '''
+        return 'the %s with %s, %s' % (self.subject, self.relations, self.attributes)
+
+    def __unicode__(self):
+        return self.composed_subject
+
+
+    class Meta:
+        verbose_name = _('relation as subject')
+        permissions = (('can_view_all', 'Can view all'),
+                       ('can_change_author', 'Can change author'), )
+
+
+class Union(Node):
+    """
+    union of two classes
+    """
+    nodetypes = models.ManyToManyField(Nodetype, related_name = 'nodetypes_union', verbose_name='node types for union')
+        
+    def __unicode__(self):
+        return self.title
+
+class Complement(Node):
+    """
+    complement of a  class
+    """
+    nodetypes = models.ManyToManyField(Nodetype, related_name = 'nodetypes_complement', verbose_name='complementary nodes')
+        
+    def __unicode__(self):
+        return self.title
+
+class Intersection(Node):
+    """
+    Intersection of classes
+    """
+    nodetypes = models.ManyToManyField(Nodetype, related_name = 'nodetypes_intersection', verbose_name='intersection of classes')
+        
+    def __unicode__(self):
+        return self.title
+    
 
 reversion.register(NID)
 reversion.register(Node)
-reversion.register(Nodetype)
+reversion.register(Objecttype)
 reversion.register(Edgetype)
 reversion.register(Edge)
 
@@ -1016,6 +1126,7 @@ if not reversion.is_registered(Relation):
 moderator.register(Nodetype, NodetypeCommentModerator)
 mptt.register(Metatype, order_insertion_by=['title'])
 mptt.register(Nodetype, order_insertion_by=['title'])
+mptt.register(Objecttype, order_insertion_by=['title'])
 mptt.register(Relationtype, order_insertion_by=['title'])
 mptt.register(Attributetype, order_insertion_by=['title'])
 mptt.register(Systemtype, order_insertion_by=['title'])

@@ -12,7 +12,7 @@ from gstudio.models import Nodetype
 
 @csrf_exempt
 def nodetype_trackback(request, object_id):
-    """Set a TrackBack for an Nodetype"""
+    """Set a TrackBack for a nodetype"""
     nodetype = get_object_or_404(Nodetype.published, pk=object_id)
 
     if request.POST.get('url'):

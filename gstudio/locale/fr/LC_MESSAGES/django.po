@@ -1003,7 +1003,7 @@ msgid "Dashboard"
 msgstr "Tableau de bord"
 
 #: templates/gstudio/base.html:88 templates/gstudio/base.html.py:89
-msgid "Post an nodetype"
+msgid "Post a nodetype"
 msgstr "Poster un article"
 
 #: templates/gstudio/base.html:96 templates/gstudio/base.html.py:97

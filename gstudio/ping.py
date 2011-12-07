@@ -52,7 +52,7 @@ class DirectoryPinger(threading.Thread):
         socket.setdefaulttimeout(None)
 
     def ping_nodetype(self, nodetype):
-        """Ping an nodetype to a Directory"""
+        """Ping a nodetype to a Directory"""
         nodetype_url = '%s%s' % (self.ressources.site_url,
                               nodetype.get_absolute_url())
         metatypes = '|'.join([c.title for c in nodetype.metatypes.all()])
@@ -113,7 +113,7 @@ class ExternalUrlsPinger(threading.Thread):
         return url_splitted.netloc != urlsplit(site_url).netloc
 
     def find_external_urls(self, nodetype):
-        """Find external urls in an nodetype"""
+        """Find external urls in a nodetype"""
         soup = BeautifulSoup(nodetype.html_content)
         external_urls = [a['href'] for a in soup.findAll('a')
                          if self.is_external_url(

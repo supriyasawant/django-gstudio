@@ -16,7 +16,7 @@ from gstudio.managers import PUBLISHED
 
 
 class QuickNodetypeForm(forms.Form):
-    """Form for posting an nodetype quickly"""
+    """Form for posting a nodetype quickly"""
 
     title = forms.CharField(required=True, max_length=255)
     content = forms.CharField(required=True)
@@ -25,7 +25,7 @@ class QuickNodetypeForm(forms.Form):
 
 @permission_required('gstudio.add_nodetype')
 def view_quick_nodetype(request):
-    """View for quickly post an Nodetype"""
+    """View for quickly post a nodetype"""
     if request.POST:
         form = QuickNodetypeForm(request.POST)
         if form.is_valid():

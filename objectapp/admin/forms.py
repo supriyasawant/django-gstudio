@@ -30,65 +30,6 @@ class ProcessAdminForm(forms.ModelForm):
         model = Process
 
 class SystemAdminForm(forms.ModelForm):
-    systemtypes = MPTTModelMultipleChoiceField(
-        label=_('Systemtypes'), required=False,
-        queryset=Systemtype.objects.all(),
-        widget=MPTTFilteredSelectMultiple(_('systemtypes'), False,
-                                          attrs={'rows': '10'}))
-    objectset = MPTTModelMultipleChoiceField(
-        label=_('Objectset'), required=False,
-        queryset=Gbobject.objects.all(),
-        widget=MPTTFilteredSelectMultiple(_('Objectsets'), False,
-                                          attrs={'rows': '10'}))
-    relationset = MPTTModelMultipleChoiceField(
-        label=_('Relationset'), required=False,
-        queryset=Relation.objects.all(),
-        widget=MPTTFilteredSelectMultiple(_('Relationsets'), False,
-                                          attrs={'rows': '10'}))
-    attributeset = MPTTModelMultipleChoiceField(
-        label=_('Attributeset'), required=False,
-        queryset=Attribute.objects.all(),
-        widget=MPTTFilteredSelectMultiple(_('Attributesets'), False,
-                                          attrs={'rows': '10'}))
-
-    processset = MPTTModelMultipleChoiceField(
-        label=_('Processset'), required=False,
-        queryset=Processtype.objects.all(),
-        widget=MPTTFilteredSelectMultiple(_('Processsets'), False,
-                                          attrs={'rows': '10'}))
-    systemset = MPTTModelMultipleChoiceField(
-        label=_('Systemset'), required=False,
-        queryset=System.objects.all(),
-        widget=MPTTFilteredSelectMultiple(_('Systemsets'), False,
-                                          attrs={'rows': '10'}))
-
-
-
-    def __init__(self, *args, **kwargs):
-        super(SystemAdminForm, self).__init__(*args, **kwargs)
-        st = ManyToManyRel(Systemtype, 'id')
-        os = ManyToManyRel(Gbobject, 'id')
-        rs = ManyToManyRel(Relation, 'id')
-        at = ManyToManyRel(Attribute, 'id')
-        ps = ManyToManyRel(Processtype, 'id')
-        ss = ManyToManyRel(System, 'id')
-
-        self.fields['systemtypes'].widget = RelatedFieldWidgetWrapper(
-            self.fields['systemtypes'].widget, st, self.admin_site)
-        self.fields['objectset'].widget = RelatedFieldWidgetWrapper(
-            self.fields['objectset'].widget, os, self.admin_site)
-        self.fields['relationset'].widget = RelatedFieldWidgetWrapper(
-            self.fields['relationset'].widget, rs, self.admin_site)
-        self.fields['attributeset'].widget = RelatedFieldWidgetWrapper(
-            self.fields['attributeset'].widget, at, self.admin_site)
-        self.fields['processset'].widget = RelatedFieldWidgetWrapper(
-            self.fields['processset'].widget, ps, self.admin_site)
-        self.fields['systemset'].widget = RelatedFieldWidgetWrapper(
-            self.fields['systemset'].widget, ss, self.admin_site)
-
-
-
-
 
     class Meta:
         """SystemAdminForm's Meta"""

@@ -94,7 +94,7 @@ class RandomNodetypesPlugin(CMSPlugin):
 
 def invalidate_menu_cache(sender, **kwargs):
     """Signal receiver to invalidate the menu_pool
-    cache when an nodetype is posted"""
+    cache when a nodetype is posted"""
     menu_pool.clear()
 
 post_save.connect(

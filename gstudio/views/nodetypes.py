@@ -25,7 +25,7 @@ nodetype_detail = protect_nodetype(object_detail)
 
 def nodetype_shortlink(request, object_id):
     """
-    Redirect to the 'get_absolute_url' of an Nodetype,
+    Redirect to the 'get_absolute_url' of a nodetype,
     accordingly to 'object_id' argument
     """
     nodetype = get_object_or_404(Nodetype, pk=object_id)

@@ -24,7 +24,7 @@ def disable_for_loaddata(signal_handler):
 
 @disable_for_loaddata
 def ping_directories_handler(sender, **kwargs):
-    """Ping Directories when an nodetype is saved"""
+    """Ping Directories when a nodetype is saved"""
     nodetype = kwargs['instance']
 
     if nodetype.is_visible and settings.SAVE_PING_DIRECTORIES:
@@ -36,7 +36,7 @@ def ping_directories_handler(sender, **kwargs):
 
 @disable_for_loaddata
 def ping_external_urls_handler(sender, **kwargs):
-    """Ping Externals URLS when an nodetype is saved"""
+    """Ping Externals URLS when a nodetype is saved"""
     nodetype = kwargs['instance']
 
     if nodetype.is_visible and settings.SAVE_PING_EXTERNAL_URLS:

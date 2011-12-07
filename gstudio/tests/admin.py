@@ -25,7 +25,7 @@ class NodetypeAdminTestCase(TestCase):
         settings.WYSIWYG = self.original_wysiwyg
 
     def test_nodetype_add_and_change(self):
-        """Test the insertion of an Nodetype"""
+        """Test the insertion of a nodetype"""
         self.assertEquals(Nodetype.objects.count(), 0)
         post_data = {'title': u'New nodetype',
                      'template': u'gstudio/nodetype_detail.html',

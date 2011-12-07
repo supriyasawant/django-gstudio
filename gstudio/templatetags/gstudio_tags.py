@@ -117,7 +117,7 @@ def get_similar_nodetypes(context, number=5,
         CACHE_NODETYPES_RELATED = {}
 
     def compute_related(object_id, dataset):
-        """Compute related nodetypes to an nodetype with a dataset"""
+        """Compute related nodetypes to a nodetype with a dataset"""
         object_vector = None
         for nodetype, e_vector in dataset.items():
             if nodetype.pk == object_id:

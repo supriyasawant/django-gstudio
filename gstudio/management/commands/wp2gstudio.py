@@ -206,7 +206,7 @@ class Command(LabelCommand):
         return metatypes
 
     def import_nodetype(self, title, content, item_node):
-        """Importing an nodetype but some data are missing like
+        """Importing a nodetype but some data are missing like
         the image, related nodetypes, start_publication and end_publication.
         start_publication and creation_date will use the same value,
         wich is always in Wordpress $post->post_date"""
@@ -260,7 +260,7 @@ class Command(LabelCommand):
 
     def import_nodetypes(self, items):
         """Loops over items and find nodetype to import,
-        an nodetype need to have 'post_type' set to 'post' and
+        a nodetype need to have 'post_type' set to 'post' and
         have content."""
         self.write_out(self.style.STEP('- Importing nodetypes\n'))
 
