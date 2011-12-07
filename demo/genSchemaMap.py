@@ -10,7 +10,7 @@ import os
 import fileinput
 
 dot_path = 'gstudio_schema.dot'
-img_path = 'gstudio_schema.png'
+img_path = 'gstudio_schema.svg'
 
 try:
     # generate dot file
@@ -39,7 +39,7 @@ try:
     os.system("tred " + dot_path + "> reduced_" + dot_path )
 
     # generate png
-    os.system('dot reduced_'+dot_path+' -Tpng -o '+img_path)
+    os.system('dot reduced_'+dot_path+' -Tsvg -o '+img_path)
 
 
 except(Error):

@@ -1,4 +1,4 @@
-"""Settings for Gstudio Demo"""
+"""This file has the settings for Gstudio Demo"""
 import os
 
 gettext = lambda s: s
@@ -12,9 +12,11 @@ DATABASES = {'default':
 
 STATIC_URL = '/static/'
 
-MEDIA_URL = '/media/'
+MEDIA_URL = '/static'
+MEDIA_ROOT = '/static'
 
-ADMIN_MEDIA_PREFIX = '%sadmin/' % STATIC_URL
+
+ADMIN_MEDIA_PREFIX = STATIC_URL + "grappelli/"
 
 SECRET_KEY = 'jo-1rzm(%sf)3#n+fb7h955yu$3(pt63abhi12_t7e^^5q8dyw'
 
@@ -24,6 +26,19 @@ USE_L10N = True
 SITE_ID = 1
 
 LANGUAGE_CODE = 'en'
+
+GRAPPELLI_ADMIN_TITLE = "Gnowledge Studio"
+
+GRAPPELLI_INDEX_DASHBOARD = "demo.dashboard.CustomIndexDashboard"
+
+
+# Authentication related
+ACCOUNT_ACTIVATION_DAYS = 2
+EMAIL_HOST = 'localhost'
+DEFAULT_FROM_EMAIL = 'webmaster@localhost'
+LOGIN_REDIRECT_URL = '/'
+
+
 
 LANGUAGES = (('en', gettext('English')),
              ('fr', gettext('French')),
@@ -48,7 +63,7 @@ MIDDLEWARE_CLASSES = (
     )
 
 ROOT_URLCONF = 'demo.urls'
-GRAPHVIZ_DOT_CMD = '/usr/bin/dot'
+
 TEMPLATE_LOADERS = (
     ('django.template.loaders.cached.Loader', (
         'django.template.loaders.app_directories.Loader',
@@ -56,7 +71,6 @@ TEMPLATE_LOADERS = (
         )
      ),
     )
-
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.auth.context_processors.auth',
@@ -77,6 +91,8 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.sites',
+    'grappelli.dashboard',
+    'grappelli',
     'django.contrib.admin',
     'django.contrib.admindocs',
     'django.contrib.staticfiles',
@@ -86,9 +102,12 @@ INSTALLED_APPS = (
     'objectapp',
     'tagging',
     'django_xmlrpc',
-    'demo',
+    'djangoratings',
+    'registration',
     'graphviz',
+    'demo',
     )
 
 from gstudio.xmlrpc import GSTUDIO_XMLRPC_METHODS
 XMLRPC_METHODS = GSTUDIO_XMLRPC_METHODS
+
