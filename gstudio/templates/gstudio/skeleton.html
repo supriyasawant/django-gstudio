@@ -1,5 +1,5 @@
 {% load gstudio_tags i18n %}
-{% get_tags as objecttype_tags %}
+{% get_tags as nodetype_tags %}
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xml:lang="{{ LANGUAGE_CODE }}" lang="{{ LANGUAGE_CODE }}" version="-//W3C//DTD XHTML 1.1//EN" xmlns="http://www.w3.org/1999/xhtml">
@@ -9,12 +9,12 @@
     <meta name="robots" content="follow, all" />
     <meta name="language" content="{{ LANGUAGE_CODE }}" />
     <meta name="description" content="{% block meta-description %}Demonstration of the Gstudio Blog application.{% endblock %}" />
-    <meta name="keywords" content="{% block meta-keywords %}django, blog, gstudio, {{ objecttype_tags|join:", "}}{% endblock %}" />
+    <meta name="keywords" content="{% block meta-keywords %}django, blog, gstudio, {{ nodetype_tags|join:", "}}{% endblock %}" />
     <meta name="author" content="gnowgi" />
     {% block meta %}{% endblock %}
     <link rel="pingback" href="/xmlrpc/" />
     <link rel="shortcut icon" href="{{ STATIC_URL }}gstudio/img/favicon.ico" />
-    <link rel="home" href="{% url gstudio_objecttype_archive_index %}" />
+    <link rel="home" href="{% url gstudio_nodetype_archive_index %}" />
     <link rel="stylesheet" type="text/css" media="screen, projection" href="{{ STATIC_URL }}gstudio/css/screen.css" />
     <link rel="stylesheet" type="text/css" media="print" href="{{ STATIC_URL }}gstudio/css/print.css" />
     <!--[if lt IE 8]>
@@ -32,12 +32,12 @@
 	  <a href="{% url gstudio_sitemap %}" title="{% trans "Sitemap" %}" class="link sitemap">
 	    {% trans "Sitemap" %}
 	  </a> |
-	  <a href="{% url gstudio_objecttype_latest_feed %}" title="{% trans "RSS Feed of latest objecttypes" %}" class="link feeds">
+	  <a href="{% url gstudio_nodetype_latest_feed %}" title="{% trans "RSS Feed of latest nodetypes" %}" class="link feeds">
 	    {% trans "RSS Feed" %}
 	  </a>
 	</div>
 	<h1>
-	  <a href="{% url gstudio_objecttype_archive_index %}" title="Gnowledge Studio" rel="home">
+	  <a href="{% url gstudio_nodetype_archive_index %}" title="Gnowledge Studio" rel="home">
 	    Gnowledge Studio
 	  </a>
 	</h1>
@@ -66,12 +66,19 @@
             </p>
             <p>
 	      Currently gnowledge studio provides support for
-	      Metatypes, Objecttypes, Objects, Relationtypes,
-	      Relations, Attributetypes, Attributes, Systemtypes,
-	      Systems, Processtypes, and Processes. 
+	      collaboratively publishing Metatypes, Nodetypes,
+	      Objects, Relationtypes, Relations, Attributetypes,
+	      Attributes, Systemtypes, Systems, Processtypes, and
+	      Processes.  Version control is implemented to rollback
+	      to or view the older versions, currently accessible only
+	      through the admin interface.</p>
 
-              <a href="http://sbox.gnowledge.org/accounts/register">Register</a>
-              at this sandbox site to see the gnowledge studio.
+            
+              <p><a href="http://sbox.gnowledge.org/accounts/register">Register</a>
+              at this sandbox site to explore the currently
+              implemented features. Templates for displaying all kinds
+              of possible data and dynamically built graphs is not yet
+              implemented.</p>
 
 
 	    </p>

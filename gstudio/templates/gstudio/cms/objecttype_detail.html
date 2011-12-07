@@ -1,8 +1,0 @@
-{% load i18n %}
-{% for objecttype in objecttypes %}
-  {% with object=objecttype object_content=objecttype.html_content|truncatewords_html:100|safe %}
-  {% include "gstudio/_objecttype_detail.html" %}
-  {% endwith %}
-{% empty %}
-  <p class="notice">{% trans "No object types yet." %}</p>
-{% endfor %}

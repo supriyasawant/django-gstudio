@@ -5,13 +5,13 @@ from django.conf import settings
 from django.utils.importlib import import_module
 
 
-HIDE_OBJECTTYPE_MENU = getattr(settings, 'GSTUDIO_HIDE_OBJECTTYPE_MENU', True)
+HIDE_NODETYPE_MENU = getattr(settings, 'GSTUDIO_HIDE_NODETYPE_MENU', True)
 
 PLUGINS_TEMPLATES = getattr(settings, 'GSTUDIO_PLUGINS_TEMPLATES', [])
 
 
 APP_MENUS = []
-DEFAULT_APP_MENUS = ['gstudio.plugins.menu.ObjecttypeMenu',
+DEFAULT_APP_MENUS = ['gstudio.plugins.menu.NodetypeMenu',
                      'gstudio.plugins.menu.MetatypeMenu',
                      'gstudio.plugins.menu.TagMenu',
                      'gstudio.plugins.menu.AuthorMenu']

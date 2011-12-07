@@ -8,7 +8,7 @@ import reversion
 
 class AttributeAdmin(reversion.VersionAdmin):
     def save_model(self, request, attribute, form, change):
-        attribute.title = attribute.composed_sentence
+        attribute.title = attribute.composed_attribution
         attribute.save()
 
 

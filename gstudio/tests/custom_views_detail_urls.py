@@ -11,7 +11,7 @@ from gstudio.tests.urls import urlpatterns as test_urlpatterns
 
 
 def call_with_template_and_extra_context(
-    view, template_name='gstudio/objecttype_list.html',
+    view, template_name='gstudio/nodetype_list.html',
     extra_context={'extra': 'context'}):
 
     @wraps(view)

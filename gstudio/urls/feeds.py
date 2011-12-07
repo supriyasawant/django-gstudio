@@ -2,48 +2,48 @@
 from django.conf.urls.defaults import url
 from django.conf.urls.defaults import patterns
 
-from gstudio.feeds import LatestObjecttypes
-from gstudio.feeds import ObjecttypeDiscussions
-from gstudio.feeds import ObjecttypeComments
-from gstudio.feeds import ObjecttypeTrackbacks
-from gstudio.feeds import ObjecttypePingbacks
-from gstudio.feeds import SearchObjecttypes
-from gstudio.feeds import TagObjecttypes
-from gstudio.feeds import MetatypeObjecttypes
-from gstudio.feeds import AuthorObjecttypes
+from gstudio.feeds import LatestNodetypes
+from gstudio.feeds import NodetypeDiscussions
+from gstudio.feeds import NodetypeComments
+from gstudio.feeds import NodetypeTrackbacks
+from gstudio.feeds import NodetypePingbacks
+from gstudio.feeds import SearchNodetypes
+from gstudio.feeds import TagNodetypes
+from gstudio.feeds import MetatypeNodetypes
+from gstudio.feeds import AuthorNodetypes
 
 
 urlpatterns = patterns(
     '',
     url(r'^latest/$',
-        LatestObjecttypes(),
-        name='gstudio_objecttype_latest_feed'),
+        LatestNodetypes(),
+        name='gstudio_nodetype_latest_feed'),
     url(r'^search/$',
-        SearchObjecttypes(),
-        name='gstudio_objecttype_search_feed'),
+        SearchNodetypes(),
+        name='gstudio_nodetype_search_feed'),
     url(r'^tags/(?P<slug>[- \w]+)/$',
-        TagObjecttypes(),
+        TagNodetypes(),
         name='gstudio_tag_feed'),
     url(r'^authors/(?P<username>[.+-@\w]+)/$',
-        AuthorObjecttypes(),
+        AuthorNodetypes(),
         name='gstudio_author_feed'),
     url(r'^metatypes/(?P<path>[-\/\w]+)/$',
-        MetatypeObjecttypes(),
+        MetatypeNodetypes(),
         name='gstudio_metatype_feed'),
     url(r'^discussions/(?P<year>\d{4})/(?P<month>\d{2})/' \
         '(?P<day>\d{2})/(?P<slug>[-\w]+)/$',
-        ObjecttypeDiscussions(),
-        name='gstudio_objecttype_discussion_feed'),
+        NodetypeDiscussions(),
+        name='gstudio_nodetype_discussion_feed'),
     url(r'^comments/(?P<year>\d{4})/(?P<month>\d{2})/' \
         '(?P<day>\d{2})/(?P<slug>[-\w]+)/$',
-        ObjecttypeComments(),
-        name='gstudio_objecttype_comment_feed'),
+        NodetypeComments(),
+        name='gstudio_nodetype_comment_feed'),
     url(r'^pingbacks/(?P<year>\d{4})/(?P<month>\d{2})/' \
         '(?P<day>\d{2})/(?P<slug>[-\w]+)/$',
-        ObjecttypePingbacks(),
-        name='gstudio_objecttype_pingback_feed'),
+        NodetypePingbacks(),
+        name='gstudio_nodetype_pingback_feed'),
     url(r'^trackbacks/(?P<year>\d{4})/(?P<month>\d{2})/' \
         '(?P<day>\d{2})/(?P<slug>[-\w]+)/$',
-        ObjecttypeTrackbacks(),
-        name='gstudio_objecttype_trackback_feed'),
+        NodetypeTrackbacks(),
+        name='gstudio_nodetype_trackback_feed'),
     )

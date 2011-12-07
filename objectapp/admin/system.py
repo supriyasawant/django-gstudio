@@ -28,14 +28,13 @@ class SystemAdmin(reversion.VersionAdmin):
     fieldsets = (
                  (_('Neighbourhood definition'), {'fields': ('title',
                                                              'systemtypes', 
-                                                             'objectset',
-                                                             'relationset',
-                                                             'attributeset',
-                                                             'processset',
-                                                             'systemset',
+                                                             'object_set',
+                                                             'relation_set',
+                                                             'attribute_set',
+                                                             'process_set',
+                                                             'system_set',
                                                              'altnames' ,
                                                              'slug',
-
                                                              'status')}),
 
                  (_('Content'), {'fields': ('content', 'image',),

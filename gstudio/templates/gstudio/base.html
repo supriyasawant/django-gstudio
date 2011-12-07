@@ -6,12 +6,12 @@
 {% endblock %}
 
 {% block link %}
-    <link rel="index" href="{% url gstudio_objecttype_archive_index %}" />
+    <link rel="index" href="{% url gstudio_nodetype_archive_index %}" />
     <link rel="EditURI" type="application/rsd+xml" href="{% url gstudio_rsd %}" />
     <link rel="wlwmanifest" type="application/wlwmanifest+xml" href="{% url gstudio_wlwmanifest %}" />
     <link rel="search" type="application/opensearchdescription+xml" title="Gnowledge Studio" href="{% url gstudio_opensearch %}" />
-    <link rel="alternate" type="application/rss+xml" title="{% trans "RSS Feed of latest objecttypes" %}" href="{% url gstudio_objecttype_latest_feed %}" />
-    {% get_archives_objecttypes "gstudio/tags/archives_objecttypes_link.html" %}
+    <link rel="alternate" type="application/rss+xml" title="{% trans "RSS Feed of latest nodetypes" %}" href="{% url gstudio_nodetype_latest_feed %}" />
+    {% get_archives_nodetypes "gstudio/tags/archives_nodetypes_link.html" %}
 {% endblock %}
 
 {% block breadcrumbs %}
@@ -26,7 +26,7 @@
 <div class="search">
 
   <h3>{% trans "Search" %}</h3>
-  <form method="get" id="searchform" action="{% url gstudio_objecttype_search %}">
+  <form method="get" id="searchform" action="{% url gstudio_nodetype_search %}">
     <p>
       <input type="text" value="{% trans "Keywords..." %}" name="pattern" id="searchbox" onfocus="this.value=''" />
       <input type="submit" class="submitbutton" value="OK" />
@@ -47,15 +47,15 @@
 </div>
 <div class="calendar">
   <h3>{% trans "Calendar" %}</h3>
-  {% get_calendar_objecttypes %}
+  {% get_calendar_nodetypes %}
 </div>
 <div class="tags">
   <h3>{% trans "Tags" %}</h3>
   {% get_tag_cloud %}
 </div>
 <div class="recents">
-  <h3>{% trans "Recent object types" %}</h3>
-  {% get_recent_objecttypes 5 %}
+  <h3>{% trans "Recent node types" %}</h3>
+  {% get_recent_nodetypes 5 %}
 </div>
 <div class="comments">
   <h3>{% trans "Recent comments" %}</h3>
@@ -66,16 +66,16 @@
   {% get_recent_linkbacks 5 %}
 </div>
 <div class="randoms">
-  <h3>{% trans "Random object types" %}</h3>
-  {% get_random_objecttypes 5 %}
+  <h3>{% trans "Random node types" %}</h3>
+  {% get_random_nodetypes 5 %}
 </div>
 <div class="populars">
-  <h3>{% trans "Popular object types" %}</h3>
-  {% get_popular_objecttypes 5 %}
+  <h3>{% trans "Popular node types" %}</h3>
+  {% get_popular_nodetypes 5 %}
 </div>
 <div class="archives">
   <h3>{% trans "Archives" %}</h3>
-  {% get_archives_objecttypes_tree %}
+  {% get_archives_nodetypes_tree %}
 </div>
 {% if user.is_authenticated %}
 <div class="tools">
@@ -88,10 +88,10 @@
       </a>
     </li>
     {% endif %}
-    {% if perms.gstudio.add_objecttype %}
+    {% if perms.gstudio.add_nodetype %}
     <li>
-      <a href="{% url admin:gstudio_objecttype_add %}" title="{% trans "Post an objecttype" %}">
-        {% trans "Post an objecttype" %}
+      <a href="{% url admin:gstudio_objecttype_add %}" title="{% trans "Post a nodetype" %}">
+        {% trans "Post a nodetype" %}
       </a>
     </li>
     {% endif %}

@@ -1,14 +1,14 @@
 """Placeholder model for Gstudio"""
 from cms.models.fields import PlaceholderField
 
-from gstudio.models import Objecttype
+from gstudio.models import Nodetype
 
 
-class ObjecttypePlaceholder(Objecttype):
-    """Objecttype with a Placeholder to edit content"""
+class NodetypePlaceholder(Nodetype):
+    """Nodetype with a Placeholder to edit content"""
 
     content_placeholder = PlaceholderField('content')
 
     class Meta:
-        """ObjecttypePlaceholder's Meta"""
+        """NodetypePlaceholder's Meta"""
         abstract = True

@@ -14,7 +14,7 @@ from django.core.management.base import CommandError
 from django.core.management.base import LabelCommand
 
 from gstudio import __version__
-from gstudio.models import Objecttype
+from gstudio.models import Nodetype
 from gstudio.models import Metatype
 from gstudio.managers import PUBLISHED
 from gstudio.signals import disconnect_gstudio_signals
@@ -32,7 +32,7 @@ class Command(LabelCommand):
                     dest='auto_excerpt', default=True,
                     help='Do NOT generate an excerpt if not present.'),
         make_option('--author', dest='author', default='',
-                    help='All imported objecttypes belong to specified author'),
+                    help='All imported nodetypes belong to specified author'),
         make_option('--metatype-is-tag', action='store_true',
                     dest='metatype-tag', default=False,
                     help='Store metatypes as tags'),
@@ -75,16 +75,16 @@ class Command(LabelCommand):
             'Starting importation of %s to Gstudio %s:\n' % (url, __version__)))
 
         feed = feedparser.parse(url)
-        self.import_objecttypes(feed.objecttypes)
+        self.import_nodetypes(feed.nodetypes)
 
-    def import_objecttypes(self, feed_objecttypes):
-        """Import objecttypes"""
-        for feed_objecttype in feed_objecttypes:
-            self.write_out('> %s... ' % feed_objecttype.title)
-            creation_date = datetime(*feed_objecttype.date_parsed[:6])
-            slug = slugify(feed_objecttype.title)[:255]
+    def import_nodetypes(self, feed_nodetypes):
+        """Import nodetypes"""
+        for feed_nodetype in feed_nodetypes:
+            self.write_out('> %s... ' % feed_nodetype.title)
+            creation_date = datetime(*feed_nodetype.date_parsed[:6])
+            slug = slugify(feed_nodetype.title)[:255]
 
-            if Objecttype.objects.filter(creation_date__year=creation_date.year,
+            if Nodetype.objects.filter(creation_date__year=creation_date.year,
                                     creation_date__month=creation_date.month,
                                     creation_date__day=creation_date.day,
                                     slug=slug):
@@ -92,44 +92,44 @@ class Command(LabelCommand):
                     'SKIPPED (already imported)\n'))
                 continue
 
-            metatypes = self.import_metatypes(feed_objecttype)
-            objecttype_dict = {'title': feed_objecttype.title[:255],
-                          'content': feed_objecttype.description,
-                          'excerpt': feed_objecttype.get('summary'),
+            metatypes = self.import_metatypes(feed_nodetype)
+            nodetype_dict = {'title': feed_nodetype.title[:255],
+                          'content': feed_nodetype.description,
+                          'excerpt': feed_nodetype.get('summary'),
                           'status': PUBLISHED,
                           'creation_date': creation_date,
                           'start_publication': creation_date,
                           'last_update': datetime.now(),
                           'slug': slug}
 
-            if not objecttype_dict['excerpt'] and self.auto_excerpt:
-                objecttype_dict['excerpt'] = truncate_words(
-                    strip_tags(feed_objecttype.description), 50)
+            if not nodetype_dict['excerpt'] and self.auto_excerpt:
+                nodetype_dict['excerpt'] = truncate_words(
+                    strip_tags(feed_nodetype.description), 50)
             if self.metatype_tag:
-                objecttype_dict['tags'] = self.import_tags(metatypes)
+                nodetype_dict['tags'] = self.import_tags(metatypes)
 
-            objecttype = Objecttype(**objecttype_dict)
-            objecttype.save()
-            objecttype.metatypes.add(*metatypes)
-            objecttype.sites.add(self.SITE)
+            nodetype = Nodetype(**nodetype_dict)
+            nodetype.save()
+            nodetype.metatypes.add(*metatypes)
+            nodetype.sites.add(self.SITE)
 
             if self.default_author:
-                objecttype.authors.add(self.default_author)
-            elif feed_objecttype.get('author_detail'):
+                nodetype.authors.add(self.default_author)
+            elif feed_nodetype.get('author_detail'):
                 try:
                     user = User.objects.create_user(
-                        slugify(feed_objecttype.author_detail.get('name')),
-                        feed_objecttype.author_detail.get('email', ''))
+                        slugify(feed_nodetype.author_detail.get('name')),
+                        feed_nodetype.author_detail.get('email', ''))
                 except IntegrityError:
                     user = User.objects.get(
-                        username=slugify(feed_objecttype.author_detail.get('name')))
-                objecttype.authors.add(user)
+                        username=slugify(feed_nodetype.author_detail.get('name')))
+                nodetype.authors.add(user)
 
             self.write_out(self.style.ITEM('OK\n'))
 
-    def import_metatypes(self, feed_objecttype):
+    def import_metatypes(self, feed_nodetype):
         metatypes = []
-        for cat in feed_objecttype.get('tags', ''):
+        for cat in feed_nodetype.get('tags', ''):
             metatype, created = Metatype.objects.get_or_create(
                 slug=slugify(cat.term), defaults={'title': cat.term})
             metatypes.append(metatype)

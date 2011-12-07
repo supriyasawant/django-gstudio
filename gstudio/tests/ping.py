@@ -4,7 +4,7 @@ from urllib2 import URLError
 from urllib import addinfourl
 from django.test import TestCase
 
-from gstudio.models import Objecttype
+from gstudio.models import Nodetype
 from gstudio.ping import URLRessources
 from gstudio.ping import DirectoryPinger
 from gstudio.ping import ExternalUrlsPinger
@@ -13,17 +13,17 @@ from gstudio.ping import ExternalUrlsPinger
 class DirectoryPingerTestCase(TestCase):
     """Test cases for DirectoryPinger"""
     def setUp(self):
-        params = {'title': 'My objecttype',
+        params = {'title': 'My nodetype',
                   'content': 'My content',
                   'tags': 'gstudio, test',
-                  'slug': 'my-objecttype'}
-        self.objecttype = Objecttype.objects.create(**params)
-        self.pinger = DirectoryPinger('http://localhost', [self.objecttype],
+                  'slug': 'my-nodetype'}
+        self.nodetype = Nodetype.objects.create(**params)
+        self.pinger = DirectoryPinger('http://localhost', [self.nodetype],
                                       start_now=False)
 
-    def test_ping_objecttype(self):
+    def test_ping_nodetype(self):
         self.assertEquals(
-            self.pinger.ping_objecttype(self.objecttype),
+            self.pinger.ping_nodetype(self.nodetype),
             {'message': 'http://localhost is an invalid directory.',
              'flerror': True})
 
@@ -32,12 +32,12 @@ class ExternalUrlsPingerTestCase(TestCase):
     """Test cases for ExternalUrlsPinger"""
 
     def setUp(self):
-        params = {'title': 'My objecttype',
+        params = {'title': 'My nodetype',
                   'content': 'My content',
                   'tags': 'gstudio, test',
-                  'slug': 'my-objecttype'}
-        self.objecttype = Objecttype.objects.create(**params)
-        self.pinger = ExternalUrlsPinger(self.objecttype, start_now=False)
+                  'slug': 'my-nodetype'}
+        self.nodetype = Nodetype.objects.create(**params)
+        self.pinger = ExternalUrlsPinger(self.nodetype, start_now=False)
 
     def test_is_external_url(self):
         r = URLRessources()
@@ -56,16 +56,16 @@ class ExternalUrlsPingerTestCase(TestCase):
 
     def test_find_external_urls(self):
         r = URLRessources()
-        external_urls = self.pinger.find_external_urls(self.objecttype)
+        external_urls = self.pinger.find_external_urls(self.nodetype)
         self.assertEquals(external_urls, [])
-        self.objecttype.content = """
+        self.nodetype.content = """
         <p>This is a <a href="http://fantomas.willbreak.it/">link</a>
         to a site.</p>
         <p>This is a <a href="%s/blog/">link</a> within my site.</p>
         <p>This is a <a href="/blog/">relative link</a> within my site.</p>
         """ % r.site_url
-        self.objecttype.save()
-        external_urls = self.pinger.find_external_urls(self.objecttype)
+        self.nodetype.save()
+        external_urls = self.pinger.find_external_urls(self.nodetype)
         self.assertEquals(external_urls, ['http://fantomas.willbreak.it/'])
 
     def test_find_pingback_href(self):

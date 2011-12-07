@@ -14,7 +14,7 @@ if not getattr(settings, 'BITLY_API_KEY', ''):
     raise ImproperlyConfigured('You have to set a BITLY_API_KEY setting')
 
 
-def backend(objecttype):
+def backend(nodetype):
     """Bit.ly url shortener backend for Gstudio"""
-    bittle = Bittle.objects.bitlify(objecttype)
+    bittle = Bittle.objects.bitlify(nodetype)
     return bittle.shortUrl

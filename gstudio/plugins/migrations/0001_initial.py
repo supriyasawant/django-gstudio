@@ -7,39 +7,39 @@ class Migration(SchemaMigration):
 
     def forwards(self, orm):
 
-        # Adding model 'LatestObjecttypesPlugin'
-        db.create_table('cmsplugin_latestobjecttypesplugin', (
+        # Adding model 'LatestNodetypesPlugin'
+        db.create_table('cmsplugin_latestnodetypesplugin', (
             ('metatype', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['gstudio.Metatype'], null=True, blank=True)),
             ('cmsplugin_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['cms.CMSPlugin'], unique=True, primary_key=True)),
-            ('number_of_objecttypes', self.gf('django.db.models.fields.IntegerField')(default=5)),
+            ('number_of_nodetypes', self.gf('django.db.models.fields.IntegerField')(default=5)),
             ('author', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'], null=True, blank=True)),
         ))
-        db.send_create_signal('plugins', ['LatestObjecttypesPlugin'])
+        db.send_create_signal('plugins', ['LatestNodetypesPlugin'])
 
-        # Adding model 'SelectedObjecttypesPlugin'
-        db.create_table('cmsplugin_selectedobjecttypesplugin', (
+        # Adding model 'SelectedNodetypesPlugin'
+        db.create_table('cmsplugin_selectednodetypesplugin', (
             ('cmsplugin_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['cms.CMSPlugin'], unique=True, primary_key=True)),
         ))
-        db.send_create_signal('plugins', ['SelectedObjecttypesPlugin'])
+        db.send_create_signal('plugins', ['SelectedNodetypesPlugin'])
 
-        # Adding M2M table for field objecttypes on 'SelectedObjecttypesPlugin'
-        db.create_table('plugins_selectedobjecttypesplugin_objecttypes', (
+        # Adding M2M table for field nodetypes on 'SelectedNodetypesPlugin'
+        db.create_table('plugins_selectednodetypesplugin_nodetypes', (
             ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
-            ('selectedobjecttypesplugin', models.ForeignKey(orm['plugins.selectedobjecttypesplugin'], null=False)),
-            ('objecttype', models.ForeignKey(orm['gstudio.objecttype'], null=False))
+            ('selectednodetypesplugin', models.ForeignKey(orm['plugins.selectednodetypesplugin'], null=False)),
+            ('nodetype', models.ForeignKey(orm['gstudio.nodetype'], null=False))
         ))
-        db.create_unique('plugins_selectedobjecttypesplugin_objecttypes', ['selectedobjecttypesplugin_id', 'objecttype_id'])
+        db.create_unique('plugins_selectednodetypesplugin_nodetypes', ['selectednodetypesplugin_id', 'nodetype_id'])
 
     def backwards(self, orm):
 
-        # Deleting model 'LatestObjecttypesPlugin'
-        db.delete_table('cmsplugin_latestobjecttypesplugin')
+        # Deleting model 'LatestNodetypesPlugin'
+        db.delete_table('cmsplugin_latestnodetypesplugin')
 
-        # Deleting model 'SelectedObjecttypesPlugin'
-        db.delete_table('cmsplugin_selectedobjecttypesplugin')
+        # Deleting model 'SelectedNodetypesPlugin'
+        db.delete_table('cmsplugin_selectednodetypesplugin')
 
-        # Removing M2M table for field objecttypes on 'SelectedObjecttypesPlugin'
-        db.delete_table('plugins_selectedobjecttypesplugin_objecttypes')
+        # Removing M2M table for field nodetypes on 'SelectedNodetypesPlugin'
+        db.delete_table('plugins_selectednodetypesplugin_nodetypes')
 
     models = {
         'auth.group': {
@@ -101,17 +101,17 @@ class Migration(SchemaMigration):
             'model': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
         },
-        'plugins.latestobjecttypesplugin': {
-            'Meta': {'object_name': 'LatestObjecttypesPlugin', 'db_table': "'cmsplugin_latestobjecttypesplugin'", '_ormbases': ['cms.CMSPlugin']},
+        'plugins.latestnodetypesplugin': {
+            'Meta': {'object_name': 'LatestNodetypesPlugin', 'db_table': "'cmsplugin_latestnodetypesplugin'", '_ormbases': ['cms.CMSPlugin']},
             'author': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['auth.User']", 'null': 'True', 'blank': 'True'}),
             'metatype': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['gstudio.Metatype']", 'null': 'True', 'blank': 'True'}),
             'cmsplugin_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['cms.CMSPlugin']", 'unique': 'True', 'primary_key': 'True'}),
-            'number_of_objecttypes': ('django.db.models.fields.IntegerField', [], {'default': '5'})
+            'number_of_nodetypes': ('django.db.models.fields.IntegerField', [], {'default': '5'})
         },
-        'plugins.selectedobjecttypesplugin': {
-            'Meta': {'object_name': 'SelectedObjecttypesPlugin', 'db_table': "'cmsplugin_selectedobjecttypesplugin'", '_ormbases': ['cms.CMSPlugin']},
+        'plugins.selectednodetypesplugin': {
+            'Meta': {'object_name': 'SelectedNodetypesPlugin', 'db_table': "'cmsplugin_selectednodetypesplugin'", '_ormbases': ['cms.CMSPlugin']},
             'cmsplugin_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['cms.CMSPlugin']", 'unique': 'True', 'primary_key': 'True'}),
-            'objecttypes': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['gstudio.Objecttype']", 'symmetrical': 'False'})
+            'nodetypes': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['gstudio.Nodetype']", 'symmetrical': 'False'})
         },
         'sites.site': {
             'Meta': {'object_name': 'Site', 'db_table': "'django_site'"},
@@ -126,8 +126,8 @@ class Migration(SchemaMigration):
             'slug': ('django.db.models.fields.SlugField', [], {'max_length': '50', 'db_index': 'True'}),
             'title': ('django.db.models.fields.CharField', [], {'max_length': '50'})
         },
-        'gstudio.objecttype': {
-            'Meta': {'object_name': 'Objecttype'},
+        'gstudio.nodetype': {
+            'Meta': {'object_name': 'Nodetype'},
             'authors': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['auth.User']", 'symmetrical': 'False', 'blank': 'True'}),
             'metatypes': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['gstudio.Metatype']", 'symmetrical': 'False'}),
             'comment_enabled': ('django.db.models.fields.BooleanField', [], {'default': 'True', 'blank': 'True'}),
@@ -138,7 +138,7 @@ class Migration(SchemaMigration):
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'image': ('django.db.models.fields.files.ImageField', [], {'max_length': '100', 'blank': 'True'}),
             'last_update': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
-            'related': ('django.db.models.fields.related.ManyToManyField', [], {'blank': 'True', 'related_name': "'related_rel_+'", 'null': 'True', 'to': "orm['gstudio.Objecttype']"}),
+            'related': ('django.db.models.fields.related.ManyToManyField', [], {'blank': 'True', 'related_name': "'related_rel_+'", 'null': 'True', 'to': "orm['gstudio.Nodetype']"}),
             'sites': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['sites.Site']", 'symmetrical': 'False'}),
             'slug': ('django.db.models.fields.SlugField', [], {'max_length': '50', 'db_index': 'True'}),
             'start_publication': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),

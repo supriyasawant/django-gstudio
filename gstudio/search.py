@@ -16,7 +16,7 @@ from pyparsing import operatorPrecedence
 
 from django.db.models import Q
 
-from gstudio.models import Objecttype
+from gstudio.models import Nodetype
 from gstudio.settings import STOP_WORDS
 
 
@@ -130,4 +130,4 @@ def advanced_search(pattern):
     """Parse the grammar of a pattern
     and build a queryset with it"""
     query_parsed = QUERY.parseString(pattern)
-    return Objecttype.published.filter(query_parsed[0]).distinct()
+    return Nodetype.published.filter(query_parsed[0]).distinct()

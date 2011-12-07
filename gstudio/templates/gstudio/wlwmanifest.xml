@@ -5,7 +5,7 @@
     <clientType>Metaweblog</clientType>
     <supportsPostAsDraft>Yes</supportsPostAsDraft>
     <supportsFileUpload>Yes</supportsFileUpload>
-    <supportsExtendedObjecttypes>No</supportsExtendedObjecttypes>
+    <supportsExtendedNodetypes>No</supportsExtendedNodetypes>
     <supportsCustomDate>Yes</supportsCustomDate>
     <supportsMetatypes>Yes</supportsMetatypes>
     <supportsMetatypesInline>Yes</supportsMetatypesInline>
@@ -43,7 +43,7 @@
         {blog-homepage-url}{% url admin:index %}
     ]]></adminUrl>
     <postEditingUrl><![CDATA[
-        {blog-homepage-url}{% url admin:gstudio_objecttype_changelist %}{post-id}/
+        {blog-homepage-url}{% url admin:gstudio_nodetype_changelist %}{post-id}/
     ]]></postEditingUrl>
   </weblog>
 

@@ -12,7 +12,7 @@ from django.core.urlresolvers import Resolver404
 from django.utils.translation import ugettext as _
 from django.contrib.contenttypes.models import ContentType
 
-from gstudio.models import Objecttype
+from gstudio.models import Nodetype
 from gstudio.settings import PINGBACK_CONTENT_LENGTH
 from BeautifulSoup import BeautifulSoup
 from django_xmlrpc.decorators import xmlrpc_func
@@ -81,14 +81,14 @@ def pingback_ping(source, target):
             return TARGET_DOES_NOT_EXIST
 
         try:
-            objecttype = Objecttype.published.get(
+            nodetype = Nodetype.published.get(
                 slug=kwargs['slug'],
                 creation_date__year=kwargs['year'],
                 creation_date__month=kwargs['month'],
                 creation_date__day=kwargs['day'])
-            if not objecttype.pingback_enabled:
+            if not nodetype.pingback_enabled:
                 return TARGET_IS_NOT_PINGABLE
-        except (KeyError, Objecttype.DoesNotExist):
+        except (KeyError, Nodetype.DoesNotExist):
             return TARGET_IS_NOT_PINGABLE
 
         soup = BeautifulSoup(document)
@@ -98,11 +98,11 @@ def pingback_ping(source, target):
                                                 PINGBACK_CONTENT_LENGTH)
 
         comment, created = comments.get_model().objects.get_or_create(
-            content_type=ContentType.objects.get_for_model(Objecttype),
-            object_pk=objecttype.pk, user_url=source, site=site,
+            content_type=ContentType.objects.get_for_model(Nodetype),
+            object_pk=nodetype.pk, user_url=source, site=site,
             defaults={'comment': description, 'user_name': title})
         if created:
-            user = objecttype.authors.all()[0]
+            user = nodetype.authors.all()[0]
             comment.flags.create(user=user, flag='pingback')
             return 'Pingback from %s to %s registered.' % (source, target)
         return PINGBACK_ALREADY_REGISTERED
@@ -129,12 +129,12 @@ def pingback_extensions_get_pingbacks(target):
         return TARGET_DOES_NOT_EXIST
 
     try:
-        objecttype = Objecttype.published.get(
+        nodetype = Nodetype.published.get(
             slug=kwargs['slug'],
             creation_date__year=kwargs['year'],
             creation_date__month=kwargs['month'],
             creation_date__day=kwargs['day'])
-    except (KeyError, Objecttype.DoesNotExist):
+    except (KeyError, Nodetype.DoesNotExist):
         return TARGET_IS_NOT_PINGABLE
 
-    return [pingback.user_url for pingback in objecttype.pingbacks]
+    return [pingback.user_url for pingback in nodetype.pingbacks]

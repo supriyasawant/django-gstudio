@@ -13,7 +13,7 @@ from django.contrib.contenttypes.models import ContentType
 
 from BeautifulSoup import BeautifulSoup
 
-from gstudio.models import Objecttype
+from gstudio.models import Nodetype
 from gstudio.models import Metatype
 from gstudio.managers import PUBLISHED
 from gstudio.tests.utils import TestTransport
@@ -49,35 +49,35 @@ class PingBackTestCase(TestCase):
         self.site = Site.objects.get_current()
         self.site.domain = 'localhost:8000'
         self.site.save()
-        # Creating tests objecttypes
+        # Creating tests nodetypes
         self.author = User.objects.create_user(username='webmaster',
                                                email='webmaster@example.com')
         self.metatype = Metatype.objects.create(title='test', slug='test')
-        params = {'title': 'My first objecttype',
+        params = {'title': 'My first nodetype',
                   'content': 'My first content',
-                  'slug': 'my-first-objecttype',
+                  'slug': 'my-first-nodetype',
                   'creation_date': datetime(2010, 1, 1),
                   'status': PUBLISHED}
-        self.first_objecttype = Objecttype.objects.create(**params)
-        self.first_objecttype.sites.add(self.site)
-        self.first_objecttype.metatypes.add(self.metatype)
-        self.first_objecttype.authors.add(self.author)
+        self.first_nodetype = Nodetype.objects.create(**params)
+        self.first_nodetype.sites.add(self.site)
+        self.first_nodetype.metatypes.add(self.metatype)
+        self.first_nodetype.authors.add(self.author)
 
-        params = {'title': 'My second objecttype',
+        params = {'title': 'My second nodetype',
                   'content': 'My second content with link '
-                  'to <a href="http://%s%s">first objecttype</a>'
+                  'to <a href="http://%s%s">first nodetype</a>'
                   ' and other links : %s %s.' % (
                       self.site.domain,
-                      self.first_objecttype.get_absolute_url(),
+                      self.first_nodetype.get_absolute_url(),
                       'http://localhost:8000/error-404/',
                       'http://example.com/'),
-                  'slug': 'my-second-objecttype',
+                  'slug': 'my-second-nodetype',
                   'creation_date': datetime(2010, 1, 1),
                   'status': PUBLISHED}
-        self.second_objecttype = Objecttype.objects.create(**params)
-        self.second_objecttype.sites.add(self.site)
-        self.second_objecttype.metatypes.add(self.metatype)
-        self.second_objecttype.authors.add(self.author)
+        self.second_nodetype = Nodetype.objects.create(**params)
+        self.second_nodetype.sites.add(self.site)
+        self.second_nodetype.metatypes.add(self.metatype)
+        self.second_nodetype.authors.add(self.author)
         # Instanciating the server proxy
         self.server = ServerProxy('http://localhost:8000/xmlrpc/',
                                   transport=TestTransport())
@@ -88,17 +88,17 @@ class PingBackTestCase(TestCase):
         shortener_settings.URL_SHORTENER_BACKEND = self.original_shortener
 
     def test_generate_pingback_content(self):
-        soup = BeautifulSoup(self.second_objecttype.content)
+        soup = BeautifulSoup(self.second_nodetype.content)
         target = 'http://%s%s' % (self.site.domain,
-                                  self.first_objecttype.get_absolute_url())
+                                  self.first_nodetype.get_absolute_url())
 
         self.assertEquals(
             generate_pingback_content(soup, target, 1000),
-            'My second content with link to first objecttype and other links : '
+            'My second content with link to first nodetype and other links : '
             'http://localhost:8000/error-404/ http://example.com/.')
         self.assertEquals(
             generate_pingback_content(soup, target, 50),
-            '...ond content with link to first objecttype and other lin...')
+            '...ond content with link to first nodetype and other lin...')
 
         soup = BeautifulSoup('<a href="%s">test link</a>' % target)
         self.assertEquals(
@@ -112,9 +112,9 @@ class PingBackTestCase(TestCase):
 
     def test_pingback_ping(self):
         target = 'http://%s%s' % (
-            self.site.domain, self.first_objecttype.get_absolute_url())
+            self.site.domain, self.first_nodetype.get_absolute_url())
         source = 'http://%s%s' % (
-            self.site.domain, self.second_objecttype.get_absolute_url())
+            self.site.domain, self.second_nodetype.get_absolute_url())
 
         # Error code 0 : A generic fault code
         response = self.server.pingback.ping('toto', 'titi')
@@ -142,22 +142,22 @@ class PingBackTestCase(TestCase):
         # Error code 33 : The target URI cannot be used as a target.
         response = self.server.pingback.ping(source, 'http://localhost:8000/')
         self.assertEquals(response, 33)
-        self.first_objecttype.pingback_enabled = False
-        self.first_objecttype.save()
+        self.first_nodetype.pingback_enabled = False
+        self.first_nodetype.save()
         response = self.server.pingback.ping(source, target)
         self.assertEquals(response, 33)
 
         # Validate pingback
-        self.assertEquals(self.first_objecttype.comments.count(), 0)
-        self.first_objecttype.pingback_enabled = True
-        self.first_objecttype.save()
+        self.assertEquals(self.first_nodetype.comments.count(), 0)
+        self.first_nodetype.pingback_enabled = True
+        self.first_nodetype.save()
         response = self.server.pingback.ping(source, target)
         self.assertEquals(
             response,
             'Pingback from %s to %s registered.' % (source, target))
-        self.assertEquals(self.first_objecttype.pingbacks.count(), 1)
-        self.assertTrue(self.second_objecttype.title in \
-                        self.first_objecttype.pingbacks[0].user_name)
+        self.assertEquals(self.first_nodetype.pingbacks.count(), 1)
+        self.assertTrue(self.second_nodetype.title in \
+                        self.first_nodetype.pingbacks[0].user_name)
 
         # Error code 48 : The pingback has already been registered.
         response = self.server.pingback.ping(source, target)
@@ -165,9 +165,9 @@ class PingBackTestCase(TestCase):
 
     def test_pingback_extensions_get_pingbacks(self):
         target = 'http://%s%s' % (
-            self.site.domain, self.first_objecttype.get_absolute_url())
+            self.site.domain, self.first_nodetype.get_absolute_url())
         source = 'http://%s%s' % (
-            self.site.domain, self.second_objecttype.get_absolute_url())
+            self.site.domain, self.second_nodetype.get_absolute_url())
 
         response = self.server.pingback.ping(source, target)
         self.assertEquals(
@@ -190,11 +190,11 @@ class PingBackTestCase(TestCase):
 
         response = self.server.pingback.extensions.getPingbacks(target)
         self.assertEquals(response, [
-            'http://localhost:8000/2010/01/01/my-second-objecttype/'])
+            'http://localhost:8000/2010/01/01/my-second-nodetype/'])
 
         comment = comments.get_model().objects.create(
-            content_type=ContentType.objects.get_for_model(Objecttype),
-            object_pk=self.first_objecttype.pk,
+            content_type=ContentType.objects.get_for_model(Nodetype),
+            object_pk=self.first_nodetype.pk,
             site=self.site, comment='Test pingback',
             user_url='http://example.com/blog/1/',
             user_name='Test pingback')
@@ -202,5 +202,5 @@ class PingBackTestCase(TestCase):
 
         response = self.server.pingback.extensions.getPingbacks(target)
         self.assertEquals(response, [
-            'http://localhost:8000/2010/01/01/my-second-objecttype/',
+            'http://localhost:8000/2010/01/01/my-second-nodetype/',
             'http://example.com/blog/1/'])

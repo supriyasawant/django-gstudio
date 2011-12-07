@@ -16,7 +16,7 @@
 <div class="links">
   <ul>
     <li>
-      <a href="{% url gstudio_objecttype_archive_index %}" title="{% trans "Blog index" %}">
+      <a href="{% url gstudio_nodetype_archive_index %}" title="{% trans "Blog index" %}">
         {% trans "Blog index" %}
       </a>
     </li>
@@ -28,14 +28,14 @@
   </ul>
 </div>
 
-<h3>{% trans "Recent object types" %}</h3>
+<h3>{% trans "Recent node types" %}</h3>
 <div class="recents">
-  {% get_recent_objecttypes 5 %}
+  {% get_recent_nodetypes 5 %}
 </div>
 
 <h3>{% trans "Search" %}</h3>
 <div class="search">
-  <form method="get" id="searchform" action="{% url gstudio_objecttype_search %}">
+  <form method="get" id="searchform" action="{% url gstudio_nodetype_search %}">
     <p>
       <input type="text" value="{% trans "Keywords..." %}" name="pattern" id="searchbox" onfocus="this.value=''"/>
       <input type="submit" class="submitbutton" value="OK" />

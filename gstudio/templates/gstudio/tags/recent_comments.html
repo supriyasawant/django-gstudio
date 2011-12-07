@@ -3,11 +3,11 @@
 <ul>
   {% for comment in comments %}
   <li>
-    {% with comment.content_object as objecttype %}
+    {% with comment.content_object as nodetype %}
     {{ comment.user_name }} {% trans "on" %}
-    <a href="{{ objecttype.get_absolute_url }}#comment_{{ comment.pk }}" 
-       title="{% trans "Comment on" %} {{ objecttype.title }}">
-      {{ objecttype.title }}
+    <a href="{{ nodetype.get_absolute_url }}#comment_{{ comment.pk }}" 
+       title="{% trans "Comment on" %} {{ nodetype.title }}">
+      {{ nodetype.title }}
     </a>
     {% endwith %}
   </li>

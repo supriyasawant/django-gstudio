@@ -19,9 +19,10 @@ from django.contrib.markup.templatetags.markup import markdown
 from django.contrib.markup.templatetags.markup import textile
 from django.contrib.markup.templatetags.markup import restructuredtext
 
-import mptt
+
 from djangoratings.fields import RatingField
 from tagging.fields import TagField
+from gstudio.models import Nodetype
 from gstudio.models import Objecttype
 from gstudio.models import Node
 from gstudio.models import Edge
@@ -88,16 +89,16 @@ class Gbobject(Node):
                                 help_text=_('optional element'))
 
     priornodes = models.ManyToManyField('self', null=True, blank=True,
-                               verbose_name=_('its meaning depends'),
+                               verbose_name=_('depends on'),
                                related_name='posteriors')
 
     posteriornodes = models.ManyToManyField('self', null=True, blank=True,
-                               verbose_name=_('required for the meaning of'),
+                               verbose_name=_('required for'),
                                related_name='priornodes')
 
 
     tags = TagField(_('tags'))
-    objecttypes = models.ManyToManyField(Objecttype, verbose_name=_('member of'),
+    objecttypes = models.ManyToManyField(Nodetype, verbose_name=_('member of'),
                                         related_name='gbobjects',
                                         blank=True, null=True)
 
@@ -333,40 +334,6 @@ class Gbobject(Node):
                        ('can_change_author', 'Can change author'), )
 
 
-class System(Gbobject):    
-
-    """
-    instance of a Systemtype
-    """
-
-    systemtypes = models.ManyToManyField(Systemtype, verbose_name=_('member of systemtype'),
-                                        related_name='systemtypes',
-                                         blank=True, null=True)
-
-    object_set = models.ManyToManyField(Gbobject, related_name="objectset_system", 
-                                       verbose_name='Possible edges in the system',    
-                                       blank=True, null=False) 
-
-    relation_set = models.ManyToManyField(Relation, related_name="relationset_system", 
-                                         verbose_name='Possible nodetypes in the system',    
-                                         blank=True, null=False) 
-
-    attribute_set = models.ManyToManyField(Attribute, related_name="attributeset_system", 
-                                          verbose_name='systems to be nested in the system',
-                                          blank=True, null=False)
-
-    process_set = models.ManyToManyField(Processtype, related_name="processset_system", 
-                                        verbose_name='Possible edges in the system',    
-                                        blank=True, null=False) 
-
-    system_set = models.ManyToManyField('self', related_name="systems_system", 
-                                       verbose_name='systems that can be nested in the system',
-                                       blank=True, null=False)
-
-
-    def __unicode__(self):
-        return self.title
-
 
 class Process(Gbobject):    
 
@@ -402,15 +369,52 @@ class Process(Gbobject):
         verbose_name_plural = _('processes')
         permissions = (('can_view_all', 'Can view all'),
                        ('can_change_author', 'Can change author'), )
+
+
+class System(Gbobject):    
+
+    """
+    instance of a Systemtype
+    """
+
+    systemtypes = models.ManyToManyField(Systemtype, verbose_name=_('member of systemtype'),
+                                        related_name='systemtypes',
+                                         blank=True, null=True)
+
+    object_set = models.ManyToManyField(Gbobject, related_name="objectset_system", 
+                                       verbose_name='objects in the system',    
+                                       blank=True, null=False) 
+
+    relation_set = models.ManyToManyField(Relation, related_name="relationset_system", 
+                                         verbose_name='relations in the system',    
+                                         blank=True, null=False) 
+
+    attribute_set = models.ManyToManyField(Attribute, related_name="attributeset_system", 
+                                          verbose_name='attributes in the system',
+                                          blank=True, null=False)
+
+    process_set = models.ManyToManyField(Process, related_name="processset_system", 
+                                        verbose_name='processes in the system',    
+                                        blank=True, null=False) 
+
+    system_set = models.ManyToManyField('self', related_name="systems_system", 
+                                       verbose_name='nested systems',
+                                       blank=True, null=False)
+
+
+    def __unicode__(self):
+        return self.title
+
+
     
 if not reversion.is_registered(Process):
-    reversion.register(Process, follow=["priorstate_attribute_set", "priorstate_relation_set", "poststate_attribute_set", "poststate_relation_set"])
+    reversion.register(Process, follow=["priorstate_attribute_set", "priorstate_relation_set", "poststate_attribute_set", "poststate_relation_set", "priornodes", "posteriornodes"])
 
 if not reversion.is_registered(System): 
-    reversion.register(System, follow=["systemtypes", "edgeset", "nodeset", "systemset"])
+    reversion.register(System, follow=["systemtypes", "object_set", "relation_set", "attribute_set", "process_set", "system_set", "priornodes", "posteriornodes"])
 
 if not reversion.is_registered(Gbobject):
-    reversion.register(Gbobject, follow=["objecttypes","priornodes","posteriornodes"])
+    reversion.register(Gbobject, follow=["objecttypes", "priornodes", "posteriornodes"])
 
 
 moderator.register(Gbobject, GbobjectCommentModerator)

@@ -19,7 +19,7 @@ from gstudio.settings import MAIL_COMMENT_NOTIFICATION_RECIPIENTS
 from gstudio.settings import SPAM_CHECKER_BACKENDS
 from gstudio.spam_checker import check_is_spam
 
-class ObjecttypeCommentModerator(CommentModerator):
+class NodetypeCommentModerator(CommentModerator):
     """Moderate the comment of Nodes"""
     email_reply = MAIL_COMMENT_REPLY
     email_authors = MAIL_COMMENT_AUTHORS
@@ -65,7 +65,7 @@ class ObjecttypeCommentModerator(CommentModerator):
 
     def do_email_authors(self, comment, content_object, request):
         """Send email notification of a new comment to the authors of the
-        objecttype when email notifications have been requested."""
+        nodetype when email notifications have been requested."""
         exclude_list = self.mail_comment_notification_recipients
         recipient_list = set([author.email
                               for author in content_object.authors.all()]) ^ \

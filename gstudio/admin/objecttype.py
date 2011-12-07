@@ -1,6 +1,5 @@
 """ObjecttypeAdmin for Gstudio"""
 from datetime import datetime
-
 from django.forms import Media
 from django.contrib import admin
 from django.contrib.auth.models import User
@@ -68,91 +67,91 @@ class ObjecttypeAdmin(reversion.VersionAdmin):
         super(ObjecttypeAdmin, self).__init__(model, admin_site)
 
     # Custom Display
-    def get_title(self, objecttype):
+    def get_title(self, nodetype):
         """Return the title with word count and number of comments"""
         title = _('%(title)s (%(word_count)i words)') % \
-                {'title': objecttype.title, 'word_count': objecttype.word_count}
-        comments = objecttype.comments.count()
+                {'title': nodetype.title, 'word_count': nodetype.word_count}
+        comments = nodetype.comments.count()
         if comments:
             return _('%(title)s (%(comments)i comments)') % \
                    {'title': title, 'comments': comments}
         return title
     get_title.short_description = _('title')
 
-    def get_authors(self, objecttype):
+    def get_authors(self, nodetype):
         """Return the authors in HTML"""
         try:
             authors = ['<a href="%s" target="blank">%s</a>' %
                        (reverse('gstudio_author_detail',
                                 args=[author.username]),
-                        author.username) for author in objecttype.authors.all()]
+                        author.username) for author in nodetype.authors.all()]
         except NoReverseMatch:
-            authors = [author.username for author in objecttype.authors.all()]
+            authors = [author.username for author in nodetype.authors.all()]
         return ', '.join(authors)
     get_authors.allow_tags = True
     get_authors.short_description = _('author(s)')
 
-    def get_metatypes(self, objecttype):
+    def get_metatypes(self, nodetype):
         """Return the metatypes linked in HTML"""
         try:
             metatypes = ['<a href="%s" target="blank">%s</a>' %
                           (metatype.get_absolute_url(), metatype.title)
-                          for metatype in objecttype.metatypes.all()]
+                          for metatype in nodetype.metatypes.all()]
         except NoReverseMatch:
             metatypes = [metatype.title for metatype in
-                          objecttype.metatypes.all()]
+                          nodetype.metatypes.all()]
         return ', '.join(metatypes)
     get_metatypes.allow_tags = True
     get_metatypes.short_description = _('metatype(s)')
 
-    def get_tags(self, objecttype):
+    def get_tags(self, nodetype):
         """Return the tags linked in HTML"""
         try:
             return ', '.join(['<a href="%s" target="blank">%s</a>' %
                               (reverse('gstudio_tag_detail',
                                        args=[tag.name]), tag.name)
-                              for tag in Tag.objects.get_for_object(objecttype)])
+                              for tag in Tag.objects.get_for_object(nodetype)])
         except NoReverseMatch:
-            return objecttype.tags
+            return nodetype.tags
     get_tags.allow_tags = True
     get_tags.short_description = _('tag(s)')
 
-    def get_sites(self, objecttype):
+    def get_sites(self, nodetype):
         """Return the sites linked in HTML"""
         return ', '.join(
             ['<a href="http://%(domain)s" target="blank">%(name)s</a>' %
-             site.__dict__ for site in objecttype.sites.all()])
+             site.__dict__ for site in nodetype.sites.all()])
     get_sites.allow_tags = True
     get_sites.short_description = _('site(s)')
 
-    def get_comments_are_open(self, objecttype):
-        """Admin wrapper for objecttype.comments_are_open"""
-        return objecttype.comments_are_open
+    def get_comments_are_open(self, nodetype):
+        """Admin wrapper for nodetype.comments_are_open"""
+        return nodetype.comments_are_open
     get_comments_are_open.boolean = True
     get_comments_are_open.short_description = _('comment enabled')
 
-    def get_is_actual(self, objecttype):
-        """Admin wrapper for objecttype.is_actual"""
-        return objecttype.is_actual
+    def get_is_actual(self, nodetype):
+        """Admin wrapper for nodetype.is_actual"""
+        return nodetype.is_actual
     get_is_actual.boolean = True
     get_is_actual.short_description = _('is actual')
 
-    def get_is_visible(self, objecttype):
-        """Admin wrapper for objecttype.is_visible"""
-        return objecttype.is_visible
+    def get_is_visible(self, nodetype):
+        """Admin wrapper for nodetype.is_visible"""
+        return nodetype.is_visible
     get_is_visible.boolean = True
     get_is_visible.short_description = _('is visible')
 
-    def get_link(self, objecttype):
-        """Return a formated link to the objecttype"""
+    def get_link(self, nodetype):
+        """Return a formated link to the nodetype"""
         return u'<a href="%s" target="blank">%s</a>' % (
-            objecttype.get_absolute_url(), _('View'))
+            nodetype.get_absolute_url(), _('View'))
     get_link.allow_tags = True
     get_link.short_description = _('View on site')
 
-    def get_short_url(self, objecttype):
+    def get_short_url(self, nodetype):
         """Return the short url in HTML"""
-        short_url = objecttype.short_url
+        short_url = nodetype.short_url
         if not short_url:
             return _('Unavailable')
         return '<a href="%(url)s" target="blank">%(url)s</a>' % \
@@ -161,26 +160,26 @@ class ObjecttypeAdmin(reversion.VersionAdmin):
     get_short_url.short_description = _('short url')
 
     # Custom Methods
-    def save_model(self, request, objecttype, form, change):
+    def save_model(self, request, nodetype, form, change):
         """Save the authors, update time, make an excerpt"""
-        if not form.cleaned_data.get('excerpt') and objecttype.status == PUBLISHED:
-            objecttype.excerpt = truncate_words(strip_tags(objecttype.content), 50)
+        if not form.cleaned_data.get('excerpt') and nodetype.status == PUBLISHED:
+            nodetype.excerpt = truncate_words(strip_tags(nodetype.content), 50)
 
-        if objecttype.pk and not request.user.has_perm('gstudio.can_change_author'):
-            form.cleaned_data['authors'] = objecttype.authors.all()
+        if nodetype.pk and not request.user.has_perm('gstudio.can_change_author'):
+            form.cleaned_data['authors'] = nodetype.authors.all()
 
         if not form.cleaned_data.get('authors'):
             form.cleaned_data['authors'].append(request.user)
 
-        objecttype.last_update = datetime.now()
-        objecttype.save()
+        nodetype.last_update = datetime.now()
+        nodetype.save()
 
     def queryset(self, request):
         """Make special filtering by user permissions"""
         queryset = super(ObjecttypeAdmin, self).queryset(request)
         if request.user.has_perm('gstudio.can_view_all'):
             return queryset
-        return request.user.objecttypes.all()
+        return request.user.nodetypes.all()
 
     def formfield_for_manytomany(self, db_field, request, **kwargs):
         """Filters the disposable authors"""
@@ -208,28 +207,28 @@ class ObjecttypeAdmin(reversion.VersionAdmin):
 
     # Custom Actions
     def make_mine(self, request, queryset):
-        """Set the objecttypes to the user"""
-        for objecttype in queryset:
-            if request.user not in objecttype.authors.all():
-                objecttype.authors.add(request.user)
+        """Set the nodetypes to the user"""
+        for nodetype in queryset:
+            if request.user not in nodetype.authors.all():
+                nodetype.authors.add(request.user)
         self.message_user(
-            request, _('The selected objecttypes now belong to you.'))
-    make_mine.short_description = _('Set the objecttypes to the user')
+            request, _('The selected nodetypes now belong to you.'))
+    make_mine.short_description = _('Set the nodetypes to the user')
 
     def make_published(self, request, queryset):
-        """Set objecttypes selected as published"""
+        """Set nodetypes selected as published"""
         queryset.update(status=PUBLISHED)
         self.ping_directories(request, queryset, messages=False)
         self.message_user(
-            request, _('The selected objecttypes are now marked as published.'))
-    make_published.short_description = _('Set objecttypes selected as published')
+            request, _('The selected nodetypes are now marked as published.'))
+    make_published.short_description = _('Set nodetypes selected as published')
 
     def make_hidden(self, request, queryset):
-        """Set objecttypes selected as hidden"""
+        """Set nodetypes selected as hidden"""
         queryset.update(status=HIDDEN)
         self.message_user(
-            request, _('The selected objecttypes are now marked as hidden.'))
-    make_hidden.short_description = _('Set objecttypes selected as hidden')
+            request, _('The selected nodetypes are now marked as hidden.'))
+    make_hidden.short_description = _('Set nodetypes selected as hidden')
 
     def make_tweet(self, request, queryset):
         """Post an update on Twitter"""
@@ -239,41 +238,41 @@ class ObjecttypeAdmin(reversion.VersionAdmin):
         auth.set_access_token(settings.TWITTER_ACCESS_KEY,
                               settings.TWITTER_ACCESS_SECRET)
         api = tweepy.API(auth)
-        for objecttype in queryset:
-            short_url = objecttype.short_url
-            message = '%s %s' % (objecttype.title[:139 - len(short_url)], short_url)
+        for nodetype in queryset:
+            short_url = nodetype.short_url
+            message = '%s %s' % (nodetype.title[:139 - len(short_url)], short_url)
             api.update_status(message)
         self.message_user(
-            request, _('The selected objecttypes have been tweeted.'))
-    make_tweet.short_description = _('Tweet objecttypes selected')
+            request, _('The selected nodetypes have been tweeted.'))
+    make_tweet.short_description = _('Tweet nodetypes selected')
 
     def close_comments(self, request, queryset):
-        """Close the comments for selected objecttypes"""
+        """Close the comments for selected nodetypes"""
         queryset.update(comment_enabled=False)
         self.message_user(
-            request, _('Comments are now closed for selected objecttypes.'))
+            request, _('Comments are now closed for selected nodetypes.'))
     close_comments.short_description = _('Close the comments for '\
-                                         'selected objecttypes')
+                                         'selected nodetypes')
 
     def close_pingbacks(self, request, queryset):
-        """Close the pingbacks for selected objecttypes"""
+        """Close the pingbacks for selected nodetypes"""
         queryset.update(pingback_enabled=False)
         self.message_user(
-            request, _('Linkbacks are now closed for selected objecttypes.'))
+            request, _('Linkbacks are now closed for selected nodetypes.'))
     close_pingbacks.short_description = _(
-        'Close the linkbacks for selected objecttypes')
+        'Close the linkbacks for selected nodetypes')
 
     def put_on_top(self, request, queryset):
-        """Put the selected objecttypes on top at the current date"""
+        """Put the selected nodetypes on top at the current date"""
         queryset.update(creation_date=datetime.now())
         self.ping_directories(request, queryset, messages=False)
         self.message_user(request, _(
-            'The selected objecttypes are now set at the current date.'))
+            'The selected nodetypes are now set at the current date.'))
     put_on_top.short_description = _(
-        'Put the selected objecttypes on top at the current date')
+        'Put the selected nodetypes on top at the current date')
 
     def ping_directories(self, request, queryset, messages=True):
-        """Ping Directories for selected objecttypes"""
+        """Ping Directories for selected nodetypes"""
         for directory in settings.PING_DIRECTORIES:
             pinger = DirectoryPinger(directory, queryset)
             pinger.join()
@@ -290,28 +289,28 @@ class ObjecttypeAdmin(reversion.VersionAdmin):
                     self.message_user(
                         request,
                         _('%(directory)s directory succesfully ' \
-                          'pinged %(success)d objecttypes.') %
+                          'pinged %(success)d nodetypes.') %
                         {'directory': directory, 'success': success})
     ping_directories.short_description = _(
-        'Ping Directories for selected objecttypes')
+        'Ping Directories for selected nodetypes')
 
     def get_urls(self):
-        objecttype_admin_urls = super(ObjecttypeAdmin, self).get_urls()
+        nodetype_admin_urls = super(ObjecttypeAdmin, self).get_urls()
         urls = patterns(
             'django.views.generic.simple',
             url(r'^autocomplete_tags/$', 'direct_to_template',
-                {'template': 'admin/gstudio/objecttype/autocomplete_tags.js',
+                {'template': 'admin/gstudio/nodetype/autocomplete_tags.js',
                  'mimetype': 'application/javascript'},
-                name='gstudio_objecttype_autocomplete_tags'),
+                name='gstudio_nodetype_autocomplete_tags'),
             url(r'^wymeditor/$', 'direct_to_template',
-                {'template': 'admin/gstudio/objecttype/wymeditor.js',
+                {'template': 'admin/gstudio/nodetype/wymeditor.js',
                  'mimetype': 'application/javascript'},
-                name='gstudio_objecttype_wymeditor'),
+                name='gstudio_nodetype_wymeditor'),
             url(r'^markitup/$', 'direct_to_template',
-                {'template': 'admin/gstudio/objecttype/markitup.js',
+                {'template': 'admin/gstudio/nodetype/markitup.js',
                  'mimetype': 'application/javascript'},
-                name='gstudio_objecttype_markitup'),)
-        return urls + objecttype_admin_urls
+                name='gstudio_nodetype_markitup'),)
+        return urls + nodetype_admin_urls
 
     def _media(self):
         STATIC_URL = '%sgstudio/' % project_settings.STATIC_URL
@@ -320,24 +319,24 @@ class ObjecttypeAdmin(reversion.VersionAdmin):
             js=('%sjs/jquery.js' % STATIC_URL,
                 '%sjs/jquery.bgiframe.js' % STATIC_URL,
                 '%sjs/jquery.autocomplete.js' % STATIC_URL,
-                reverse('admin:gstudio_objecttype_autocomplete_tags'),))
+                reverse('admin:gstudio_nodetype_autocomplete_tags'),))
 
         if settings.WYSIWYG == 'wymeditor':
             media += Media(
                 js=('%sjs/wymeditor/jquery.wymeditor.pack.js' % STATIC_URL,
                     '%sjs/wymeditor/plugins/hovertools/'
                     'jquery.wymeditor.hovertools.js' % STATIC_URL,
-                    reverse('admin:gstudio_objecttype_wymeditor')))
+                    reverse('admin:gstudio_nodetype_wymeditor')))
         elif settings.WYSIWYG == 'tinymce':
             from tinymce.widgets import TinyMCE
             media += TinyMCE().media + Media(
-                js=(reverse('tinymce-js', args=('admin/gstudio/objecttype',)),))
+                js=(reverse('tinymce-js', args=('admin/gstudio/nodetype',)),))
         elif settings.WYSIWYG == 'markitup':
             media += Media(
                 js=('%sjs/markitup/jquery.markitup.js' % STATIC_URL,
                     '%sjs/markitup/sets/%s/set.js' % (
                         STATIC_URL, settings.MARKUP_LANGUAGE),
-                    reverse('admin:gstudio_objecttype_markitup')),
+                    reverse('admin:gstudio_nodetype_markitup')),
                 css={'all': (
                     '%sjs/markitup/skins/django/style.css' % STATIC_URL,
                     '%sjs/markitup/sets/%s/style.css' % (

@@ -17,7 +17,7 @@ from django.contrib.comments import get_model as get_comment_model
 from tagging.models import Tag
 from tagging.utils import calculate_cloud
 
-from gstudio.models import Objecttype
+from gstudio.models import Nodetype
 from gstudio.models import Author
 from gstudio.models import Metatype
 from gstudio.managers import tags_published
@@ -29,9 +29,9 @@ from gstudio.templatetags.zbreadcrumbs import retrieve_breadcrumbs
 register = Library()
 
 VECTORS = None
-VECTORS_FACTORY = lambda: VectorBuilder(Objecttype.published.all(),
+VECTORS_FACTORY = lambda: VectorBuilder(Nodetype.published.all(),
                                         ['title', 'excerpt', 'content'])
-CACHE_OBJECTTYPES_RELATED = {}
+CACHE_NODETYPES_RELATED = {}
 
 
 @register.inclusion_tag('gstudio/tags/dummy.html')
@@ -41,10 +41,10 @@ def get_metatypes(template='gstudio/tags/metatypes.html'):
             'metatypes': Metatype.tree.all()}
 
 #@register.inclusion_tag('gstudio/tags/dummy.html')
-#def get_subtypes(template='gstudio/tags/objecttypes.html'):
+#def get_subtypes(template='gstudio/tags/nodetypes.html'):
 #    """Return the subtypes"""
 #    return {'template': template,
-#            'subtypes': Objecttype.tree.all()}
+#            'subtypes': Nodetype.tree.all()}
 
 
 @register.inclusion_tag('gstudio/tags/dummy.html')
@@ -55,34 +55,34 @@ def get_authors(template='gstudio/tags/authors.html'):
 
 
 @register.inclusion_tag('gstudio/tags/dummy.html')
-def get_recent_objecttypes(number=5, template='gstudio/tags/recent_objecttypes.html'):
-    """Return the most recent objecttypes"""
+def get_recent_nodetypes(number=5, template='gstudio/tags/recent_nodetypes.html'):
+    """Return the most recent nodetypes"""
     return {'template': template,
-            'objecttypes': Objecttype.published.all()[:number]}
+            'nodetypes': Nodetype.published.all()[:number]}
 
 
 @register.inclusion_tag('gstudio/tags/dummy.html')
-def get_featured_objecttypes(number=5,
-                         template='gstudio/tags/featured_objecttypes.html'):
-    """Return the featured objecttypes"""
+def get_featured_nodetypes(number=5,
+                         template='gstudio/tags/featured_nodetypes.html'):
+    """Return the featured nodetypes"""
     return {'template': template,
-            'objecttypes': Objecttype.published.filter(featured=True)[:number]}
+            'nodetypes': Nodetype.published.filter(featured=True)[:number]}
 
 
 @register.inclusion_tag('gstudio/tags/dummy.html')
-def get_random_objecttypes(number=5, template='gstudio/tags/random_objecttypes.html'):
-    """Return random objecttypes"""
-    objecttypes = Objecttype.published.all()
-    if number > len(objecttypes):
-        number = len(objecttypes)
+def get_random_nodetypes(number=5, template='gstudio/tags/random_nodetypes.html'):
+    """Return random nodetypes"""
+    nodetypes = Nodetype.published.all()
+    if number > len(nodetypes):
+        number = len(nodetypes)
     return {'template': template,
-            'objecttypes': sample(objecttypes, number)}
+            'nodetypes': sample(nodetypes, number)}
 
 
 @register.inclusion_tag('gstudio/tags/dummy.html')
-def get_popular_objecttypes(number=5, template='gstudio/tags/popular_objecttypes.html'):
-    """Return popular  objecttypes"""
-    ctype = ContentType.objects.get_for_model(Objecttype)
+def get_popular_nodetypes(number=5, template='gstudio/tags/popular_nodetypes.html'):
+    """Return popular  nodetypes"""
+    ctype = ContentType.objects.get_for_model(Nodetype)
     query = """SELECT object_pk, COUNT(*) AS score
     FROM %s
     WHERE content_type_id = %%s
@@ -96,78 +96,78 @@ def get_popular_objecttypes(number=5, template='gstudio/tags/popular_objecttypes
 
     # Use ``in_bulk`` here instead of an ``id__in`` filter, because ``id__in``
     # would clobber the ordering.
-    object_dict = Objecttype.published.in_bulk(object_ids)
+    object_dict = Nodetype.published.in_bulk(object_ids)
 
     return {'template': template,
-            'objecttypes': [object_dict[object_id]
+            'nodetypes': [object_dict[object_id]
                         for object_id in object_ids
                         if object_id in object_dict][:number]}
 
 
 @register.inclusion_tag('gstudio/tags/dummy.html', takes_context=True)
-def get_similar_objecttypes(context, number=5,
-                        template='gstudio/tags/similar_objecttypes.html',
+def get_similar_nodetypes(context, number=5,
+                        template='gstudio/tags/similar_nodetypes.html',
                         flush=False):
-    """Return similar objecttypes"""
+    """Return similar nodetypes"""
     global VECTORS
-    global CACHE_OBJECTTYPES_RELATED
+    global CACHE_NODETYPES_RELATED
 
     if VECTORS is None or flush:
         VECTORS = VECTORS_FACTORY()
-        CACHE_OBJECTTYPES_RELATED = {}
+        CACHE_NODETYPES_RELATED = {}
 
     def compute_related(object_id, dataset):
-        """Compute related objecttypes to an objecttype with a dataset"""
+        """Compute related nodetypes to a nodetype with a dataset"""
         object_vector = None
-        for objecttype, e_vector in dataset.items():
-            if objecttype.pk == object_id:
+        for nodetype, e_vector in dataset.items():
+            if nodetype.pk == object_id:
                 object_vector = e_vector
 
         if not object_vector:
             return []
 
-        objecttype_related = {}
-        for objecttype, e_vector in dataset.items():
-            if objecttype.pk != object_id:
+        nodetype_related = {}
+        for nodetype, e_vector in dataset.items():
+            if nodetype.pk != object_id:
                 score = pearson_score(object_vector, e_vector)
                 if score:
-                    objecttype_related[objecttype] = score
+                    nodetype_related[nodetype] = score
 
-        related = sorted(objecttype_related.items(), key=lambda(k, v): (v, k))
+        related = sorted(nodetype_related.items(), key=lambda(k, v): (v, k))
         return [rel[0] for rel in related]
 
     object_id = context['object'].pk
     columns, dataset = VECTORS()
     key = '%s-%s' % (object_id, VECTORS.key)
-    if not key in CACHE_OBJECTTYPES_RELATED.keys():
-        CACHE_OBJECTTYPES_RELATED[key] = compute_related(object_id, dataset)
+    if not key in CACHE_NODETYPES_RELATED.keys():
+        CACHE_NODETYPES_RELATED[key] = compute_related(object_id, dataset)
 
-    objecttypes = CACHE_OBJECTTYPES_RELATED[key][:number]
+    nodetypes = CACHE_NODETYPES_RELATED[key][:number]
     return {'template': template,
-            'objecttypes': objecttypes}
+            'nodetypes': nodetypes}
 
 
 @register.inclusion_tag('gstudio/tags/dummy.html')
-def get_archives_objecttypes(template='gstudio/tags/archives_objecttypes.html'):
-    """Return archives objecttypes"""
+def get_archives_nodetypes(template='gstudio/tags/archives_nodetypes.html'):
+    """Return archives nodetypes"""
     return {'template': template,
-            'archives': Objecttype.published.dates('creation_date', 'month',
+            'archives': Nodetype.published.dates('creation_date', 'month',
                                               order='DESC')}
 
 
 @register.inclusion_tag('gstudio/tags/dummy.html')
-def get_archives_objecttypes_tree(
-    template='gstudio/tags/archives_objecttypes_tree.html'):
-    """Return archives objecttypes as a Tree"""
+def get_archives_nodetypes_tree(
+    template='gstudio/tags/archives_nodetypes_tree.html'):
+    """Return archives nodetypes as a Tree"""
     return {'template': template,
-            'archives': Objecttype.published.dates('creation_date', 'day',
+            'archives': Nodetype.published.dates('creation_date', 'day',
                                               order='ASC')}
 
 
 @register.inclusion_tag('gstudio/tags/dummy.html', takes_context=True)
-def get_calendar_objecttypes(context, year=None, month=None,
+def get_calendar_nodetypes(context, year=None, month=None,
                          template='gstudio/tags/calendar.html'):
-    """Return an HTML calendar of objecttypes"""
+    """Return an HTML calendar of nodetypes"""
     if not year or not month:
         date_month = context.get('month') or context.get('day') or \
                      getattr(context.get('object'), 'creation_date', None) or \
@@ -177,7 +177,7 @@ def get_calendar_objecttypes(context, year=None, month=None,
     calendar = GstudioCalendar()
     current_month = datetime(year, month, 1)
 
-    dates = list(Objecttype.published.dates('creation_date', 'month'))
+    dates = list(Nodetype.published.dates('creation_date', 'month'))
 
     if not current_month in dates:
         dates.append(current_month)
@@ -197,13 +197,13 @@ def get_calendar_objecttypes(context, year=None, month=None,
 def get_recent_comments(number=5, template='gstudio/tags/recent_comments.html'):
     """Return the most recent comments"""
     # Using map(smart_unicode... fix bug related to issue #8554
-    objecttype_published_pks = map(smart_unicode,
-                              Objecttype.published.values_list('id', flat=True))
-    content_type = ContentType.objects.get_for_model(Objecttype)
+    nodetype_published_pks = map(smart_unicode,
+                              Nodetype.published.values_list('id', flat=True))
+    content_type = ContentType.objects.get_for_model(Nodetype)
 
     comments = get_comment_model().objects.filter(
         Q(flags=None) | Q(flags__flag=CommentFlag.MODERATOR_APPROVAL),
-        content_type=content_type, object_pk__in=objecttype_published_pks,
+        content_type=content_type, object_pk__in=nodetype_published_pks,
         is_public=True).order_by('-submit_date')[:number]
 
     return {'template': template,
@@ -214,13 +214,13 @@ def get_recent_comments(number=5, template='gstudio/tags/recent_comments.html'):
 def get_recent_linkbacks(number=5,
                          template='gstudio/tags/recent_linkbacks.html'):
     """Return the most recent linkbacks"""
-    objecttype_published_pks = map(smart_unicode,
-                              Objecttype.published.values_list('id', flat=True))
-    content_type = ContentType.objects.get_for_model(Objecttype)
+    nodetype_published_pks = map(smart_unicode,
+                              Nodetype.published.values_list('id', flat=True))
+    content_type = ContentType.objects.get_for_model(Nodetype)
 
     linkbacks = get_comment_model().objects.filter(
         content_type=content_type,
-        object_pk__in=objecttype_published_pks,
+        object_pk__in=nodetype_published_pks,
         flags__flag__in=['pingback', 'trackback'],
         is_public=True).order_by(
         '-submit_date')[:number]
@@ -322,6 +322,6 @@ def get_tags(parser, token):
 def get_tag_cloud(steps=6, template='gstudio/tags/tag_cloud.html'):
     """Return a cloud of published tags"""
     tags = Tag.objects.usage_for_queryset(
-        Objecttype.published.all(), counts=True)
+        Nodetype.published.all(), counts=True)
     return {'template': template,
             'tags': calculate_cloud(tags, steps)}

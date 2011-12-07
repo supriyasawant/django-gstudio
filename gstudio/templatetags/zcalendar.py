@@ -7,7 +7,7 @@ from django.utils.dates import WEEKDAYS_ABBR
 from django.utils.formats import get_format
 from django.core.urlresolvers import reverse
 
-from gstudio.models import Objecttype
+from gstudio.models import Nodetype
 
 AMERICAN_TO_EUROPEAN_WEEK_DAYS = [6, 0, 1, 2, 3, 4, 5]
 
@@ -23,14 +23,14 @@ class GstudioCalendar(HTMLCalendar):
 
     def formatday(self, day, weekday):
         """Return a day as a table cell with a link
-        if objecttypes are published this day"""
-        if day and day in self.day_objecttypes:
+        if nodetypes are published this day"""
+        if day and day in self.day_nodetypes:
             day_date = date(self.current_year, self.current_month, day)
-            archive_day_url = reverse('gstudio_objecttype_archive_day',
+            archive_day_url = reverse('gstudio_nodetype_archive_day',
                                       args=[day_date.strftime('%Y'),
                                             day_date.strftime('%m'),
                                             day_date.strftime('%d')])
-            return '<td class="%s objecttype"><a href="%s" '\
+            return '<td class="%s nodetype"><a href="%s" '\
                    'rel="archives">%d</a></td>' % (
                 self.cssclasses[weekday], archive_day_url, day)
 
@@ -41,8 +41,8 @@ class GstudioCalendar(HTMLCalendar):
         new attributes computed for formatting a day"""
         self.current_year = theyear
         self.current_month = themonth
-        self.day_objecttypes = [objecttypes.creation_date.day for objecttypes in
-                            Objecttype.published.filter(
+        self.day_nodetypes = [nodetypes.creation_date.day for nodetypes in
+                            Nodetype.published.filter(
                                 creation_date__year=theyear,
                                 creation_date__month=themonth)]
 

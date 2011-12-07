@@ -15,12 +15,12 @@ from django.core.exceptions import ObjectDoesNotExist
 from tagging.models import Tag
 from tagging.models import TaggedItem
 
-from gstudio.models import Objecttype
+from gstudio.models import Nodetype
 from gstudio.settings import COPYRIGHT
 from gstudio.settings import PROTOCOL
 from gstudio.settings import FEEDS_FORMAT
 from gstudio.settings import FEEDS_MAX_ITEMS
-from gstudio.managers import objecttypes_published
+from gstudio.managers import nodetypes_published
 from gstudio.views.metatypes import get_metatype_or_404
 from gstudio.templatetags.gstudio_tags import get_gravatar
 
@@ -37,21 +37,21 @@ class GstudioFeed(Feed):
             self.subtitle = self.description
 
 
-class ObjecttypeFeed(GstudioFeed):
-    """Base Objecttype Feed"""
-    title_template = 'feeds/objecttype_title.html'
-    description_template = 'feeds/objecttype_description.html'
+class NodetypeFeed(GstudioFeed):
+    """Base Nodetype Feed"""
+    title_template = 'feeds/nodetype_title.html'
+    description_template = 'feeds/nodetype_description.html'
 
     def item_pubdate(self, item):
-        """Publication date of an objecttype"""
+        """Publication date of a nodetype"""
         return item.creation_date
 
     def item_metatypes(self, item):
-        """Objecttype's metatypes"""
+        """Nodetype's metatypes"""
         return [metatype.title for metatype in item.metatypes.all()]
 
     def item_author_name(self, item):
-        """Returns the first author of an objecttype"""
+        """Returns the first author of a nodetype"""
         if item.authors.count():
             self.item_author = item.authors.all()[0]
             return self.item_author.username
@@ -87,27 +87,27 @@ class ObjecttypeFeed(GstudioFeed):
         return 'image/jpeg'
 
 
-class LatestObjecttypes(ObjecttypeFeed):
-    """Feed for the latest objecttypes"""
+class LatestNodetypes(NodetypeFeed):
+    """Feed for the latest nodetypes"""
 
     def link(self):
-        """URL of latest objecttypes"""
-        return reverse('gstudio_objecttype_archive_index')
+        """URL of latest nodetypes"""
+        return reverse('gstudio_nodetype_archive_index')
 
     def items(self):
-        """Items are published objecttypes"""
-        return Objecttype.published.all()[:FEEDS_MAX_ITEMS]
+        """Items are published nodetypes"""
+        return Nodetype.published.all()[:FEEDS_MAX_ITEMS]
 
     def title(self):
         """Title of the feed"""
-        return '%s - %s' % (self.site.name, _('Latest objecttypes'))
+        return '%s - %s' % (self.site.name, _('Latest nodetypes'))
 
     def description(self):
         """Description of the feed"""
-        return _('The latest objecttypes for the site %s') % self.site.name
+        return _('The latest nodetypes for the site %s') % self.site.name
 
 
-class MetatypeObjecttypes(ObjecttypeFeed):
+class MetatypeNodetypes(NodetypeFeed):
     """Feed filtered by a metatype"""
 
     def get_object(self, request, path):
@@ -115,8 +115,8 @@ class MetatypeObjecttypes(ObjecttypeFeed):
         return get_metatype_or_404(path)
 
     def items(self, obj):
-        """Items are the published objecttypes of the metatype"""
-        return obj.objecttypes_published()[:FEEDS_MAX_ITEMS]
+        """Items are the published nodetypes of the metatype"""
+        return obj.nodetypes_published()[:FEEDS_MAX_ITEMS]
 
     def link(self, obj):
         """URL of the metatype"""
@@ -124,14 +124,14 @@ class MetatypeObjecttypes(ObjecttypeFeed):
 
     def title(self, obj):
         """Title of the feed"""
-        return _('Objecttypes for the metatype %s') % obj.title
+        return _('Nodetypes for the metatype %s') % obj.title
 
     def description(self, obj):
         """Description of the feed"""
-        return _('The latest objecttypes for the metatype %s') % obj.title
+        return _('The latest nodetypes for the metatype %s') % obj.title
 
 
-class AuthorObjecttypes(ObjecttypeFeed):
+class AuthorNodetypes(NodetypeFeed):
     """Feed filtered by an author"""
 
     def get_object(self, request, username):
@@ -139,8 +139,8 @@ class AuthorObjecttypes(ObjecttypeFeed):
         return get_object_or_404(User, username=username)
 
     def items(self, obj):
-        """Items are the published objecttypes of the author"""
-        return objecttypes_published(obj.objecttypes)[:FEEDS_MAX_ITEMS]
+        """Items are the published nodetypes of the author"""
+        return nodetypes_published(obj.nodetypes)[:FEEDS_MAX_ITEMS]
 
     def link(self, obj):
         """URL of the author"""
@@ -148,14 +148,14 @@ class AuthorObjecttypes(ObjecttypeFeed):
 
     def title(self, obj):
         """Title of the feed"""
-        return _('Objecttypes for author %s') % obj.username
+        return _('Nodetypes for author %s') % obj.username
 
     def description(self, obj):
         """Description of the feed"""
-        return _('The latest objecttypes by %s') % obj.username
+        return _('The latest nodetypes by %s') % obj.username
 
 
-class TagObjecttypes(ObjecttypeFeed):
+class TagNodetypes(NodetypeFeed):
     """Feed filtered by a tag"""
 
     def get_object(self, request, slug):
@@ -163,9 +163,9 @@ class TagObjecttypes(ObjecttypeFeed):
         return get_object_or_404(Tag, name=slug)
 
     def items(self, obj):
-        """Items are the published objecttypes of the tag"""
+        """Items are the published nodetypes of the tag"""
         return TaggedItem.objects.get_by_model(
-            Objecttype.published.all(), obj)[:FEEDS_MAX_ITEMS]
+            Nodetype.published.all(), obj)[:FEEDS_MAX_ITEMS]
 
     def link(self, obj):
         """URL of the tag"""
@@ -173,14 +173,14 @@ class TagObjecttypes(ObjecttypeFeed):
 
     def title(self, obj):
         """Title of the feed"""
-        return _('Objecttypes for the tag %s') % obj.name
+        return _('Nodetypes for the tag %s') % obj.name
 
     def description(self, obj):
         """Description of the feed"""
-        return _('The latest objecttypes for the tag %s') % obj.name
+        return _('The latest nodetypes for the tag %s') % obj.name
 
 
-class SearchObjecttypes(ObjecttypeFeed):
+class SearchNodetypes(NodetypeFeed):
     """Feed filtered by a search pattern"""
 
     def get_object(self, request):
@@ -191,12 +191,12 @@ class SearchObjecttypes(ObjecttypeFeed):
         return pattern
 
     def items(self, obj):
-        """Items are the published objecttypes founds"""
-        return Objecttype.published.search(obj)[:FEEDS_MAX_ITEMS]
+        """Items are the published nodetypes founds"""
+        return Nodetype.published.search(obj)[:FEEDS_MAX_ITEMS]
 
     def link(self, obj):
         """URL of the search request"""
-        return '%s?pattern=%s' % (reverse('gstudio_objecttype_search'), obj)
+        return '%s?pattern=%s' % (reverse('gstudio_nodetype_search'), obj)
 
     def title(self, obj):
         """Title of the feed"""
@@ -204,23 +204,23 @@ class SearchObjecttypes(ObjecttypeFeed):
 
     def description(self, obj):
         """Description of the feed"""
-        return _("The objecttypes containing the pattern '%s'") % obj
+        return _("The nodetypes containing the pattern '%s'") % obj
 
 
-class ObjecttypeDiscussions(GstudioFeed):
-    """Feed for discussions in an objecttype"""
+class NodetypeDiscussions(GstudioFeed):
+    """Feed for discussions in a nodetype"""
     title_template = 'feeds/discussion_title.html'
     description_template = 'feeds/discussion_description.html'
 
     def get_object(self, request, year, month, day, slug):
-        """Retrieve the discussions by objecttype's slug"""
-        return get_object_or_404(Objecttype.published, slug=slug,
+        """Retrieve the discussions by nodetype's slug"""
+        return get_object_or_404(Nodetype.published, slug=slug,
                                  creation_date__year=year,
                                  creation_date__month=month,
                                  creation_date__day=day)
 
     def items(self, obj):
-        """Items are the discussions on the objecttype"""
+        """Items are the discussions on the nodetype"""
         return obj.discussions[:FEEDS_MAX_ITEMS]
 
     def item_pubdate(self, item):
@@ -232,7 +232,7 @@ class ObjecttypeDiscussions(GstudioFeed):
         return item.get_absolute_url()
 
     def link(self, obj):
-        """URL of the objecttype"""
+        """URL of the nodetype"""
         return obj.get_absolute_url()
 
     def item_author_name(self, item):
@@ -253,16 +253,16 @@ class ObjecttypeDiscussions(GstudioFeed):
 
     def description(self, obj):
         """Description of the feed"""
-        return _('The latest discussions for the objecttype %s') % obj.title
+        return _('The latest discussions for the nodetype %s') % obj.title
 
 
-class ObjecttypeComments(ObjecttypeDiscussions):
-    """Feed for comments in an objecttype"""
+class NodetypeComments(NodetypeDiscussions):
+    """Feed for comments in a nodetype"""
     title_template = 'feeds/comment_title.html'
     description_template = 'feeds/comment_description.html'
 
     def items(self, obj):
-        """Items are the comments on the objecttype"""
+        """Items are the comments on the nodetype"""
         return obj.comments[:FEEDS_MAX_ITEMS]
 
     def item_link(self, item):
@@ -275,7 +275,7 @@ class ObjecttypeComments(ObjecttypeDiscussions):
 
     def description(self, obj):
         """Description of the feed"""
-        return _('The latest comments for the objecttype %s') % obj.title
+        return _('The latest comments for the nodetype %s') % obj.title
 
     def item_enclosure_url(self, item):
         """Returns a gravatar image for enclosure"""
@@ -290,13 +290,13 @@ class ObjecttypeComments(ObjecttypeDiscussions):
         return 'image/jpeg'
 
 
-class ObjecttypePingbacks(ObjecttypeDiscussions):
-    """Feed for pingbacks in an objecttype"""
+class NodetypePingbacks(NodetypeDiscussions):
+    """Feed for pingbacks in a nodetype"""
     title_template = 'feeds/pingback_title.html'
     description_template = 'feeds/pingback_description.html'
 
     def items(self, obj):
-        """Items are the pingbacks on the objecttype"""
+        """Items are the pingbacks on the nodetype"""
         return obj.pingbacks[:FEEDS_MAX_ITEMS]
 
     def item_link(self, item):
@@ -309,16 +309,16 @@ class ObjecttypePingbacks(ObjecttypeDiscussions):
 
     def description(self, obj):
         """Description of the feed"""
-        return _('The latest pingbacks for the objecttype %s') % obj.title
+        return _('The latest pingbacks for the nodetype %s') % obj.title
 
 
-class ObjecttypeTrackbacks(ObjecttypeDiscussions):
-    """Feed for trackbacks in an objecttype"""
+class NodetypeTrackbacks(NodetypeDiscussions):
+    """Feed for trackbacks in a nodetype"""
     title_template = 'feeds/trackback_title.html'
     description_template = 'feeds/trackback_description.html'
 
     def items(self, obj):
-        """Items are the trackbacks on the objecttype"""
+        """Items are the trackbacks on the nodetype"""
         return obj.trackbacks[:FEEDS_MAX_ITEMS]
 
     def item_link(self, item):
@@ -331,4 +331,4 @@ class ObjecttypeTrackbacks(ObjecttypeDiscussions):
 
     def description(self, obj):
         """Description of the feed"""
-        return _('The latest trackbacks for the objecttype %s') % obj.title
+        return _('The latest trackbacks for the nodetype %s') % obj.title

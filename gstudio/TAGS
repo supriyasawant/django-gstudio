@@ -1,104 +1,104 @@
 
-managers.py,314
+managers.py,310
 def tags_published(12,169
-class AuthorPublishedManager(22,559
-    def get_query_set(25,654
-def objecttypes_published(36,1057
-class ObjecttypePublishedManager(46,1383
-    def get_query_set(49,1486
-    def on_site(54,1666
-    def search(59,1874
-    def advanced_search(66,2083
-    def basic_search(71,2260
+class AuthorPublishedManager(22,551
+    def get_query_set(25,646
+def nodetypes_published(36,1041
+class NodetypePublishedManager(46,1363
+    def get_query_set(49,1462
+    def on_site(54,1636
+    def search(59,1840
+    def advanced_search(66,2047
+    def basic_search(71,2222
 
-plugins/menu.py,274
-class ObjecttypeMenu(17,496
-    def get_nodes(21,637
-class MetatypeMenu(63,2480
-    def get_nodes(67,2587
-class AuthorMenu(80,3122
-    def get_nodes(84,3223
-class TagMenu(98,3822
-    def get_nodes(102,3914
-class ObjecttypeModifier(115,4433
-    def modify(119,4573
+plugins/menu.py,270
+class NodetypeMenu(17,492
+    def get_nodes(21,627
+class MetatypeMenu(63,2442
+    def get_nodes(67,2549
+class AuthorMenu(80,3084
+    def get_nodes(84,3185
+class TagMenu(98,3784
+    def get_nodes(102,3876
+class NodetypeModifier(115,4395
+    def modify(119,4529
 
 plugins/cms_app.py,29
 class GstudioApphook(10,226
 
-plugins/cms_plugins.py,324
-class CMSLatestObjecttypesPlugin(19,543
-    def formfield_for_manytomany(52,1397
-    def render(61,1811
-    def icon_src(85,2804
-class CMSSelectedObjecttypesPlugin(90,2943
-    def render(100,3331
-    def icon_src(107,3625
-class CMSRandomObjecttypesPlugin(112,3764
-    def render(121,4112
-    def icon_src(129,4461
+plugins/cms_plugins.py,318
+class CMSLatestNodetypesPlugin(19,535
+    def formfield_for_manytomany(52,1375
+    def render(61,1787
+    def icon_src(85,2754
+class CMSSelectedNodetypesPlugin(90,2893
+    def render(100,3265
+    def icon_src(107,3555
+class CMSRandomNodetypesPlugin(112,3694
+    def render(121,4028
+    def icon_src(129,4371
 
-plugins/models.py,370
-class LatestObjecttypesPlugin(21,694
-    def render_template(42,1502
-    def copy_relations(47,1660
-    def __unicode__(53,1913
-class SelectedObjecttypesPlugin(57,2006
-    def render_template(68,2395
-    def copy_relations(73,2553
-    def __unicode__(77,2716
-class RandomObjecttypesPlugin(81,2807
-    def __unicode__(91,3183
-def invalidate_menu_cache(95,3276
+plugins/models.py,364
+class LatestNodetypesPlugin(21,684
+    def render_template(42,1484
+    def copy_relations(47,1642
+    def __unicode__(53,1895
+class SelectedNodetypesPlugin(57,1984
+    def render_template(68,2363
+    def copy_relations(73,2521
+    def __unicode__(77,2680
+class RandomNodetypesPlugin(81,2767
+    def __unicode__(91,3135
+def invalidate_menu_cache(95,3224
 
-plugins/admin.py,69
-class ObjecttypePlaceholderAdmin(14,421
-    def save_model(33,1641
+plugins/admin.py,67
+class NodetypePlaceholderAdmin(14,413
+    def save_model(33,1627
 
-plugins/migrations/0005_auto__add_randomobjecttypesplugin.py,71
+plugins/migrations/0003_auto__del_field_latestnodetypesplugin_metatype__del_field_latestnodetypesp.py,73
+class Migration(6,92
+    def forwards(8,127
+    def backwards(40,2023
+
+plugins/migrations/0004_auto__add_field_latestnodetypesplugin_submetatypes.py,71
 class Migration(5,63
     def forwards(7,98
-    def backwards(17,676
+    def backwards(12,345
+
+plugins/migrations/0002_auto__add_field_latestnodetypesplugin_template_to_render__add_field_sele.py,71
+class Migration(5,63
+    def forwards(7,98
+    def backwards(15,696
 
 plugins/migrations/0001_initial.py,73
 class Migration(6,92
     def forwards(8,127
-    def backwards(33,1782
+    def backwards(33,1744
 
-plugins/migrations/0004_auto__add_field_latestobjecttypesplugin_submetatypes.py,71
+plugins/migrations/0005_auto__add_randomnodetypesplugin.py,71
 class Migration(5,63
     def forwards(7,98
-    def backwards(12,349
+    def backwards(17,668
 
-plugins/migrations/0003_auto__del_field_latestobjecttypesplugin_metatype__del_field_latestobjecttypesp.py,73
-class Migration(6,92
-    def forwards(8,127
-    def backwards(40,2067
+plugins/placeholder.py,61
+class NodetypePlaceholder(7,122
+    class Meta:Meta12,269
 
-plugins/migrations/0002_auto__add_field_latestobjecttypesplugin_template_to_render__add_field_sele.py,71
-class Migration(5,63
-    def forwards(7,98
-    def backwards(15,708
-
-plugins/placeholder.py,63
-class ObjecttypePlaceholder(7,124
-    class Meta:Meta12,277
-
-ping.py,419
+ping.py,417
 class URLRessources(17,343
     def __init__(20,429
-class DirectoryPinger(29,839
-    def __init__(32,917
-    def run(44,1323
-    def ping_objecttype(54,1750
-class ExternalUrlsPinger(78,2731
-    def __init__(81,2815
-    def run(93,3241
-    def is_external_url(108,3798
-    def find_external_urls(115,4057
-    def find_pingback_href(123,4416
-    def find_pingback_urls(132,4802
-    def pingback_url(160,5846
+class DirectoryPinger(29,835
+    def __init__(32,913
+    def run(44,1313
+    def ping_nodetype(54,1730
+class ExternalUrlsPinger(78,2695
+    def __init__(81,2779
+    def run(93,3195
+    def is_external_url(108,3750
+    def find_external_urls(115,4009
+    def find_pingback_href(123,4362
+    def find_pingback_urls(132,4748
+    def pingback_url(160,5792
 
 genform.py,64
 def inputitems(4,89
@@ -427,7 +427,7 @@ input, textarea,11,400
 .vTextField,vTextField13,456
 .required label,15,504
 
-static/gstudio/css/screen.css,14881
+static/gstudio/css/screen.css,14875
 h1,3,103
 h1, h2,3,103
 h1, h2, h3,3,103
@@ -630,37 +630,37 @@ input.text, input.title,title415,11285
 input.text, input.title, input[input415,11285
 input.text, input.title, input[type=email], input[input415,11285
 ul,421,11517
-div.paginator span.page:hover,hover470,14148
-div.paginator span.page:hover, div.paginator span.next:hover,hover470,14148
-div.paginator span.page:hover a,471,14275
-div.paginator span.page:hover a, div.paginator span.next:hover a,471,14275
-.hobjecttype .objecttype-content pre,488,15736
-.objecttype-widgets ul,494,16333
-ol#comment-list,list498,16509
-ol#comment-list, ol#pingback-list,list498,16509
-ol#comment-list li,499,16616
-ol#comment-list li, ol#pingback-list li,499,16616
-ol#comment-list li.box2,box2500,16729
-ol#comment-list li.box2, ol#pingback-list li.box2,box2500,16729
-ol#comment-list li.post-author,author501,16860
-ol#comment-list li.post-author, ol#pingback-list li.post-author,author501,16860
-ol#comment-list li p,502,16978
-ol#comment-list li p, ol#pingback-list li p,502,16978
-ol#comment-list li img,503,17072
-ol#comment-list li img, ol#pingback-list li img,503,17072
-ol#comment-list li .pingback-body,body504,17164
-ol#comment-list li .pingback-body, ol#comment-list li .trackback-body,body504,17164
-ol#comment-list li .pingback-body, ol#comment-list li .trackback-body, ol#pingback-list li .pingback-body,body504,17164
-ol#comment-list li .pingback-body, ol#comment-list li .trackback-body, ol#pingback-list li .pingback-body, ol#pingback-list li .trackback-body,body504,17164
-ol#comment-list li .pingback-body, ol#comment-list li .trackback-body, ol#pingback-list li .pingback-body, ol#pingback-list li .trackback-body, ol#trackback-list li .pingback-body,body504,17164
-ol#comment-list li .comment-author,author505,17400
-ol#comment-list li .comment-author, ol#comment-list li .pingback-author,author505,17400
-ol#comment-list li .comment-author, ol#comment-list li .pingback-author, ol#comment-list li .trackback-author,author505,17400
-ol#comment-list li .comment-author, ol#comment-list li .pingback-author, ol#comment-list li .trackback-author, ol#pingback-list li .comment-author,author505,17400
-ol#comment-list li .comment-author, ol#comment-list li .pingback-author, ol#comment-list li .trackback-author, ol#pingback-list li .comment-author, ol#pingback-list li .pingback-author,author505,17400
-ol#comment-list li .comment-author, ol#comment-list li .pingback-author, ol#comment-list li .trackback-author, ol#pingback-list li .comment-author, ol#pingback-list li .pingback-author, ol#pingback-list li .trackback-author,author505,17400
-ol#comment-list li .comment-author, ol#comment-list li .pingback-author, ol#comment-list li .trackback-author, ol#pingback-list li .comment-author, ol#pingback-list li .pingback-author, ol#pingback-list li .trackback-author, ol#trackback-list li .comment-author,author505,17400
-ol#comment-list li .comment-author, ol#comment-list li .pingback-author, ol#comment-list li .trackback-author, ol#pingback-list li .comment-author, ol#pingback-list li .pingback-author, ol#pingback-list li .trackback-author, ol#trackback-list li .comment-author, ol#trackback-list li .pingback-author,author505,17400
+div.paginator span.page:hover,hover470,14146
+div.paginator span.page:hover, div.paginator span.next:hover,hover470,14146
+div.paginator span.page:hover a,471,14273
+div.paginator span.page:hover a, div.paginator span.next:hover a,471,14273
+.hnodetype .nodetype-content pre,488,15664
+.nodetype-widgets ul,494,16237
+ol#comment-list,list498,16407
+ol#comment-list, ol#pingback-list,list498,16407
+ol#comment-list li,499,16514
+ol#comment-list li, ol#pingback-list li,499,16514
+ol#comment-list li.box2,box2500,16627
+ol#comment-list li.box2, ol#pingback-list li.box2,box2500,16627
+ol#comment-list li.post-author,author501,16758
+ol#comment-list li.post-author, ol#pingback-list li.post-author,author501,16758
+ol#comment-list li p,502,16876
+ol#comment-list li p, ol#pingback-list li p,502,16876
+ol#comment-list li img,503,16970
+ol#comment-list li img, ol#pingback-list li img,503,16970
+ol#comment-list li .pingback-body,body504,17062
+ol#comment-list li .pingback-body, ol#comment-list li .trackback-body,body504,17062
+ol#comment-list li .pingback-body, ol#comment-list li .trackback-body, ol#pingback-list li .pingback-body,body504,17062
+ol#comment-list li .pingback-body, ol#comment-list li .trackback-body, ol#pingback-list li .pingback-body, ol#pingback-list li .trackback-body,body504,17062
+ol#comment-list li .pingback-body, ol#comment-list li .trackback-body, ol#pingback-list li .pingback-body, ol#pingback-list li .trackback-body, ol#trackback-list li .pingback-body,body504,17062
+ol#comment-list li .comment-author,author505,17298
+ol#comment-list li .comment-author, ol#comment-list li .pingback-author,author505,17298
+ol#comment-list li .comment-author, ol#comment-list li .pingback-author, ol#comment-list li .trackback-author,author505,17298
+ol#comment-list li .comment-author, ol#comment-list li .pingback-author, ol#comment-list li .trackback-author, ol#pingback-list li .comment-author,author505,17298
+ol#comment-list li .comment-author, ol#comment-list li .pingback-author, ol#comment-list li .trackback-author, ol#pingback-list li .comment-author, ol#pingback-list li .pingback-author,author505,17298
+ol#comment-list li .comment-author, ol#comment-list li .pingback-author, ol#comment-list li .trackback-author, ol#pingback-list li .comment-author, ol#pingback-list li .pingback-author, ol#pingback-list li .trackback-author,author505,17298
+ol#comment-list li .comment-author, ol#comment-list li .pingback-author, ol#comment-list li .trackback-author, ol#pingback-list li .comment-author, ol#pingback-list li .pingback-author, ol#pingback-list li .trackback-author, ol#trackback-list li .comment-author,author505,17298
+ol#comment-list li .comment-author, ol#comment-list li .pingback-author, ol#comment-list li .trackback-author, ol#pingback-list li .comment-author, ol#pingback-list li .pingback-author, ol#pingback-list li .trackback-author, ol#trackback-list li .comment-author, ol#trackback-list li .pingback-author,author505,17298
 
 static/gstudio/css/config.rb,19
 project_type 2,47
@@ -704,6 +704,15 @@ ul,13,265
 static/gstudio/css/src/_base.sass,40
 $blueprint_font_family: unquote(13,424
 
+TAGS,210
+managers.py,py2,2
+ÑU]U382,15024
+ÑU]U383,15038
+]11,27887396,15644
+ìšìí9öaö%ömöm406,15933
+ìšìí9öaö%ömöÏÌÖ;t;406,15933
+ìšìí9öaö%ömöÏÌÖ;t;|rtuÌvlp¼ë¤á4Ã©Ä©ÃéWgrtuÌvlp¼ë¤á4Ã©Ä©ÃéW406,15933
+
 comparison.py,268
 def pearson_score(9,160
 class ClusteredModel(26,685
@@ -716,247 +725,262 @@ class VectorBuilder(44,1227
     def flush(86,2649
     def __call__(91,2780
 
-models.py,2487
-class Author(97,3072
-    def objecttypes_published(103,3204
-    def get_absolute_url(108,3371
-    class Meta:Meta112,3497
-class NID(116,3563
-    def get_serialized_dict(123,3858
-    def get_serialized_data(129,4045
-    def __unicode__(138,4393
-    class Meta:Meta142,4448
-class Node(147,4492
-    def __unicode__(156,4900
-    class Meta:Meta159,4954
-class Nodetype(164,5000
-    def __unicode__(167,5024
-    class Meta:Meta170,5078
-class Edgetype(173,5118
-    def __unicode__(175,5141
-    class Meta:Meta178,5195
-class Edge(181,5235
-    def __unicode__(184,5254
-    class Meta:Meta187,5308
-class Metatype(191,5349
-    def objecttypes_published(202,5722
-    def get_nbh(211,5902
-    def tree_path(260,7724
-    def __unicode__(266,7923
-    def _get_sentence(269,7977
-    def get_absolute_url(277,8293
-    class Meta:Meta282,8425
-class Objecttype(289,8584
-    def get_nbh(369,12451
-    def tree_path(424,14294
-    def tree_path_sentence(431,14509
-    def html_content(438,14779
-    def previous_objecttype(452,15280
-    def next_objecttype(460,15538
-    def word_count(468,15814
-    def is_actual(473,15960
-    def is_visible(479,16171
-    def related_published(484,16327
-    def discussions(489,16482
-    def comments(495,16663
-    def pingbacks(501,16857
-    def trackbacks(506,17001
-    def comments_are_open(511,17148
-    def short_url(519,17451
-    def __unicode__(523,17566
-    def memberof_sentence(527,17634
-    def subtypeof_sentence(536,18034
-    def subtypeof(543,18341
-    def get_absolute_url(550,18524
-    def get_serialized_data(558,18843
-    class Meta:Meta567,19200
-class Relationtype(577,19503
-    def get_serialized_data(593,20797
-    def __unicode__(603,21155
-    class Meta:Meta606,21209
-class Attributetype(618,21506
-    def simpleform(627,21953
-    def simpleform_xml(636,22255
-    def inputform_xml(646,23012
-    def __unicode__(658,23394
-    class Meta:Meta661,23448
-class Relation(672,23751
-    class Meta:Meta686,24549
-    def __unicode__(694,24898
-    def composed_sentence(698,24978
-    def inversed_sentence(703,25241
-class Attribute(709,25482
-    class Meta:Meta723,26242
-    def __unicode__(731,26589
-    def edge_node_dict(735,26669
-    def composed_sentence(742,26939
-class Processtype(750,27215
-    def __unicode__(764,27865
-    class Meta:Meta767,27919
-class Systemtype(776,28155
-    class to 779,28198
-    def __unicode__(795,29326
-    class Meta:Meta798,29380
+models.py,3741
+class Author(94,3059
+    def nodetypes_published(100,3191
+    def get_absolute_url(105,3350
+    class Meta:Meta109,3476
+class NID(113,3542
+    def get_serialized_dict(120,3837
+    def get_serialized_data(126,4024
+    def __unicode__(135,4372
+    class Meta:Meta139,4427
+class Node(144,4471
+    def __unicode__(153,4879
+    class Meta:Meta156,4933
+class Edge(159,4973
+    def __unicode__(162,4992
+    class Meta:Meta165,5046
+class Metatype(169,5087
+    def nodetypes_published(179,5453
+    def get_nbh(188,5625
+    def tree_path(235,7338
+    def __unicode__(241,7537
+    def composed_sentence(245,7605
+    def get_absolute_url(253,7882
+    class Meta:Meta258,8014
+class Nodetype(268,8176
+    def get_nbh(346,11740
+    def tree_path(416,14183
+    def tree_path_sentence(423,14396
+    def html_content(430,14664
+    def previous_nodetype(444,15165
+    def next_nodetype(452,15411
+    def word_count(460,15675
+    def is_actual(465,15819
+    def is_visible(471,16028
+    def related_published(476,16182
+    def discussions(481,16333
+    def comments(487,16514
+    def pingbacks(493,16708
+    def trackbacks(498,16852
+    def comments_are_open(503,16999
+    def short_url(511,17302
+    def __unicode__(515,17415
+    def memberof_sentence(519,17483
+    def subtypeof_sentence(528,17881
+    def subtypeof(535,18188
+    def get_absolute_url(542,18369
+    def get_serialized_data(550,18684
+    class Meta:Meta559,19041
+class Objecttype(568,19337
+    def __unicode__(573,19399
+    class Meta:Meta576,19453
+class Edgetype(588,19744
+    def __unicode__(590,19771
+    class Meta:Meta593,19825
+class Relationtype(597,19866
+    def get_serialized_data(613,21174
+    def __unicode__(623,21532
+    class Meta:Meta626,21586
+class Attributetype(636,21881
+    def simpleform(666,25090
+    def simpleform_xml(675,25392
+    def inputform_xml(685,26149
+    def __unicode__(697,26531
+    class Meta:Meta700,26585
+class Relation(711,26888
+    class Meta:Meta725,27686
+    def __unicode__(733,28035
+    def composed_sentence(737,28115
+    def inversed_sentence(742,28378
+    def key_value(747,28631
+    def inverse_key_value(751,28736
+class Attribute(756,28845
+    class Meta:Meta770,29617
+    def __unicode__(778,29965
+    def edge_node_dict(782,30045
+    def composed_sentence(789,30316
+class AttributeCharfield(795,30591
+    def __unicode__(799,30708
+class AttributeTextField(802,30762
+    def __unicode__(806,30861
+class IntegerField(809,30919
+     def __unicode__(812,31032
+class CommaSeparatedIntegerField(815,31088
+    def __unicode__(819,31268
+class BigIntegerField(822,31322
+    def __unicode__(826,31453
+class PositiveIntegerField(829,31507
+    def __unicode__(833,31658
+class DecimalField(836,31712
+    def __unicode__(840,31846
+class FloatField(843,31900
+    def __unicode__(847,32020
+class BooleanField(850,32074
+    def __unicode__(854,32176
+class NullBooleanField(857,32230
+    def __unicode__(860,32353
+class DateField(863,32407
+    def __unicode__(867,32513
+class DateTimeField(870,32567
+    def __unicode__(874,32694
+class TimeField(877,32752
+    def __unicode__(880,32853
+class EmailField(883,32907
+    def __unicode__(887,33014
+class FileField(890,33068
+    def __unicode__(894,33178
+class FilePathField(897,33232
+    def __unicode__(901,33342
+class ImageField(904,33396
+    def __unicode__(908,33510
+class URLField(911,33564
+    def __unicode__(915,33662
+class IPAddressField(918,33716
+    def __unicode__(922,33839
+class Processtype(926,33894
+    def __unicode__(940,34540
+    class Meta:Meta943,34594
+class Systemtype(952,34830
+    class to 955,34871
+    def __unicode__(971,35998
+    class Meta:Meta974,36052
 
 xmlrpc/metaweblog.py,469
-def authenticate(30,943
-def blog_structure(46,1585
-def user_structure(54,1827
-def author_structure(66,2221
-def metatype_structure(74,2435
-def post_structure(90,3081
-def get_users_blogs(119,4467
-def get_user_info(128,4780
-def get_authors(137,5100
-def delete_post(147,5489
-def get_post(157,5894
-def get_recent_posts(167,6277
-def get_metatypes(177,6714
-def new_metatype(187,7109
-def new_post(204,7845
-def edit_post(248,9852
-def new_media_object(291,11761
+def authenticate(30,941
+def blog_structure(46,1583
+def user_structure(54,1823
+def author_structure(66,2217
+def metatype_structure(74,2431
+def post_structure(90,3077
+def get_users_blogs(119,4431
+def get_user_info(128,4744
+def get_authors(137,5064
+def delete_post(147,5453
+def get_post(157,5850
+def get_recent_posts(167,6231
+def get_metatypes(177,6662
+def new_metatype(187,7057
+def new_post(204,7793
+def edit_post(248,9782
+def new_media_object(291,11649
 
 xmlrpc/pingback.py,113
-def generate_pingback_content(28,831
-def pingback_ping(54,1553
-def pingback_extensions_get_pingbacks(114,3752
+def generate_pingback_content(28,829
+def pingback_ping(54,1551
+def pingback_extensions_get_pingbacks(114,3736
 
-views/objecttypes.py,33
-def objecttype_shortlink(26,913
+views/nodetypes.py,31
+def nodetype_shortlink(26,887
 
 views/metatypes.py,60
-def get_metatype_or_404(10,301
-def metatype_detail(16,483
+def get_metatype_or_404(10,299
+def metatype_detail(16,481
 
-views/trackback.py,33
-def objecttype_trackback(14,425
-
-views/quick_objecttype.py,68
-class QuickObjecttypeForm(18,538
-def view_quick_objecttype(27,839
+views/trackback.py,31
+def nodetype_trackback(14,423
 
 views/tags.py,44
-def tag_list(15,414
-def tag_detail(24,815
+def tag_list(15,410
+def tag_detail(24,809
 
-views/decorators.py,191
+views/decorators.py,187
 def update_queryset(15,491
     def wrapper(23,811
 def password(33,1048
-def protect_objecttype(47,1629
-    def wrapper(53,1851
-def template_name_for_objecttype_queryset_filtered(72,2664
+def protect_nodetype(47,1617
+    def wrapper(53,1833
+def template_name_for_nodetype_queryset_filtered(72,2630
 
 views/sitemap.py,19
-def sitemap(8,168
+def sitemap(8,166
 
 views/authors.py,26
-def author_detail(14,417
+def author_detail(14,415
 
-views/search.py,29
-def objecttype_search(9,232
+views/search.py,27
+def nodetype_search(9,228
 
-views/channels.py,30
-def objecttype_channel(7,131
+views/quick_nodetype.py,64
+class QuickNodetypeForm(18,534
+def view_quick_nodetype(27,829
 
-tests/objecttype.py,837
-class ObjecttypeTestCase(24,738
-    def setUp(26,775
-    def test_discussions(32,989
-    def test_str(85,3892
-    def test_word_count(88,3989
-    def test_comments_are_open(91,4078
-    def test_is_actual(102,4582
-    def test_is_visible(111,5008
-    def test_short_url(118,5307
-    def test_previous_objecttype(128,5855
-    def test_next_objecttype(149,6987
-    def test_related_published(170,8099
-class ObjecttypeHtmlContentTestCase(192,9082
-    def setUp(194,9130
-    def tearDown(203,9471
-    def test_html_content_default(207,9607
-    def test_html_content_textitle(216,10010
-    def test_html_content_markdown(231,10733
-    def test_html_content_restructuredtext(246,11436
-class ObjecttypeGetBaseModelTestCase(262,12252
-    def setUp(264,12301
-    def tearDown(267,12407
-    def test_get_base_model(270,12516
+views/channels.py,28
+def nodetype_channel(7,129
 
 tests/metaweblog.py,487
-class MetaWeblogTestCase(23,719
-    def setUp(27,824
-    def test_authenticate(63,2555
-    def test_get_users_blogs(79,3415
-    def test_get_user_info(88,3848
-    def test_get_authors(102,4545
-    def test_get_metatypes(112,5055
-    def test_new_metatype(151,7033
-    def test_get_recent_posts(167,7917
-    def test_delete_post(173,8205
-    def test_get_post(182,8644
-    def test_new_post(207,10088
-    def test_edit_post(224,10917
-    def test_new_media_object(281,13835
+class MetaWeblogTestCase(23,717
+    def setUp(27,822
+    def test_authenticate(63,2525
+    def test_get_users_blogs(79,3381
+    def test_get_user_info(88,3814
+    def test_get_authors(102,4511
+    def test_get_metatypes(112,5021
+    def test_new_metatype(151,6999
+    def test_get_recent_posts(167,7883
+    def test_delete_post(173,8171
+    def test_get_post(182,8604
+    def test_new_post(207,10034
+    def test_edit_post(224,10849
+    def test_new_media_object(281,13685
 
-tests/managers.py,599
-class ManagersTestCase(18,470
-    def setUp(20,505
-    def test_tags_published(51,2017
-    def test_author_published_manager_get_query_set(56,2241
-    def test_objecttypes_published(65,2649
-    def test_objecttype_published_manager_get_query_set(86,3857
-    def test_objecttype_published_manager_on_site(107,4897
-    def test_objecttype_published_manager_basic_search(115,5293
-    def test_objecttype_published_manager_advanced_search(123,5754
-    def test_objecttype_published_manager_advanced_search_with_punctuation(227,11648
-    def test_objecttype_published_manager_search(238,12199
+tests/managers.py,585
+class ManagersTestCase(18,466
+    def setUp(20,501
+    def test_tags_published(51,1985
+    def test_author_published_manager_get_query_set(56,2209
+    def test_nodetypes_published(65,2609
+    def test_nodetype_published_manager_get_query_set(86,3763
+    def test_nodetype_published_manager_on_site(107,4763
+    def test_nodetype_published_manager_basic_search(115,5145
+    def test_nodetype_published_manager_advanced_search(123,5592
+    def test_nodetype_published_manager_advanced_search_with_punctuation(227,11380
+    def test_nodetype_published_manager_search(238,11917
 
-tests/ping.py,390
-class DirectoryPingerTestCase(13,310
-    def setUp(15,392
-    def test_ping_objecttype(24,781
-class ExternalUrlsPingerTestCase(31,1004
-    def setUp(34,1093
-    def test_is_external_url(42,1425
-    def test_find_external_urls(57,2186
-    def test_find_pingback_href(71,2851
-    def fake_urlopen(89,3573
-    def test_find_pingback_urls(105,4323
-    def test_pingback_url(120,4958
+tests/ping.py,387
+class DirectoryPingerTestCase(13,308
+    def setUp(15,390
+    def test_ping_nodetype(24,769
+class ExternalUrlsPingerTestCase(31,986
+    def setUp(34,1075
+    def test_is_external_url(42,1397
+    def test_find_external_urls(57,2158
+    def test_find_pingback_href(71,2815
+    def fake_urlopen(89,3537
+    def test_find_pingback_urls(105,4287
+    def test_pingback_url(120,4922
 
-tests/views.py,1309
-class ViewsBaseCase(17,484
-    def setUp(22,574
-    def tearDown(62,2285
-    def create_published_objecttype(66,2447
-    def check_publishing_context(79,2982
-class GstudioViewsTestCase(92,3533
-    def test_gstudio_objecttype_archive_index(100,3785
-    def test_gstudio_objecttype_archive_year(103,3888
-    def test_gstudio_objecttype_archive_month(106,3995
-    def test_gstudio_objecttype_archive_day(109,4106
-    def test_gstudio_objecttype_shortlink(112,4218
-    def test_gstudio_objecttype_detail(117,4449
-    def test_gstudio_objecttype_detail_login(135,5301
-    def test_gstudio_objecttype_detail_password(142,5611
-    def test_gstudio_objecttype_channel(157,6436
-    def test_gstudio_metatype_list(160,6546
-    def test_gstudio_metatype_detail(167,6904
-    def test_gstudio_metatype_detail_paginated(172,7178
-    def test_gstudio_author_list(193,8291
-    def test_gstudio_author_detail(200,8638
-    def test_gstudio_tag_list(205,8908
-    def test_gstudio_tag_detail(212,9162
-    def test_gstudio_objecttype_search(217,9416
-    def test_gstudio_sitemap(228,9993
-    def test_gstudio_trackback(239,10600
-class GstudioCustomDetailViews(275,12297
-    def test_custom_metatype_detail(283,12609
-    def test_custom_author_detail(289,12937
-    def test_custom_tag_detail(295,13263
+tests/views.py,1287
+class ViewsBaseCase(17,482
+    def setUp(22,572
+    def tearDown(62,2259
+    def create_published_nodetype(66,2421
+    def check_publishing_context(79,2938
+class GstudioViewsTestCase(92,3485
+    def test_gstudio_nodetype_archive_index(100,3737
+    def test_gstudio_nodetype_archive_year(103,3838
+    def test_gstudio_nodetype_archive_month(106,3943
+    def test_gstudio_nodetype_archive_day(109,4052
+    def test_gstudio_nodetype_shortlink(112,4162
+    def test_gstudio_nodetype_detail(117,4391
+    def test_gstudio_nodetype_detail_login(135,5219
+    def test_gstudio_nodetype_detail_password(142,5517
+    def test_gstudio_nodetype_channel(157,6326
+    def test_gstudio_metatype_list(160,6434
+    def test_gstudio_metatype_detail(167,6786
+    def test_gstudio_metatype_detail_paginated(172,7058
+    def test_gstudio_author_list(193,8157
+    def test_gstudio_author_detail(200,8498
+    def test_gstudio_tag_list(205,8766
+    def test_gstudio_tag_detail(212,9012
+    def test_gstudio_nodetype_search(217,9264
+    def test_gstudio_sitemap(228,9839
+    def test_gstudio_trackback(239,10436
+class GstudioCustomDetailViews(275,12121
+    def test_custom_metatype_detail(283,12433
+    def test_custom_author_detail(289,12759
+    def test_custom_tag_detail(295,13083
 
 tests/utils.py,76
 class TestTransport(8,121
@@ -964,47 +988,66 @@ class TestTransport(8,121
     def request(16,357
 
 tests/comparison.py,142
-class ComparisonTestCase(10,252
-    def test_pearson_score(13,331
-    def test_clustered_model(21,714
-    def test_vector_builder(35,1522
+class ComparisonTestCase(10,250
+    def test_pearson_score(13,329
+    def test_clustered_model(21,712
+    def test_vector_builder(35,1500
 
-tests/metatype.py,140
-class MetatypeTestCase(10,234
-    def setUp(12,269
-    def test_objecttypes_published(27,957
-    def test_objecttypes_tree_path(47,1806
+tests/metatype.py,136
+class MetatypeTestCase(10,232
+    def setUp(12,267
+    def test_nodetypes_published(27,943
+    def test_nodetypes_tree_path(47,1766
 
 tests/custom_spam_checker.py,19
 def backend(8,181
 
-tests/quick_objecttype.py,123
-class QuickObjecttypeTestCase(10,230
-    def setUp(14,351
-    def tearDown(18,454
-    def test_quick_objecttype(21,528
+tests/nodetype.py,826
+class NodetypeTestCase(24,732
+    def setUp(26,767
+    def test_discussions(32,973
+    def test_str(85,3818
+    def test_word_count(88,3911
+    def test_comments_are_open(91,3998
+    def test_is_actual(102,4494
+    def test_is_visible(111,4906
+    def test_short_url(118,5195
+    def test_previous_nodetype(128,5737
+    def test_next_nodetype(149,6825
+    def test_related_published(170,7893
+class NodetypeHtmlContentTestCase(192,8844
+    def setUp(194,8890
+    def tearDown(203,9223
+    def test_html_content_default(207,9359
+    def test_html_content_textitle(216,9756
+    def test_html_content_markdown(231,10473
+    def test_html_content_restructuredtext(246,11170
+class NodetypeGetBaseModelTestCase(262,11980
+    def setUp(264,12027
+    def tearDown(267,12129
+    def test_get_base_model(270,12234
 
-tests/feeds.py,857
-class GstudioFeedsTestCase(33,1143
-    def setUp(37,1265
-    def create_published_objecttype(44,1621
-    def create_discussions(58,2213
-    def test_objecttype_feed(75,3350
-    def test_objecttype_feed_enclosure(94,4322
-    def test_latest_objecttypes(118,5535
-    def test_metatype_objecttypes(129,5989
-    def test_author_objecttypes(142,6618
-    def test_tag_objecttypes(153,7213
-    def test_search_objecttypes(165,7790
-        class FakeRequest:FakeRequest166,7829
-            def __init__(167,7856
-    def test_objecttype_discussions(182,8574
-    def test_objecttype_comments(204,9774
-    def test_objecttype_pingbacks(223,10781
-    def test_objecttype_trackbacks(236,11446
-    def test_objecttype_feed_no_authors(249,12116
-    def test_objecttype_feed_rss_or_atom(258,12488
-    def test_discussion_feed_with_same_slugs(269,12944
+tests/feeds.py,829
+class GstudioFeedsTestCase(33,1121
+    def setUp(37,1243
+    def create_published_nodetype(44,1595
+    def create_discussions(58,2169
+    def test_nodetype_feed(75,3298
+    def test_nodetype_feed_enclosure(94,4246
+    def test_latest_nodetypes(118,5427
+    def test_metatype_nodetypes(129,5871
+    def test_author_nodetypes(142,6490
+    def test_tag_nodetypes(153,7075
+    def test_search_nodetypes(165,7642
+        class FakeRequest:FakeRequest166,7679
+            def __init__(167,7706
+    def test_nodetype_discussions(182,8418
+    def test_nodetype_comments(204,9586
+    def test_nodetype_pingbacks(223,10565
+    def test_nodetype_trackbacks(236,11206
+    def test_nodetype_feed_no_authors(249,11852
+    def test_nodetype_feed_rss_or_atom(258,12212
+    def test_discussion_feed_with_same_slugs(269,12662
 
 tests/custom_url_shortener.py,19
 def backend(8,182
@@ -1014,29 +1057,29 @@ class SpamCheckerTestCase(11,247
     def test_get_spam_checker(14,331
 
 tests/__init__.py,19
-def suite(32,1586
+def suite(32,1566
 
-tests/sitemaps.py,270
-class GstudioSitemapsTestCase(18,519
-    def setUp(22,644
-    def test_objecttype_sitemap(43,1712
-    def test_metatype_sitemap(49,1960
-    def test_author_sitemap(58,2380
-    def test_tag_sitemap(68,2843
-    def test_metatype_sitemap_zero_division_error(77,3266
+tests/sitemaps.py,268
+class GstudioSitemapsTestCase(18,515
+    def setUp(22,640
+    def test_nodetype_sitemap(43,1680
+    def test_metatype_sitemap(49,1920
+    def test_author_sitemap(58,2338
+    def test_tag_sitemap(68,2799
+    def test_metatype_sitemap_zero_division_error(77,3220
 
 tests/custom_views_detail_urls.py,73
 def call_with_template_and_extra_context(13,366
-    def wrapper(18,523
+    def wrapper(18,521
 
-tests/admin.py,238
-class ObjecttypeAdminTestCase(10,220
-    def setUp(14,335
-    def tearDown(24,780
-    def test_objecttype_add_and_change(27,854
-class MetatypeAdminTestCase(54,2149
-    def setUp(58,2261
-    def test_metatype_add_and_change(62,2428
+tests/admin.py,234
+class NodetypeAdminTestCase(10,218
+    def setUp(14,329
+    def tearDown(24,774
+    def test_nodetype_add_and_change(27,848
+class MetatypeAdminTestCase(54,2121
+    def setUp(58,2233
+    def test_metatype_add_and_change(62,2400
 
 tests/url_shortener.py,121
 class URLShortenerTestCase(12,315
@@ -1044,265 +1087,271 @@ class URLShortenerTestCase(12,315
     def tearDown(18,489
     def test_get_url_shortener(21,580
 
-tests/templatetags.py,965
-class TemplateTagsTestCase(40,1783
-    def setUp(43,1861
-    def publish_objecttype(51,2175
-    def test_get_metatypes(57,2386
-    def test_get_authors(67,2844
-    def test_get_recent_objecttypes(80,3428
-    def test_get_featured_objecttypes(93,4020
-    def test_get_random_objecttypes(106,4622
-    def test_get_popular_objecttypes(119,5214
-    def test_get_similar_objecttypes(152,6877
-    def test_get_archives_objecttypes(176,8022
-    def test_get_archives_tree(199,9094
-    def test_get_calendar_objecttypes(222,10176
-    def test_get_recent_comments(268,12447
-    def test_get_recent_linkbacks(296,13720
-    def test_gstudio_pagination(324,15014
-        class FakeRequest(325,15053
-            def __init__(326,15088
-    def test_gstudio_breadcrumbs(411,19203
-        class FakeRequest(412,19243
-            def __init__(413,19278
-    def test_get_gravatar(486,22793
-    def test_get_tags(496,23235
-    def test_get_tag_cloud(519,24038
+tests/templatetags.py,948
+class TemplateTagsTestCase(40,1765
+    def setUp(43,1843
+    def publish_nodetype(51,2149
+    def test_get_metatypes(57,2350
+    def test_get_authors(67,2808
+    def test_get_recent_nodetypes(80,3388
+    def test_get_featured_nodetypes(93,3962
+    def test_get_random_nodetypes(106,4546
+    def test_get_popular_nodetypes(119,5120
+    def test_get_similar_nodetypes(152,6735
+    def test_get_archives_nodetypes(176,7850
+    def test_get_archives_tree(199,8902
+    def test_get_calendar_nodetypes(222,9966
+    def test_get_recent_comments(268,12209
+    def test_get_recent_linkbacks(296,13476
+    def test_gstudio_pagination(324,14764
+        class FakeRequest(325,14803
+            def __init__(326,14838
+    def test_gstudio_breadcrumbs(411,18953
+        class FakeRequest(412,18993
+            def __init__(413,19028
+    def test_get_gravatar(486,22531
+    def test_get_tags(496,22973
+    def test_get_tag_cloud(519,23766
 
 tests/signals.py,286
-class SignalsTestCase(12,344
-    def test_disable_for_loaddata(15,411
-        def make_top(19,504
-        def call(22,555
-    def test_ping_directories_handler(29,700
-        def fake_pinger(33,814
-    def test_ping_external_urls_handler(61,1914
-        def fake_pinger(65,2033
+class SignalsTestCase(12,342
+    def test_disable_for_loaddata(15,409
+        def make_top(19,502
+        def call(22,553
+    def test_ping_directories_handler(29,698
+        def fake_pinger(33,812
+    def test_ping_external_urls_handler(61,1894
+        def fake_pinger(65,2013
+
+tests/quick_nodetype.py,119
+class QuickNodetypeTestCase(10,226
+    def setUp(14,343
+    def tearDown(18,446
+    def test_quick_nodetype(21,520
 
 tests/pingback.py,251
-class PingBackTestCase(24,724
-    def fake_urlopen(28,826
-    def setUp(39,1265
-    def tearDown(85,3646
-    def test_generate_pingback_content(90,3849
-    def test_pingback_ping(113,4911
-    def test_pingback_extensions_get_pingbacks(166,7341
+class PingBackTestCase(24,722
+    def fake_urlopen(28,824
+    def setUp(39,1263
+    def tearDown(85,3610
+    def test_generate_pingback_content(90,3813
+    def test_pingback_ping(113,4867
+    def test_pingback_extensions_get_pingbacks(166,7277
+
+tests/templates/gstudio/_nodetype_detail.html,23
+{{ object.title }}1,0
 
 tests/templates/gstudio/base.html,56
 Gnowledge Studio - {% block title %}{% endblock %}3,16
 
-tests/templates/gstudio/_objecttype_detail.html,23
-{{ object.title }}1,0
+tests/moderator.py,249
+class NodetypeCommentModeratorTestCase(14,420
+    def setUp(17,510
+    def test_email(31,1115
+    def test_do_email_notification(48,1930
+    def test_do_email_authors(58,2457
+    def test_do_email_reply(72,3190
+    def test_moderate(103,4847
 
-tests/moderator.py,251
-class ObjecttypeCommentModeratorTestCase(14,424
-    def setUp(17,516
-    def test_email(31,1139
-    def test_do_email_notification(48,1964
-    def test_do_email_authors(58,2499
-    def test_do_email_reply(72,3242
-    def test_moderate(103,4919
+feeds.py,2015
+class GstudioFeed(28,968
+    def __init__(32,1057
+class NodetypeFeed(40,1314
+    def item_pubdate(45,1487
+    def item_metatypes(49,1602
+    def item_author_name(53,1743
+    def item_author_email(59,1967
+    def item_author_link(63,2092
+    def item_enclosure_url(72,2418
+    def item_enclosure_length(81,2691
+    def item_enclosure_mime_type(85,2800
+class LatestNodetypes(90,2919
+    def link(93,2997
+    def items(97,3113
+    def title(101,3237
+    def description(105,3358
+class MetatypeNodetypes(110,3499
+    def get_object(113,3577
+    def items(117,3708
+    def link(121,3858
+    def title(125,3956
+    def description(129,4077
+class AuthorNodetypes(134,4222
+    def get_object(137,4297
+    def items(141,4451
+    def link(145,4608
+    def title(149,4735
+    def description(153,4853
+class TagNodetypes(158,4987
+    def get_object(161,5055
+    def items(165,5189
+    def link(170,5384
+    def title(174,5501
+    def description(178,5616
+class SearchNodetypes(183,5755
+    def get_object(186,5837
+    def items(193,6067
+    def link(197,6213
+    def title(201,6354
+    def description(205,6470
+class NodetypeDiscussions(210,6610
+    def get_object(215,6811
+    def items(222,7170
+    def item_pubdate(226,7302
+    def item_link(230,7416
+    def link(234,7523
+    def item_author_name(238,7621
+    def item_author_email(242,7736
+    def item_author_link(246,7861
+    def title(250,7981
+    def description(254,8090
+class NodetypeComments(259,8237
+    def items(264,8434
+    def item_link(268,8560
+    def title(272,8681
+    def description(276,8787
+    def item_enclosure_url(280,8930
+    def item_enclosure_length(284,9076
+    def item_enclosure_mime_type(288,9185
+class NodetypePingbacks(293,9304
+    def items(298,9505
+    def item_link(302,9633
+    def title(306,9756
+    def description(310,9863
+class NodetypeTrackbacks(315,10008
+    def items(320,10213
+    def item_link(324,10343
+    def title(328,10468
+    def description(332,10576
 
-feeds.py,2035
-class GstudioFeed(28,972
-    def __init__(32,1061
-class ObjecttypeFeed(40,1318
-    def item_pubdate(45,1499
-    def item_metatypes(49,1616
-    def item_author_name(53,1759
-    def item_author_email(59,1985
-    def item_author_link(63,2110
-    def item_enclosure_url(72,2436
-    def item_enclosure_length(81,2709
-    def item_enclosure_mime_type(85,2818
-class LatestObjecttypes(90,2937
-    def link(93,3021
-    def items(97,3141
-    def title(101,3269
-    def description(105,3392
-class MetatypeObjecttypes(110,3535
-    def get_object(113,3617
-    def items(117,3748
-    def link(121,3902
-    def title(125,4000
-    def description(129,4123
-class AuthorObjecttypes(134,4270
-    def get_object(137,4349
-    def items(141,4503
-    def link(145,4666
-    def title(149,4793
-    def description(153,4913
-class TagObjecttypes(158,5049
-    def get_object(161,5121
-    def items(165,5255
-    def link(170,5454
-    def title(174,5571
-    def description(178,5688
-class SearchObjecttypes(183,5829
-    def get_object(186,5915
-    def items(193,6145
-    def link(197,6295
-    def title(201,6438
-    def description(205,6554
-class ObjecttypeDiscussions(210,6696
-    def get_object(215,6901
-    def items(222,7264
-    def item_pubdate(226,7398
-    def item_link(230,7512
-    def link(234,7619
-    def item_author_name(238,7719
-    def item_author_email(242,7834
-    def item_author_link(246,7959
-    def title(250,8079
-    def description(254,8188
-class ObjecttypeComments(259,8337
-    def items(264,8540
-    def item_link(268,8668
-    def title(272,8789
-    def description(276,8895
-    def item_enclosure_url(280,9040
-    def item_enclosure_length(284,9186
-    def item_enclosure_mime_type(288,9295
-class ObjecttypePingbacks(293,9414
-    def items(298,9621
-    def item_link(302,9751
-    def title(306,9874
-    def description(310,9981
-class ObjecttypeTrackbacks(315,10128
-    def items(320,10339
-    def item_link(324,10471
-    def title(328,10596
-    def description(332,10704
-
-sitemaps.py,459
-class ObjecttypeSitemap(13,310
-    def items(18,424
-    def lastmod(22,531
-class MetatypeSitemap(27,648
-    def cache(31,740
-    def items(42,1195
-    def lastmod(48,1361
-    def priority(55,1589
-class AuthorSitemap(63,1811
-    def items(68,1918
-    def lastmod(72,2017
-    def location(79,2244
-class TagSitemap(84,2382
-    def cache(88,2464
-    def items(97,2874
-    def lastmod(103,3014
-    def priority(108,3184
-    def location(115,3403
+sitemaps.py,457
+class NodetypeSitemap(13,308
+    def items(18,418
+    def lastmod(22,521
+class MetatypeSitemap(27,636
+    def cache(31,728
+    def items(42,1169
+    def lastmod(48,1335
+    def priority(55,1555
+class AuthorSitemap(63,1777
+    def items(68,1884
+    def lastmod(72,1983
+    def location(79,2202
+class TagSitemap(84,2340
+    def cache(88,2422
+    def items(97,2814
+    def lastmod(103,2954
+    def priority(108,3120
+    def location(115,3339
 
 __init__.pyc,7
 N,2,4
 
-management/commands/wp2gstudio.py,425
-class Command(29,905
-    def __init__(56,2036
-    def write_out(64,2335
-    def handle_label(70,2580
-    def import_authors(97,3586
-    def migrate_author(120,4456
-    def import_metatypes(151,5857
-    def import_tags(175,6913
-    def get_objecttype_tags(188,7541
-    def get_objecttype_metatypes(198,7955
-    def import_objecttype(208,8357
-    def import_objecttypes(261,10825
-    def import_comments(283,11871
+management/commands/wp2gstudio.py,417
+class Command(29,903
+    def __init__(56,2032
+    def write_out(64,2331
+    def handle_label(70,2576
+    def import_authors(97,3580
+    def migrate_author(120,4450
+    def import_metatypes(151,5851
+    def import_tags(175,6907
+    def get_nodetype_tags(188,7535
+    def get_nodetype_metatypes(198,7945
+    def import_nodetype(208,8343
+    def import_nodetypes(261,10785
+    def import_comments(283,11817
 
 management/commands/spam_cleanup.py,51
-class Command(9,236
-    def handle_noargs(14,393
+class Command(9,234
+    def handle_noargs(14,389
 
-management/commands/feed2gstudio.py,206
-class Command(23,734
-    def __init__(42,1528
-    def write_out(50,1827
-    def handle_label(56,2072
-    def import_objecttypes(80,3035
-    def import_metatypes(130,5422
-    def import_tags(138,5745
+management/commands/feed2gstudio.py,204
+class Command(23,732
+    def __init__(42,1524
+    def write_out(50,1823
+    def handle_label(56,2068
+    def import_nodetypes(80,3027
+    def import_metatypes(130,5354
+    def import_tags(138,5673
 
 management/commands/gstudio2wp.py,52
-class Command(16,449
-    def handle_noargs(21,635
+class Command(16,447
+    def handle_noargs(21,633
 
 management/commands/blogger2gstudio.py,495
-class Command(26,800
-    def __init__(44,1653
-    def write_out(51,1915
-    def handle_noargs(57,2160
-    def select_blog_id(108,4165
-    def get_metatype(129,4984
-    def import_posts(139,5239
-    def import_comments(176,7145
-def convert_blogger_timestamp(211,8377
-def is_draft(217,8556
-def get_blog_id(225,8724
-def get_post_id(229,8799
-class BloggerManager(233,8874
-    def __init__(235,8905
-    def get_blogs(241,9150
-    def get_posts(246,9292
-    def get_comments(251,9456
+class Command(26,798
+    def __init__(44,1649
+    def write_out(51,1911
+    def handle_noargs(57,2156
+    def select_blog_id(108,4159
+    def get_metatype(129,4978
+    def import_posts(139,5233
+    def import_comments(176,7105
+def convert_blogger_timestamp(211,8327
+def is_draft(217,8506
+def get_blog_id(225,8674
+def get_post_id(229,8749
+class BloggerManager(233,8824
+    def __init__(235,8855
+    def get_blogs(241,9100
+    def get_posts(246,9240
+    def get_comments(251,9402
 
-templatetags/gstudio_admin_tags.py,64
-def get_draft_objecttypes(16,446
-def get_content_stats(24,756
+templatetags/gstudio_admin_tags.py,62
+def get_draft_nodetypes(16,444
+def get_content_stats(24,744
 
-templatetags/gstudio_tags.py,691
-def get_metatypes(38,1270
-def get_authors(51,1721
-def get_recent_objecttypes(58,1949
-def get_featured_objecttypes(65,2232
-def get_random_objecttypes(73,2557
-def get_popular_objecttypes(83,2936
-def get_similar_objecttypes(108,3906
-    def compute_related(119,4268
-def get_archives_objecttypes(151,5437
-def get_archives_objecttypes_tree(159,5781
-def get_calendar_objecttypes(168,6167
-def get_recent_comments(197,7253
-def get_recent_linkbacks(214,8014
-def gstudio_pagination(233,8759
-def gstudio_breadcrumbs(272,10506
-def get_gravatar(286,11062
-class TagsNode(298,11433
-    def __init__(299,11455
-    def render(302,11532
-def get_tags(308,11650
-def get_tag_cloud(322,12060
+templatetags/gstudio_tags.py,675
+def get_metatypes(38,1264
+def get_authors(51,1711
+def get_recent_nodetypes(58,1939
+def get_featured_nodetypes(65,2212
+def get_random_nodetypes(73,2527
+def get_popular_nodetypes(83,2888
+def get_similar_nodetypes(108,3846
+    def compute_related(119,4198
+def get_archives_nodetypes(151,5335
+def get_archives_nodetypes_tree(159,5671
+def get_calendar_nodetypes(168,6049
+def get_recent_comments(197,7129
+def get_recent_linkbacks(214,7882
+def gstudio_pagination(233,8619
+def gstudio_breadcrumbs(272,10366
+def get_gravatar(286,10924
+class TagsNode(298,11295
+    def __init__(299,11317
+    def render(302,11394
+def get_tags(308,11512
+def get_tag_cloud(322,11922
 
 templatetags/zcalendar.py,174
-class GstudioCalendar(15,377
-    def __init__(18,450
-    def formatday(24,679
-    def formatmonth(39,1467
-    def formatweekday(52,2073
-    def formatmonthname(58,2318
+class GstudioCalendar(15,375
+    def __init__(18,448
+    def formatday(24,677
+    def formatmonth(39,1457
+    def formatweekday(52,2055
+    def formatmonthname(58,2300
 
 templatetags/zbreadcrumbs.py,147
 class Crumb(9,188
     def __init__(11,243
 def year_crumb(16,333
-def month_crumb(23,544
-def day_crumb(32,877
-def retrieve_breadcrumbs(62,2264
+def month_crumb(23,542
+def day_crumb(32,873
+def retrieve_breadcrumbs(62,2254
 
 search.py,70
-def createQ(23,630
-def unionQ(81,2706
-def advanced_search(129,4176
+def createQ(23,628
+def unionQ(81,2704
+def advanced_search(129,4174
 
 signals.py,173
 def disable_for_loaddata(10,156
     def wrapper(16,359
 def ping_directories_handler(26,594
-def ping_external_urls_handler(38,978
-def disconnect_gstudio_signals(48,1284
+def ping_external_urls_handler(38,970
+def disconnect_gstudio_signals(48,1268
 
 context_processors.py,18
 def version(5,71
@@ -1324,30 +1373,7 @@ def backend(21,607
 spam_checker/backends/all_is_spam.py,18
 def backend(4,54
 
-templates/500.html,170
-{% trans "Server error" %}11,213
-{% trans "Useful links" %}15,407
-{% trans "Recent object types" %}31,775
-{% trans "Search" %}36,881
-{% endblock %}searchbox46,1227
-
-templates/404.html,172
-{% trans "Page not found" %}11,215
-{% trans "Useful links" %}15,326
-{% trans "Recent object types" %}31,694
-{% trans "Search" %}36,800
-{% endblock %}searchbox46,1146
-
-templates/base.html,162
-{% block title %}User test{% endblock %}8,266
-{% block header %}header13,364
-{% block content %}{% endblock %}content28,812
-{% block footer %}footer32,888
-
-templates/gstudio/metatype_list.html,34
-{% trans "Metatype list" %}9,208
-
-templates/gstudio/skeleton.html,389
+templates/skeleton.html,389
 Gnowledge Studio - {% block title %}{% endblock %}26,1536
 {% trans "Sitemap" %}header33,1832
 Gnowledge Studio41,2139
@@ -1356,163 +1382,208 @@ A workspace for constructing and publishing knowledge networks.45,2190
 {% block content %}content53,2482
 The content block need to be overrided!54,2505
 Welcome!sidebar59,2648
-Powered by footer79,3320
+Powered by footer80,3359
 
-templates/gstudio/objecttype_list.html,210
-{{ metatype.title }}23,1565
-{{ metatype.composed_sentence }}24,1595
-{% trans "Tag" %} : {{ tag }}31,1754
-{% blocktrans with author.username as author %}Objecttypes by {{ author }}{% endblocktrans %}35,1822
+templates/500.html,168
+{% trans "Server error" %}11,213
+{% trans "Useful links" %}15,407
+{% trans "Recent node types" %}31,773
+{% trans "Search" %}36,875
+{% endblock %}searchbox46,1219
 
-templates/gstudio/tags/slider_objecttypes.html,180
-{% for objecttype in objecttypes %}slider4,66
-{{ objecttype.title }}nav-slider-{{ forloop.counter }}9,408
-{{ objecttype.title }}objecttype-slider-{{ forloop.counter }}20,762
+templates/404.html,170
+{% trans "Page not found" %}11,215
+{% trans "Useful links" %}15,326
+{% trans "Recent node types" %}31,692
+{% trans "Search" %}36,794
+{% endblock %}searchbox46,1138
 
-templates/gstudio/objecttype_search.html,128
-{% trans "Search results for" %} {% if pattern %}'{{ pattern }}'{% endif %}14,812
-{% if is_paginated %}main_searchbox46,2034
+templates/base.html,415
+{% trans "Search" %}23,934
+{% trans "Metatypes" %}searchbox35,1583
+{% trans "Authors" %}40,1670
+{% trans "Calendar" %}44,1753
+{% trans "Tags" %}48,1844
+{% trans "Recent node types" %}52,1925
+{% trans "Recent comments" %}56,2029
+{% trans "Recent linkbacks" %}60,2131
+{% trans "Random node types" %}64,2233
+{% trans "Popular node types" %}68,2337
+{% trans "Archives" %}72,2443
+{% trans "Tools" %}77,2571
 
-templates/gstudio/objecttype_archive_year.html,78
-{% trans "Archives" %} {{ year }}9,225
-{% trans "Monthly archives" %}13,288
+templates/gstudio/metatype_list.html,34
+{% trans "Metatype list" %}9,208
+
+templates/gstudio/skeleton.html,389
+Gnowledge Studio - {% block title %}{% endblock %}26,1530
+{% trans "Sitemap" %}header33,1826
+Gnowledge Studio41,2127
+A workspace for constructing and publishing knowledge networks.45,2178
+/ {% block breadcrumbs %}{% endblock %}breadcrumbs48,2314
+{% block content %}content53,2470
+The content block need to be overrided!54,2493
+Welcome!sidebar61,2638
+Powered by footer85,3350
+
+templates/gstudio/tags/slider_nodetypes.html,170
+{% for nodetype in nodetypes %}slider4,64
+{{ nodetype.title }}nav-slider-{{ forloop.counter }}9,394
+{{ nodetype.title }}nodetype-slider-{{ forloop.counter }}20,734
 
 templates/gstudio/rsd.xml,42
 <?xml version=1,0
       <api name=8,321
 
+templates/gstudio/nodetype_search.html,128
+{% trans "Search results for" %} {% if pattern %}'{{ pattern }}'{% endif %}14,808
+{% if is_paginated %}main_searchbox46,2016
+
+templates/gstudio/nodetype_list.html,208
+{{ metatype.title }}23,1561
+{{ metatype.composed_sentence }}24,1591
+{% trans "Tag" %} : {{ tag }}31,1750
+{% blocktrans with author.username as author %}Nodetypes by {{ author }}{% endblocktrans %}35,1818
+
+templates/gstudio/nodetype_archive_day.html,58
+{% trans "Archives" %} {{ day|date:"DATE_FORMAT" }}9,259
+
 templates/gstudio/wlwmanifest.xml,34
 {% load i18n %}<?xml version=1,0
 
+templates/gstudio/nodetype_detail.html,668
+Neighbourhood35,2015
+{% trans "Next node type" %}60,2558
+{% trans "Previous node type" %}74,2932
+{% trans "Related node types" %}87,3269
+{% trans "Similar node types" %}98,3597
+{% trans "Comments" %}comments106,3780
+{% for comment in comment_list %}comment-list110,3935
+{% if comment.url %}comment_{{ comment.pk }}117,4371
+{% trans "Pingbacks" %}pingbacks147,5122
+{% for pingback in pingback_list %}pingback-list151,5282
+{{ pingback.user_name }}pingback_{{ pingback.pk }}155,5506
+{% trans "Trackbacks" %}trackbacks181,6172
+{% for trackback in trackback_list %}trackback-list184,6288
+{{ trackback.user_name }}trackback_{{ trackback.pk }}188,6519
+
 templates/gstudio/opensearch.xml,97
 <?xml version=1,0
-<OpenSearchDescription xmlns=4,97
-  <Url type=11,504
-  <Query role=15,1045
+<OpenSearchDescription xmlns=4,95
+  <Url type=11,500
+  <Query role=15,1037
 
-templates/gstudio/objecttype_trackback.xml,19
-<?xml version=1,0
+templates/gstudio/_nodetype_detail.html,97
+{{ object.title }}nodetype-{{ object.pk }}6,315
+Neighbourhood32,1186
+Nodetype Content52,1689
 
 templates/gstudio/tag_list.html,29
 {% trans "Tag list" %}9,188
 
-templates/gstudio/objecttype_archive_day.html,58
-{% trans "Archives" %} {{ day|date:"DATE_FORMAT" }}9,261
+templates/gstudio/nodetype_trackback.xml,19
+<?xml version=1,0
 
 templates/gstudio/author_list.html,32
 {% trans "Author list" %}9,194
 
-templates/gstudio/objecttype_detail.html,652
-{% trans "Next object type" %}46,2368
-{% trans "Previous object type" %}60,2758
-{% trans "Related object types" %}73,3105
-{% trans "Similar object types" %}84,3445
-{% trans "Comments" %}comments92,3634
-{% for comment in comment_list %}comment-list96,3789
-{% if comment.url %}comment_{{ comment.pk }}103,4225
-{% trans "Pingbacks" %}pingbacks133,4978
-{% for pingback in pingback_list %}pingback-list137,5138
-{{ pingback.user_name }}pingback_{{ pingback.pk }}141,5362
-{% trans "Trackbacks" %}trackbacks167,6030
-{% for trackback in trackback_list %}trackback-list170,6146
-{{ trackback.user_name }}trackback_{{ trackback.pk }}174,6377
+templates/gstudio/nodetype_archive_month.html,102
+{% trans "Archives" %} {{ month|date:"YEAR_MONTH_FORMAT" }}9,275
+{% trans "Daily archives" %}13,364
 
 templates/gstudio/wxr.xml,138
 <?xml version=1,0
 <!-- generator=8,417
-      <metatype domain=44,2159
-      <metatype domain=46,2356
-      <guid isPermaLink=48,2458
+      <metatype domain=44,2143
+      <metatype domain=46,2338
+      <guid isPermaLink=48,2440
 
-templates/gstudio/base.html,421
-{% trans "Search" %}23,944
-{% trans "Metatypes" %}searchbox35,1595
-{% trans "Authors" %}40,1682
-{% trans "Calendar" %}44,1765
-{% trans "Tags" %}48,1858
-{% trans "Recent object types" %}52,1939
-{% trans "Recent comments" %}56,2047
-{% trans "Recent linkbacks" %}60,2149
-{% trans "Random object types" %}64,2251
-{% trans "Popular object types" %}68,2359
-{% trans "Archives" %}72,2469
-{% trans "Tools" %}77,2599
+templates/gstudio/base.html,415
+{% trans "Search" %}28,978
+{% trans "Metatypes" %}searchbox40,1627
+{% trans "Authors" %}45,1714
+{% trans "Calendar" %}49,1797
+{% trans "Tags" %}53,1888
+{% trans "Recent node types" %}57,1969
+{% trans "Recent comments" %}61,2073
+{% trans "Recent linkbacks" %}65,2175
+{% trans "Random node types" %}69,2277
+{% trans "Popular node types" %}73,2381
+{% trans "Archives" %}77,2487
+{% trans "Tools" %}82,2615
 
 templates/gstudio/password.html,72
 {% trans "Password required" %}7,135
-{% endblock %}id_password34,822
+{% endblock %}id_password34,818
 
-templates/gstudio/_objecttype_detail.html,52
-{{ object.title }}objecttype-{{ object.pk }}6,323
-
-templates/gstudio/objecttype_archive_month.html,102
-{% trans "Archives" %} {{ month|date:"YEAR_MONTH_FORMAT" }}9,277
-{% trans "Daily archives" %}13,366
+templates/gstudio/nodetype_archive_year.html,78
+{% trans "Archives" %} {{ year }}9,223
+{% trans "Monthly archives" %}13,286
 
 templates/gstudio/login.html,35
 {% trans "Login required" %}7,132
 
-templates/gstudio/sitemap.html,187
+templates/gstudio/sitemap.html,183
 {% trans "Sitemap" %}7,148
-{% trans "Objecttypes per metatypes" %}10,217
-{% trans "All the objecttypes" %}31,851
-{% trans "Metatypes" %}50,1440
-{% trans "Monthly archives" %}67,2103
+{% trans "Nodetypes per metatypes" %}10,215
+{% trans "All the nodetypes" %}31,831
+{% trans "Metatypes" %}50,1402
+{% trans "Monthly archives" %}67,2053
 
-templates/comments/gstudio_objecttype_preview.html,250
+templates/comments/gstudio_nodetype_preview.html,250
 {% blocktrans count form.errors|length as errors %}Please correct following error.{% plural %}Please correct following errors.{% endblocktrans %}9,185
 {% trans "Preview of the comment" %}12,356
 {% if form.cleaned_data.url %}comment_preview20,783
 
-templates/comments/gstudio/objecttype/posted.html,44
+templates/comments/gstudio/nodetype/posted.html,44
 {% trans "Thanks for your comment" %}7,141
 
 templates/admin/gstudio/app_index.html,78
-{% include "admin/gstudio/widgets/content_stats.html" %}content-main28,1048
+{% include "admin/gstudio/widgets/content_stats.html" %}content-main28,1046
 
 templates/admin/gstudio/widgets/quickpost.html,110
-{% csrf_token %}quickpost4,124
-{% trans "Content" %}:id_title17,527
-{% trans "Tags" %}:id_content25,782
+{% csrf_token %}quickpost4,122
+{% trans "Content" %}:id_title17,525
+{% trans "Tags" %}:id_content25,780
 
 templates/admin/gstudio/widgets/base.html,74
 {% block title %}{% endblock %}{% block module_id %}{% endblock %}3,116
 
-moderator.py,196
-class ObjecttypeCommentModerator(22,891
-    def email(33,1368
-    def do_email_notification(49,2088
-    def do_email_authors(66,2973
-    def do_email_reply(88,4133
-    def moderate(115,5589
+moderator.py,194
+class NodetypeCommentModerator(22,891
+    def email(33,1366
+    def do_email_notification(49,2086
+    def do_email_authors(66,2971
+    def do_email_reply(88,4129
+    def moderate(115,5585
 
 admin/objecttype.py,801
 class ObjecttypeAdmin(27,769
-    def __init__(66,3060
-    def get_title(71,3232
-    def get_authors(82,3733
-    def get_metatypes(95,4313
-    def get_tags(108,4892
-    def get_sites(120,5408
-    def get_comments_are_open(128,5734
-    def get_is_actual(134,5997
-    def get_is_visible(140,6214
-    def get_link(146,6437
-    def get_short_url(153,6722
-    def save_model(164,7120
-    def queryset(178,7752
-    def formfield_for_manytomany(185,8041
-    def get_actions(196,8541
-    def make_mine(210,9071
-    def make_published(219,9481
-    def make_hidden(227,9880
-    def make_tweet(234,10196
-    def close_comments(250,10961
-    def close_pingbacks(258,11353
-    def put_on_top(266,11715
-    def ping_directories(275,12167
-    def get_urls(298,13233
-    def _media(316,14169
+    def __init__(66,3023
+    def get_title(71,3195
+    def get_authors(82,3688
+    def get_metatypes(95,4262
+    def get_tags(108,4835
+    def get_sites(120,5345
+    def get_comments_are_open(128,5667
+    def get_is_actual(134,5924
+    def get_is_visible(140,6135
+    def get_link(146,6352
+    def get_short_url(153,6631
+    def save_model(164,7025
+    def queryset(178,7641
+    def formfield_for_manytomany(185,7928
+    def get_actions(196,8428
+    def make_mine(210,8958
+    def make_published(219,9356
+    def make_hidden(227,9749
+    def make_tweet(234,10059
+    def close_comments(250,10814
+    def close_pingbacks(258,11200
+    def put_on_top(266,11556
+    def ping_directories(275,12002
+    def get_urls(298,13062
+    def _media(316,13982
 
 admin/attribute.py,55
 class AttributeAdmin(9,243
@@ -1522,19 +1593,94 @@ admin/relation.py,54
 class RelationAdmin(9,242
     def save_model(10,287
 
-admin/processtype.py,30
-class ProcesstypeAdmin(9,245
+admin/processtype.py,802
+class ProcesstypeAdmin(27,773
+    def __init__(69,3102
+    def get_title(74,3275
+    def get_authors(85,3780
+    def get_metatypes(98,4363
+    def get_tags(111,4945
+    def get_sites(123,5466
+    def get_comments_are_open(131,5794
+    def get_is_actual(137,6060
+    def get_is_visible(143,6280
+    def get_link(149,6506
+    def get_short_url(156,6794
+    def save_model(167,7194
+    def queryset(181,7834
+    def formfield_for_manytomany(188,8125
+    def get_actions(199,8626
+    def make_mine(213,9157
+    def make_published(222,9573
+    def make_hidden(230,9975
+    def make_tweet(237,10294
+    def close_comments(253,11064
+    def close_pingbacks(261,11459
+    def put_on_top(269,11824
+    def ping_directories(278,12279
+    def get_urls(301,13348
+    def _media(319,14293
 
-admin/attributetype.py,32
-class AttributetypeAdmin(9,247
+admin/attributetype.py,806
+class AttributetypeAdmin(27,775
+    def __init__(72,3193
+    def get_title(77,3368
+    def get_authors(88,3881
+    def get_metatypes(101,4470
+    def get_tags(114,5058
+    def get_sites(126,5589
+    def get_comments_are_open(134,5921
+    def get_is_actual(140,6193
+    def get_is_visible(146,6419
+    def get_link(152,6651
+    def get_short_url(159,6945
+    def save_model(170,7349
+    def queryset(184,8005
+    def formfield_for_manytomany(191,8300
+    def get_actions(202,8803
+    def make_mine(216,9336
+    def make_published(225,9764
+    def make_hidden(233,10172
+    def make_tweet(240,10497
+    def close_comments(256,11277
+    def close_pingbacks(264,11678
+    def put_on_top(272,12049
+    def ping_directories(281,12510
+    def get_urls(304,13585
+    def _media(322,14548
 
-admin/systemtype.py,29
-class SystemtypeAdmin(9,244
+admin/systemtype.py,803
+class SystemtypeAdmin(27,772
+    def __init__(72,3303
+    def get_title(77,3475
+    def get_authors(88,3976
+    def get_metatypes(101,4556
+    def get_tags(114,5135
+    def get_sites(126,5651
+    def get_comments_are_open(134,5977
+    def get_is_actual(140,6240
+    def get_is_visible(146,6457
+    def get_link(152,6680
+    def get_short_url(159,6965
+    def save_model(170,7363
+    def queryset(184,7995
+    def formfield_for_manytomany(191,8284
+    def get_actions(202,8784
+    def make_mine(216,9314
+    def make_published(225,9724
+    def make_hidden(233,10123
+    def make_tweet(240,10439
+    def close_comments(256,11204
+    def close_pingbacks(264,11596
+    def put_on_top(272,11958
+    def ping_directories(281,12410
+    def get_urls(304,13476
+    def _media(322,14412
 
 admin/metatype.py,82
 class MetatypeAdmin(9,242
-    def __init__(18,600
-    def get_tree_path(22,749
+    def __init__(18,611
+    def get_tree_path(22,760
 
 admin/widgets.py,462
 class TreeNodeChoiceField(13,344
@@ -1552,38 +1698,67 @@ class MPTTFilteredSelectMultiple(60,2388
         def render_option(74,3074
     class Media:Media103,4435
 
-admin/forms.py,624
-class RelationtypeAdminForm(24,796
-    class Meta:Meta26,843
-class RelationAdminForm(31,929
-    class Meta:Meta33,972
-class SystemtypeAdminForm(37,1053
-    class Meta:Meta39,1098
-class ProcesstypeAdminForm(43,1179
-    class Meta:Meta45,1225
-class AttributetypeAdminForm(50,1308
-    class Meta:Meta52,1356
-class AttributeAdminForm(57,1443
-    class Meta:Meta59,1487
-class MetatypeAdminForm(64,1570
-    def __init__(71,1831
-    def clean_parent(77,2111
-    class Meta:Meta85,2395
-class ObjecttypeAdminForm(90,2477
-    def __init__(104,3013
-    def clean_parent(111,3370
-    class Meta:Meta119,3668
+admin/forms.py,747
+class MetatypeAdminForm(27,842
+    def __init__(34,1103
+    def clean_parent(40,1383
+    class Meta:Meta48,1667
+class ObjecttypeAdminForm(53,1749
+    def __init__(80,2817
+    def clean_parent(95,3550
+    class Meta:Meta103,3848
+class RelationtypeAdminForm(108,3932
+    def __init__(121,4528
+    class Meta:Meta134,5024
+class RelationAdminForm(139,5110
+    class Meta:Meta141,5153
+class ProcesstypeAdminForm(146,5235
+    def __init__(170,6408
+    class Meta:Meta190,7311
+class AttributetypeAdminForm(194,7393
+    def __init__(205,7982
+    class Meta:Meta217,8478
+class AttributeAdminForm(222,8565
+    class Meta:Meta224,8609
+class SystemtypeAdminForm(230,8693
+    def __init__(268,10672
+    class Meta:Meta295,12097
 
-admin/relationtype.py,31
-class RelationtypeAdmin(9,246
+admin/relationtype.py,805
+class RelationtypeAdmin(26,772
+    def __init__(82,3348
+    def get_title(87,3578
+    def get_authors(98,4084
+    def get_metatypes(111,4690
+    def get_tags(124,5275
+    def get_sites(136,5801
+    def get_comments_are_open(144,6131
+    def get_is_actual(150,6400
+    def get_is_visible(156,6623
+    def get_link(162,6852
+    def get_short_url(169,7143
+    def save_model(180,7545
+    def queryset(194,8193
+    def formfield_for_manytomany(201,8486
+    def get_actions(212,8988
+    def make_mine(226,9520
+    def make_published(235,9942
+    def make_hidden(243,10347
+    def make_tweet(250,10669
+    def close_comments(266,11444
+    def close_pingbacks(274,11842
+    def put_on_top(282,12210
+    def ping_directories(291,12668
+    def get_urls(314,13740
+    def _media(332,14694
 
 admin/__init__.py,0
 
-templates/admin/gstudio/widgets/_draft_objecttypes.html,0
+templates/admin/gstudio/widgets/draft_nodetypes.html,0
+
+templates/admin/gstudio/widgets/_draft_nodetypes.html,0
 
 templates/admin/gstudio/widgets/_recent_comments.html,0
-
-templates/admin/gstudio/widgets/draft_objecttypes.html,0
 
 templates/admin/gstudio/widgets/recent_comments.html,0
 
@@ -1595,7 +1770,7 @@ templates/admin/gstudio/widgets/_content_stats.html,0
 
 templates/admin/gstudio/widgets/_recent_linkbacks.html,0
 
-templates/comments/gstudio/objecttype/form.html,0
+templates/comments/gstudio/nodetype/form.html,0
 
 templates/comments/comment_reply_email.txt,0
 
@@ -1605,35 +1780,35 @@ templates/comments/comment_notification_email.txt,0
 
 templates/gstudio/_subtype_detail.html,0
 
-templates/gstudio/cms/objecttype_detail.html,0
+templates/gstudio/_nodetype_neighbourhood.html,0
 
-templates/gstudio/cms/objecttype_list.html,0
+templates/gstudio/cms/nodetype_detail.html,0
 
-templates/gstudio/cms/random_objecttypes.html,0
+templates/gstudio/cms/random_nodetypes.html,0
 
-templates/gstudio/objecttype_archive.html,0
+templates/gstudio/cms/nodetype_list.html,0
 
-templates/gstudio/author/objecttype_list.html,0
+templates/gstudio/nodetype_archive.html,0
+
+templates/gstudio/author/nodetype_list.html,0
+
+templates/gstudio/tags/archives_nodetypes_tree.html,0
 
 templates/gstudio/tags/authors.html,0
 
-templates/gstudio/tags/popular_objecttypes.html,0
-
-templates/gstudio/tags/featured_objecttypes.html,0
-
 templates/gstudio/tags/tag_cloud.html,0
 
-templates/gstudio/tags/recent_objecttypes.html,0
+templates/gstudio/tags/archives_nodetypes_link.html,0
 
-templates/gstudio/tags/archives_objecttypes_tree.html,0
-
-templates/gstudio/tags/archives_objecttypes.html,0
+templates/gstudio/tags/nodetypes.html,0
 
 templates/gstudio/tags/breadcrumbs.html,0
 
 templates/gstudio/tags/metatypes.html,0
 
-templates/gstudio/tags/objecttypes.html,0
+templates/gstudio/tags/popular_nodetypes.html,0
+
+templates/gstudio/tags/archives_nodetypes.html,0
 
 templates/gstudio/tags/calendar.html,0
 
@@ -1641,23 +1816,27 @@ templates/gstudio/tags/recent_comments.html,0
 
 templates/gstudio/tags/recent_linkbacks.html,0
 
-templates/gstudio/tags/similar_objecttypes.html,0
+templates/gstudio/tags/random_nodetypes.html,0
+
+templates/gstudio/tags/recent_nodetypes.html,0
+
+templates/gstudio/tags/similar_nodetypes.html,0
+
+templates/gstudio/tags/featured_nodetypes.html,0
 
 templates/gstudio/tags/pagination.html,0
 
-templates/gstudio/tags/archives_objecttypes_link.html,0
-
 templates/gstudio/tags/dummy.html,0
 
-templates/gstudio/tags/random_objecttypes.html,0
+templates/gstudio/metatype/nodetype_list.html,0
 
-templates/gstudio/metatype/objecttype_list.html,0
-
-templates/gstudio/tag/objecttype_list.html,0
+templates/gstudio/tag/nodetype_list.html,0
 
 templates/feeds/discussion_title.html,0
 
 templates/feeds/trackback_description.html,0
+
+templates/feeds/nodetype_description.html,0
 
 templates/feeds/trackback_title.html,0
 
@@ -1667,13 +1846,11 @@ templates/feeds/comment_description.html,0
 
 templates/feeds/pingback_title.html,0
 
-templates/feeds/objecttype_title.html,0
-
 templates/feeds/pingback_description.html,0
 
-templates/feeds/objecttype_description.html,0
-
 templates/feeds/discussion_description.html,0
+
+templates/feeds/nodetype_title.html,0
 
 templates/index.html,0
 
@@ -1709,6 +1886,8 @@ spam_checker/backends/__init__.py,0
 
 urls/discussions.py,0
 
+urls/quick_nodetype.py,0
+
 urls/search.py,0
 
 urls/authors.py,0
@@ -1721,15 +1900,13 @@ urls/__init__.py,0
 
 urls/feeds.py,0
 
-urls/quick_objecttype.py,0
-
 urls/trackback.py,0
 
 urls/metatypes.py,0
 
-urls/objecttypes.py,0
-
 urls/capabilities.py,0
+
+urls/nodetypes.py,0
 
 templatetags/__init__.py,0
 
@@ -1741,11 +1918,11 @@ __init__.py,0
 
 files,0
 
-tests/templates/gstudio/objecttype_detail.html,0
+tests/templates/gstudio/nodetype_detail.html,0
 
-tests/templates/gstudio/objecttype_search.html,0
+tests/templates/gstudio/nodetype_list.html,0
 
-tests/templates/gstudio/objecttype_list.html,0
+tests/templates/gstudio/nodetype_search.html,0
 
 tests/urls.py,0
 
@@ -1757,13 +1934,13 @@ xmlrpc/__init__.py,0
 
 static/gstudio/css/src/slider.sass,0
 
+static/gstudio/css/src/_nodetype.sass,0
+
 static/gstudio/css/src/_tag-cloud.sass,0
 
 static/gstudio/css/src/ie.sass,0
 
 static/gstudio/css/src/_calendar.sass,0
-
-static/gstudio/css/src/_objecttype.sass,0
 
 static/gstudio/css/src/_paginator.sass,0
 

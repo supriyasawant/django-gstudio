@@ -31,7 +31,7 @@ class SystemtypeAdmin(reversion.VersionAdmin):
 
     fieldsets = ((_('Neighbourhood'), {'fields': ('title', 'altnames','content', 'parent','image', 'slug','status')}),
                  (_('Systemtype definiton'), {'fields': (
-                                                         'objecttypeset', 
+                                                         'nodetypeset', 
                                                          'relationtypeset', 
                                                          'attributetypeset',
                                                          'metatypeset', 

@@ -9,7 +9,7 @@ from tagging.models import Tag
 
 from gstudio import __version__
 from gstudio.settings import PROTOCOL
-from gstudio.models import Objecttype
+from gstudio.models import Nodetype
 from gstudio.models import Metatype
 
 
@@ -20,9 +20,9 @@ class Command(NoArgsCommand):
 
     def handle_noargs(self, **options):
         site = Site.objects.get_current()
-        blog_context = {'objecttypes': Objecttype.objects.all(),
+        blog_context = {'nodetypes': Nodetype.objects.all(),
                         'metatypes': Metatype.objects.all(),
-                        'tags': Tag.objects.usage_for_model(Objecttype),
+                        'tags': Tag.objects.usage_for_model(Nodetype),
                         'version': __version__,
                         'description': 'Blog exported for django-gstudio',
                         'language': settings.LANGUAGE_CODE,

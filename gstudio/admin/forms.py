@@ -6,6 +6,7 @@ from django.contrib.sites.models import Site
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.admin.widgets import RelatedFieldWidgetWrapper
 
+from gstudio.models import Nodetype
 from gstudio.models import Objecttype
 from gstudio.models import Metatype
 from gstudio.models import Relationtype
@@ -53,9 +54,9 @@ class ObjecttypeAdminForm(forms.ModelForm):
     """Form for Objecttype's Admin"""
 
     parent = TreeNodeChoiceField(
-        label=_('parent objecttype').capitalize(),
-        required=False, empty_label=_('No parent objecttype'),
-        queryset=Objecttype.tree.all())
+        label=_('parent nodetype').capitalize(),
+        required=False, empty_label=_('No parent nodetype'),
+        queryset=Nodetype.tree.all())
 
     metatypes = MPTTModelMultipleChoiceField(
         label=_('Metatypes'), required=False,
@@ -64,14 +65,14 @@ class ObjecttypeAdminForm(forms.ModelForm):
                                           attrs={'rows': '10'}))
     priornodes = MPTTModelMultipleChoiceField(
         label=_('priornodes'), required=False,
-        queryset=Objecttype.objects.all(),
-        widget=MPTTFilteredSelectMultiple(_('objecttypes'), False,
+        queryset=Nodetype.objects.all(),
+        widget=MPTTFilteredSelectMultiple(_('nodetypes'), False,
                                           attrs={'rows': '10'}))
 
     posteriornodes = MPTTModelMultipleChoiceField(
         label=_('posteriornodes'), required=False,
-        queryset=Objecttype.objects.all(),
-        widget=MPTTFilteredSelectMultiple(_('objecttypes'), False,
+        queryset=Nodetype.objects.all(),
+        widget=MPTTFilteredSelectMultiple(_('nodetypes'), False,
                                           attrs={'rows': '10'}))
 
 
@@ -79,8 +80,8 @@ class ObjecttypeAdminForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(ObjecttypeAdminForm, self).__init__(*args, **kwargs)
         meta = ManyToManyRel(Metatype, 'id')
-        prior = ManyToManyRel(Objecttype,'id')
-        post = ManyToManyRel(Objecttype,'id')
+        prior = ManyToManyRel(Nodetype,'id')
+        post = ManyToManyRel(Nodetype,'id')
         self.fields['metatypes'].widget = RelatedFieldWidgetWrapper(
             self.fields['metatypes'].widget, meta, self.admin_site)
         self.fields['priornodes'].widget = RelatedFieldWidgetWrapper(
@@ -100,7 +101,7 @@ class ObjecttypeAdminForm(forms.ModelForm):
         return data
 
     class Meta:
-        """ObjecttypeAdminForm's Meta"""
+        """NodetypeAdminForm's Meta"""
         model = Objecttype
 
 
@@ -108,19 +109,19 @@ class RelationtypeAdminForm(forms.ModelForm):
     
     priornodes = MPTTModelMultipleChoiceField(
         label=_('Priornodes'), required=False,
-        queryset=Objecttype.objects.all(),
+        queryset=Nodetype.objects.all(),
         widget=MPTTFilteredSelectMultiple(_('priornodes'), False,
                                           attrs={'rows': '10'}))
     posteriornodes = MPTTModelMultipleChoiceField(
         label=_('Prosterior Nodes'), required=False,
-        queryset=Objecttype.objects.all(),
+        queryset=Nodetype.objects.all(),
         widget=MPTTFilteredSelectMultiple(_('prosteriornode'), False,
                                           attrs={'rows': '10'}))
 
     def __init__(self, *args, **kwargs):
         super(RelationtypeAdminForm, self).__init__(*args, **kwargs)
-        prior = ManyToManyRel(Objecttype, 'id')
-        post = ManyToManyRel(Objecttype, 'id')
+        prior = ManyToManyRel(Nodetype, 'id')
+        post = ManyToManyRel(Nodetype, 'id')
        
 
         self.fields['priornodes'].widget = RelatedFieldWidgetWrapper(
@@ -146,12 +147,12 @@ class ProcesstypeAdminForm(forms.ModelForm):
 
     priornodes = MPTTModelMultipleChoiceField(
         label=_('Priornodes'), required=False,
-        queryset=Objecttype.objects.all(),
+        queryset=Nodetype.objects.all(),
         widget=MPTTFilteredSelectMultiple(_('priornodes'), False,
                                           attrs={'rows': '10'}))
     posteriornodes = MPTTModelMultipleChoiceField(
         label=_('Prosterior Nodes'), required=False,
-        queryset=Objecttype.objects.all(),
+        queryset=Nodetype.objects.all(),
         widget=MPTTFilteredSelectMultiple(_('prosteriornode'), False,
                                           attrs={'rows': '10'}))
     attributetype_set = MPTTModelMultipleChoiceField(
@@ -168,8 +169,8 @@ class ProcesstypeAdminForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(ProcesstypeAdminForm, self).__init__(*args, **kwargs)
-        prior = ManyToManyRel(Objecttype, 'id')
-        post = ManyToManyRel(Objecttype, 'id')
+        prior = ManyToManyRel(Nodetype, 'id')
+        post = ManyToManyRel(Nodetype, 'id')
         atype = ManyToManyRel(Attributetype, 'id')
         rtype = ManyToManyRel(Relationtype, 'id')
        
@@ -193,18 +194,18 @@ class ProcesstypeAdminForm(forms.ModelForm):
 class AttributetypeAdminForm(forms.ModelForm):
     priornodes = MPTTModelMultipleChoiceField(
         label=_('Priornodes'), required=False,
-        queryset=Objecttype.objects.all(),
+        queryset=Nodetype.objects.all(),
         widget=MPTTFilteredSelectMultiple(_('priornodes'), False,
                                           attrs={'rows': '10'}))
     posteriornodes = MPTTModelMultipleChoiceField(
         label=_('Posterior Nodes'), required=False,
-        queryset=Objecttype.objects.all(),
+        queryset=Nodetype.objects.all(),
         widget=MPTTFilteredSelectMultiple(_('posteriornodes'), False,
                                           attrs={'rows': '10'}))
     def __init__(self, *args, **kwargs):
         super(AttributetypeAdminForm, self).__init__(*args, **kwargs)
-        prior = ManyToManyRel(Objecttype, 'id')
-        post = ManyToManyRel(Objecttype, 'id')
+        prior = ManyToManyRel(Nodetype, 'id')
+        post = ManyToManyRel(Nodetype, 'id')
        
 
         self.fields['priornodes'].widget = RelatedFieldWidgetWrapper(
@@ -227,10 +228,10 @@ class AttributeAdminForm(forms.ModelForm):
 
 
 class SystemtypeAdminForm(forms.ModelForm):
-    objecttypeset = MPTTModelMultipleChoiceField(
-        label=_('Objecttypeset'), required=False,
-        queryset=Objecttype.objects.all(),
-        widget=MPTTFilteredSelectMultiple(_('Objecttypesets'), False,
+    nodetypeset = MPTTModelMultipleChoiceField(
+        label=_('Nodetypeset'), required=False,
+        queryset=Nodetype.objects.all(),
+        widget=MPTTFilteredSelectMultiple(_('Nodetypesets'), False,
                                           attrs={'rows': '10'}))
     relationtypeset = MPTTModelMultipleChoiceField(
         label=_('Relationtypeset'), required=False,
@@ -255,27 +256,27 @@ class SystemtypeAdminForm(forms.ModelForm):
 
     priornodes = MPTTModelMultipleChoiceField(
         label=_('priornodes'), required=False,
-        queryset=Objecttype.objects.all(),
-        widget=MPTTFilteredSelectMultiple(_('objecttypes'), False,
+        queryset=Nodetype.objects.all(),
+        widget=MPTTFilteredSelectMultiple(_('nodetypes'), False,
                                           attrs={'rows': '10'}))
 
     posteriornodes = MPTTModelMultipleChoiceField(
         label=_('posteriornodes'), required=False,
-        queryset=Objecttype.objects.all(),
-        widget=MPTTFilteredSelectMultiple(_('objecttypes'), False,
+        queryset=Nodetype.objects.all(),
+        widget=MPTTFilteredSelectMultiple(_('nodetypes'), False,
                                           attrs={'rows': '10'}))
     def __init__(self, *args, **kwargs):
         super(SystemtypeAdminForm, self).__init__(*args, **kwargs)
-        ot = ManyToManyRel(Objecttype,'id')
+        ot = ManyToManyRel(Nodetype,'id')
         rt = ManyToManyRel(Relationtype,'id')
         at = ManyToManyRel(Attributetype,'id')
         mt = ManyToManyRel(Metatype,'id')
         pt = ManyToManyRel(Processtype,'id')
-        prior = ManyToManyRel(Objecttype,'id')
-        post = ManyToManyRel(Objecttype,'id')
+        prior = ManyToManyRel(Nodetype,'id')
+        post = ManyToManyRel(Nodetype,'id')
 
-        self.fields['objecttypeset'].widget = RelatedFieldWidgetWrapper(
-            self.fields['objecttypeset'].widget, ot, self.admin_site)
+        self.fields['nodetypeset'].widget = RelatedFieldWidgetWrapper(
+            self.fields['nodetypeset'].widget, ot, self.admin_site)
         self.fields['relationtypeset'].widget = RelatedFieldWidgetWrapper(
             self.fields['relationtypeset'].widget, rt, self.admin_site)
         self.fields['attributetypeset'].widget = RelatedFieldWidgetWrapper(

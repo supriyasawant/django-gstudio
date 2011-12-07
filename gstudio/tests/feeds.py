@@ -14,20 +14,20 @@ from django.contrib.contenttypes.models import ContentType
 
 from tagging.models import Tag
 
-from gstudio.models import Objecttype
+from gstudio.models import Nodetype
 from gstudio.models import Metatype
 from gstudio.managers import PUBLISHED
 from gstudio import feeds
-from gstudio.feeds import ObjecttypeFeed
-from gstudio.feeds import LatestObjecttypes
-from gstudio.feeds import MetatypeObjecttypes
-from gstudio.feeds import AuthorObjecttypes
-from gstudio.feeds import TagObjecttypes
-from gstudio.feeds import SearchObjecttypes
-from gstudio.feeds import ObjecttypeDiscussions
-from gstudio.feeds import ObjecttypeComments
-from gstudio.feeds import ObjecttypePingbacks
-from gstudio.feeds import ObjecttypeTrackbacks
+from gstudio.feeds import NodetypeFeed
+from gstudio.feeds import LatestNodetypes
+from gstudio.feeds import MetatypeNodetypes
+from gstudio.feeds import AuthorNodetypes
+from gstudio.feeds import TagNodetypes
+from gstudio.feeds import SearchNodetypes
+from gstudio.feeds import NodetypeDiscussions
+from gstudio.feeds import NodetypeComments
+from gstudio.feeds import NodetypePingbacks
+from gstudio.feeds import NodetypeTrackbacks
 
 
 class GstudioFeedsTestCase(TestCase):
@@ -39,135 +39,135 @@ class GstudioFeedsTestCase(TestCase):
         self.author = User.objects.create(username='admin',
                                           email='admin@example.com')
         self.metatype = Metatype.objects.create(title='Tests', slug='tests')
-        self.objecttype_ct_id = ContentType.objects.get_for_model(Objecttype).pk
+        self.nodetype_ct_id = ContentType.objects.get_for_model(Nodetype).pk
 
-    def create_published_objecttype(self):
-        params = {'title': 'My test objecttype',
+    def create_published_nodetype(self):
+        params = {'title': 'My test nodetype',
                   'content': 'My test content with image '
                   '<img src="/image.jpg" />',
-                  'slug': 'my-test-objecttype',
+                  'slug': 'my-test-nodetype',
                   'tags': 'tests',
                   'creation_date': datetime(2010, 1, 1),
                   'status': PUBLISHED}
-        objecttype = Objecttype.objects.create(**params)
-        objecttype.sites.add(self.site)
-        objecttype.metatypes.add(self.metatype)
-        objecttype.authors.add(self.author)
-        return objecttype
+        nodetype = Nodetype.objects.create(**params)
+        nodetype.sites.add(self.site)
+        nodetype.metatypes.add(self.metatype)
+        nodetype.authors.add(self.author)
+        return nodetype
 
-    def create_discussions(self, objecttype):
+    def create_discussions(self, nodetype):
         comment = comments.get_model().objects.create(comment='My Comment',
                                                       user=self.author,
-                                                      content_object=objecttype,
+                                                      content_object=nodetype,
                                                       site=self.site)
         pingback = comments.get_model().objects.create(comment='My Pingback',
                                                        user=self.author,
-                                                       content_object=objecttype,
+                                                       content_object=nodetype,
                                                        site=self.site)
         pingback.flags.create(user=self.author, flag='pingback')
         trackback = comments.get_model().objects.create(comment='My Trackback',
                                                         user=self.author,
-                                                        content_object=objecttype,
+                                                        content_object=nodetype,
                                                         site=self.site)
         trackback.flags.create(user=self.author, flag='trackback')
         return [comment, pingback, trackback]
 
-    def test_objecttype_feed(self):
+    def test_nodetype_feed(self):
         original_feeds_format = feeds.FEEDS_FORMAT
         feeds.FEEDS_FORMAT = ''
-        objecttype = self.create_published_objecttype()
-        feed = ObjecttypeFeed()
-        self.assertEquals(feed.item_pubdate(objecttype), objecttype.creation_date)
-        self.assertEquals(feed.item_metatypes(objecttype), [self.metatype.title])
-        self.assertEquals(feed.item_author_name(objecttype), self.author.username)
-        self.assertEquals(feed.item_author_email(objecttype), self.author.email)
+        nodetype = self.create_published_nodetype()
+        feed = NodetypeFeed()
+        self.assertEquals(feed.item_pubdate(nodetype), nodetype.creation_date)
+        self.assertEquals(feed.item_metatypes(nodetype), [self.metatype.title])
+        self.assertEquals(feed.item_author_name(nodetype), self.author.username)
+        self.assertEquals(feed.item_author_email(nodetype), self.author.email)
         self.assertEquals(
-            feed.item_author_link(objecttype),
+            feed.item_author_link(nodetype),
             'http://example.com/authors/%s/' % self.author.username)
         # Test a NoReverseMatch for item_author_link
         self.author.username = '[]'
         self.author.save()
-        feed.item_author_name(objecttype)
-        self.assertEquals(feed.item_author_link(objecttype), 'http://example.com')
+        feed.item_author_name(nodetype)
+        self.assertEquals(feed.item_author_link(nodetype), 'http://example.com')
         feeds.FEEDS_FORMAT = original_feeds_format
 
-    def test_objecttype_feed_enclosure(self):
+    def test_nodetype_feed_enclosure(self):
         original_feeds_format = feeds.FEEDS_FORMAT
         feeds.FEEDS_FORMAT = ''
-        objecttype = self.create_published_objecttype()
-        feed = ObjecttypeFeed()
+        nodetype = self.create_published_nodetype()
+        feed = NodetypeFeed()
         self.assertEquals(
-            feed.item_enclosure_url(objecttype), 'http://example.com/image.jpg')
-        objecttype.content = 'My test content with image <img src="image.jpg" />',
-        objecttype.save()
+            feed.item_enclosure_url(nodetype), 'http://example.com/image.jpg')
+        nodetype.content = 'My test content with image <img src="image.jpg" />',
+        nodetype.save()
         self.assertEquals(
-            feed.item_enclosure_url(objecttype), 'http://example.com/image.jpg')
-        objecttype.content = 'My test content with image ' \
+            feed.item_enclosure_url(nodetype), 'http://example.com/image.jpg')
+        nodetype.content = 'My test content with image ' \
                         '<img src="http://test.com/image.jpg" />'
-        objecttype.save()
+        nodetype.save()
         self.assertEquals(
-            feed.item_enclosure_url(objecttype), 'http://test.com/image.jpg')
-        objecttype.image = 'image_field.jpg'
-        objecttype.save()
-        self.assertEquals(feed.item_enclosure_url(objecttype),
+            feed.item_enclosure_url(nodetype), 'http://test.com/image.jpg')
+        nodetype.image = 'image_field.jpg'
+        nodetype.save()
+        self.assertEquals(feed.item_enclosure_url(nodetype),
                           '%simage_field.jpg' % settings.MEDIA_URL)
-        self.assertEquals(feed.item_enclosure_length(objecttype), '100000')
-        self.assertEquals(feed.item_enclosure_mime_type(objecttype), 'image/jpeg')
+        self.assertEquals(feed.item_enclosure_length(nodetype), '100000')
+        self.assertEquals(feed.item_enclosure_mime_type(nodetype), 'image/jpeg')
         feeds.FEEDS_FORMAT = original_feeds_format
 
-    def test_latest_objecttypes(self):
-        self.create_published_objecttype()
-        feed = LatestObjecttypes()
+    def test_latest_nodetypes(self):
+        self.create_published_nodetype()
+        feed = LatestNodetypes()
         self.assertEquals(feed.link(), '/')
         self.assertEquals(len(feed.items()), 1)
         self.assertEquals(feed.title(),
-                          'example.com - %s' % _('Latest objecttypes'))
+                          'example.com - %s' % _('Latest nodetypes'))
         self.assertEquals(
             feed.description(),
-            _('The latest objecttypes for the site %s') % 'example.com')
+            _('The latest nodetypes for the site %s') % 'example.com')
 
-    def test_metatype_objecttypes(self):
-        self.create_published_objecttype()
-        feed = MetatypeObjecttypes()
+    def test_metatype_nodetypes(self):
+        self.create_published_nodetype()
+        feed = MetatypeNodetypes()
         self.assertEquals(feed.get_object('request', '/tests/'), self.metatype)
         self.assertEquals(len(feed.items(self.metatype)), 1)
         self.assertEquals(feed.link(self.metatype), '/metatypes/tests/')
         self.assertEquals(
             feed.title(self.metatype),
-            _('Objecttypes for the metatype %s') % self.metatype.title)
+            _('Nodetypes for the metatype %s') % self.metatype.title)
         self.assertEquals(
             feed.description(self.metatype),
-            _('The latest objecttypes for the metatype %s') % self.metatype.title)
+            _('The latest nodetypes for the metatype %s') % self.metatype.title)
 
-    def test_author_objecttypes(self):
-        self.create_published_objecttype()
-        feed = AuthorObjecttypes()
+    def test_author_nodetypes(self):
+        self.create_published_nodetype()
+        feed = AuthorNodetypes()
         self.assertEquals(feed.get_object('request', 'admin'), self.author)
         self.assertEquals(len(feed.items(self.author)), 1)
         self.assertEquals(feed.link(self.author), '/authors/admin/')
         self.assertEquals(feed.title(self.author),
-                          _('Objecttypes for author %s') % self.author.username)
+                          _('Nodetypes for author %s') % self.author.username)
         self.assertEquals(feed.description(self.author),
-                          _('The latest objecttypes by %s') % self.author.username)
+                          _('The latest nodetypes by %s') % self.author.username)
 
-    def test_tag_objecttypes(self):
-        self.create_published_objecttype()
-        feed = TagObjecttypes()
+    def test_tag_nodetypes(self):
+        self.create_published_nodetype()
+        feed = TagNodetypes()
         tag = Tag(name='tests')
         self.assertEquals(feed.get_object('request', 'tests').name, 'tests')
         self.assertEquals(len(feed.items('tests')), 1)
         self.assertEquals(feed.link(tag), '/tags/tests/')
         self.assertEquals(feed.title(tag),
-                          _('Objecttypes for the tag %s') % tag.name)
+                          _('Nodetypes for the tag %s') % tag.name)
         self.assertEquals(feed.description(tag),
-                          _('The latest objecttypes for the tag %s') % tag.name)
+                          _('The latest nodetypes for the tag %s') % tag.name)
 
-    def test_search_objecttypes(self):
+    def test_search_nodetypes(self):
         class FakeRequest:
             def __init__(self, val):
                 self.GET = {'pattern': val}
-        self.create_published_objecttype()
-        feed = SearchObjecttypes()
+        self.create_published_nodetype()
+        feed = SearchNodetypes()
         self.assertRaises(ObjectDoesNotExist,
                           feed.get_object, FakeRequest('te'))
         self.assertEquals(feed.get_object(FakeRequest('test')), 'test')
@@ -177,91 +177,91 @@ class GstudioFeedsTestCase(TestCase):
                           _("Results of the search for '%s'") % 'test')
         self.assertEquals(
             feed.description('test'),
-            _("The objecttypes containing the pattern '%s'") % 'test')
+            _("The nodetypes containing the pattern '%s'") % 'test')
 
-    def test_objecttype_discussions(self):
-        objecttype = self.create_published_objecttype()
-        comments = self.create_discussions(objecttype)
-        feed = ObjecttypeDiscussions()
+    def test_nodetype_discussions(self):
+        nodetype = self.create_published_nodetype()
+        comments = self.create_discussions(nodetype)
+        feed = NodetypeDiscussions()
         self.assertEquals(feed.get_object(
-            'request', 2010, 1, 1, objecttype.slug), objecttype)
-        self.assertEquals(feed.link(objecttype), '/2010/01/01/my-test-objecttype/')
-        self.assertEquals(len(feed.items(objecttype)), 3)
+            'request', 2010, 1, 1, nodetype.slug), nodetype)
+        self.assertEquals(feed.link(nodetype), '/2010/01/01/my-test-nodetype/')
+        self.assertEquals(len(feed.items(nodetype)), 3)
         self.assertEquals(feed.item_pubdate(comments[0]),
                           comments[0].submit_date)
         self.assertEquals(feed.item_link(comments[0]),
-                          '/comments/cr/%i/1/#c1' % self.objecttype_ct_id)
+                          '/comments/cr/%i/1/#c1' % self.nodetype_ct_id)
         self.assertEquals(feed.item_author_name(comments[0]), 'admin')
         self.assertEquals(feed.item_author_email(comments[0]),
                           'admin@example.com')
         self.assertEquals(feed.item_author_link(comments[0]), '')
-        self.assertEquals(feed.title(objecttype),
-                          _('Discussions on %s') % objecttype.title)
+        self.assertEquals(feed.title(nodetype),
+                          _('Discussions on %s') % nodetype.title)
         self.assertEquals(
-            feed.description(objecttype),
-            _('The latest discussions for the objecttype %s') % objecttype.title)
+            feed.description(nodetype),
+            _('The latest discussions for the nodetype %s') % nodetype.title)
 
-    def test_objecttype_comments(self):
-        objecttype = self.create_published_objecttype()
-        comments = self.create_discussions(objecttype)
-        feed = ObjecttypeComments()
-        self.assertEquals(list(feed.items(objecttype)), [comments[0]])
+    def test_nodetype_comments(self):
+        nodetype = self.create_published_nodetype()
+        comments = self.create_discussions(nodetype)
+        feed = NodetypeComments()
+        self.assertEquals(list(feed.items(nodetype)), [comments[0]])
         self.assertEquals(feed.item_link(comments[0]),
-                          '/comments/cr/%i/1/#comment_1' % self.objecttype_ct_id)
-        self.assertEquals(feed.title(objecttype),
-                          _('Comments on %s') % objecttype.title)
+                          '/comments/cr/%i/1/#comment_1' % self.nodetype_ct_id)
+        self.assertEquals(feed.title(nodetype),
+                          _('Comments on %s') % nodetype.title)
         self.assertEquals(
-            feed.description(objecttype),
-            _('The latest comments for the objecttype %s') % objecttype.title)
+            feed.description(nodetype),
+            _('The latest comments for the nodetype %s') % nodetype.title)
         self.assertEquals(
             feed.item_enclosure_url(comments[0]),
             'http://www.gravatar.com/avatar/e64c7d89f26b'
             'd1972efa854d13d7dd61.jpg?s=80&amp;r=g')
-        self.assertEquals(feed.item_enclosure_length(objecttype), '100000')
-        self.assertEquals(feed.item_enclosure_mime_type(objecttype), 'image/jpeg')
+        self.assertEquals(feed.item_enclosure_length(nodetype), '100000')
+        self.assertEquals(feed.item_enclosure_mime_type(nodetype), 'image/jpeg')
 
-    def test_objecttype_pingbacks(self):
-        objecttype = self.create_published_objecttype()
-        comments = self.create_discussions(objecttype)
-        feed = ObjecttypePingbacks()
-        self.assertEquals(list(feed.items(objecttype)), [comments[1]])
+    def test_nodetype_pingbacks(self):
+        nodetype = self.create_published_nodetype()
+        comments = self.create_discussions(nodetype)
+        feed = NodetypePingbacks()
+        self.assertEquals(list(feed.items(nodetype)), [comments[1]])
         self.assertEquals(feed.item_link(comments[1]),
-                          '/comments/cr/%i/1/#pingback_2' % self.objecttype_ct_id)
-        self.assertEquals(feed.title(objecttype),
-                          _('Pingbacks on %s') % objecttype.title)
+                          '/comments/cr/%i/1/#pingback_2' % self.nodetype_ct_id)
+        self.assertEquals(feed.title(nodetype),
+                          _('Pingbacks on %s') % nodetype.title)
         self.assertEquals(
-            feed.description(objecttype),
-            _('The latest pingbacks for the objecttype %s') % objecttype.title)
+            feed.description(nodetype),
+            _('The latest pingbacks for the nodetype %s') % nodetype.title)
 
-    def test_objecttype_trackbacks(self):
-        objecttype = self.create_published_objecttype()
-        comments = self.create_discussions(objecttype)
-        feed = ObjecttypeTrackbacks()
-        self.assertEquals(list(feed.items(objecttype)), [comments[2]])
+    def test_nodetype_trackbacks(self):
+        nodetype = self.create_published_nodetype()
+        comments = self.create_discussions(nodetype)
+        feed = NodetypeTrackbacks()
+        self.assertEquals(list(feed.items(nodetype)), [comments[2]])
         self.assertEquals(feed.item_link(comments[2]),
-                          '/comments/cr/%i/1/#trackback_3' % self.objecttype_ct_id)
-        self.assertEquals(feed.title(objecttype),
-                          _('Trackbacks on %s') % objecttype.title)
+                          '/comments/cr/%i/1/#trackback_3' % self.nodetype_ct_id)
+        self.assertEquals(feed.title(nodetype),
+                          _('Trackbacks on %s') % nodetype.title)
         self.assertEquals(
-            feed.description(objecttype),
-            _('The latest trackbacks for the objecttype %s') % objecttype.title)
+            feed.description(nodetype),
+            _('The latest trackbacks for the nodetype %s') % nodetype.title)
 
-    def test_objecttype_feed_no_authors(self):
+    def test_nodetype_feed_no_authors(self):
         original_feeds_format = feeds.FEEDS_FORMAT
         feeds.FEEDS_FORMAT = ''
-        objecttype = self.create_published_objecttype()
-        objecttype.authors.clear()
-        feed = ObjecttypeFeed()
-        self.assertEquals(feed.item_author_name(objecttype), None)
+        nodetype = self.create_published_nodetype()
+        nodetype.authors.clear()
+        feed = NodetypeFeed()
+        self.assertEquals(feed.item_author_name(nodetype), None)
         feeds.FEEDS_FORMAT = original_feeds_format
 
-    def test_objecttype_feed_rss_or_atom(self):
+    def test_nodetype_feed_rss_or_atom(self):
         original_feeds_format = feeds.FEEDS_FORMAT
         feeds.FEEDS_FORMAT = ''
-        feed = LatestObjecttypes()
+        feed = LatestNodetypes()
         self.assertEquals(feed.feed_type, DefaultFeed)
         feeds.FEEDS_FORMAT = 'atom'
-        feed = LatestObjecttypes()
+        feed = LatestNodetypes()
         self.assertEquals(feed.feed_type, Atom1Feed)
         self.assertEquals(feed.subtitle, feed.description)
         feeds.FEEDS_FORMAT = original_feeds_format
@@ -276,21 +276,21 @@ class GstudioFeedsTestCase(TestCase):
         The correction of this case, will need some changes in the
         get_object method.
         """
-        objecttype = self.create_published_objecttype()
+        nodetype = self.create_published_nodetype()
 
-        feed = ObjecttypeDiscussions()
+        feed = NodetypeDiscussions()
         self.assertEquals(feed.get_object(
-            'request', 2010, 1, 1, objecttype.slug), objecttype)
+            'request', 2010, 1, 1, nodetype.slug), nodetype)
 
-        params = {'title': 'My test objecttype, part II',
+        params = {'title': 'My test nodetype, part II',
                   'content': 'My content ',
-                  'slug': 'my-test-objecttype',
+                  'slug': 'my-test-nodetype',
                   'tags': 'tests',
                   'creation_date': datetime(2010, 2, 1),
                   'status': PUBLISHED}
-        objecttype_same_slug = Objecttype.objects.create(**params)
-        objecttype_same_slug.sites.add(self.site)
-        objecttype_same_slug.authors.add(self.author)
+        nodetype_same_slug = Nodetype.objects.create(**params)
+        nodetype_same_slug.sites.add(self.site)
+        nodetype_same_slug.authors.add(self.author)
 
         self.assertEquals(feed.get_object(
-            'request', 2010, 2, 1, objecttype_same_slug.slug), objecttype_same_slug)
+            'request', 2010, 2, 1, nodetype_same_slug.slug), nodetype_same_slug)
