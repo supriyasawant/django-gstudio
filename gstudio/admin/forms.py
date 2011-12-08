@@ -13,6 +13,13 @@ from gstudio.models import Relationtype
 from gstudio.models import Relation
 from gstudio.models import Attributetype
 from gstudio.models import Attribute
+from gstudio.models import AttributeSpecification
+from gstudio.models import RelationSpecification
+from gstudio.models import NodeSpecification
+from gstudio.models import Union
+from gstudio.models import Complement
+from gstudio.models import Intersection
+
 
 
 from gstudio.models import Systemtype
@@ -300,3 +307,31 @@ class SystemtypeAdminForm(forms.ModelForm):
     class Meta:
         """SystemAdminForm's Meta"""
         model = Systemtype
+
+
+class AttributeSpecificationAdminForm(forms.ModelForm):
+    class Meta:
+        model = AttributeSpecification
+
+class RelationSpecificationAdminForm(forms.ModelForm):
+    class Meta:
+        model = RelationSpecification
+
+class NodeSpecificationAdminForm(forms.ModelForm):
+    class Meta:
+        model = NodeSpecification
+
+class UnionAdminForm(forms.ModelForm):
+    class Meta:
+        model = Union
+
+class ComplementAdminForm(forms.ModelForm):
+    class Meta:
+        model = Complement
+
+class IntersectionAdminForm(forms.ModelForm):
+    class Meta:
+        model = Intersection
+
+
+
