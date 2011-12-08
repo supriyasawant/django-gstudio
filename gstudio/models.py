@@ -342,77 +342,6 @@ class Nodetype(Node):
     objects = models.Manager()
     published = NodetypePublishedManager()
 
-
-    @property
-    def get_nbh(self):
-        """          
-        Returns the neighbourhood of the nodetype
-        """
-
-        nbh = {}
-        nbh['title'] = self.title
-        nbh['altnames'] = self.altnames
-        nbh['plural'] = self.plural
-        
-        nbh['member_of_metatype'] = {}
-        if self.metatypes.all():
-            for metatype in self.metatypes.all():    
-		nbh['member_of_metatype'].update({str(metatype.id):str(metatype.title)})      
-
-        nbh['attributetypes'] = {}
-
-        for attributetype in Attributetype.objects.filter(subjecttype=self.id):
-             nbh['attributetypes'].update({str(attributetype.id):str(attributetype.title)})
-
-        left_relset = Relationtype.objects.filter(subjecttypeLeft=self.id)
-        right_relset = Relationtype.objects.filter(subjecttypeRight=self.id)
-        nbh['relations'] = {}
-        reltypes = {}
-	reltypes['right_role_of'] = {}
-	reltypes['left_role_of'] = {}
-
-        for relationtype in left_relset:
-	    reltypes['left_role_of'].update({str(relationtype.id):str(relationtype.title)})
-
-        for relationtype in right_relset:
-	    reltypes['right_role_of'].update({str(relationtype.id):str(relationtype.title)})
-
-        nbh['type_of'] = {}
-	if self.parent:
-            nbh['type_of'].update({str(self.parent.id) : str(self.parent.title)})
-
-        nbh['contains_subtypes'] = {}
-        #generate ids and names of children /members
-        for nodetype in Nodetype.objects.filter(parent=self.id):
-            nbh['contains_subtypes'].update({str(nodetype.id):str(nodetype.title)})
-
-        nbh['contains_members'] = {}
-
-        if self.gbobjects.all():
-            for gbobject in self.gbobjects.all():   
-		nbh['contains_members'].update({str(gbobject.id):str(gbobject.title)})
-                
-        nbh['priornodes'] = {} 
-        if self.priornode.all():            
-            for prnode in self.priornode.all():
-                nbh['priornodes'].update({str(prnode.id):str(prnode.title)})
-
-        nbh['posteriornodes'] = {} 
-        if self.posteriornode.all():            
-            for pstnode in self.posteriornode.all():
-                nbh['postnodes'].update({str(pstnode.id):str(pstnode.title)})
-
-	nbh['authors'] = {}
-        for author in self.authors.all():
-            nbh['authors'].update({str(author.id):str(author.username)})
-        nbh['content']  = self.content
-
-        node = {}
-        node[self.title] = nbh
-
-	return node
-
-
     @property
     def tree_path(self):
         """Return nodetype's tree path, by its ancestors"""
@@ -525,6 +454,7 @@ class Nodetype(Node):
                 return '%s is a member of metatype %s' % (self.title, each)
         return '%s is not a fully defined name, consider making it a member of a suitable metatype' % (self.title)
 
+    
     @property
     def subtypeof_sentence(self):
         "composes the relation as a sentence in triple format."
@@ -573,6 +503,93 @@ class Objecttype(Nodetype):
 
     def __unicode__(self):
         return self.title
+
+
+    def get_attributetypes(self):
+        attr_types = {}
+        attr_types['attributetypes'] = {}
+
+        for attributetype in self.subjecttype_GbnodeType.all():   
+            # or also Attributetype.objects.filter(subjecttype=self.id):
+            attr_types['attributetypes'].update({str(attributetype.id):str(attributetype.title)})
+        return attr_types
+
+
+    def get_relationtypes(self):
+        reltypes = {}
+	reltypes['right_role_of'] = {}
+	reltypes['left_role_of'] = {}
+
+        left_relset = self.subjecttypeLeft_gbnodetype.all()  
+        right_relset = self.subjecttypeRight_gbnodetype.all() 
+
+        for relationtype in left_relset:
+	    reltypes['left_role_of'].update({str(relationtype.id):str(relationtype.title)})
+
+        for relationtype in right_relset:
+	    reltypes['right_role_of'].update({str(relationtype.id):str(relationtype.title)})
+        return reltypes
+
+
+    @property
+    def get_nbh(self):
+        """          
+        Returns the neighbourhood of the nodetype
+        """
+
+        nbh = {}
+        nbh['title'] = self.title
+        nbh['altnames'] = self.altnames
+        nbh['plural'] = self.plural        
+        nbh['member_of_metatype'] = {}
+        if self.metatypes.all():
+            for metatype in self.metatypes.all():    
+		nbh['member_of_metatype'].update({str(metatype.id):str(metatype.title)})      
+
+        # get all the ATs for the objecttype
+        nbh.update(self.get_attributetypes())
+
+        # get all the RTs for the objecttype
+        nbh['relations'] = {}
+        nbh['relations'].update(self.get_relationtypes()) 
+
+        nbh['type_of'] = {}
+	if self.parent:
+            nbh['type_of'].update({str(self.parent.id) : str(self.parent.title)})
+
+        nbh['contains_subtypes'] = {}
+        #generate ids and names of children /members
+        for nodetype in Nodetype.objects.filter(parent=self.id):
+            nbh['contains_subtypes'].update({str(nodetype.id):str(nodetype.title)})
+
+        nbh['contains_members'] = {}
+        # get all the objects inheriting to this OT 
+        if self.gbobjects.all():
+            for gbobject in self.gbobjects.all():   
+		nbh['contains_members'].update({str(gbobject.id):str(gbobject.title)})
+                
+        nbh['priornodes'] = {} 
+        if self.priornodes.all():            
+            for prnode in self.priornodes.all():
+                nbh['priornodes'].update({str(prnode.id):str(prnode.title)})
+
+        nbh['posteriornodes'] = {} 
+        if self.posteriornodes.all():            
+            for pstnode in self.posteriornodes.all():
+                nbh['postnodes'].update({str(pstnode.id):str(pstnode.title)})
+
+	nbh['authors'] = {}
+        for author in self.authors.all():
+            nbh['authors'].update({str(author.id):str(author.username)})
+        nbh['content']  = self.content
+
+        node = {}
+        node[self.title] = nbh
+
+	return node
+
+
+
 
     class Meta:
         """
@@ -634,7 +651,7 @@ class Relationtype(Edgetype):
                        ('can_change_author', 'Can change author'), )
 
 
-class Attributetype(Edgetype):
+class Attributetype(Nodetype):
     '''
     To define attributes of objects. First three fields are mandatory.
     The rest of the fields may be required depending on what type of
@@ -752,6 +769,14 @@ class Relation(Edge):
     def inverse_key_value(self):
         return dict({str(self.relationtype.inverse):str(self.subject1)})
 
+
+    @property
+    def relation_sentence(self):
+        """Return the relations of the objecttypes"""
+        
+        if self.relationtype:
+           # for relation in self.relationtype():
+                return '%s %s %s' % (self.subject1,self.relationtype,self.subject2 )
 
 
 class Attribute(Edge):
@@ -1109,7 +1134,7 @@ if not reversion.is_registered(Metatype):
     reversion.register(Metatype, follow=["parent"])
 
 if not reversion.is_registered(Nodetype):
-    reversion.register(Nodetype, follow=["priornode", "posteriornode"])
+    reversion.register(Nodetype, follow=["priornodes", "posteriornodes"])
 
 if not reversion.is_registered(Relationtype): 
     reversion.register(Relationtype, follow=["subjecttypeLeft", "subjecttypeRight"])

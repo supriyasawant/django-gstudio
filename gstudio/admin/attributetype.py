@@ -36,7 +36,7 @@ types','dataType','verbose_name','null','blank','help_text','max_digits','decima
 
 
 
-                 (_('Dependency'), {'fields': ('priornode', 'posteriornode',),
+                 (_('Dependency'), {'fields': ('priornodes', 'posteriornodes',),
                                  'classes': ('collapse', 'collapse-closed')}),
                  (_('Options'), {'fields': ('featured', 'excerpt', 'template',
                                             'authors',

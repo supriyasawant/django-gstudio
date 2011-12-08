@@ -29,7 +29,7 @@ class ObjecttypeAdmin(reversion.VersionAdmin):
     date_hierarchy = 'creation_date'
     fieldsets = ((_('Neighbourhood'), {'fields': ('title','altnames','plural','parent','slug',
                                             'metatypes','tags','image', 'status','content')}),
-                 (_('Dependency'), {'fields': ('priornode', 'posteriornode',), 
+                 (_('Dependency'), {'fields': ('priornodes', 'posteriornodes',), 
                                  'classes': ('collapse', 'collapse-closed')}),
                  (_('Options'), {'fields': ('featured', 'excerpt', 'template',
                                             'authors',
