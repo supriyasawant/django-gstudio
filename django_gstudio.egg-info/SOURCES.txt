@@ -477,6 +477,7 @@ gstudio/views/channels.py
 gstudio/views/decorators.py
 gstudio/views/metatypes.py
 gstudio/views/nodetypes.py
+gstudio/views/quick_nodetype.py
 gstudio/views/search.py
 gstudio/views/sitemap.py
 gstudio/views/tags.py
