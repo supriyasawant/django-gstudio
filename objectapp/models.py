@@ -147,23 +147,8 @@ class Gbobject(Node):
     published = GbobjectPublishedManager()
 
 
-    @property
-    def get_nbh(self):
-        """ 
-        Returns the neighbourhood of the object
-        """
-        fields = ['title','altname','pluralform']
-        nbh = {}
-        nbh['title'] = self.title        
-        nbh['altnames'] = self.altnames                
-        nbh['plural'] = self.plural
-        nbh['content'] = self.content
-
-        nbh['member_of'] = {}
-        for objtype in self.objecttypes.all():
-            # create member of dict
-            nbh['member_of'].update({str(objtype.id):str(objtype.title)})
-
+    def get_relations(self):
+        relation_set = {}
         # ALGO to find the relations and their leftroles and rightroles
         # 1. Get the relations containing a reference to the object. Retrieve where it occurs (left or right)
         # 2. Find out which RT they come from.
@@ -180,34 +165,60 @@ class Gbobject(Node):
 
                
         for relation in left_relset:
-            # check if relation in possibles
+            # check if relation already exists
             if relation.relationtype.title not in rel_dict['leftroles'].keys():
                 # create a new dict key field and add to it
                 rel_dict['leftroles'][str(relation.relationtype.title)] = {}
             # add 
             rel_dict['leftroles'][str(relation.relationtype.title)][str(relation.id)] = str(relation.subject2) 
 
-    
+   
         for relation in right_relset:
-            # check if relation in possibles
+            # check if relation exists
             if relation.relationtype.inverse not in rel_dict['rightroles'].keys():
                 # create a new dict key field and add to it
                 rel_dict['rightroles'][str(relation.relationtype.inverse)] = {}
                 # add to the existing key
             rel_dict['rightroles'][str(relation.relationtype.inverse)][str(relation.id)] = str(relation.subject1)
 
-        nbh['relations'] = {}  #rel_dict    
-        #nbh['leftroles'] = rel_dict['leftroles']
-        #nbh['rightroles'] = rel_dict['rightroles']
-        nbh['relations'].update(rel_dict['leftroles'])
-        nbh['relations'].update(rel_dict['rightroles'])
-        #nbh['relations'].update(rel_dict['rightroles'])
+
+        relation_set.update(rel_dict['leftroles'])
+        relation_set.update(rel_dict['rightroles'])
         
+        return relation_set
+
+
+    def get_attributes(self):
         attributes =  {}
-        for attribute in Attribute.objects.filter(subject=self.id):
+        for attribute in self.subject_gbnode.all(): #Attribute.objects.filter(subject=self.id):
             for key,value in attribute.edge_node_dict.iteritems():
                 attributes[key]= value
-        nbh['attributes'] = attributes
+                
+        return attributes
+            
+
+    @property
+    def get_nbh(self):
+        """ 
+        Returns the neighbourhood of the object
+        """
+        fields = ['title','altname','pluralform']
+        nbh = {}
+        nbh['title'] = self.title        
+        nbh['altnames'] = self.altnames                
+        nbh['plural'] = self.plural
+        nbh['content'] = self.content
+        #return  all OTs the object is linked to
+        nbh['member_of'] = {}
+        for objtype in self.objecttypes.all():
+            # create member of dict
+            nbh['member_of'].update({str(objtype.id):str(objtype.title)})
+
+        # get all the relations of the object
+            
+        nbh['relations'] = self.get_relations()
+
+        nbh['attributes'] = self.get_attributes()
         # encapsulate the dictionary with its node name as key
         #nbh.update(attribute_set)
         node = {}
