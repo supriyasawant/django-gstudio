@@ -352,8 +352,7 @@ class Nodetype(Node):
         nbh = {}
         nbh['title'] = self.title
         nbh['altnames'] = self.altnames
-        nbh['plural'] = self.plural
-        
+        nbh['plural'] = self.plural        
         nbh['member_of_metatype'] = {}
         if self.metatypes.all():
             for metatype in self.metatypes.all():    
@@ -525,6 +524,7 @@ class Nodetype(Node):
                 return '%s is a member of metatype %s' % (self.title, each)
         return '%s is not a fully defined name, consider making it a member of a suitable metatype' % (self.title)
 
+    
     @property
     def subtypeof_sentence(self):
         "composes the relation as a sentence in triple format."
@@ -634,7 +634,7 @@ class Relationtype(Edgetype):
                        ('can_change_author', 'Can change author'), )
 
 
-class Attributetype(Edgetype):
+class Attributetype(Nodetype):
     '''
     To define attributes of objects. First three fields are mandatory.
     The rest of the fields may be required depending on what type of
@@ -752,6 +752,14 @@ class Relation(Edge):
     def inverse_key_value(self):
         return dict({str(self.relationtype.inverse):str(self.subject1)})
 
+
+    @property
+    def relation_sentence(self):
+        """Return the relations of the objecttypes"""
+        
+        if self.relationtype:
+           # for relation in self.relationtype():
+                return '%s %s %s' % (self.subject1,self.relationtype,self.subject2 )
 
 
 class Attribute(Edge):
