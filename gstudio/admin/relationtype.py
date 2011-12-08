@@ -49,7 +49,7 @@ class RelationtypeAdmin(reversion.VersionAdmin):
                             'classes': ('collapse', 'collapse-closed')}),
             
             
-            (_('Dependency'), {'fields': ('priornodes', 'posteriornode',), 
+            (_('Dependency'), {'fields': ('priornodes', 'posteriornodes',), 
                                'classes': ('collapse', 'collapse-closed')}),
             (_('Options'), {'fields': ('featured', 'excerpt', 'template',
                                        'authors',

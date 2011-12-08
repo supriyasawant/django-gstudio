@@ -393,13 +393,13 @@ class Nodetype(Node):
 		nbh['contains_members'].update({str(gbobject.id):str(gbobject.title)})
                 
         nbh['priornodes'] = {} 
-        if self.priornode.all():            
-            for prnode in self.priornode.all():
+        if self.priornodes.all():            
+            for prnode in self.priornodes.all():
                 nbh['priornodes'].update({str(prnode.id):str(prnode.title)})
 
         nbh['posteriornodes'] = {} 
-        if self.posteriornode.all():            
-            for pstnode in self.posteriornode.all():
+        if self.posteriornodes.all():            
+            for pstnode in self.posteriornodes.all():
                 nbh['postnodes'].update({str(pstnode.id):str(pstnode.title)})
 
 	nbh['authors'] = {}
@@ -1109,7 +1109,7 @@ if not reversion.is_registered(Metatype):
     reversion.register(Metatype, follow=["parent"])
 
 if not reversion.is_registered(Nodetype):
-    reversion.register(Nodetype, follow=["priornode", "posteriornode"])
+    reversion.register(Nodetype, follow=["priornodes", "posteriornodes"])
 
 if not reversion.is_registered(Relationtype): 
     reversion.register(Relationtype, follow=["subjecttypeLeft", "subjecttypeRight"])

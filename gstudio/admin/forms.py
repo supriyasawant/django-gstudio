@@ -69,8 +69,8 @@ class ObjecttypeAdminForm(forms.ModelForm):
         widget=MPTTFilteredSelectMultiple(_('nodetypes'), False,
                                           attrs={'rows': '10'}))
 
-    posteriornode = MPTTModelMultipleChoiceField(
-        label=_('posteriornode'), required=False,
+    posteriornodes = MPTTModelMultipleChoiceField(
+        label=_('posteriornodes'), required=False,
         queryset=Nodetype.objects.all(),
         widget=MPTTFilteredSelectMultiple(_('nodetypes'), False,
                                           attrs={'rows': '10'}))
@@ -86,8 +86,9 @@ class ObjecttypeAdminForm(forms.ModelForm):
             self.fields['metatypes'].widget, meta, self.admin_site)
         self.fields['priornodes'].widget = RelatedFieldWidgetWrapper(
             self.fields['priornodes'].widget, prior, self.admin_site)
-        self.fields['posteriornode'].widget = RelatedFieldWidgetWrapper(
-            self.fields['posteriornode'].widget, post, self.admin_site)
+        self.fields['posteriornodes'].widget = RelatedFieldWidgetWrapper(
+            self.fields['posteriornodes'].widget, post, self.admin_site)
+
 
 
         self.fields['sites'].initial = [Site.objects.get_current()]
@@ -124,9 +125,15 @@ class RelationtypeAdminForm(forms.ModelForm):
        
 
         self.fields['priornodes'].widget = RelatedFieldWidgetWrapper(
+<<<<<<< HEAD
             self.fields['priornodes'].widget, post, self.admin_site)
         self.fields['posteriornode'].widget = RelatedFieldWidgetWrapper(
             self.fields['posteriornode'].widget, post, self.admin_site)
+=======
+            self.fields['priornodes'].widget, prior, self.admin_site)
+        self.fields['posteriornodes'].widget = RelatedFieldWidgetWrapper(
+            self.fields['posteriornodes'].widget, post, self.admin_site)
+>>>>>>> johnnyb/master
 
 
 
@@ -149,7 +156,7 @@ class ProcesstypeAdminForm(forms.ModelForm):
         queryset=Nodetype.objects.all(),
         widget=MPTTFilteredSelectMultiple(_('priornodes'), False,
                                           attrs={'rows': '10'}))
-    posteriornode = MPTTModelMultipleChoiceField(
+    posteriornodes = MPTTModelMultipleChoiceField(
         label=_('Prosterior Nodes'), required=False,
         queryset=Nodetype.objects.all(),
         widget=MPTTFilteredSelectMultiple(_('prosteriornode'), False,
@@ -176,8 +183,13 @@ class ProcesstypeAdminForm(forms.ModelForm):
 
         self.fields['priornodes'].widget = RelatedFieldWidgetWrapper(
             self.fields['priornodes'].widget, prior, self.admin_site)
+<<<<<<< HEAD
         self.fields['posteriornode'].widget = RelatedFieldWidgetWrapper(
             self.fields['posteriornode'].widget, post, self.admin_site)
+=======
+        self.fields['posteriornodes'].widget = RelatedFieldWidgetWrapper(
+            self.fields['posteriornodes'].widget, post, self.admin_site)
+>>>>>>> johnnyb/master
         self.fields['attributetype_set'].widget = RelatedFieldWidgetWrapper(
             self.fields['attributetype_set'].widget, atype, self.admin_site)
         self.fields['relationtype_set'].widget = RelatedFieldWidgetWrapper(
@@ -196,10 +208,10 @@ class AttributetypeAdminForm(forms.ModelForm):
         queryset=Nodetype.objects.all(),
         widget=MPTTFilteredSelectMultiple(_('priornodes'), False,
                                           attrs={'rows': '10'}))
-    posteriornode = MPTTModelMultipleChoiceField(
+    posteriornodes = MPTTModelMultipleChoiceField(
         label=_('Posterior Nodes'), required=False,
         queryset=Nodetype.objects.all(),
-        widget=MPTTFilteredSelectMultiple(_('posteriornode'), False,
+        widget=MPTTFilteredSelectMultiple(_('posteriornodes'), False,
                                           attrs={'rows': '10'}))
     def __init__(self, *args, **kwargs):
         super(AttributetypeAdminForm, self).__init__(*args, **kwargs)
@@ -209,8 +221,13 @@ class AttributetypeAdminForm(forms.ModelForm):
 
         self.fields['priornodes'].widget = RelatedFieldWidgetWrapper(
             self.fields['priornodes'].widget, prior, self.admin_site)
+<<<<<<< HEAD
         self.fields['posteriornode'].widget = RelatedFieldWidgetWrapper(
             self.fields['posteriornode'].widget, post, self.admin_site)
+=======
+        self.fields['posteriornodes'].widget = RelatedFieldWidgetWrapper(
+            self.fields['posteriornodes'].widget, post, self.admin_site)
+>>>>>>> johnnyb/master
 
 
     class Meta:
@@ -259,8 +276,8 @@ class SystemtypeAdminForm(forms.ModelForm):
         widget=MPTTFilteredSelectMultiple(_('nodetypes'), False,
                                           attrs={'rows': '10'}))
 
-    posteriornode = MPTTModelMultipleChoiceField(
-        label=_('posteriornode'), required=False,
+    posteriornodes = MPTTModelMultipleChoiceField(
+        label=_('posteriornodes'), required=False,
         queryset=Nodetype.objects.all(),
         widget=MPTTFilteredSelectMultiple(_('nodetypes'), False,
                                           attrs={'rows': '10'}))
@@ -286,8 +303,13 @@ class SystemtypeAdminForm(forms.ModelForm):
             self.fields['processtypeset'].widget, pt, self.admin_site)
         self.fields['priornodes'].widget = RelatedFieldWidgetWrapper(
             self.fields['priornodes'].widget, prior, self.admin_site)
+<<<<<<< HEAD
         self.fields['posteriornode'].widget = RelatedFieldWidgetWrapper(
             self.fields['posteriornode'].widget, post, self.admin_site)
+=======
+        self.fields['posteriornodes'].widget = RelatedFieldWidgetWrapper(
+            self.fields['posteriornodes'].widget, post, self.admin_site)
+>>>>>>> johnnyb/master
 
 
 
