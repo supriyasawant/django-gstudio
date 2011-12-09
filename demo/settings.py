@@ -27,7 +27,7 @@ SITE_ID = 1
 
 LANGUAGE_CODE = 'en'
 
-GRAPPELLI_ADMIN_TITLE = "Gnowledge Studio"
+GRAPPELLI_ADMIN_TITLE = "<a href='http://localhost:8000/gstudio'>Gnowledge Studio</a>"
 
 GRAPPELLI_INDEX_DASHBOARD = "demo.dashboard.CustomIndexDashboard"
 

@@ -30,61 +30,111 @@
   {% endwith %}
 {% endblock %}
 
-{% block neighbourhood %}
-<div class = "neighbourhood">
-<h3>Neighbourhood</h3>
-  {% with object.html_content|safe as object_content %}
-  {% include "gstudio/_nodetype_neighbourhood.html" %}
-  {% endwith %}
-
-</div>
-{% endblock %}
 
 {% block content %}
 
 
-
 {% block nodetype-content %}
   {% with object.html_content|safe as object_content %}
-  {% include "gstudio/_nodetype_detail.html" %}
-  {% endwith %}
-{% endblock %}
+
+
+             <b>Name: </b> {{ object.title }} <br/>
+
+	     {% if object.altnames %}
+	     <b>Alternate names: </b>
+	     {% endif %}
+	     {{ object.altnames }} <br/>		
+
+             {% if object.plural %}
+	     <b>Plural Name: </b> {{ object.plural }} <br/>
+	     {% endif %} 
+
+	     {% if object.parent %}
+	     <b>Type of: </b> 
+	     	     <a href="{{ object.parent.get_absolute_url }}"> {{ object.parent.title }}</a> <br/>
+	     {% endif %}
+
+  	     {% if object.get_children %}
+	     <b>SubTypes: </b>
+	          {% for items in object.get_children %}
+	     <a href="{{ items.get_absolute_url }}"> {{ items.title }}</a>; 
+	          {% endfor %} 		   <br/>
+	     {% endif %}
+
+	     {% if object.get_siblings %}
+	     <b>Siblings: </b>
+	     {% for items in object.get_siblings %}
+	      <a href="{{ items.get_absolute_url }}"> {{ items.title }}</a>;
+	      {% endfor %}       <br/>
+	     {% endif %}  
+
+  	     {% if object.metatypes.all %}
+	     <b>Member of Metatypes: </b>
+	          {% for items in object.metatypes.all %}
+	     <a href="{{ items.get_absolute_url }}"> {{ items.title }}</a>; 
+	     {% endfor %} 	     <br/>
+	     {% endif %}
+
+	     {% if object.gbobjects.all %}
+	     <b>Contains member objects: </b>
+	          {% for items in object.gbobjects.all %}
+	     <a href="{{ items.get_absolute_url }}"> {{ items.title }}</a>; 
+	          {% endfor %} 		   <br/>
+	     {% endif %}	     
+
+	     {% if object.subjecttypeLeft_gbnodetype.all %}
+	     <b>Left role of relation types: </b> 
+	          {% for items in object.subjecttypeLeft_gbnodetype.all %}
+	     <a href="{{ items.get_absolute_url }}"> {{ items.title }}</a>; 
+	     {% endfor %} 	     <br/>
+	     {% endif %}
+
+	     {% if object.subjecttypeRight_gbnodetype.all %}
+	     <b>Right role of relation types: </b> 
+	          {% for items in object.subjecttypeRight_gbnodetype.all %}
+	     <a href="{{ items.get_absolute_url }}"> {{ items.title }}</a>; 
+	     {% endfor %}   	     <br/>
+	     {% endif %}
+
+	     {% if object.subjecttype_GbnodeType.all %}
+	     <b>As domain of attribute types: </b> 
+	          {% for items in object.subjecttype_GbnodeType.all %}
+	     <a href="{{ items.get_absolute_url }}"> {{ items.title }}</a>; 
+	     {% endfor %} 	     <br/>
+	     {% endif %}
+
+
+
+
+ {% endwith %}
+ {% endblock %}
 
 
 
 {% block nodetype-widgets %}
-<div class="nodetype-widgets span-16 last">
-  {% with object.next_nodetype as next_nodetype %}
-  {% if next_nodetype %}
+<div class="nodetype-widgets span-16 last">  {% with object.next_nodetype as next_nodetype %}
+  {% if object.posteriornodes.all %}
   <div class="nodetype-next">
-    <h3>{% trans "Next node type" %}</h3>
-    <ul>
-      <li>
-	<a href="{{ next_nodetype.get_absolute_url }}" title="{{ next_nodetype.title }}" rel="next">
-	  {{ next_nodetype.title }}
-	</a>
-      </li>
-    </ul>
+    <h5>{% trans "Posterior node" %}</h5>
+	          {% for items in object.posteriornodes.all %}
+	     <a href="{{ items.get_absolute_url }}"> {{ items.title }}</a>; 
+	     {% endfor %} 	     
   </div>
   {% endif %}
   {% endwith %}
-  {% with object.previous_nodetype as previous_nodetype %}
-  {% if previous_nodetype %}
-  <div class="nodetype-previous">
-    <h3>{% trans "Previous node type" %}</h3>
-    <ul>
-      <li>
-	<a href="{{ previous_nodetype.get_absolute_url }}" title="{{ previous_nodetype.title }}" rel="prev">
-	  {{ previous_nodetype.title }}
-	</a>
-      </li>
-    </ul>
+  <!-- {% with object.previous_nodetype as previous_nodetype %} -->
+  {% if object.priornodes.all %}
+  <div class="nodetype-next">
+    <h5>{% trans "Prior node" %}</h5>
+	          {% for items in object.priornodes.all %}
+	     <a href="{{ items.get_absolute_url }}"> {{ items.title }}</a>; 
+	     {% endfor %} 	     
   </div>
   {% endif %}
   {% endwith %}
   {% if object.related_published %}
   <div class="nodetype-related">
-    <h3>{% trans "Related node types" %}</h3>
+    <h5>{% trans "Related node types" %}</h5>
     <ul>
       {% for nodetype in object.related_published %}
       <li>
@@ -94,16 +144,12 @@
     </ul>
   </div>
   {% endif %}
-  <div class="nodetype-similar">
-    <h3>{% trans "Similar node types" %}</h3>
-    {% get_similar_nodetypes 5 %}
-  </div>
 </div>
 {% endblock %}
 
 {% block nodetype-comments %}
 <div id="comments" class="span-16 last">
-  <h3>{% trans "Comments" %}</h3>
+  <h5>{% trans "Comments" %}</h5>
   {% with object.comments as comment_list %}
   {% if comment_list.count %}
   <ol id="comment-list" class="span-15 last">
@@ -144,7 +190,7 @@
 
 {% block nodetype-pingbacks %}
 <div id="pingbacks" class="span-16 last">
-  <h3>{% trans "Pingbacks" %}</h3>
+  <h5>{% trans "Pingbacks" %}</h5>
   {% with object.pingbacks as pingback_list %}
   {% if pingback_list.count %}
   <ol id="pingback-list" class="span-15 last">
@@ -178,7 +224,7 @@
 {% with object.trackbacks as trackback_list %}
 {% if trackback_list.count or object.pingback_enabled %}
 <div id="trackbacks" class="span-16 last">
-  <h3>{% trans "Trackbacks" %}</h3>
+  <h5>{% trans "Trackbacks" %}</h5>
   {% if trackback_list.count %}
   <ol id="trackback-list" class="span-15 last">
     {% for trackback in trackback_list %}

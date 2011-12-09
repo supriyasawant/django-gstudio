@@ -184,7 +184,6 @@ class Metatype(Node):
         return nodetypes_published(self.nodetypes)
 
 
-
     @property
     def get_nbh(self):
         """  
@@ -504,7 +503,7 @@ class Objecttype(Nodetype):
     def __unicode__(self):
         return self.title
 
-
+    @property
     def get_attributetypes(self):
         attr_types = {}
         attr_types['attributetypes'] = {}
@@ -514,7 +513,7 @@ class Objecttype(Nodetype):
             attr_types['attributetypes'].update({str(attributetype.id):str(attributetype.title)})
         return attr_types
 
-
+    @property
     def get_relationtypes(self):
         reltypes = {}
 	reltypes['right_role_of'] = {}
@@ -530,13 +529,68 @@ class Objecttype(Nodetype):
 	    reltypes['right_role_of'].update({str(relationtype.id):str(relationtype.title)})
         return reltypes
 
+    @property
+    def get_leftroles(self):
+        """
+        for which relation types does this object become a domain of any relation type
+        """
+        reltypes = []
+        left_relset = self.subjecttypeLeft_gbnodetype.all()  
+        for relationtype in left_relset:
+	    reltypes.append(relationtype)
+        return reltypes
+
+    @property
+    def get_rightroles(self):
+        """
+        for which relation types does this object become a domain of any relation type
+        """
+        reltypes = []
+        right_relset = self.subjecttypeRight_gbnodetype.all()  
+        for relationtype in right_relset:
+	    reltypes.append(relationtype)
+        return reltypes
+
+    @property
+    def get_subjecttypes(self):
+        """
+        for which relation types does this object become a domain of any relation type
+        """
+        subjecttypes = []
+        attrset = self.subjecttype_GbnodeType.all()  
+        for subjecttype in attrset:
+	    subjecttypes.append(subjecttype)
+        return subjecttypes
+        
+
+    @property
+    def member_of_metatypes(self):
+        """
+        returns if the objecttype is a member of the membership in a metatype class
+        """
+        types = []
+        if self.metatypes.all():
+            for metatype in self.metatypes.all():    
+		types.append(metatype.title)
+        return types
+
+
+    @property
+    def get_members(self):
+        """
+        get members of the object type
+        """
+        members = []
+        if self.gbobjects.all():
+            for gbobject in self.gbobjects.all():   
+		members.append(gbobject)
+        return members    
 
     @property
     def get_nbh(self):
         """          
         Returns the neighbourhood of the nodetype
         """
-
         nbh = {}
         nbh['title'] = self.title
         nbh['altnames'] = self.altnames
@@ -558,7 +612,7 @@ class Objecttype(Nodetype):
             nbh['type_of'].update({str(self.parent.id) : str(self.parent.title)})
 
         nbh['contains_subtypes'] = {}
-        #generate ids and names of children /members
+        #generate ids and names of subtypes 
         for nodetype in Nodetype.objects.filter(parent=self.id):
             nbh['contains_subtypes'].update({str(nodetype.id):str(nodetype.title)})
 

@@ -53,6 +53,7 @@ gstudio/comparison.py
 gstudio/context_processors.py
 gstudio/feeds.py
 gstudio/genform.py
+gstudio/gnowql.py
 gstudio/managers.py
 gstudio/models.py
 gstudio/moderator.py
@@ -404,6 +405,7 @@ gstudio/templates/gstudio/tags/random_nodetypes.html
 gstudio/templates/gstudio/tags/recent_comments.html
 gstudio/templates/gstudio/tags/recent_linkbacks.html
 gstudio/templates/gstudio/tags/recent_nodetypes.html
+gstudio/templates/gstudio/tags/rendered_nbh.html
 gstudio/templates/gstudio/tags/similar_nodetypes.html
 gstudio/templates/gstudio/tags/slider_nodetypes.html
 gstudio/templates/gstudio/tags/tag_cloud.html
@@ -471,6 +473,7 @@ gstudio/views/channels.py
 gstudio/views/decorators.py
 gstudio/views/metatypes.py
 gstudio/views/nodetypes.py
+gstudio/views/quick_nodetype.py
 gstudio/views/search.py
 gstudio/views/sitemap.py
 gstudio/views/tags.py
