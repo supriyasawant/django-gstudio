@@ -158,7 +158,7 @@ class Gbobject(Node):
         left_relset = Relation.objects.filter(subject1=self.id) 
         right_relset = Relation.objects.filter(subject2=self.id) 
         
-        return left_relset + right_relset
+        #return left_relset + right_relset
 
         # RT dictionary to store a single relation
         rel_dict ={}
