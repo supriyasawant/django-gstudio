@@ -17,6 +17,8 @@ from django.contrib.comments import get_model as get_comment_model
 from tagging.models import Tag
 from tagging.utils import calculate_cloud
 
+from gstudio.gnowql import get_node
+
 from objectapp.models import Gbobject
 from objectapp.models import Author
 from objectapp.models import Objecttype
@@ -39,6 +41,11 @@ def get_objecttypes(template='objectapp/tags/objecttypes.html'):
     """Return the objecttypes"""
     return {'template': template,
             'objecttypes': Objecttype.tree.all()}
+
+@register.simple_tag
+def get_this_nodes_uri(name):
+    obj =  get_node(name)
+    return obj.get_absolute_url()
 
 
 @register.inclusion_tag('objectapp/tags/dummy.html')

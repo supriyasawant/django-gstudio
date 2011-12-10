@@ -25,6 +25,53 @@
       {% for Objecttype in object.objecttypes.all %}
       <a href="{{ Objecttype.get_absolute_url }}" title="{{ Objecttype }}" rel="tag Objecttype">{{ Objecttype }}</a>{% if not forloop.last %}, {% endif %}{% endfor %}{% endif %}.
     </p>
+
+
+             <b>Name: </b> {{ object.title }} <br/>
+
+	     {% if object.altnames %}
+	     <b>Alternate names: </b>
+	     {% endif %}
+	     {{ object.altnames }} <br/>		
+
+             {% if object.plural %}
+	     <b>Plural Name: </b> {{ object.plural }} <br/>
+	     {% endif %} 
+
+
+	     {% if object.objecttypes.all %}
+	     <b>member of: </b> 
+	          {% for items in object.objecttypes.all %}
+	     <a href="{{ items.get_absolute_url }}"> {{ items.title }}</a>; 
+	     {% endfor %} 	     <br/>
+	     {% endif %}
+
+
+	     {% if object.subject_gbnode.all %}
+	     <b>attributes: </b> 
+	          {% for items in object.subject_gbnode.all %}
+	     <a href="{{ items.get_absolute_url }}"> {{ items.title }}</a>; 
+	     {% endfor %} 	     <br/>
+	     {% endif %}
+
+	     {% if object.subject1_gbnode.all %}
+	     <b>relations: </b> 
+	          {% for items in object.subject1_gbnode.all %}
+	     <a href="{{ items.subject1.get_absolute_url }}"> {{ items.title }}</a>; 
+	     {% endfor %}   	     <br/>
+	     {% endif %}
+
+	     {% if object.subject2_gbnode.all %}
+	     <b>relations: </b> 
+	          {% for items in object.subject2_gbnode.all %}
+	     <a href="{{ items.subject2.get_absolute_url }}"> {{ items.title }}</a>; 
+	     {% endfor %}   	     <br/>
+	     {% endif %}
+
+
+	 
+
+
   </div>
 
   <div class="gbobject-body span-16 last">

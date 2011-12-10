@@ -2,6 +2,11 @@ from gstudio.models import *
 from objectapp.models import *
 from reversion.models import Version
 
+MAP = (
+    ('objecttype','Objecttype'),
+    ('gbobject', 'Gbobject')
+       )
+
 
 def get_slug(name):
     """
@@ -41,4 +46,23 @@ def get_nodetype(name):
         return "The item was not found."
         
     return vrs.object._meta.module_name   
+    
+
+
+def get_node(name):
+    """
+    returns a reference to the model object 
+    """
+    nt = get_nodetype(name)
+    node = NID.objects.get(title=str(name))
+    this_id = node.id
+    if (nt == 'gbobject'):
+        return Gbobject.objects.get(id=this_id)
+    
+    if (nt == 'objecttype'):
+        return Objecttype.objects.get(id=this_id)
+
+    if (nt == 'metatype'):
+        return Metatype.objects.get(id=this_id)
+
     

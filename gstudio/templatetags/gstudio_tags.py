@@ -20,6 +20,9 @@ from tagging.utils import calculate_cloud
 from gstudio.models import Nodetype
 from gstudio.models import Author
 from gstudio.models import Metatype
+
+from gstudio.gnowql import get_node
+
 from gstudio.managers import tags_published
 from gstudio.comparison import VectorBuilder
 from gstudio.comparison import pearson_score
@@ -280,7 +283,6 @@ def gstudio_breadcrumbs(context, separator='/', root_name='gstudio',
     return {'template': template,
             'separator': separator,
             'breadcrumbs': breadcrumbs}
-
 
 @register.simple_tag
 def get_gravatar(email, size=80, rating='g', default=None):

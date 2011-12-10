@@ -405,7 +405,6 @@ gstudio/templates/gstudio/tags/random_nodetypes.html
 gstudio/templates/gstudio/tags/recent_comments.html
 gstudio/templates/gstudio/tags/recent_linkbacks.html
 gstudio/templates/gstudio/tags/recent_nodetypes.html
-gstudio/templates/gstudio/tags/rendered_nbh.html
 gstudio/templates/gstudio/tags/similar_nodetypes.html
 gstudio/templates/gstudio/tags/slider_nodetypes.html
 gstudio/templates/gstudio/tags/tag_cloud.html

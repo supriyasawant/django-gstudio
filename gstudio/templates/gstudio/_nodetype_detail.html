@@ -25,6 +25,75 @@
       {% endif %}
       <abbr class="published" title="{{ object.creation_date|date:"c" }}Z">{{ object.creation_date|date:"DATE_FORMAT" }}</abbr>
 
+
+             <b>Its name is: </b> {{ object.title }}.
+
+	     {% if object.altnames %}
+	     <b>It has alternate names: </b>
+	     {{ object.altnames }}. 		
+	     {% endif %}
+             {% if object.plural %}
+	     <b>It has plural name: </b> {{ object.plural }}. 
+	     {% endif %} 
+
+	     {% if object.parent %}
+	     <b>It is a kind of: </b> 
+	     	     <a href="{{ object.parent.get_absolute_url }}">  {{ object.parent.title }}</a>.  
+	     {% endif %}
+
+  	     {% if object.get_children %}
+	     <b>It has subtypes: </b>
+	          {% for items in object.get_children %}
+	     <a href="{{ items.get_absolute_url }}"> {{ items.title }}</a>; 
+	          {% endfor %} 		   
+	     {% endif %}
+
+	     {% if object.get_siblings %}
+	     <b>It has siblings: </b>
+	     {% for items in object.get_siblings %}
+	      <a href="{{ items.get_absolute_url }}"> {{ items.title }}</a>;
+	      {% endfor %}       
+	     {% endif %}  
+
+  	     {% if object.metatypes.all %}
+	     <b>It has member of metatypes: </b>
+	          {% for items in object.metatypes.all %}
+	     <a href="{{ items.get_absolute_url }}"> {{ items.title }}</a>; 
+	     {% endfor %} 	     
+	     {% endif %}
+
+	     {% if object.gbobjects.all %}
+	     <b>It has the following member objects: </b>
+	          {% for items in object.gbobjects.all %}
+	     <a href="{{ items.get_absolute_url }}"> {{ items.title }}</a>; 
+	          {% endfor %} 		   
+	     {% endif %}	     
+
+	     {% if object.subjecttypeLeft_gbnodetype.all %}
+	     <b>It is used as a domain for the relation types: </b> 
+	          {% for items in object.subjecttypeLeft_gbnodetype.all %}
+	     <a href="{{ items.get_absolute_url }}"> {{ items.title }}</a>; 
+	     {% endfor %} 	     
+	     {% endif %}
+
+	     {% if object.subjecttypeRight_gbnodetype.all %}
+	     <b>And as a range for the relation types: </b> 
+	          {% for items in object.subjecttypeRight_gbnodetype.all %}
+	     <a href="{{ items.get_absolute_url }}"> {{ items.title }}</a>; 
+	     {% endfor %}   	     
+	     {% endif %}
+
+	     {% if object.subjecttype_GbnodeType.all %}
+	     <b>It is a domain for the attribute types: </b> 
+	          {% for items in object.subjecttype_GbnodeType.all %}
+	     <a href="{{ items.get_absolute_url }}"> {{ items.title }}</a>; 
+	     {% endfor %} 	     
+	     {% endif %}
+
+
+
+
+
     </p>
   </div>
 
