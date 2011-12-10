@@ -8,7 +8,7 @@ from rdflib.term import URIRef
 from tempfile import mkdtemp
 from gstudio.models import *
 
-def rdf_description( name ):
+def rdf_description(name, notation='xml' ):
     """
     Funtion takes  title of node, and rdf notation.
     """
@@ -48,7 +48,7 @@ def rdf_description( name ):
      
     graph.commit()
 
-    print graph.serialize()
+    print graph.serialize(format=notation)
 
     graph.close()
 
