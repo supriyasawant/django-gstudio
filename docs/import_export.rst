@@ -4,75 +4,79 @@ Import / Export
 
 .. highlightlang:: console
 
-If you already have a blog, Zinnia has the ability to import your posts
-from other blogging platforms. Useful for rapid migration.
+If you already have a blog, Gstudio has the ability to import your posts
+from other blogging platforms. Useful for rapid migration.  Since
+Gstudio is a semantic blogging application, all the data that goes to
+your blog may not look like a regular blog,  though importing from a
+regular blog should work as any blog site.  We will improve the
+documentation as and when we know what to write here.
 
-.. _wordpress2zinnia:
+.. _wordpress2gstudio:
 
-From WordPress to Zinnia
+From WordPress to Gstudio
 ========================
 
-Zinnia provides a command for importing export files from WordPress.
+Gstudio provides a command for importing export files from WordPress.
 
 http://codex.wordpress.org/Tools_Export_SubPanel
 
 Once you have the XML file, you simply have to do this. ::
 
-  $ python manage.py wp2zinnia path/to/your/wordpress.xml
+  $ python manage.py wp2gstudio path/to/your/wordpress.xml
 
 This command will associate the post's authors to User and
 import the tags, categories, post and comments.
 
 For the options execute this. ::
 
-  $ python manage.py help wp2zinnia
+  $ python manage.py help wp2gstudio
 
-.. _zinnia2wordpress:
+.. _gstudio2wordpress:
 
-From Zinnia to WordPress
+From Gstudio to WordPress
 ========================
 
-Zinnia also provides a command for exporting your blog to WordPress in the
+Gstudio also provides a command for exporting your blog to WordPress in the
 case you want to migrate on it.
 
 Simply execute this command: ::
 
-  $ python manage.py zinnia2wp > export.xml
+  $ python manage.py gstudio2wp > export.xml
 
 Once you have the XML export, you can import it into your WordPress site.
 
 http://codex.wordpress.org/Importing_Content
 
-.. _blogger2zinnia:
+.. _blogger2gstudio:
 
-From Blogger to Zinnia
+From Blogger to Gstudio
 ======================
 
 If you are comming from Blogger, you can import your posts and comments
 with this simple command: ::
 
-  $ python manage.py blogger2zinnia
+  $ python manage.py blogger2gstudio
 
 For the options execute this. ::
 
-  $ python manage.py help blogger2zinnia
+  $ python manage.py help blogger2gstudio
 
 Note that you need to install the `gdata`_ package to run the importation.
 
-.. _feed2zinnia:
+.. _feed2gstudio:
 
-From Feed to Zinnia
+From Feed to Gstudio
 ===================
 
 If you don't have the possibility to export your posts but have a RSS or Atom
-feed on your Weblog, Zinnia can import it. This command is the most generic
-way to import content into Zinnia. Simply execute this command: ::
+feed on your Weblog, Gstudio can import it. This command is the most generic
+way to import content into Gstudio. Simply execute this command: ::
 
-  $ python manage.py feed2zinnia http://url.of/the/feed
+  $ python manage.py feed2gstudio http://url.of/the/feed
 
 For the options execute this. ::
 
-  $ python manage.py help feed2zinnia
+  $ python manage.py help feed2gstudio
 
 Note that you need to install the `feedparser`_ package to run the
 importation.

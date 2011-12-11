@@ -2,14 +2,14 @@
 Spam Checker
 ============
 
-.. module:: zinnia.spam_checker
+.. module:: gstudio.spam_checker
 
 .. versionadded:: 0.9
 
 Spam protection is mandatory when you want to let your users to comment
 your entries.
 
-Originally Zinnia provided a only one type of spam protection with the
+Originally Gstudio provided a only one type of spam protection with the
 support of Akismet.
 
 One it's not bad, but it's not enough, because depend of a third-party
@@ -47,6 +47,6 @@ possible, you only needs to follows 4 rules.
 
 #. Register your backend to be used in your project with this setting: ::
 
-    ZINNIA_SPAM_CHECKER_BACKENDS = ('path.to.your.spam.checker.module',)
+    GSTUDIO_SPAM_CHECKER_BACKENDS = ('path.to.your.spam.checker.module',)
 
-For a more examples take a look in this folder : :file:`zinnia/spam_checker/backends/`.
+For a more examples take a look in this folder : :file:`gstudio/spam_checker/backends/`.

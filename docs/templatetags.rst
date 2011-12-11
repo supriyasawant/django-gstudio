@@ -2,11 +2,11 @@
 Template Tags
 =============
 
-.. module:: zinnia.templatetags
+.. module:: gstudio.templatetags
 
 .. highlightlang:: html+django
 
-Zinnia provides several template tags based on
+Gstudio provides several template tags based on
 :ref:`inclusion_tag<howto-custom-template-tags-inclusion-tags>` system to
 create some **widgets** in your Web site's templates.
 
@@ -20,9 +20,9 @@ create some **widgets** in your Web site's templates.
 To start using any of the following template tags you need to load them
 first at the top of your template: ::
 
-  {% load zinnia_tags %}
+  {% load gstudio_tags %}
 
-.. module:: zinnia.templatetags.zinnia_tags
+.. module:: gstudio.templatetags.gstudio_tags
 
 .. templatetag:: get_recent_entries
 
@@ -234,36 +234,36 @@ Usage examples: ::
   {% get_recent_linkbacks 3 %}
   {% get_recent_linkbacks 3 "custom_template.html" %}
 
-.. templatetag:: zinnia_pagination
+.. templatetag:: gstudio_pagination
 
-zinnia_pagination
+gstudio_pagination
 =================
 
 Display a Digg-like pagination for long list of pages.
 
-.. autofunction:: zinnia_pagination
+.. autofunction:: gstudio_pagination
 
 Usage examples: ::
 
-  {% zinnia_pagination page_obj %}
-  {% zinnia_pagination page_obj 2 2 %}
-  {% zinnia_pagination page_obj 2 2 3 3 %}
-  {% zinnia_pagination page_obj 2 2 3 3 "custom_template.html" %}
+  {% gstudio_pagination page_obj %}
+  {% gstudio_pagination page_obj 2 2 %}
+  {% gstudio_pagination page_obj 2 2 3 3 %}
+  {% gstudio_pagination page_obj 2 2 3 3 "custom_template.html" %}
 
-.. templatetag:: zinnia_breadcrumbs
+.. templatetag:: gstudio_breadcrumbs
 
-zinnia_breadcrumbs
+gstudio_breadcrumbs
 ==================
 
-Display the breadcrumbs for the pages handled by Zinnia.
+Display the breadcrumbs for the pages handled by Gstudio.
 
-.. autofunction:: zinnia_breadcrumbs
+.. autofunction:: gstudio_breadcrumbs
 
 Usage examples: ::
 
-  {% zinnia_breadcrumbs %}
-  {% zinnia_breadcrumbs ">" "News" %}
-  {% zinnia_breadcrumbs ">" "News" "custom_template.html" %}
+  {% gstudio_breadcrumbs %}
+  {% gstudio_breadcrumbs ">" "News" %}
+  {% gstudio_breadcrumbs ">" "News" "custom_template.html" %}
 
 .. templatetag:: get_gravatar
 

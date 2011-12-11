@@ -1,5 +1,5 @@
 ===================================
-Django-Blog-Zinnia's documentation!
+Django-Gstudio Documentation
 ===================================
 
 Welcome to the version |version| of the documentation.
@@ -16,23 +16,26 @@ Getting Started
 
 .. toctree::
 
-   install
-   upgrading
+   installation
 
-Advanced Usage
+Usage
 --------------
 
 .. toctree::
    :maxdepth: 2
    :numbered:
 
-   configuration
-   channels
-   search_engines
+   constructing_semantic_network
+
+   
+Semantic blogging
+-----------------   
+
+   publishing_nbh
+   rss_feeds
+   rdf_graphs
+   concept_graphs
    url_shortener
-   spam_checker
-   extending_entry_model
-   import_export
 
 Development
 -----------
@@ -44,19 +47,11 @@ Development
    contribution
    buildout
    tests
-
-References
-----------
-
-.. toctree::
-   :maxdepth: 2
-   :numbered:
-
-   settings
+   api-ref
    templatetags
-   api-ref/zinnia
+   settings
 
-Notes
+
 -----
 
 .. toctree::
@@ -68,21 +63,20 @@ Notes
    thanks
    changelog
 
-Related
+
 -------
 
-* `Zinnia's API`_
+* ` API`_
 * `Code coverage`_
 
 Indices and tables
 ------------------
 
-If you can’t find the information you’re looking for, have a look at the
-index or try to find it using the search function:
+If you can't find the information you're looking for, have a look at the
+index or try to find it using the search function, please join the
+jabber conference room or the mailing list.
 
 * :ref:`genindex`
 * :ref:`search`
 
-.. _`documentation online at readthedocs.org`: http://django-blog-zinnia.readthedocs.org/
-.. _`Zinnia's API`: http://django-blog-zinnia.com/docs/api/
-.. _`Code coverage`: http://django-blog-zinnia.com/documentation/coverage/
+

@@ -2,36 +2,7 @@
 Thanks
 ======
 
-Zinnia cannot be a great application without great contributors who make
-this application greatest each day.
-
-* Bjorn Meyer (bmeyer71)
-* Jannis Leideil (jezdez)
-* Tobias von Klipstein (klipstein)
-* Mark Renton (indexofire)
-* Bill Mill (llimllib)
-* Kevin Renskers (Bolhoed)
-* Jonathan Stoppani (GaretJax)
-* Elijah Rutschman (elijahr)
-* Thomas Bartelmess (tbartelmess)
-* Franck Bret
-* Jason Davies
-* Brandon Taylor
-* bernhardvallant
-* nl0
-* esauro
-* 0Chuzz
-* un33K
-* orblivion
-* kjikaqawej
-* igalarzab
-* jtrain
-* and You.
-
-
-I also want to thanks `GitHub.com`_, `Transifex.net`_ and
-`ReadTheDocs.org`_ for their services of great quality.
-
-.. _`GitHub.com`: http://www.github.com/
-.. _`Transifex.net`: http://www.transifex.net/
-.. _`ReadTheDocs.org`: http://readthedocs.org/
+Major thanks to the creators of Django community, Django-blog-zinnia,
+mptt, reversion and my colleagues in the gnowledge lab.  Without them transforming a blogging app into a
+semantic blogging app wouldn't have been easy.  Will soon update this
+file with specific names, sorry for my laziness.
