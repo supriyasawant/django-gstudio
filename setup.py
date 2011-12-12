@@ -39,4 +39,5 @@ setup(name='django-gstudio',
                         'django-reversion>=1.5.1',
                         'django-grappelli>=2.3.4',
                         'django-ratings>=0.3.6',
+                        'rdflib>=3.0.0',
                         ])

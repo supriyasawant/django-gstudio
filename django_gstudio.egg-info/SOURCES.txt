@@ -58,6 +58,7 @@ gstudio/managers.py
 gstudio/models.py
 gstudio/moderator.py
 gstudio/ping.py
+gstudio/rdf.py
 gstudio/search.py
 gstudio/settings.py
 gstudio/signals.py
