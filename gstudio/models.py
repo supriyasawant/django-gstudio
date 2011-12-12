@@ -880,7 +880,7 @@ class Attribute(Edge):
         return 'the %s of %s is %s' % (self.attributeType, self.subject, self.svalue)
 
 
-class AttributeCharfield(Attribute):    
+class AttributeCharField(Attribute):    
 
     charfield  = models.CharField(max_length=100, verbose_name='string') 
 
@@ -894,116 +894,116 @@ class AttributeTextField(Attribute):
     def __unicode__(self):
         return self.title
     
-class IntegerField(Attribute):
+class AttributeIntegerField(Attribute):
      integerfield = models.IntegerField(max_length=100, verbose_name='Integer') 
 
      def __unicode__(self):
          return self.title
 
-class CommaSeparatedIntegerField(Attribute):
+class AttributeCommaSeparatedIntegerField(Attribute):
     
     commaseparatedintegerfield  = models.CommaSeparatedIntegerField(max_length=100, verbose_name='integers separated by comma') 
 
     def __unicode__(self):
         return self.title
 
-class GbBigIntegerField(Attribute):
+class AttributeBigIntegerField(Attribute):
     
     bigintegerfield  = models.BigIntegerField(max_length=100, verbose_name='big integer') 
 
     def __unicode__(self):
         return self.title
 
-class PositiveIntegerField(Attribute):
+class AttributePositiveIntegerField(Attribute):
     
     positiveintegerfield  = models.PositiveIntegerField(max_length=100, verbose_name='positive integer') 
 
     def __unicode__(self):
         return self.title
 
-class DecimalField(Attribute):
+class AttributeDecimalField(Attribute):
     
     decimalfield  = models.DecimalField(max_digits=3, decimal_places=2, verbose_name='decimal') 
 
     def __unicode__(self):
         return self.title
 
-class FloatField(Attribute):
+class AttributeFloatField(Attribute):
     
     floatfield  = models.FloatField(max_length=100, verbose_name='number as float') 
 
     def __unicode__(self):
         return self.title
 
-class BooleanField(Attribute):
+class AttributeBooleanField(Attribute):
     
     booleanfield  = models.BooleanField(verbose_name='boolean') 
 
     def __unicode__(self):
         return self.title
 
-class NullBooleanField(Attribute):
+class AttributeNullBooleanField(Attribute):
     nullbooleanfield  = models.NullBooleanField(verbose_name='true false or unknown') 
 
     def __unicode__(self):
         return self.title
 
-class DateField(Attribute):
+class AttributeDateField(Attribute):
     
     datefield  = models.DateField(max_length=100, verbose_name='date') 
 
     def __unicode__(self):
         return self.title
 
-class DateTimeField(Attribute):
+class AttributeDateTimeField(Attribute):
     
     DateTimeField  = models.DateTimeField(max_length=100, verbose_name='date time') 
     
     def __unicode__(self):
         return self.title
     
-class TimeField(Attribute):
+class AttributeTimeField(Attribute):
     TimeField  = models.TimeField(max_length=100, verbose_name='time') 
 
     def __unicode__(self):
         return self.title
 
-class EmailField(Attribute):
+class AttributeEmailField(Attribute):
     
     charfield  = models.CharField(max_length=100,verbose_name='value') 
 
     def __unicode__(self):
         return self.title
 
-class FileField(Attribute):
+class AttributeFileField(Attribute):
     
     filefield  = models.FileField(upload_to='/media', verbose_name='file') 
 
     def __unicode__(self):
         return self.title
 
-class FilePathField(Attribute):
+class AttributeFilePathField(Attribute):
     
     filepathfield  = models.FilePathField(verbose_name='path of file') 
 
     def __unicode__(self):
         return self.title
 
-class ImageField(Attribute):
+class AttributeImageField(Attribute):
     
     imagefield  = models.ImageField(upload_to='/media', verbose_name='image') 
 
     def __unicode__(self):
         return self.title
 
-class URLField(Attribute):
+class AttributeURLField(Attribute):
 
     urlfield  = models.URLField(max_length=100, verbose_name='url') 
 
     def __unicode__(self):
         return self.title
 
-class IPAddressField(Attribute):
+class AttributeIPAddressField(Attribute):
 
     ipaddressfield  = models.IPAddressField(max_length=100, verbose_name='ip address') 
 
