@@ -70,7 +70,7 @@ FIELD_TYPE_CHOICES = (
     ('2', 'TextField'),    
     ('3', 'IntegerField'),    
     ('4', 'CommaSeparatedIntegerField'),
-    ('5', 'GbBigIntegerField'),    
+    ('5', 'BigIntegerField'),    
     ('6', 'PositiveIntegerField'),    
     ('7', 'DecimalField'),
     ('8', 'FloatField'),
@@ -189,46 +189,20 @@ class Metatype(Node):
         """  
         Returns the neighbourhood of the metatype
         """
-        fields = ['title','altname','plural']
         nbh = {}
         nbh['title'] = self.title
         nbh['altnames'] = self.altnames 
         nbh['plural'] = self.plural
-
-        nbh['typeof'] = {}
         if self.parent:
-            nbh['typeof'] = dict({str(self.parent.id) : str(self.parent.title)})
-
-        nbh['contains_subtypes'] = {}
+            nbh['typeof'] = self.parent
         # generate ids and names of children/members
-        for obj in self.children.get_query_set():
-            nbh['contains_subtypes'].update({str(obj.id):str(obj.title)})
-
-        nbh['contains_members'] = {}
-        for obj in self.nodetypes.all():
-            nbh['contains_members'].update({str(obj.id):str(obj.title)})
-
-        nbh['relations'] = {}
-        left_relset = Relationtype.objects.filter(subjecttypeLeft=self.id)
-        right_relset = Relationtype.objects.filter(subjecttypeRight=self.id)
-
-        nbh['relations']['leftroles']  ={}
-        nbh['relations']['rightroles'] ={}
-
-        for relationtype in left_relset:
-            nbh['relations']['leftroles'].update({str(relationtype.id):str(relationtype.title)})
-
-        for relationtype in right_relset:
-            nbh['relations']['rightroles'].update({str(relationtype.id):str(relationtype.title)})
-
-        nbh['attributetypes'] = {}
-        for attributetype in Attributetype.objects.filter(subjecttype=self.id):
-             nbh['attributetypes'].update({str(attributetype._attributeType_cache.title):[attributetype.id ,str(attributetype.valueScope) + str(attributetype.value)]})
-
-        node = {}
-        node[self.title] = nbh
-
-        return node
+        nbh['contains_subtypes'] = self.children.get_query_set()
+        nbh['contains_members'] = self.nodetypes.all()
+        nbh['left_role_of'] = Relationtype.objects.filter(subjecttypeLeft=self.id)
+        nbh['right_role_of'] = Relationtype.objects.filter(subjecttypeRight=self.id)
+        nbh['attributetypes'] = Attributetype.objects.filter(subjecttype=self.id)
+        
+        return nbh
 
                   
     @property
@@ -504,29 +478,18 @@ class Objecttype(Nodetype):
         return self.title
 
     @property
-    def get_attributetypes(self):
-        attr_types = {}
-        attr_types['attributetypes'] = {}
-
-        for attributetype in self.subjecttype_GbnodeType.all():   
-            # or also Attributetype.objects.filter(subjecttype=self.id):
-            attr_types['attributetypes'].update({str(attributetype.id):str(attributetype.title)})
-        return attr_types
+    def get_attributetypes(self):        
+        return self.subjecttype_GbnodeType.all()
 
     @property
     def get_relationtypes(self):
-        reltypes = {}
-	reltypes['right_role_of'] = {}
-	reltypes['left_role_of'] = {}
-
+        
         left_relset = self.subjecttypeLeft_gbnodetype.all()  
         right_relset = self.subjecttypeRight_gbnodetype.all() 
 
-        for relationtype in left_relset:
-	    reltypes['left_role_of'].update({str(relationtype.id):str(relationtype.title)})
-
-        for relationtype in right_relset:
-	    reltypes['right_role_of'].update({str(relationtype.id):str(relationtype.title)})
+        reltypes = {}
+        reltypes['left_role_of']=left_relset
+        reltypes['right_role_of']=right_relset
         return reltypes
 
     @property
@@ -595,52 +558,26 @@ class Objecttype(Nodetype):
         nbh['title'] = self.title
         nbh['altnames'] = self.altnames
         nbh['plural'] = self.plural        
-        nbh['member_of_metatype'] = {}
-        if self.metatypes.all():
-            for metatype in self.metatypes.all():    
-		nbh['member_of_metatype'].update({str(metatype.id):str(metatype.title)})      
-
+        nbh['member_of_metatype'] = self.metatypes.all()
         # get all the ATs for the objecttype
-        nbh.update(self.get_attributetypes())
+        nbh.update(self.get_attributetypes) 
 
-        # get all the RTs for the objecttype
-        nbh['relations'] = {}
-        nbh['relations'].update(self.get_relationtypes()) 
+        # get all the RTs for the objecttype        
+        nbh.update(self.get_relationtypes) 
 
-        nbh['type_of'] = {}
-	if self.parent:
-            nbh['type_of'].update({str(self.parent.id) : str(self.parent.title)})
+        nbh['type_of'] = self.parent
 
-        nbh['contains_subtypes'] = {}
-        #generate ids and names of subtypes 
-        for nodetype in Nodetype.objects.filter(parent=self.id):
-            nbh['contains_subtypes'].update({str(nodetype.id):str(nodetype.title)})
+        nbh['contains_subtypes'] = Nodetype.objects.filter(parent=self.id)
+        # get all the objects inheriting this OT 
+        nbh['contains_members'] = self.gbobjects.all()
 
-        nbh['contains_members'] = {}
-        # get all the objects inheriting to this OT 
-        if self.gbobjects.all():
-            for gbobject in self.gbobjects.all():   
-		nbh['contains_members'].update({str(gbobject.id):str(gbobject.title)})
-                
-        nbh['priornodes'] = {} 
-        if self.priornodes.all():            
-            for prnode in self.priornodes.all():
-                nbh['priornodes'].update({str(prnode.id):str(prnode.title)})
+        nbh['priornodes'] = self.priornodes.all()             
 
-        nbh['posteriornodes'] = {} 
-        if self.posteriornodes.all():            
-            for pstnode in self.posteriornodes.all():
-                nbh['postnodes'].update({str(pstnode.id):str(pstnode.title)})
+        nbh['posteriornodes'] = self.posteriornodes.all() 
 
-	nbh['authors'] = {}
-        for author in self.authors.all():
-            nbh['authors'].update({str(author.id):str(author.username)})
-        nbh['content']  = self.content
+	nbh['authors'] = self.authors.all()
 
-        node = {}
-        node[self.title] = nbh
-
-	return node
+	return nbh
 
 
 
@@ -907,7 +844,7 @@ class CommaSeparatedIntegerField(Attribute):
     def __unicode__(self):
         return self.title
 
-class GbBigIntegerField(Attribute):
+class BigIntegerField(Attribute):
     
     bigintegerfield  = models.BigIntegerField(max_length=100, verbose_name='big integer') 
 
@@ -1079,11 +1016,7 @@ class AttributeSpecification(Node):
         '''
         composes a name to the attribute
         '''
-        subj_list = []
-        for subject in self.subjects.all():
-            subj_list.append(str(subject))
-         
-        return 'the %s of %s' % (self.attributetype, subj_list)
+        return 'the %s of %s' % (self.attributetype, self.subject)
 
 
     def __unicode__(self):
@@ -1109,20 +1042,14 @@ class RelationSpecification(Node):
         '''
         composing an expression with relation name and subject
         '''
-        subj_list = []
-        for subject in self.subjects.all():
-            subj_list.append(str(subject))
-         
-        return 'the %s of %s' % (self.relationtype, subj_list)
-
-        return 'the %s of %s' % (self.relationtype, self.subjects)
+        return 'the %s of %s' % (self.relationtype, self.subject)
 
     def __unicode__(self):
         return self.composed_subject
 
 
     class Meta:
-        verbose_name = _('relation specification')
+        verbose_name = _('relation as subject')
         permissions = (('can_view_all', 'Can view all'),
                        ('can_change_author', 'Can change author'), )
 
@@ -1139,25 +1066,14 @@ class NodeSpecification(Node):
         '''
         composing an expression subject and relations
         '''
-        rel_list = []
-        for relation in self.relations.all():
-            rel_list.append(str(relation))
-
-        att_list = []
-        for attribute in self.attributes.all():
-            att_list.append(str(attribute))
-
-         
-
-
-        return 'the %s with relations %s and attributes %s' % (self.subject, rel_list, att_list)
+        return 'the %s with %s, %s' % (self.subject, self.relations, self.attributes)
 
     def __unicode__(self):
         return self.composed_subject
 
 
     class Meta:
-        verbose_name = _('node specification')
+        verbose_name = _('relation as subject')
         permissions = (('can_view_all', 'Can view all'),
                        ('can_change_author', 'Can change author'), )
 

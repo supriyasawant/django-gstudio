@@ -47,9 +47,6 @@ from objectapp.url_shortener import get_url_shortener
 from objectapp.signals import ping_directories_handler
 from objectapp.signals import ping_external_urls_handler
 
-import mptt
-
-
 
 class Author(User):
     """Proxy Model around User"""
@@ -172,20 +169,18 @@ class Gbobject(Node):
         for relation in left_relset:
             # check if relation already exists
             if relation.relationtype.title not in rel_dict['leftroles'].keys():
-                # create a new dict key field and add to it
-                rel_dict['leftroles'][str(relation.relationtype.title)] = {}
+                # create a new list field and add to it
+                rel_dict['leftroles'][str(relation.relationtype.title)] = []
             # add 
-            rel_dict['leftroles'][str(relation.relationtype.title)][str(relation.id)] = str(relation.subject2) 
+            rel_dict['leftroles'][str(relation.relationtype.title)].append(relation) 
 
-   
         for relation in right_relset:
             # check if relation exists
             if relation.relationtype.inverse not in rel_dict['rightroles'].keys():
-                # create a new dict key field and add to it
-                rel_dict['rightroles'][str(relation.relationtype.inverse)] = {}
+                # create a new list key field and add to it
+                rel_dict['rightroles'][str(relation.relationtype.inverse)] = []
                 # add to the existing key
-            rel_dict['rightroles'][str(relation.relationtype.inverse)][str(relation.id)] = str(relation.subject1)
-
+            rel_dict['rightroles'][str(relation.relationtype.inverse)].append(relation)
 
         relation_set.update(rel_dict['leftroles'])
         relation_set.update(rel_dict['rightroles'])
@@ -214,22 +209,13 @@ class Gbobject(Node):
         nbh['plural'] = self.plural
         nbh['content'] = self.content
         #return  all OTs the object is linked to
-        nbh['member_of'] = {}
-        for objtype in self.objecttypes.all():
-            # create member of dict
-            nbh['member_of'].update({str(objtype.id):str(objtype.title)})
-
-        # get all the relations of the object
-            
-        nbh['relations'] = self.get_relations()
-
-        nbh['attributes'] = self.get_attributes()
-        # encapsulate the dictionary with its node name as key
-        #nbh.update(attribute_set)
-        node = {}
-        node[self.title] = nbh
+        nbh['member_of'] = self.objecttypes.all()
         
-        return node
+        # get all the relations of the object    
+        nbh.update(self.get_relations())
+        nbh.update(self.get_attributes())
+        # encapsulate the dictionary with its node name as key
+        return nbh
 
 
 
@@ -435,11 +421,9 @@ if not reversion.is_registered(Gbobject):
 
 moderator.register(Gbobject, GbobjectCommentModerator)
 
-
 post_save.connect(ping_directories_handler, sender=Gbobject,
                   dispatch_uid='objectapp.gbobject.post_save.ping_directories')
 post_save.connect(ping_external_urls_handler, sender=Gbobject,
                   dispatch_uid='objectapp.gbobject.post_save.ping_external_urls')
-
 
 
