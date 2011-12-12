@@ -20,6 +20,27 @@ from gstudio.models import Union
 from gstudio.models import Complement
 from gstudio.models import Intersection
 
+from gstudio.models import AttributeCharfield
+from gstudio.models import AttributeTextField
+from gstudio.models import IntegerField
+from gstudio.models import CommaSeparatedIntegerField
+from gstudio.models import GbBigIntegerField
+from gstudio.models import PositiveIntegerField
+from gstudio.models import DecimalField
+from gstudio.models import FloatField 
+from gstudio.models import BooleanField
+from gstudio.models import NullBooleanField
+from gstudio.models import DateField
+from gstudio.models import DateTimeField
+from gstudio.models import TimeField
+from gstudio.models import EmailField
+from gstudio.models import FileField
+from gstudio.models import FilePathField
+from gstudio.models import ImageField
+from gstudio.models import URLField
+from gstudio.models import IPAddressField
+
+
 
 
 from gstudio.models import Systemtype
@@ -332,6 +353,87 @@ class ComplementAdminForm(forms.ModelForm):
 class IntersectionAdminForm(forms.ModelForm):
     class Meta:
         model = Intersection
+
+
+
+class IntersectionAdminForm(forms.ModelForm):
+    class Meta:
+        model = Intersection
+
+### Datatypes here ###
+
+class AttributeCharfieldAdminForm(forms.ModelForm):
+    class Meta:
+        model = AttributeCharfield
+
+class AttributeTextFieldAdminForm(forms.ModelForm):
+    class Meta:
+        model = AttributeTextField
+
+class IntegerFieldAdminForm(forms.ModelForm):
+    class Meta:
+        model = IntegerField
+
+class CommaSeparatedIntegerFieldAdminForm(forms.ModelForm):
+    class Meta:
+        model = CommaSeparatedIntegerField
+class GbBigIntegerFieldAdminForm(forms.ModelForm):
+    class Meta:
+        model = GbBigIntegerField
+class PositiveIntegerFieldAdminForm(forms.ModelForm):
+    class Meta:
+        model = PositiveIntegerField
+
+class DecimalFieldAdminForm(forms.ModelForm):
+    class Meta:
+        model = DecimalField
+class FloatFieldAdminForm(forms.ModelForm):
+    class Meta:
+        model = FloatField
+class BooleanFieldAdminForm(forms.ModelForm):
+    class Meta:
+        model = BooleanField
+
+class NullBooleanFieldAdminForm(forms.ModelForm):
+    class Meta:
+        model = NullBooleanField
+class DateFieldAdminForm(forms.ModelForm):
+    class Meta:
+        model = DateField
+class DateTimeFieldAdminForm(forms.ModelForm):
+    class Meta:
+        model = DateField
+
+class TimeFieldAdminForm(forms.ModelForm):
+    class Meta:
+        model = TimeField
+
+class EmailFieldAdminForm(forms.ModelForm):
+    class Meta:
+        model = EmailField
+class FileFieldAdminForm(forms.ModelForm):
+    class Meta:
+        model = FileField
+class FilePathFieldAdminForm(forms.ModelForm):
+    class Meta:
+        model = FilePathField
+class ImageFieldAdminForm(forms.ModelForm):
+    class Meta:
+        model = ImageField
+
+class URLFieldAdminForm(forms.ModelForm):
+    class Meta:
+        model = URLField
+class IPAddressFieldAdminForm(forms.ModelForm):
+    class Meta:
+        model = IPAddressField
+
+
+
+
+
+
+
 
 
 

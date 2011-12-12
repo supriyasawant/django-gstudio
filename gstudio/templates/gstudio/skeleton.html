@@ -16,6 +16,7 @@
     <link rel="shortcut icon" href="{{ STATIC_URL }}gstudio/img/favicon.ico" />
     <link rel="home" href="{% url gstudio_nodetype_archive_index %}" />
     <link rel="stylesheet" type="text/css" media="screen, projection" href="{{ STATIC_URL }}gstudio/css/screen.css" />
+    <link rel="stylesheet" type="text/css" media="screen, projection" href="{{ STATIC_URL }}gstudio/css/screen_gstudio.css" />
     <link rel="stylesheet" type="text/css" media="print" href="{{ STATIC_URL }}gstudio/css/print.css" />
     <!--[if lt IE 8]>
 	<link rel="stylesheet" type="text/css" media="screen, projection" href="{{ STATIC_URL }}gstudio/css/ie.css" />
@@ -27,27 +28,35 @@
   </head>
   <body id="gstudio">
     <div class="container">
-      <div id="header" class="span-24 last">
+      <div id="gstudio_header" class="span-24 last">
 	<div class="top-navigation">
+	  <a class="gstudio" href = "/gstudio/">Gstudio</a>
+	  |
+	  Objects
+	  |
+	  <a class="gstudio" href = "/admin/">Admin</a>
+	  |
+
 	  <a href="{% url gstudio_sitemap %}" title="{% trans "Sitemap" %}" class="link sitemap">
 	    {% trans "Sitemap" %}
 	  </a> |
-	  <a href="{% url gstudio_nodetype_latest_feed %}" title="{% trans "RSS Feed of latest nodetypes" %}" class="link feeds">
+	  <a href="{% url gstudio_nodetype_latest_feed %}" title="{% trans "RSS Feed of latest objecttypes" %}" class="link feeds">
 	    {% trans "RSS Feed" %}
 	  </a>
 	</div>
 	<h1>
-	  <a href="{% url gstudio_nodetype_archive_index %}" title="Gnowledge Studio" rel="home">
+	  <a class="gstudio" href="{% url gstudio_nodetype_archive_index %}" title="Gnowledge Studio" rel="home">
 	    Gnowledge Studio
 	  </a>
 	</h1>
 	<blockquote>
-	  <h3>A workspace for constructing and publishing knowledge networks.</h3>
+	  <h3 class="gstudio">A workspace for constructing and publishing knowledge networks.</h3>
 	</blockquote>
 	<div id="breadcrumbs" class="span-24 last">
 	  / {% block breadcrumbs %}{% endblock %}
 	</div>
       </div>
+
       <div id="body" class="span-24 last">
 	<div id="content" class="hfeed span-16 border">
 	  {% block content %}
