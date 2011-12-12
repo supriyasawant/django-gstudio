@@ -39,22 +39,22 @@ installation of South in your project. ::
 Now we will install the previous migrations of Zinnia to synchronize the
 current database schema with South. ::
 
-  $ python manage.py migrate zinnia --fake
+  $ python manage.py migrate gstudio --fake
 
-.. _update-zinnia-code:
+.. _update-gstudio-code:
 
-Update Zinnia's code
+Update Gstudio's code
 ====================
 
-We are now ready to upgrade Zinnia. If you want to use the latest stable
+We are now ready to upgrade Gstudio. If you want to use the latest stable
 version use :program:`easy_install` with this command: ::
 
-  $ easy_install -U django-blog-zinnia
+  $ easy_install -U django-blog-gstudio
 
 or if you prefer to upgrade from the development release, use
 :program:`pip` like that: ::
 
-  $ pip install -U -e git://github.com/Fantomas42/django-blog-zinnia.git#egg=django-blog-zinnia
+  $ pip install -U -e git://github.com/Fantomas42/django-blog-gstudio.git#egg=django-blog-gstudio
 
 .. _update-database:
 
@@ -62,9 +62,9 @@ Update the database
 ===================
 
 The database should probably be updated to the latest database schema of
-Zinnia, South will be useful. ::
+Gstudio, South will be useful. ::
 
-  $ python manage.py migrate zinnia
+  $ python manage.py migrate gstudio
 
 The database is now up to date, and ready to use.
 

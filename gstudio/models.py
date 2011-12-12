@@ -1079,7 +1079,11 @@ class AttributeSpecification(Node):
         '''
         composes a name to the attribute
         '''
-        return 'the %s of %s' % (self.attributetype, self.subject)
+        subj_list = []
+        for subject in self.subjects.all():
+            subj_list.append(str(subject))
+         
+        return 'the %s of %s' % (self.attributetype, subj_list)
 
 
     def __unicode__(self):
@@ -1105,14 +1109,20 @@ class RelationSpecification(Node):
         '''
         composing an expression with relation name and subject
         '''
-        return 'the %s of %s' % (self.relationtype, self.subject)
+        subj_list = []
+        for subject in self.subjects.all():
+            subj_list.append(str(subject))
+         
+        return 'the %s of %s' % (self.relationtype, subj_list)
+
+        return 'the %s of %s' % (self.relationtype, self.subjects)
 
     def __unicode__(self):
         return self.composed_subject
 
 
     class Meta:
-        verbose_name = _('relation as subject')
+        verbose_name = _('relation specification')
         permissions = (('can_view_all', 'Can view all'),
                        ('can_change_author', 'Can change author'), )
 
@@ -1129,14 +1139,25 @@ class NodeSpecification(Node):
         '''
         composing an expression subject and relations
         '''
-        return 'the %s with %s, %s' % (self.subject, self.relations, self.attributes)
+        rel_list = []
+        for relation in self.relations.all():
+            rel_list.append(str(relation))
+
+        att_list = []
+        for attribute in self.attributes.all():
+            att_list.append(str(attribute))
+
+         
+
+
+        return 'the %s with relations %s and attributes %s' % (self.subject, rel_list, att_list)
 
     def __unicode__(self):
         return self.composed_subject
 
 
     class Meta:
-        verbose_name = _('relation as subject')
+        verbose_name = _('node specification')
         permissions = (('can_view_all', 'Can view all'),
                        ('can_change_author', 'Can change author'), )
 

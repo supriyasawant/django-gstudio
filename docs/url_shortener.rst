@@ -2,7 +2,7 @@
 URL Shortener
 =============
 
-.. module:: zinnia.url_shortener
+.. module:: gstudio.url_shortener
 
 .. versionadded:: 0.9
 
@@ -11,12 +11,12 @@ transfering long URLs.
 
 And so many URL shortening services exist, each with his own features.
 
-Originally Zinnia provided a only way to generate short URLs for your
-entries, and you needed to install :ref:`django-bitly<zinnia-bitly>`.
+Originally Gstudio provided a only way to generate short URLs for your
+entries, and you needed to install :ref:`django-bitly<gstudio-bitly>`.
 
 One way it's not bad, but it's not enough.
 
-First of all Zinnia now provides his own short URLs for the entries,
+First of all Gstudio now provides his own short URLs for the entries,
 exemple:
 
   http://mydomain.com/blog/1/
@@ -38,7 +38,7 @@ Writing a backend for using your custom URL shortener is simple as
 possible, you only needs to follows 4 rules.
 
 #. In a new Python file write a function named **backend** taking an
-   :class:`~zinnia.models.Entry` instance in parameters.
+   :class:`~gstudio.models.Entry` instance in parameters.
 
 #. The **backend** function should returns an URL including the protocol
    and the domain.
@@ -49,16 +49,16 @@ possible, you only needs to follows 4 rules.
 
 #. Register your backend to be used in your project with this setting: ::
 
-    ZINNIA_URL_SHORTENER_BACKEND = 'path.to.your.url.shortener.module'
+    GSTUDIO_URL_SHORTENER_BACKEND = 'path.to.your.url.shortener.module'
 
 Here the source code of the default backend. ::
 
     from django.contrib.sites.models import Site
     from django.core.urlresolvers import reverse
-    from zinnia.settings import PROTOCOL
+    from gstudio.settings import PROTOCOL
 
     def backend(entry):
         return '%s://%s%s' % (PROTOCOL, Site.objects.get_current().domain,
-                              reverse('zinnia_entry_shortlink', args=[entry.pk]))
+                              reverse('gstudio_entry_shortlink', args=[entry.pk]))
 
-For a more examples take a look in this folder: :file:`zinnia/url_shortener/backends/`.
+For a more examples take a look in this folder: :file:`gstudio/url_shortener/backends/`.

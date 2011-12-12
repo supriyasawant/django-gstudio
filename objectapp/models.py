@@ -47,6 +47,9 @@ from objectapp.url_shortener import get_url_shortener
 from objectapp.signals import ping_directories_handler
 from objectapp.signals import ping_external_urls_handler
 
+import mptt
+
+
 
 class Author(User):
     """Proxy Model around User"""
@@ -432,9 +435,11 @@ if not reversion.is_registered(Gbobject):
 
 moderator.register(Gbobject, GbobjectCommentModerator)
 
+
 post_save.connect(ping_directories_handler, sender=Gbobject,
                   dispatch_uid='objectapp.gbobject.post_save.ping_directories')
 post_save.connect(ping_external_urls_handler, sender=Gbobject,
                   dispatch_uid='objectapp.gbobject.post_save.ping_external_urls')
+
 
 

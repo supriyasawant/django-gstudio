@@ -17,6 +17,8 @@ from gstudio.models import Node
 from gstudio.models import Relation
 from gstudio.models import Attribute
 from gstudio.models import Processtype
+from gstudio.models import Nodetype
+from gstudio.models import Metatype
 
 from objectapp.admin.widgets import TreeNodeChoiceField
 from objectapp.admin.widgets import MPTTFilteredSelectMultiple
@@ -71,11 +73,15 @@ class GbobjectAdminForm(forms.ModelForm):
         widget=MPTTFilteredSelectMultiple(_('objecttypes'), False,
                                           attrs={'rows': '10'}))
 
+
     def __init__(self, *args, **kwargs):
         super(GbobjectAdminForm, self).__init__(*args, **kwargs)
         rel = ManyToManyRel(Objecttype, 'id')
+
         self.fields['objecttypes'].widget = RelatedFieldWidgetWrapper(
             self.fields['objecttypes'].widget, rel, self.admin_site)
+
+
         self.fields['sites'].initial = [Site.objects.get_current()]
 
     class Meta:

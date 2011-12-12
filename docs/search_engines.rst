@@ -2,9 +2,9 @@
 Search Engines
 ==============
 
-.. module:: zinnia.views.search
+.. module:: gstudio.views.search
 
-Zinnia like almost all blogging systems contains a
+Gstudio like almost all blogging systems contains a
 :func:`search engine<entry_search>` feature.
 
 But in fact there are 2 search engines, a basic and an advanced, the
@@ -16,7 +16,7 @@ basic search engine will resume the job.
 Basic Search Engine
 ===================
 
-The basic search engine is the original engine of Zinnia, and will be used
+The basic search engine is the original engine of Gstudio, and will be used
 if the advanced engine cannot be used.
 
 It will always returns more results than the advanced engine, because each
@@ -34,7 +34,7 @@ Example of a query :
 Advanced Search Engine
 ======================
 
-.. module:: zinnia.search
+.. module:: gstudio.search
 
 The advanced search engine has several possibilities for making more
 elaborated queries, with it's own grammar system.
@@ -116,4 +116,4 @@ Note that the query is stripped of common words known as stop words.
 These are words such as **on**, **the** or **which** that are generally
 not meaningful and cause irrelevant results.
 
-The list of stop words is stored in the :setting:`ZINNIA_STOP_WORDS` setting.
+The list of stop words is stored in the :setting:`GSTUDIO_STOP_WORDS` setting.

@@ -3,48 +3,76 @@ gstudio: Gnowledge Studio
 ==================
 
 A collaborative workspace for constructing and publishing semantic
-knowledge networks and ontologies is being constructed. 
+knowledge networks and ontologies as blogs. 
 
 Features taking shape
-========
+=====================
 
 As and when a feature is tested and working it will be listed below.
 
-Nodes implemented:
-================
-* metaTypes
-* objectTypes
-* objects
-* relations
-* relationtypes
-* attributes
-* attributetypes
+Nodes implemented
+=================
 
+Gstudio Components
+------------------
+
+* Metatypes
+* Object types
+* Relation types
+* Attribute types
+* System types
+* Process types
+* Attributes
+* Relations
+* Node Specification
+* Relation Specification
+* Attribute Specification
+* Union
+* Complement
+* Intersection
+
+
+Objectapp Components
+------------------
+
+* Objects
+* Systems
+* Processes
+
+Online Collaborative Platform
+=============================
+
+The application is built as a collaborative on line platform.
+
+Version Control
+---------------
 All the nodes above are also registered with django-reversion for
-version control. 
+version control using django-reversion.
 
-In our next release we will add dependency relation, and create
-appropriate fields for relations and atttributes.  While we shape this
-project, if you are interested in joining, visit us at metastudio.org.
+User Registration
+-----------------
 
-Nodes soon to come:
-==================
-* system (ontology)
-* systemtype (ontologytype)
+Basic registration using django-registration
+
 
 Features you will see soon:
 ===========================
-* dependency relation 
-* context graphs and concept graphs
 
-Other features to come:
-======================
+* neighbourhood graphs and concept graphs
+* dynamic forms for adding attributes and relations following the
+  definition
 
+Other Semantic Web features to come
+===================================
+
+* data in RDF format
 * rdf feed to a triple store
+* sparql endpoint
 * export and import of standard knowledge representation languages: CL, OWL, XTM etc.
 
 Features adopted from Django-Blog-Zinnia
-=======================================
+========================================
+
 The following features are adopted from django-blog-zinnia code base
 with a lot of gratitude.  Thanks to an excellent codebase of
 django-blog-zinnia, which taught us best software development
@@ -87,6 +115,6 @@ Examples
 We will soon create a sandbox site for users to play and test the features.
 
 Project Page
-================
+============
 
 https://www.metastudio.org/groups/gstudio/overview

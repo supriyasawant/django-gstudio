@@ -2,7 +2,7 @@
 Installation
 ============
 
-.. module:: zinnia
+.. module:: gstudio
 
 .. _dependencies:
 
@@ -23,7 +23,7 @@ The packages below are optionnal but needed for run the full test suite.
 * `django-xmlrpc`_ >= 0.1.3
 
 Note that all the dependencies will be resolved if you install
-Zinnia with :program:`pip` or :program:`easy_install`, excepting Django.
+Gstudio with :program:`pip` or :program:`easy_install`, excepting Django.
 
 .. _getting-the-code:
 
@@ -32,25 +32,25 @@ Getting the code
 
 .. highlight:: console
 
-For the latest stable version of Zinnia use :program:`easy_install`: ::
+For the latest stable version of Gstudio use :program:`easy_install`: ::
 
-  $ easy_install django-blog-zinnia
+  $ easy_install django-gstudio
 
 or use :program:`pip`: ::
 
-  $ pip install django-blog-zinnia
+  $ pip install django-gstudio
 
 You could also retrieve the last sources from
-https://github.com/Fantomas42/django-blog-zinnia. Clone the repository
+https://github.com/gnowgi/django-gstudio. Clone the repository
 using :program:`git` and run the installation script: ::
 
-  $ git clone git://github.com/Fantomas42/django-blog-zinnia.git
-  $ cd django-blog-zinnia
+  $ git clone git://github.com/gnowgi/django-gstudio.git
+  $ cd django-gstudio
   $ python setup.py install
 
 or more easily via :program:`pip`: ::
 
-  $ pip install -e git://github.com/Fantomas42/django-blog-zinnia.git#egg=django-blog-zinnia
+  $ pip install -e git://github.com/gnowgi/django-gstudio.git#egg=django-gstudio
 
 .. _applications:
 
@@ -59,7 +59,7 @@ Applications
 
 .. highlight:: python
 
-Then register :mod:`zinnia`, and these following applications in the
+Then register :mod:`gstudio`, and these following applications in the
 :setting:`INSTALLED_APPS` section of your project's settings. ::
 
   INSTALLED_APPS = (
@@ -71,7 +71,7 @@ Then register :mod:`zinnia`, and these following applications in the
     'django.contrib.admin',
     'tagging',
     'mptt',
-    'zinnia',)
+    'gstudio',)
 
 .. _template-context-processors:
 
@@ -88,7 +88,7 @@ already present. ::
     'django.core.context_processors.request',
     'django.core.context_processors.media',
     'django.core.context_processors.static',
-    'zinnia.context_processors.version',) # Optional
+    'gstudio.context_processors.version',) # Optional
 
 .. _urls:
 
@@ -98,23 +98,23 @@ URLs
 Add the following lines to your project's urls.py in order to display the
 blog. ::
 
-  url(r'^weblog/', include('zinnia.urls')),
+  url(r'^gstudio/', include('gstudio.urls')),
   url(r'^comments/', include('django.contrib.comments.urls')),
 
-Note that the default zinnia URLset is provided for convenient usage, but
+Note that the default gstudio URLset is provided for convenient usage, but
 you can customize your URLs if you want. Here's how: ::
 
-  url(r'^', include('zinnia.urls.capabilities')),
-  url(r'^search/', include('zinnia.urls.search')),
-  url(r'^sitemap/', include('zinnia.urls.sitemap')),
-  url(r'^trackback/', include('zinnia.urls.trackback')),
-  url(r'^weblog/tags/', include('zinnia.urls.tags')),
-  url(r'^weblog/feeds/', include('zinnia.urls.feeds')),
-  url(r'^weblog/authors/', include('zinnia.urls.authors')),
-  url(r'^weblog/categories/', include('zinnia.urls.categories')),
-  url(r'^weblog/discussions/', include('zinnia.urls.discussions')),
-  url(r'^weblog/', include('zinnia.urls.quick_entry')),
-  url(r'^weblog/', include('zinnia.urls.entries')),
+  url(r'^', include('gstudio.urls.capabilities')),
+  url(r'^search/', include('gstudio.urls.search')),
+  url(r'^sitemap/', include('gstudio.urls.sitemap')),
+  url(r'^trackback/', include('gstudio.urls.trackback')),
+  url(r'^gstudio/tags/', include('gstudio.urls.tags')),
+  url(r'^gstudio/feeds/', include('gstudio.urls.feeds')),
+  url(r'^gstudio/authors/', include('gstudio.urls.authors')),
+  url(r'^gstudio/categories/', include('gstudio.urls.categories')),
+  url(r'^gstudio/discussions/', include('gstudio.urls.discussions')),
+  url(r'^gstudio/', include('gstudio.urls.quick_entry')),
+  url(r'^gstudio/', include('gstudio.urls.entries')),
   url(r'^comments/', include('django.contrib.comments.urls')),
 
 .. _static-files:
@@ -122,7 +122,7 @@ you can customize your URLs if you want. Here's how: ::
 Static Files
 ============
 
-Since the version 1.3 of Django, Zinnia uses the
+Since the version 1.3 of Django, Gstudio uses the
 :mod:`django.contrib.staticfiles` application to serve the static files
 needed. Please refer to
 https://docs.djangoproject.com/en/dev/howto/static-files/ for more

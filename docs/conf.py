@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# django-blog-zinnia documentation build configuration file, created by
+# django-gstudio documentation build configuration file, created by
 # sphinx-quickstart on Thu Oct 21 17:44:20 2010.
 #
 # This file is execfile()d with the current directory set to its containing dir.
@@ -18,9 +18,9 @@ from datetime import date
 
 sys.path.append(os.path.abspath('.'))
 sys.path.append(os.path.abspath('..'))
-os.environ['DJANGO_SETTINGS_MODULE'] = 'zinniadocs_settings'
+os.environ['DJANGO_SETTINGS_MODULE'] = 'gstudiodocs_settings'
 
-import zinnia
+import gstudio
 
 # -- General configuration -----------------------------------------------------
 
@@ -31,7 +31,7 @@ import zinnia
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
 extensions = ['sphinx.ext.autodoc',
               'sphinx.ext.intersphinx',
-              'zinniadocs']
+              'gstudiodocs']
 
 intersphinx_mapping = {
     'django': ('http://readthedocs.org/docs/django/en/latest/', None),
@@ -51,8 +51,8 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'Django Blog Zinnia'
-copyright = u'%s, %s' % (date.today().year, zinnia.__author__)
+project = u'Django Blog Gstudio'
+copyright = u'%s, %s' % (date.today().year, gstudio.__author__)
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -60,7 +60,7 @@ copyright = u'%s, %s' % (date.today().year, zinnia.__author__)
 #
 
 # The full version, including alpha/beta/rc tags.
-release = zinnia.__version__
+release = gstudio.__version__
 
 # The short X.Y version.
 version = re.match(r'\d+\.\d+(?:\.\d+)?', release).group()
@@ -177,7 +177,7 @@ html_theme = 'nature'
 #html_file_suffix = None
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'django-blog-zinniadoc'
+htmlhelp_basename = 'django-gstudiodoc'
 
 
 # -- Options for LaTeX output --------------------------------------------------
@@ -191,7 +191,7 @@ htmlhelp_basename = 'django-blog-zinniadoc'
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'django-blog-zinnia.tex', u'django-blog-zinnia Documentation',
+  ('index', 'django-gstudio.tex', u'django-gstudio Documentation',
    u'Fantomas42', 'manual'),
 ]
 
@@ -224,6 +224,6 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'django-blog-zinnia', u'django-blog-zinnia Documentation',
-     [u'Fantomas42'], 1)
+    ('index', 'django-gstudio', u'django-gstudio Documentation',
+     [u'gnowgi'], 1)
 ]

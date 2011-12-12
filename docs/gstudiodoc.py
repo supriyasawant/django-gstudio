@@ -1,4 +1,4 @@
-"""Extensions for the documation of zinnia
+"""Extensions for the documation of gstudio
 
 Inspired, stealed and needed for
 cross linking the django documentation.

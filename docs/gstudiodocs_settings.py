@@ -1,6 +1,6 @@
-"""Settings for testing zinnia"""
+"""Settings for testing gstudio"""
 import os
-from zinnia.xmlrpc import ZINNIA_XMLRPC_METHODS
+from gstudio.xmlrpc import GSTUDIO_XMLRPC_METHODS
 
 DATABASES = {'default': {'NAME': ':memory:',
                          'ENGINE': 'django.db.backends.sqlite3'}}
@@ -21,4 +21,6 @@ INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django_xmlrpc',
-    'mptt', 'tagging', 'zinnia']
+    'mptt', 
+    'tagging', 
+    'gstudio']

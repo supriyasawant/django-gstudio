@@ -13,6 +13,13 @@ from gstudio.models import Relationtype
 from gstudio.models import Relation
 from gstudio.models import Attributetype
 from gstudio.models import Attribute
+from gstudio.models import AttributeSpecification
+from gstudio.models import RelationSpecification
+from gstudio.models import NodeSpecification
+from gstudio.models import Union
+from gstudio.models import Complement
+from gstudio.models import Intersection
+
 
 
 from gstudio.models import Systemtype
@@ -90,6 +97,7 @@ class ObjecttypeAdminForm(forms.ModelForm):
             self.fields['posteriornodes'].widget, post, self.admin_site)
 
 
+
         self.fields['sites'].initial = [Site.objects.get_current()]
 
     def clean_parent(self):
@@ -122,12 +130,14 @@ class RelationtypeAdminForm(forms.ModelForm):
         super(RelationtypeAdminForm, self).__init__(*args, **kwargs)
         prior = ManyToManyRel(Nodetype, 'id')
         post = ManyToManyRel(Nodetype, 'id')
+
        
 
         self.fields['priornodes'].widget = RelatedFieldWidgetWrapper(
             self.fields['priornodes'].widget, prior, self.admin_site)
         self.fields['posteriornodes'].widget = RelatedFieldWidgetWrapper(
             self.fields['posteriornodes'].widget, post, self.admin_site)
+
 
 
 
@@ -214,6 +224,7 @@ class AttributetypeAdminForm(forms.ModelForm):
             self.fields['posteriornodes'].widget, post, self.admin_site)
 
 
+
     class Meta:
         """MetatypeAdminForm's Meta"""
         model = Attributetype
@@ -228,27 +239,27 @@ class AttributeAdminForm(forms.ModelForm):
 
 
 class SystemtypeAdminForm(forms.ModelForm):
-    nodetypeset = MPTTModelMultipleChoiceField(
+    nodetype_set = MPTTModelMultipleChoiceField(
         label=_('Nodetypeset'), required=False,
         queryset=Nodetype.objects.all(),
         widget=MPTTFilteredSelectMultiple(_('Nodetypesets'), False,
                                           attrs={'rows': '10'}))
-    relationtypeset = MPTTModelMultipleChoiceField(
+    relationtype_set = MPTTModelMultipleChoiceField(
         label=_('Relationtypeset'), required=False,
         queryset=Relationtype.objects.all(),
         widget=MPTTFilteredSelectMultiple(_('Relationtypesets'), False,
                                           attrs={'rows': '10'}))
-    attributetypeset = MPTTModelMultipleChoiceField(
+    attributetype_set = MPTTModelMultipleChoiceField(
         label=_('Attributetypeset'), required=False,
         queryset=Attributetype.objects.all(),
         widget=MPTTFilteredSelectMultiple(_('Attributetypesets'), False,
                                           attrs={'rows': '10'}))
-    metatypeset = MPTTModelMultipleChoiceField(
+    metatype_set = MPTTModelMultipleChoiceField(
         label=_('Metatypeset'), required=False,
         queryset=Metatype.objects.all(),
         widget=MPTTFilteredSelectMultiple(_('metatypesets'), False,
                                           attrs={'rows': '10'}))
-    processtypeset = MPTTModelMultipleChoiceField(
+    processtype_set = MPTTModelMultipleChoiceField(
         label=_('Processtypeset'), required=False,
         queryset=Processtype.objects.all(),
         widget=MPTTFilteredSelectMultiple(_('Processtypesets'), False,
@@ -275,16 +286,16 @@ class SystemtypeAdminForm(forms.ModelForm):
         prior = ManyToManyRel(Nodetype,'id')
         post = ManyToManyRel(Nodetype,'id')
 
-        self.fields['nodetypeset'].widget = RelatedFieldWidgetWrapper(
-            self.fields['nodetypeset'].widget, ot, self.admin_site)
-        self.fields['relationtypeset'].widget = RelatedFieldWidgetWrapper(
-            self.fields['relationtypeset'].widget, rt, self.admin_site)
-        self.fields['attributetypeset'].widget = RelatedFieldWidgetWrapper(
-            self.fields['attributetypeset'].widget, at, self.admin_site)
-        self.fields['metatypeset'].widget = RelatedFieldWidgetWrapper(
-            self.fields['metatypeset'].widget, mt, self.admin_site)
-        self.fields['processtypeset'].widget = RelatedFieldWidgetWrapper(
-            self.fields['processtypeset'].widget, pt, self.admin_site)
+        self.fields['nodetype_set'].widget = RelatedFieldWidgetWrapper(
+            self.fields['nodetype_set'].widget, ot, self.admin_site)
+        self.fields['relationtype_set'].widget = RelatedFieldWidgetWrapper(
+            self.fields['relationtype_set'].widget, rt, self.admin_site)
+        self.fields['attributetype_set'].widget = RelatedFieldWidgetWrapper(
+            self.fields['attributetype_set'].widget, at, self.admin_site)
+        self.fields['metatype_set'].widget = RelatedFieldWidgetWrapper(
+            self.fields['metatype_set'].widget, mt, self.admin_site)
+        self.fields['processtype_set'].widget = RelatedFieldWidgetWrapper(
+            self.fields['processtype_set'].widget, pt, self.admin_site)
         self.fields['priornodes'].widget = RelatedFieldWidgetWrapper(
             self.fields['priornodes'].widget, prior, self.admin_site)
         self.fields['posteriornodes'].widget = RelatedFieldWidgetWrapper(
@@ -292,6 +303,35 @@ class SystemtypeAdminForm(forms.ModelForm):
 
 
 
+
     class Meta:
         """SystemAdminForm's Meta"""
         model = Systemtype
+
+
+class AttributeSpecificationAdminForm(forms.ModelForm):
+    class Meta:
+        model = AttributeSpecification
+
+class RelationSpecificationAdminForm(forms.ModelForm):
+    class Meta:
+        model = RelationSpecification
+
+class NodeSpecificationAdminForm(forms.ModelForm):
+    class Meta:
+        model = NodeSpecification
+
+class UnionAdminForm(forms.ModelForm):
+    class Meta:
+        model = Union
+
+class ComplementAdminForm(forms.ModelForm):
+    class Meta:
+        model = Complement
+
+class IntersectionAdminForm(forms.ModelForm):
+    class Meta:
+        model = Intersection
+
+
+

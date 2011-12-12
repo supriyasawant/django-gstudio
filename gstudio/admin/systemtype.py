@@ -31,11 +31,11 @@ class SystemtypeAdmin(reversion.VersionAdmin):
 
     fieldsets = ((_('Neighbourhood'), {'fields': ('title', 'altnames','content', 'parent','image', 'slug','status')}),
                  (_('Systemtype definiton'), {'fields': (
-                                                         'nodetypeset', 
-                                                         'relationtypeset', 
-                                                         'attributetypeset',
-                                                         'metatypeset', 
-                                                         'processtypeset')}),
+                                                         'nodetype_set', 
+                                                         'relationtype_set', 
+                                                         'attributetype_set',
+                                                         'metatype_set', 
+                                                         'processtype_set')}),
                  (_('Dependency'), {'fields': ('priornodes', 'posteriornodes',), 
                                  'classes': ('collapse', 'collapse-closed')}),
                  (_('Options'), {'fields': ('featured', 'excerpt', 'template',

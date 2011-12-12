@@ -37,7 +37,7 @@ dependencies.
 So what do you do if two or more of your projects have conflicting
 dependencies?
 Virtualenv basically enables multiple side-by-side installations of Python,
-one for each project. It doesn’t actually install separate copies of
+one for each project. It doesn't actually install separate copies of
 Python, but it does provide a clever way to keep different project
 environments isolated.
 
@@ -62,9 +62,9 @@ then bootstrap the buildout script to finally execute it.
 
 Follow these few command to start the development: ::
 
-  $ git clone git://github.com/Fantomas42/django-blog-zinnia.git
-  $ virtualenv --no-site-packages django-blog-zinnia
-  $ cd django-blog-zinnia
+  $ git clone git://github.com/gnowgi/django-gstudio.git
+  $ virtualenv --no-site-packages django-gstudio
+  $ cd django-gstudio
   $ source ./bin/activate
   $ python bootstrap.py
   $ ./bin/buildout
@@ -72,7 +72,7 @@ Follow these few command to start the development: ::
 The buildout script will resolve all the dependencies needed to develop the
 application and install some usefull scripts.
 
-Once the buildout has rune, you are ready to hack the Zinnia project.
+Once the buildout has rune, you are ready to hack the Gstudio project.
 
 .. _development-scripts:
 
@@ -89,8 +89,8 @@ To view the code coverage run this command: ::
 
 Execute these commands to check the code conventions: ::
 
-  $ ./bin/pyflakes zinnia
-  $ ./bin/pep8 --count -r --exclude=tests.py,migrations zinnia
+  $ ./bin/pyflakes gstudio
+  $ ./bin/pep8 --count -r --exclude=tests.py,migrations gstudio
 
 For building the HTML documentation run this simple command: ::
 
@@ -101,7 +101,7 @@ For building the HTML documentation run this simple command: ::
 Demo project
 ============
 
-A demo project using Zinnia, is available once the buildout script has
+A demo project using Gstudio, is available once the buildout script has
 run. The demo project is usefull when you want to do functionnal testing.
 
 To launch the demo site, execute these commands: ::
@@ -113,7 +113,7 @@ To directly have entries in your demo, run this command: ::
 
   $ ./bin/demo loaddata helloworld
 
-Pretty easy no ?
+Hope everything worked for you so far.
 
 
 .. _`buildout`: http://pypi.python.org/pypi/zc.buildout
