@@ -70,7 +70,7 @@ FIELD_TYPE_CHOICES = (
     ('2', 'TextField'),    
     ('3', 'IntegerField'),    
     ('4', 'CommaSeparatedIntegerField'),
-    ('5', 'BigIntegerField'),    
+    ('5', 'GbBigIntegerField'),    
     ('6', 'PositiveIntegerField'),    
     ('7', 'DecimalField'),
     ('8', 'FloatField'),
@@ -907,7 +907,7 @@ class CommaSeparatedIntegerField(Attribute):
     def __unicode__(self):
         return self.title
 
-class BigIntegerField(Attribute):
+class GbBigIntegerField(Attribute):
     
     bigintegerfield  = models.BigIntegerField(max_length=100, verbose_name='big integer') 
 
