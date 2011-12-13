@@ -16,25 +16,25 @@ from gstudio.models import NodeSpecification
 from gstudio.models import Union
 from gstudio.models import Complement
 from gstudio.models import Intersection
-from gstudio.models import AttributeCharfield
+from gstudio.models import AttributeCharField
 from gstudio.models import AttributeTextField
-from gstudio.models import IntegerField
-from gstudio.models import CommaSeparatedIntegerField
-from gstudio.models import GbBigIntegerField
-from gstudio.models import PositiveIntegerField
-from gstudio.models import DecimalField
-from gstudio.models import FloatField 
-from gstudio.models import BooleanField
-from gstudio.models import NullBooleanField
-from gstudio.models import DateField
-from gstudio.models import DateTimeField
-from gstudio.models import TimeField
-from gstudio.models import EmailField
-from gstudio.models import FileField
-from gstudio.models import FilePathField
-from gstudio.models import ImageField
-from gstudio.models import URLField
-from gstudio.models import IPAddressField
+from gstudio.models import AttributeIntegerField
+from gstudio.models import AttributeCommaSeparatedIntegerField
+from gstudio.models import AttributeBigIntegerField
+from gstudio.models import AttributePositiveIntegerField
+from gstudio.models import AttributeDecimalField
+from gstudio.models import AttributeFloatField 
+from gstudio.models import AttributeBooleanField
+from gstudio.models import AttributeNullBooleanField
+from gstudio.models import AttributeDateField
+from gstudio.models import AttributeDateTimeField
+from gstudio.models import AttributeTimeField
+from gstudio.models import AttributeEmailField
+from gstudio.models import AttributeFileField
+from gstudio.models import AttributeFilePathField
+from gstudio.models import AttributeImageField
+from gstudio.models import AttributeURLField
+from gstudio.models import AttributeIPAddressField
 
 #Admin imports
 
@@ -52,25 +52,26 @@ from gstudio.admin.complement import ComplementAdmin
 from gstudio.admin.intersection import IntersectionAdmin 
 from gstudio.admin.systemtype import SystemtypeAdmin
 from gstudio.admin.processtype import ProcesstypeAdmin
-from gstudio.admin.attributecharfield import AttributeCharfieldAdmin 
-from gstudio.admin.attributetextfield import AttributeTextFieldAdmin
-from gstudio.admin.integerfield import IntegerFieldAdmin
-from gstudio.admin.commaseparatedintegerfield import CommaSeparatedIntegerFieldAdmin
-from gstudio.admin.bigintegerfield import GbBigIntegerFieldAdmin
-from gstudio.admin.positiveintegerfield import PositiveIntegerFieldAdmin
-from gstudio.admin.decimalfield import DecimalFieldAdmin
-from gstudio.admin.floatfield import FloatFieldAdmin
-from gstudio.admin.booleanfield import BooleanFieldAdmin
-from gstudio.admin.nullbooleanfield import NullBooleanFieldAdmin
-from gstudio.admin.datefield import DateFieldAdmin
-from gstudio.admin.datetimefield import DateTimeFieldAdmin
-from gstudio.admin.timefield import TimeFieldAdmin
-from gstudio.admin.emailfield import EmailFieldAdmin
-from gstudio.admin.filefield import FileFieldAdmin
-from gstudio.admin.filepathfield import FilePathFieldAdmin
-from gstudio.admin.imagefield import ImageFieldAdmin
-from gstudio.admin.urlfield import URLFieldAdmin
-from gstudio.admin.ipaddressfield import IPAddressFieldAdmin
+
+from gstudio.admin.attribute_charfield import AttributeCharFieldAdmin 
+from gstudio.admin.attribute_textfield import AttributeTextFieldAdmin
+from gstudio.admin.attribute_integerfield import AttributeIntegerFieldAdmin
+from gstudio.admin.attribute_commaseparatedintegerfield import AttributeCommaSeparatedIntegerFieldAdmin
+from gstudio.admin.attribute_bigintegerfield import AttributeBigIntegerFieldAdmin
+from gstudio.admin.attribute_positiveintegerfield import AttributePositiveIntegerFieldAdmin
+from gstudio.admin.attribute_decimalfield import AttributeDecimalFieldAdmin
+from gstudio.admin.attribute_floatfield import AttributeFloatFieldAdmin
+from gstudio.admin.attribute_booleanfield import AttributeBooleanFieldAdmin
+from gstudio.admin.attribute_nullbooleanfield import AttributeNullBooleanFieldAdmin
+from gstudio.admin.attribute_datefield import AttributeDateFieldAdmin
+from gstudio.admin.attribute_datetimefield import AttributeDateTimeFieldAdmin
+from gstudio.admin.attribute_timefield import AttributeTimeFieldAdmin
+from gstudio.admin.attribute_emailfield import AttributeEmailFieldAdmin
+from gstudio.admin.attribute_filefield import AttributeFileFieldAdmin
+from gstudio.admin.attribute_filepathfield import AttributeFilePathFieldAdmin
+from gstudio.admin.attribute_imagefield import AttributeImageFieldAdmin
+from gstudio.admin.attribute_urlfield import AttributeURLFieldAdmin
+from gstudio.admin.attribute_ipaddressfield import AttributeIPAddressFieldAdmin
 
 
 
@@ -92,25 +93,25 @@ admin.site.register(Union, UnionAdmin)
 admin.site.register(Complement, ComplementAdmin)
 admin.site.register(Intersection, IntersectionAdmin)
 
-admin.site.register(AttributeCharfield,AttributeCharfieldAdmin)
-admin.site.register(AttributeTextField,AttributeTextFieldAdmin)
-admin.site.register(IntegerField,IntegerFieldAdmin)
-admin.site.register(CommaSeparatedIntegerField,CommaSeparatedIntegerFieldAdmin)
-admin.site.register(GbBigIntegerField,GbBigIntegerFieldAdmin)
-admin.site.register(PositiveIntegerField,PositiveIntegerFieldAdmin)
-admin.site.register(DecimalField,DecimalFieldAdmin)
-admin.site.register(FloatField,FloatFieldAdmin)  
-admin.site.register(BooleanField,BooleanFieldAdmin)
-admin.site.register(NullBooleanField,NullBooleanFieldAdmin)
-admin.site.register(DateField,DateFieldAdmin)
-admin.site.register(DateTimeField,DateTimeFieldAdmin)
-admin.site.register(TimeField,TimeFieldAdmin)
-admin.site.register(EmailField,EmailFieldAdmin)
-admin.site.register(FileField,FileFieldAdmin)
-admin.site.register(FilePathField,FilePathFieldAdmin)
-admin.site.register(ImageField,ImageFieldAdmin)
-admin.site.register(URLField,URLFieldAdmin)
-admin.site.register(IPAddressField,IPAddressFieldAdmin)
+admin.site.register(AttributeCharField, AttributeCharFieldAdmin)
+admin.site.register(AttributeTextField, AttributeTextFieldAdmin)
+admin.site.register(AttributeIntegerField, AttributeIntegerFieldAdmin)
+admin.site.register(AttributeCommaSeparatedIntegerField, AttributeCommaSeparatedIntegerFieldAdmin)
+admin.site.register(AttributeBigIntegerField,AttributeBigIntegerFieldAdmin)
+admin.site.register(AttributePositiveIntegerField, AttributePositiveIntegerFieldAdmin)
+admin.site.register(AttributeDecimalField, AttributeDecimalFieldAdmin)
+admin.site.register(AttributeFloatField, AttributeFloatFieldAdmin)  
+admin.site.register(AttributeBooleanField, AttributeBooleanFieldAdmin)
+admin.site.register(AttributeNullBooleanField, AttributeNullBooleanFieldAdmin)
+admin.site.register(AttributeDateField, AttributeDateFieldAdmin)
+admin.site.register(AttributeDateTimeField, AttributeDateTimeFieldAdmin)
+admin.site.register(AttributeTimeField,AttributeTimeFieldAdmin)
+admin.site.register(AttributeEmailField, AttributeEmailFieldAdmin)
+admin.site.register(AttributeFileField, AttributeFileFieldAdmin)
+admin.site.register(AttributeFilePathField, AttributeFilePathFieldAdmin)
+admin.site.register(AttributeImageField, AttributeImageFieldAdmin)
+admin.site.register(AttributeURLField, AttributeURLFieldAdmin)
+admin.site.register(AttributeIPAddressField, AttributeIPAddressFieldAdmin)
 
 
 

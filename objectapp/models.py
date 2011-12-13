@@ -218,6 +218,26 @@ class Gbobject(Node):
         return nbh
 
 
+    @property
+    def get_rendered_nbh(self):
+        """ 
+        Returns the neighbourhood of the object
+        """
+        fields = ['title','altname','pluralform']
+        nbh = {}
+        nbh['title'] = self.title        
+        nbh['altnames'] = self.altnames                
+        nbh['plural'] = self.plural
+        nbh['content'] = self.content
+        #return  all OTs the object is linked to
+        member_of_list = []
+        for each in self.objecttypes.all():
+            member_of_list.append('<a href="%s">%s</a>' % (each.get_absolute_url(), each.title)) 
+        nbh['member_of'] = member_of_list
+
+        return nbh
+
+
 
     @property
     def html_content(self):
