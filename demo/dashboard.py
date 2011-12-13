@@ -17,7 +17,8 @@ class CustomIndexDashboard(Dashboard):
     """
     Custom index dashboard for atlas.gnowledge.org
     """
-    
+
+#   template = 'gstudio/skeleton.html'
     def init_with_context(self, context):
         site_name = get_admin_site_name(context)
         
