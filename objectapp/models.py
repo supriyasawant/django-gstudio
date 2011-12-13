@@ -214,22 +214,33 @@ class Gbobject(Node):
         nbh['plural'] = self.plural
         nbh['content'] = self.content
         #return  all OTs the object is linked to
-        nbh['member_of'] = {}
-        for objtype in self.objecttypes.all():
-            # create member of dict
-            nbh['member_of'].update({str(objtype.id):str(objtype.title)})
-
-        # get all the relations of the object
-            
-        nbh['relations'] = self.get_relations()
-
-        nbh['attributes'] = self.get_attributes()
-        # encapsulate the dictionary with its node name as key
-        #nbh.update(attribute_set)
-        node = {}
-        node[self.title] = nbh
+        nbh['member_of'] = self.objecttypes.all()
         
-        return node
+        # get all the relations of the object    
+        nbh.update(self.get_relations())
+        nbh.update(self.get_attributes())
+        # encapsulate the dictionary with its node name as key
+        return nbh
+
+    @property
+    def get_rendered_nbh(self):
+        """ 
+        Returns the neighbourhood of the object
+        """
+        fields = ['title','altname','pluralform']
+        nbh = {}
+        nbh['title'] = self.title        
+        nbh['altnames'] = self.altnames                
+        nbh['plural'] = self.plural
+        nbh['content'] = self.content
+        #return  all OTs the object is linked to
+        member_of_list = []
+        for each in self.objecttypes.all():
+            member_of_list.append('<a href="%s">%s</a>' % (each.get_absolute_url(), each.title)) 
+        nbh['member_of'] = member_of_list
+
+        return nbh
+
 
 
 

@@ -183,53 +183,25 @@ class Metatype(Node):
         """
         return nodetypes_published(self.nodetypes)
 
-
     @property
     def get_nbh(self):
         """  
         Returns the neighbourhood of the metatype
         """
-        fields = ['title','altname','plural']
         nbh = {}
         nbh['title'] = self.title
         nbh['altnames'] = self.altnames 
         nbh['plural'] = self.plural
-
-        nbh['typeof'] = {}
         if self.parent:
-            nbh['typeof'] = dict({str(self.parent.id) : str(self.parent.title)})
-
-        nbh['contains_subtypes'] = {}
+            nbh['typeof'] = self.parent
         # generate ids and names of children/members
-        for obj in self.children.get_query_set():
-            nbh['contains_subtypes'].update({str(obj.id):str(obj.title)})
-
-        nbh['contains_members'] = {}
-        for obj in self.nodetypes.all():
-            nbh['contains_members'].update({str(obj.id):str(obj.title)})
-
-        nbh['relations'] = {}
-        left_relset = Relationtype.objects.filter(subjecttypeLeft=self.id)
-        right_relset = Relationtype.objects.filter(subjecttypeRight=self.id)
-
-        nbh['relations']['leftroles']  ={}
-        nbh['relations']['rightroles'] ={}
-
-        for relationtype in left_relset:
-            nbh['relations']['leftroles'].update({str(relationtype.id):str(relationtype.title)})
-
-        for relationtype in right_relset:
-            nbh['relations']['rightroles'].update({str(relationtype.id):str(relationtype.title)})
-
-        nbh['attributetypes'] = {}
-        for attributetype in Attributetype.objects.filter(subjecttype=self.id):
-             nbh['attributetypes'].update({str(attributetype._attributeType_cache.title):[attributetype.id ,str(attributetype.valueScope) + str(attributetype.value)]})
-
-        node = {}
-        node[self.title] = nbh
-
-        return node
-
+        nbh['contains_subtypes'] = self.children.get_query_set()
+        nbh['contains_members'] = self.nodetypes.all()
+        nbh['left_role_of'] = Relationtype.objects.filter(subjecttypeLeft=self.id)
+        nbh['right_role_of'] = Relationtype.objects.filter(subjecttypeRight=self.id)
+        nbh['attributetypes'] = Attributetype.objects.filter(subjecttype=self.id)
+        
+        return nbh
                   
     @property
     def tree_path(self):
@@ -595,52 +567,26 @@ class Objecttype(Nodetype):
         nbh['title'] = self.title
         nbh['altnames'] = self.altnames
         nbh['plural'] = self.plural        
-        nbh['member_of_metatype'] = {}
-        if self.metatypes.all():
-            for metatype in self.metatypes.all():    
-		nbh['member_of_metatype'].update({str(metatype.id):str(metatype.title)})      
-
+        nbh['member_of_metatype'] = self.metatypes.all()
         # get all the ATs for the objecttype
-        nbh.update(self.get_attributetypes())
+        nbh.update(self.get_attributetypes) 
 
-        # get all the RTs for the objecttype
-        nbh['relations'] = {}
-        nbh['relations'].update(self.get_relationtypes()) 
+        # get all the RTs for the objecttype        
+        nbh.update(self.get_relationtypes) 
 
-        nbh['type_of'] = {}
-	if self.parent:
-            nbh['type_of'].update({str(self.parent.id) : str(self.parent.title)})
+        nbh['type_of'] = self.parent
 
-        nbh['contains_subtypes'] = {}
-        #generate ids and names of subtypes 
-        for nodetype in Nodetype.objects.filter(parent=self.id):
-            nbh['contains_subtypes'].update({str(nodetype.id):str(nodetype.title)})
+        nbh['contains_subtypes'] = Nodetype.objects.filter(parent=self.id)
+        # get all the objects inheriting this OT 
+        nbh['contains_members'] = self.gbobjects.all()
 
-        nbh['contains_members'] = {}
-        # get all the objects inheriting to this OT 
-        if self.gbobjects.all():
-            for gbobject in self.gbobjects.all():   
-		nbh['contains_members'].update({str(gbobject.id):str(gbobject.title)})
-                
-        nbh['priornodes'] = {} 
-        if self.priornodes.all():            
-            for prnode in self.priornodes.all():
-                nbh['priornodes'].update({str(prnode.id):str(prnode.title)})
+        nbh['priornodes'] = self.priornodes.all()             
 
-        nbh['posteriornodes'] = {} 
-        if self.posteriornodes.all():            
-            for pstnode in self.posteriornodes.all():
-                nbh['postnodes'].update({str(pstnode.id):str(pstnode.title)})
+        nbh['posteriornodes'] = self.posteriornodes.all() 
 
-	nbh['authors'] = {}
-        for author in self.authors.all():
-            nbh['authors'].update({str(author.id):str(author.username)})
-        nbh['content']  = self.content
+	nbh['authors'] = self.authors.all()
 
-        node = {}
-        node[self.title] = nbh
-
-	return node
+	return nbh
 
 
 
