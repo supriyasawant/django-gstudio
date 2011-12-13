@@ -70,7 +70,7 @@ FIELD_TYPE_CHOICES = (
     ('2', 'TextField'),    
     ('3', 'IntegerField'),    
     ('4', 'CommaSeparatedIntegerField'),
-    ('5', 'GbBigIntegerField'),    
+    ('5', 'BigIntegerField'),    
     ('6', 'PositiveIntegerField'),    
     ('7', 'DecimalField'),
     ('8', 'FloatField'),
@@ -202,6 +202,7 @@ class Metatype(Node):
         nbh['attributetypes'] = Attributetype.objects.filter(subjecttype=self.id)
         
         return nbh
+
                   
     @property
     def tree_path(self):
@@ -476,29 +477,18 @@ class Objecttype(Nodetype):
         return self.title
 
     @property
-    def get_attributetypes(self):
-        attr_types = {}
-        attr_types['attributetypes'] = {}
-
-        for attributetype in self.subjecttype_GbnodeType.all():   
-            # or also Attributetype.objects.filter(subjecttype=self.id):
-            attr_types['attributetypes'].update({str(attributetype.id):str(attributetype.title)})
-        return attr_types
+    def get_attributetypes(self):        
+        return self.subjecttype_GbnodeType.all()
 
     @property
     def get_relationtypes(self):
-        reltypes = {}
-	reltypes['right_role_of'] = {}
-	reltypes['left_role_of'] = {}
-
+        
         left_relset = self.subjecttypeLeft_gbnodetype.all()  
         right_relset = self.subjecttypeRight_gbnodetype.all() 
 
-        for relationtype in left_relset:
-	    reltypes['left_role_of'].update({str(relationtype.id):str(relationtype.title)})
-
-        for relationtype in right_relset:
-	    reltypes['right_role_of'].update({str(relationtype.id):str(relationtype.title)})
+        reltypes = {}
+        reltypes['left_role_of']=left_relset
+        reltypes['right_role_of']=right_relset
         return reltypes
 
     @property
@@ -570,7 +560,6 @@ class Objecttype(Nodetype):
         nbh['member_of_metatype'] = self.metatypes.all()
         # get all the ATs for the objecttype
         nbh.update(self.get_attributetypes) 
-
         # get all the RTs for the objecttype        
         nbh.update(self.get_relationtypes) 
 
@@ -828,130 +817,132 @@ class Attribute(Edge):
 
 class AttributeCharField(Attribute):    
 
-    charfield  = models.CharField(max_length=100, verbose_name='string') 
+    value  = models.CharField(max_length=100, verbose_name='string') 
 
     def __unicode__(self):
         return self.title
 
 class AttributeTextField(Attribute):
     
-    textfield  = models.TextField(verbose_name='text') 
+    value  = models.TextField(verbose_name='text') 
 
     def __unicode__(self):
         return self.title
     
 class AttributeIntegerField(Attribute):
-     integerfield = models.IntegerField(max_length=100, verbose_name='Integer') 
+     value = models.IntegerField(max_length=100, verbose_name='Integer') 
 
      def __unicode__(self):
          return self.title
 
 class AttributeCommaSeparatedIntegerField(Attribute):
     
-    commaseparatedintegerfield  = models.CommaSeparatedIntegerField(max_length=100, verbose_name='integers separated by comma') 
+    value  = models.CommaSeparatedIntegerField(max_length=100, verbose_name='integers separated by comma') 
 
     def __unicode__(self):
         return self.title
 
 class AttributeBigIntegerField(Attribute):
     
-    bigintegerfield  = models.BigIntegerField(max_length=100, verbose_name='big integer') 
+    value  = models.BigIntegerField(max_length=100, verbose_name='big integer') 
 
     def __unicode__(self):
         return self.title
 
 class AttributePositiveIntegerField(Attribute):
     
-    positiveintegerfield  = models.PositiveIntegerField(max_length=100, verbose_name='positive integer') 
+    value  = models.PositiveIntegerField(max_length=100, verbose_name='positive integer') 
 
     def __unicode__(self):
         return self.title
 
 class AttributeDecimalField(Attribute):
     
-    decimalfield  = models.DecimalField(max_digits=3, decimal_places=2, verbose_name='decimal') 
+    value  = models.DecimalField(max_digits=3, decimal_places=2, verbose_name='decimal') 
 
     def __unicode__(self):
         return self.title
 
 class AttributeFloatField(Attribute):
     
-    floatfield  = models.FloatField(max_length=100, verbose_name='number as float') 
+    value  = models.FloatField(max_length=100, verbose_name='number as float') 
 
     def __unicode__(self):
         return self.title
 
 class AttributeBooleanField(Attribute):
     
-    booleanfield  = models.BooleanField(verbose_name='boolean') 
+    value  = models.BooleanField(verbose_name='boolean') 
 
     def __unicode__(self):
         return self.title
 
 class AttributeNullBooleanField(Attribute):
-    nullbooleanfield  = models.NullBooleanField(verbose_name='true false or unknown') 
+    
+    value  = models.NullBooleanField(verbose_name='true false or unknown') 
 
     def __unicode__(self):
         return self.title
 
 class AttributeDateField(Attribute):
     
-    datefield  = models.DateField(max_length=100, verbose_name='date') 
+    value  = models.DateField(max_length=100, verbose_name='date') 
 
     def __unicode__(self):
         return self.title
 
 class AttributeDateTimeField(Attribute):
     
-    DateTimeField  = models.DateTimeField(max_length=100, verbose_name='date time') 
+    value  = models.DateTimeField(max_length=100, verbose_name='date time') 
     
     def __unicode__(self):
         return self.title
     
 class AttributeTimeField(Attribute):
-    TimeField  = models.TimeField(max_length=100, verbose_name='time') 
+    
+    value  = models.TimeField(max_length=100, verbose_name='time') 
 
     def __unicode__(self):
         return self.title
 
 class AttributeEmailField(Attribute):
     
-    charfield  = models.CharField(max_length=100,verbose_name='value') 
+    value  = models.CharField(max_length=100,verbose_name='value') 
 
     def __unicode__(self):
         return self.title
 
 class AttributeFileField(Attribute):
     
-    filefield  = models.FileField(upload_to='/media', verbose_name='file') 
+    value  = models.FileField(upload_to='/media', verbose_name='file') 
 
     def __unicode__(self):
         return self.title
 
 class AttributeFilePathField(Attribute):
     
-    filepathfield  = models.FilePathField(verbose_name='path of file') 
+    value  = models.FilePathField(verbose_name='path of file') 
 
     def __unicode__(self):
         return self.title
 
 class AttributeImageField(Attribute):
     
-    imagefield  = models.ImageField(upload_to='/media', verbose_name='image') 
+    value  = models.ImageField(upload_to='/media', verbose_name='image') 
 
     def __unicode__(self):
         return self.title
 
 class AttributeURLField(Attribute):
 
-    urlfield  = models.URLField(max_length=100, verbose_name='url') 
+    value  = models.URLField(max_length=100, verbose_name='url') 
 
     def __unicode__(self):
         return self.title
 
 class AttributeIPAddressField(Attribute):
 
-    ipaddressfield  = models.IPAddressField(max_length=100, verbose_name='ip address') 
+    value  = models.IPAddressField(max_length=100, verbose_name='ip address') 
 
     def __unicode__(self):
         return self.title
@@ -1025,11 +1016,7 @@ class AttributeSpecification(Node):
         '''
         composes a name to the attribute
         '''
-        subj_list = []
-        for subject in self.subjects.all():
-            subj_list.append(str(subject))
-         
-        return 'the %s of %s' % (self.attributetype, subj_list)
+        return 'the %s of %s' % (self.attributetype, self.subject)
 
 
     def __unicode__(self):
@@ -1055,20 +1042,14 @@ class RelationSpecification(Node):
         '''
         composing an expression with relation name and subject
         '''
-        subj_list = []
-        for subject in self.subjects.all():
-            subj_list.append(str(subject))
-         
-        return 'the %s of %s' % (self.relationtype, subj_list)
-
-        return 'the %s of %s' % (self.relationtype, self.subjects)
+        return 'the %s of %s' % (self.relationtype, self.subject)
 
     def __unicode__(self):
         return self.composed_subject
 
 
     class Meta:
-        verbose_name = _('relation specification')
+        verbose_name = _('relation as subject')
         permissions = (('can_view_all', 'Can view all'),
                        ('can_change_author', 'Can change author'), )
 
@@ -1085,25 +1066,14 @@ class NodeSpecification(Node):
         '''
         composing an expression subject and relations
         '''
-        rel_list = []
-        for relation in self.relations.all():
-            rel_list.append(str(relation))
-
-        att_list = []
-        for attribute in self.attributes.all():
-            att_list.append(str(attribute))
-
-         
-
-
-        return 'the %s with relations %s and attributes %s' % (self.subject, rel_list, att_list)
+        return 'the %s with %s, %s' % (self.subject, self.relations, self.attributes)
 
     def __unicode__(self):
         return self.composed_subject
 
 
     class Meta:
-        verbose_name = _('node specification')
+        verbose_name = _('relation as subject')
         permissions = (('can_view_all', 'Can view all'),
                        ('can_change_author', 'Can change author'), )
 

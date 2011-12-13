@@ -47,9 +47,6 @@ from objectapp.url_shortener import get_url_shortener
 from objectapp.signals import ping_directories_handler
 from objectapp.signals import ping_external_urls_handler
 
-import mptt
-
-
 
 class Author(User):
     """Proxy Model around User"""
@@ -172,20 +169,18 @@ class Gbobject(Node):
         for relation in left_relset:
             # check if relation already exists
             if relation.relationtype.title not in rel_dict['leftroles'].keys():
-                # create a new dict key field and add to it
-                rel_dict['leftroles'][str(relation.relationtype.title)] = {}
+                # create a new list field and add to it
+                rel_dict['leftroles'][str(relation.relationtype.title)] = []
             # add 
-            rel_dict['leftroles'][str(relation.relationtype.title)][str(relation.id)] = str(relation.subject2) 
+            rel_dict['leftroles'][str(relation.relationtype.title)].append(relation) 
 
-   
         for relation in right_relset:
             # check if relation exists
             if relation.relationtype.inverse not in rel_dict['rightroles'].keys():
-                # create a new dict key field and add to it
-                rel_dict['rightroles'][str(relation.relationtype.inverse)] = {}
+                # create a new list key field and add to it
+                rel_dict['rightroles'][str(relation.relationtype.inverse)] = []
                 # add to the existing key
-            rel_dict['rightroles'][str(relation.relationtype.inverse)][str(relation.id)] = str(relation.subject1)
-
+            rel_dict['rightroles'][str(relation.relationtype.inverse)].append(relation)
 
         relation_set.update(rel_dict['leftroles'])
         relation_set.update(rel_dict['rightroles'])
@@ -222,6 +217,7 @@ class Gbobject(Node):
         # encapsulate the dictionary with its node name as key
         return nbh
 
+
     @property
     def get_rendered_nbh(self):
         """ 
@@ -240,7 +236,6 @@ class Gbobject(Node):
         nbh['member_of'] = member_of_list
 
         return nbh
-
 
 
 
@@ -446,11 +441,9 @@ if not reversion.is_registered(Gbobject):
 
 moderator.register(Gbobject, GbobjectCommentModerator)
 
-
 post_save.connect(ping_directories_handler, sender=Gbobject,
                   dispatch_uid='objectapp.gbobject.post_save.ping_directories')
 post_save.connect(ping_external_urls_handler, sender=Gbobject,
                   dispatch_uid='objectapp.gbobject.post_save.ping_external_urls')
-
 
 
