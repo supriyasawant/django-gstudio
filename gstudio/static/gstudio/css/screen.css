@@ -462,7 +462,7 @@ table.month { margin-bottom: 0; }
 table.month th.month { text-transform: uppercase; color: #006699; background: none; }
 table.month th { text-transform: capitalize; color: #94949e; background-color: #e9e9f3; }
 table.month td { text-align: center; font-weight: bold; }
-table.month td.nodetype { background-color: #e9e9f3; }
+table.month td.gbobject { background-color: #e9e9f3; }
 
 div.paginator { margin-bottom: 1em; }
 div.paginator span { font-size: 1.2em; margin-left: 0.3em; padding: 0 0.5em 0 0.5em; float: left; border: 1px solid #e9e9f3; }
@@ -471,29 +471,29 @@ div.paginator span.page:hover, div.paginator span.next:hover, div.paginator span
 div.paginator span.page:hover a, div.paginator span.next:hover a, div.paginator span.previous:hover a { color: white; }
 div.paginator span.current { border-color: #006699; background-color: #006699; color: white; }
 
-.hnodetype { margin-bottom: 1em; }
-.hnodetype .nodetype-header { margin-bottom: 1em; }
-.hnodetype .nodetype-header .nodetype-title { margin: 0; padding-left: 0.25em; padding-right: 0.25em; }
-.hnodetype .nodetype-header .nodetype-info { margin: 0; padding-left: 2em; background: transparent url(../img/metatype.png) no-repeat scroll 0.5em; }
-.hnodetype .nodetype-body .nodetype-content { padding-left: 1em; padding-right: 1em; }
-.hnodetype .nodetype-body .nodetype-image { margin-top: -1.5em; }
-.hnodetype .nodetype-body .nodetype-image p img { border: 0; margin: 0 1.5em 1.5em 0; }
-.hnodetype .nodetype-footer p { margin-bottom: 0; }
-.hnodetype .nodetype-footer p strong { padding-left: 1.5em; }
-.hnodetype .nodetype-footer .nodetype-tags strong { background: transparent url(../img/tags.png) no-repeat scroll; }
-.hnodetype .nodetype-footer .nodetype-shorturl strong { background: transparent url(../img/shorturl.png) no-repeat scroll; }
-.hnodetype .nodetype-footer .nodetype-comments strong { background: transparent url(../img/comments.png) no-repeat scroll; }
-.hnodetype .nodetype-header { background-color: #e9e9f3; }
-.hnodetype .nodetype-content p { font-size: 1.2em; }
-.hnodetype .nodetype-content pre, .hnodetype .nodetype-content blockquote { overflow: auto; padding: 1em; clear: none; float: none; margin: 0 0 1.5em 0; width: auto; }
-.hnodetype .nodetype-content blockquote { margin: 0 2em 1.5em 2em; border: 1px dashed #94949e; background-color: #fafaff; }
-.hnodetype .nodetype-content blockquote p { font-size: 1.5em; margin: 0; }
-.hnodetype .nodetype-content pre { line-height: 110%; background-color: #e9e9ff; border-top: 1px solid #94949e; border-bottom: 1px solid #94949e; }
-.hnodetype .nodetype-footer p strong { color: #94949e; }
+.hgbobject { margin-bottom: 1em; }
+.hgbobject .gbobject-header { margin-bottom: 1em; }
+.hgbobject .gbobject-header .gbobject-title { margin: 0; padding-left: 0.25em; padding-right: 0.25em; }
+.hgbobject .gbobject-header .gbobject-info { margin: 0; padding-left: 2em; background: transparent url(../img/Objecttype.png) no-repeat scroll 0.5em; }
+.hgbobject .gbobject-body .gbobject-content { padding-left: 1em; padding-right: 1em; }
+.hgbobject .gbobject-body .gbobject-image { margin-top: -1.5em; }
+.hgbobject .gbobject-body .gbobject-image p img { border: 0; margin: 0 1.5em 1.5em 0; }
+.hgbobject .gbobject-footer p { margin-bottom: 0; }
+.hgbobject .gbobject-footer p strong { padding-left: 1.5em; }
+.hgbobject .gbobject-footer .gbobject-tags strong { background: transparent url(../img/tags.png) no-repeat scroll; }
+.hgbobject .gbobject-footer .gbobject-shorturl strong { background: transparent url(../img/shorturl.png) no-repeat scroll; }
+.hgbobject .gbobject-footer .gbobject-comments strong { background: transparent url(../img/comments.png) no-repeat scroll; }
+.hgbobject .gbobject-header { background-color: #e9e9f3; }
+.hgbobject .gbobject-content p { font-size: 1.2em; }
+.hgbobject .gbobject-content pre, .hgbobject .gbobject-content blockquote { overflow: auto; padding: 1em; clear: none; float: none; margin: 0 0 1.5em 0; width: auto; }
+.hgbobject .gbobject-content blockquote { margin: 0 2em 1.5em 2em; border: 1px dashed #94949e; background-color: #fafaff; }
+.hgbobject .gbobject-content blockquote p { font-size: 1.5em; margin: 0; }
+.hgbobject .gbobject-content pre { line-height: 110%; background-color: #e9e9ff; border-top: 1px solid #94949e; border-bottom: 1px solid #94949e; }
+.hgbobject .gbobject-footer p strong { color: #94949e; }
 
-.nodetype-widgets ul, .nodetype-widgets ol { padding-left: 2.5em; list-style-image: url(../img/bullet.png); }
+.gbobject-widgets ul, .gbobject-widgets ol { padding-left: 2.5em; list-style-image: url(../img/bullet.png); }
 
-.featured .nodetype-header { background-color: #c4d9c4; }
+.featured .gbobject-header { background-color: #c4d9c4; }
 
 ol#comment-list, ol#pingback-list, ol#trackback-list { width: 100%; margin-bottom: 0; padding-left: 1em; }
 ol#comment-list li, ol#pingback-list li, ol#trackback-list li { margin-bottom: 1em; border: 1px solid #e9e9f3; }
