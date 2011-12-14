@@ -17,8 +17,7 @@ class CustomIndexDashboard(Dashboard):
     """
     Custom index dashboard for atlas.gnowledge.org
     """
-
-#   template = 'gstudio/skeleton.html'
+    
     def init_with_context(self, context):
         site_name = get_admin_site_name(context)
         
@@ -29,19 +28,91 @@ class CustomIndexDashboard(Dashboard):
             collapsible=False,
             children = [
                 modules.AppList(
-                    _('Applications'),
+                        #Gstudio models here ( other than attribute datatype)
+                        _('Gstudio'),
+                        column=1,
+                        collapsible=False,
+                        models=(
+                            'gstudio.models.Objecttype',
+                            'gstudio.models.Metatype',
+                            'gstudio.models.Relation',
+                            'gstudio.models.Relationtype',
+                            'gstudio.models.Attribute',
+                            'gstudio.models.Attributetype',
+                            'gstudio.models.Systemtype',
+                            'gstudio.models.Processtype',
+                            'gstudio.models.AttributeSpecification',
+                            'gstudio.models.RelationSpecification',
+                            'gstudio.models.NodeSpecification',
+                            'gstudio.models.Union',
+                            'gstudio.models.Complement',
+                            'gstudio.models.Intersection',
+
+
+                            ),
+
+                        ),
+                #Object App models here
+
+                modules.AppList(
+                        _('Object App'),
+                        column=1,
+                        collapsible=False,
+                        models=(
+                            'objectapp.models.*',
+                            ),
+                        ),
+
+
+
+                # Gstudio Attribute datatype models here
+
+                modules.AppList(
+                        _('Attribute Manager'),
+                        column=1,
+                        collapsible=True,
+                        models=(
+                            'gstudio.models.AttributeCharField',
+                            'gstudio.models.AttributeTextField',
+                            'gstudio.models.AttributeIntegerField',
+                            'gstudio.models.AttributeCommaSeparatedIntegerField',
+                            'gstudio.models.AttributeBigIntegerField',
+                            'gstudio.models.AttributePositiveIntegerField',
+                            'gstudio.models.AttributeDecimalField',
+                            'gstudio.models.AttributeFloatField',
+                            'gstudio.models.AttributeBooleanField',
+                            'gstudio.models.AttributeNullBooleanField',
+                            'gstudio.models.AttributeDateField',
+                            'gstudio.models.AttributeDateTimeField',
+                            'gstudio.models.AttributeTimeField',
+                            'gstudio.models.AttributeEmailField',
+                            'gstudio.models.AttributeFileField',
+                            'gstudio.models.AttributeFilePathField',
+                            'gstudio.models.AttributeImageField',
+                            'gstudio.models.AttributeURLField',
+
+                            ),
+                        ),
+
+
+                modules.AppList(
+                    _('Other Applications'),
                     column=1,
 #                    css_classes=('collapse closed',),
-                    exclude=('django.contrib.*',),),
+                    exclude=('django.contrib.*','gstudio.models.*','objectapp.models.*'),),
                 modules.AppList(
-                    _('Administration'),
-                    column=1,
-                    collapsible=False,
-                    models=('django.contrib.*',),
-                ),
+                        _('Administration'),
+                        column=1,
+                        collapsible=False,
+                        models=('django.contrib.*',),
+                        ),
+
+
+
+
                 
-            ]
-        ))
+                        ]
+                ))
         
 
 

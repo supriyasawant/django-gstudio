@@ -1,12 +1,10 @@
 {% load i18n grp_tags %}
 
 <div id="header">
-
-    <div class="branding">&nbsp; Gnowledge Studio  </div>
-
+    <div class="branding">&nbsp;</div>
     <!-- Title -->
-    <div class="admin-title">  {% if grappelli_admin_title %}{{ grappelli_admin_title }}{% else %}{% get_admin_title %}{% endif %} | <a href="/">Home</a>  | <a href="objects/">objects</a>  |  <a href="admin/">dashboard</a></div> 
-    <!-- {% if user.is_authenticated and user.is_staff %} -->
+    <div class="admin-title">{% if grappelli_admin_title %}{{ grappelli_admin_title }}{% else %}{% get_admin_title %}{% endif %}</div>
+    {% if user.is_authenticated and user.is_staff %}
         <ul id="user-tools">
             <!-- Username -->
             <li class="user-options-container collapse closed">
@@ -28,7 +26,6 @@
                         <li><a href="{{ root_path }}logout/">
                     {% endif %}
                     {% trans 'Log out' %}</a></li>
-
                 </ul>
             </li>
             <!-- Userlinks -->
@@ -43,7 +40,6 @@
                 {% if docsroot %}
                     <li><a href="{{ docsroot }}">{% trans 'Documentation' %}</a></li>
                 {% endif %}
-                <li><a href="http://github.com/gnowgi/django-gstudio">Code</a></li>
             {% endblock %}
         </ul>
     {% endif %}
