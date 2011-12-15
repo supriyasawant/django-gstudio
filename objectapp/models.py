@@ -217,7 +217,7 @@ class Gbobject(Node):
         # encapsulate the dictionary with its node name as key
         return nbh
 
-
+   
     @property
     def get_rendered_nbh(self):
         """ 
@@ -230,14 +230,12 @@ class Gbobject(Node):
         nbh['plural'] = self.plural
         nbh['content'] = self.content
         #return  all OTs the object is linked to
-        member_of_list = []
+        member_of_list = {}
         for each in self.objecttypes.all():
-            member_of_list.append('<a href="%s">%s</a>' % (each.get_absolute_url(), each.title)) 
-        nbh['member_of'] = member_of_list
-
+            member_of_list[each.title]= each.get_absolute_url()
+            #member_of_list['obj_url'] =
+        nbh['member_of']=member_of_list
         return nbh
-
-
 
     @property
     def html_content(self):
